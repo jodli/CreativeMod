@@ -74,10 +74,6 @@ local function apply_character_cheats_to_player(player)
 	if global.creative_mode.personal_cheats.inventory_bonus[player.index] ~= nil then
 		cheats.personal_cheats_data.cheats.inventory_bonus.apply_to_target_function(player, global.creative_mode.personal_cheats.inventory_bonus[player.index], nil)
 	end
-	-- Quickbar bonus.
-	if global.creative_mode.personal_cheats.quickbar_bonus[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.quickbar_bonus.apply_to_target_function(player, global.creative_mode.personal_cheats.quickbar_bonus[player.index], nil)
-	end
 	-- Health bonus.
 	if global.creative_mode.personal_cheats.health_bonus[player.index] ~= nil then
 		cheats.personal_cheats_data.cheats.health_bonus.apply_to_target_function(player, global.creative_mode.personal_cheats.health_bonus[player.index], nil)
@@ -705,41 +701,6 @@ cheats.personal_cheats_data =
 			end,
 			get_player_can_access_function = nil
 		},
-		quickbar_bonus =
-		{
-			is_default = false,
-			default_enable_value = 0,
-			default_disable_value = 0,
-			get_value_function = function(player)
-				if player and player.connected and player.character then
-					-- return player.quickbar_count_bonus
-					return 0
-				else
-					return nil
-				end
-			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0, 10) end,
-			apply_to_target_function = function(player, value, source_player)
-				if not player.connected then
-					return {"message.creative-mode_player-is-offline"}
-				end
-				
-				if player.character then
-					global.creative_mode.personal_cheats.quickbar_bonus[player.index] = value
-					-- player.quickbar_count_bonus = value
-					return nil
-				end
-				if player.controller_type == defines.controllers.ghost then
-					return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
-				else
-					return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
-				end
-			end,
-			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_quickbar-bonus-updated-by-admin", source_player.name, value}
-			end,
-			get_player_can_access_function = nil
-		},
 		health_bonus =
 		{
 			is_default = false,
@@ -811,11 +772,8 @@ cheats.personal_cheats_data =
 						player.character = nil
 						if character then
 							-- Transfer items.
-							-- local character_quickbar = character.get_inventory(defines.inventory.player_quickbar)
 							local character_main = character.get_inventory(defines.inventory.player_main)
-							-- local god_quickbar = player.get_inventory(defines.inventory.god_quickbar)
 							local god_main = player.get_inventory(defines.inventory.god_main)
-							-- util.transfer_inventory_contents(character_quickbar, god_quickbar)
 							util.transfer_inventory_contents(character_main, god_main)
 							-- Transfer cursor stack.
 							local cursor_stack = character.cursor_stack 
@@ -844,11 +802,8 @@ cheats.personal_cheats_data =
 							}
 						end
 						-- Transfer items.
-						local character_quickbar = character.get_inventory(defines.inventory.player_quickbar)
 						local character_main = character.get_inventory(defines.inventory.player_main)
-						local god_quickbar = player.get_inventory(defines.inventory.god_quickbar)
 						local god_main = player.get_inventory(defines.inventory.god_main)
-						util.transfer_inventory_contents(god_quickbar, character_quickbar)
 						util.transfer_inventory_contents(god_main, character_main)
 						-- Transfer cursor stack.
 						local cursor_stack = player.cursor_stack 
@@ -1338,27 +1293,6 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
 				force.print{"message.creative-mode_character-inventory-bonus-updated", source_player.name, value}
-			end,
-			get_player_can_access_function = nil
-		},
-		quickbar_count =
-		{
-			is_default = false,
-			default_enable_value = 1,
-			default_disable_value = 0,
-			get_value_function = function(force)
-				if force then
-					return force.quickbar_count
-				end
-				return nil
-			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 1, 10) end,
-			apply_to_target_function = function(force, value, source_player)
-				force.quickbar_count = value
-				return nil
-			end,
-			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_quickbar-count-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
