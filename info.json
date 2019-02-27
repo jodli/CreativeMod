@@ -1,10 +1,10 @@
 {
-	"name": "creative-mode-fix",
-	"version": "0.0.32",
-	"title": "Creative Mode (Fix for 0.16)",
-	"author": "Y.Petremann, rk84, Mooncat, Chrisgbk",
-	"homepage": "https://forums.factorio.com/viewtopic.php?f=97&t=28005",
-	"description": "Based on the old Creative Mode mod created by Y.Petremann, then patched by Pac0master, and also the Test Mode mod created by rk84. By enabling Creative Mode in the game, you can access objects that can generate unlimited items, fluid or energy, or nullify them. Perfect for testing purpose or making initial setup for games. \n\nQuick patch for 0.16 until an official release - everything should work now.",
-	"factorio_version": "0.16",
-	"dependencies": ["base >= 0.16.30"]
+  "name": "creative-mode-fix",
+  "version": "0.0.32",
+  "title": "Creative Mode (Fix for 0.16)",
+  "author": "Y.Petremann, rk84, Mooncat, Chrisgbk",
+  "homepage": "https://forums.factorio.com/viewtopic.php?f=97&t=28005",
+  "description": "Based on the old Creative Mode mod created by Y.Petremann, then patched by Pac0master, and also the Test Mode mod created by rk84. By enabling Creative Mode in the game, you can access objects that can generate unlimited items, fluid or energy, or nullify them. Perfect for testing purpose or making initial setup for games. \n\nQuick patch for 0.16 until an official release - everything should work now.",
+  "factorio_version": "0.17",
+  "dependencies": ["base >= 0.17.0"]
 }
