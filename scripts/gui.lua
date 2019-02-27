@@ -18,7 +18,7 @@ function gui.on_gui_closed(event)
     if (gui_type == defines.gui_type.custom) and element then
         local element_name = string.match(element.name, creative_mode_defines.match_patterns.gui.all)
         if element_name then
-            element.style.visible = false
+            element.visible = false
             player.play_sound{path = "utility/gui_click"}
         end
     end

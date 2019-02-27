@@ -330,7 +330,7 @@ local function create_or_destroy_events_menu_for_player(player)
 				title_container.add{type = "flow", name = creative_mode_defines.names.gui.events_menu_title_separator_1, style = creative_mode_defines.names.gui_styles.cheat_textfield_and_button_separate_flow}
 				-- Search textfield. (Hidden by default)
 				local search_textfield = title_container.add{type = "textfield", name = creative_mode_defines.names.gui.events_menu_search_textfield, style = creative_mode_defines.names.gui_styles.frame_search_textfield, text = ""}
-				search_textfield.style.visible = false
+				search_textfield.visible = false
 				-- Search textfield placeholder.
 				title_container.add{type = "flow", name = creative_mode_defines.names.gui.events_menu_search_textfield_placeholder_flow, style = creative_mode_defines.names.gui_styles.frame_search_textfield_placeholder_flow}
 				-- Separator.
@@ -453,7 +453,7 @@ local function enable_or_disable_all_visible_events_for_player(player, is_enable
 				for event_name, event_id in pairs(defines.events) do
 					-- Container
 					local event_container = inner_container[creative_mode_defines.names.gui.event_container_prefix .. event_id]
-					if event_container and (event_container.style.visible == nil or event_container.style.visible == true) then
+					if event_container and (event_container.visible == nil or event_container.visible == true) then
 						if not global.creative_mode.selected_events[player.index] then global.creative_mode.selected_events[player.index] = {} end
 						if is_enable then
 							global.creative_mode.selected_events[player.index][event_id] = true
@@ -491,7 +491,7 @@ local function show_or_hide_events_for_player(player, events, is_show)
 				for event_name, event_id in pairs(events) do
 					local event_container = inner_container[creative_mode_defines.names.gui.event_container_prefix .. event_id]
 					if event_container then
-						event_container.style.visible = is_show
+						event_container.visible = is_show
 					end
 				end
 			end
@@ -521,9 +521,9 @@ local function show_events_for_player_by_search_name(player, search_name)
 					local event_container = inner_container[creative_mode_defines.names.gui.event_container_prefix .. event_id]
 					if event_container then
 						if string.find(event_name, search_name) then
-							event_container.style.visible = true
+							event_container.visible = true
 						else
-							event_container.style.visible = false
+							event_container.visible = false
 						end
 					end
 				end
@@ -602,7 +602,7 @@ local function create_or_destroy_interfaces_menu_for_player(player)
 			else
 				-- Container. (Create it first, but hide it.)
 				interface_contents_and_hints_container = modding_menus_container.add{type = "flow", name = creative_mode_defines.names.gui.interface_contents_and_hints_container, style = creative_mode_defines.names.gui_styles.no_vertical_spacing_resize_row_flow, direction = "vertical"}
-				interface_contents_and_hints_container.style.visible = false
+				interface_contents_and_hints_container.visible = false
 				
 				-- Interface contents. (Create the frame first, but hide it.)
 				local interface_contents_frame = interface_contents_and_hints_container.add{type = "frame", name = creative_mode_defines.names.gui.interface_contents_frame, direction = "vertical", caption = ""}
@@ -670,9 +670,9 @@ local function refresh_interface_contents_on_gui_for_player(player)
 		local modding_menus_container = container[gui_menu_modding.get_container_name()]
 		if modding_menus_container then
 			local interface_contents_and_hints_container = modding_menus_container[creative_mode_defines.names.gui.interface_contents_and_hints_container]
-			if interface_contents_and_hints_container and interface_contents_and_hints_container.style.visible ~= false then
+			if interface_contents_and_hints_container and interface_contents_and_hints_container.visible ~= false then
 				local interface_contents_frame = interface_contents_and_hints_container[creative_mode_defines.names.gui.interface_contents_frame]
-				if interface_contents_frame and interface_contents_frame.style.visible ~= false then
+				if interface_contents_frame and interface_contents_frame.visible ~= false then
 					-- Remove.
 					for _, child_name in pairs(interface_contents_frame.children_names) do
 						interface_contents_frame[child_name].destroy()
@@ -707,18 +707,18 @@ local function show_or_hide_interface_contents_for_player(player, interface_name
 			local interface_contents_and_hints_container = modding_menus_container[creative_mode_defines.names.gui.interface_contents_and_hints_container]
 			if interface_contents_and_hints_container then
 				local interface_contents_frame = interface_contents_and_hints_container[creative_mode_defines.names.gui.interface_contents_frame]
-				if interface_contents_and_hints_container.style.visible ~= false then
+				if interface_contents_and_hints_container.visible ~= false then
 					-- It is already visible.
 					if interface_contents_frame.caption == interface_name then
 						-- It is already showing the given interface.
 						-- Hide it.
-						interface_contents_and_hints_container.style.visible = false
+						interface_contents_and_hints_container.visible = false
 						return
 					end
 				end
 				
 				-- Update the contents according to the given interface name.
-				interface_contents_and_hints_container.style.visible = true
+				interface_contents_and_hints_container.visible = true
 				interface_contents_frame.caption = interface_name
 				-- Remove all children inside the frame.
 				for _, child_name in pairs(interface_contents_frame.children_names) do
@@ -794,17 +794,17 @@ function gui_menu_modding.on_gui_click(element, element_name, player, button, al
 		local search_textfield = title_container[creative_mode_defines.names.gui.events_menu_search_textfield]
 		local search_textfield_placeholder = title_container[creative_mode_defines.names.gui.events_menu_search_textfield_placeholder_flow]
 		
-		if search_textfield.style.visible then
+		if search_textfield.visible then
 			-- Hide the search textfield.
-			search_textfield.style.visible = false
-			search_textfield_placeholder.style.visible = true
+			search_textfield.visible = false
+			search_textfield_placeholder.visible = true
 			-- Reset search text and show all events.
 			search_textfield.text = ""
 			show_events_for_player_by_search_name(player, nil)
 		else
 			-- Show the search textfield.
-			search_textfield.style.visible = true
-			search_textfield_placeholder.style.visible = false
+			search_textfield.visible = true
+			search_textfield_placeholder.visible = false
 		end		
 		return true
 	

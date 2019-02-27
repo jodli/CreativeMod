@@ -610,7 +610,7 @@ gui_menu_magicwand.magic_wand_menus_gui_data =
 					creative_mode_defines.names.gui.magic_wand_creator_rsc_amt_slider_spacing_2_2,
 					creative_mode_defines.names.gui.magic_wand_creator_rsc_amt_slider_textfield_2)
 				-- Set visibilitiy.
-				--tile_or_resource_2_container.style.visible = selected_index > 1
+				--tile_or_resource_2_container.visible = selected_index > 1
 				-- Known issue: making it invisible will bug the scroll-pane.
 			end,
 			----
@@ -820,7 +820,7 @@ function gui_menu_magicwand.create_or_destroy_menu_for_player(player, allow_dest
 					style = creative_mode_defines.names.gui_styles.main_menu_button,
 					caption = data.button_caption
 				}
-				button.style.visible = data.get_player_can_access_function(player)
+				button.visible = data.get_player_can_access_function(player)
 			end
 		end
 	end
@@ -1175,13 +1175,13 @@ function gui_menu_magicwand.update_menu_accessibility_according_to_access_right_
 						-- Make sure the button is available for the player.
 						local magic_wand_frame = magic_wand_menus_container[creative_mode_defines.names.gui.magic_wand_frame]
 						local button = magic_wand_frame[data.button_name]
-						button.style.visible = true
+						button.visible = true
 					else
 						-- Player cannot access.
 						-- Hide the menu button.
 						local magic_wand_frame = magic_wand_menus_container[creative_mode_defines.names.gui.magic_wand_frame]
 						local button = magic_wand_frame[data.button_name]
-						button.style.visible = false
+						button.visible = false
 						
 						-- Remove the menu.
 						create_or_destroy_magic_wand_menu_for_player(player, data, true)
@@ -1920,7 +1920,7 @@ function gui_menu_magicwand.on_gui_selection_state_changed(element, element_name
 		local container = element.parent.parent
 		local tile_or_resource_2_container = container[creative_mode_defines.names.gui.magic_wand_creator_tile_or_resource_2_container]
 		if tile_or_resource_2_container then
-			tile_or_resource_2_container.style.visible = element.selected_index > 1
+			tile_or_resource_2_container.visible = element.selected_index > 1
 		end
 		--]]
 		-- Known issue: hiding the UI will bug the scroll-pane.

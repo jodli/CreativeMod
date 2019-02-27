@@ -433,17 +433,17 @@ local personal_cheats_menu_gui_data =
 	
 	-- Function to be called after the target button is added to the list.
 	post_create_target_button_function = function(player, target, button)
-		button.style.visible = target.connected -- If target is not connected, but he is here before, just hide the button.
+		button.visible = target.connected -- If target is not connected, but he is here before, just hide the button.
 	end,
 	
 	-- Function for checking whether the target button is a valid option. It will affect whether the target selection scroll pane should be shown or hidden.
 	check_is_target_button_valid_function = function(player, target, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	-- Function for checking whether the target button is a valid option without knowing the actual target represented by the button.
 	check_is_target_button_valid_unknown_target_function = function(player, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	-- Function for getting the actual target represented by the given target button.
@@ -465,7 +465,7 @@ local personal_cheats_menu_gui_data =
 		elseif button_style_name == creative_mode_defines.names.gui_styles.cheat_target_self_selected_button then
 			button.style = creative_mode_defines.names.gui_styles.cheat_target_self_unselected_button
 		end
-		button.style.visible = false
+		button.visible = false
 		-- In case the player will come back, we don't remove the button.
 		return false
 	end
@@ -873,11 +873,11 @@ local team_cheats_menu_gui_data =
 	end,
 	
 	check_is_target_button_valid_function = function(player, target, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	check_is_target_button_valid_unknown_target_function = function(player, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	get_button_actual_target_function = function(player, button)
@@ -1077,11 +1077,11 @@ local surface_cheats_menu_gui_data =
 	end,
 	
 	check_is_target_button_valid_function = function(player, target, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	check_is_target_button_valid_unknown_target_function = function(player, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	get_button_actual_target_function = function(player, button)
@@ -1504,15 +1504,15 @@ local build_options_menu_gui_data =
 	end,
 	
 	post_create_target_button_function = function(player, target, button)
-		button.style.visible = target.connected -- If target is not connected, but he is here before, just hide the button.
+		button.visible = target.connected -- If target is not connected, but he is here before, just hide the button.
 	end,
 	
 	check_is_target_button_valid_function = function(player, target, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	check_is_target_button_valid_unknown_target_function = function(player, button)
-		return button.style.visible ~= false
+		return button.visible ~= false
 	end,
 	
 	get_button_actual_target_function = function(player, button)
@@ -1532,7 +1532,7 @@ local build_options_menu_gui_data =
 		elseif button_style_name == creative_mode_defines.names.gui_styles.cheat_target_self_selected_button then
 			button.style = creative_mode_defines.names.gui_styles.cheat_target_self_unselected_button
 		end
-		button.style.visible = false
+		button.visible = false
 		-- In case the player will come back, we don't remove the button.
 		return false
 	end
@@ -1583,7 +1583,7 @@ function gui_menu_cheats.create_or_destroy_menu_for_player(player)
 					style =  creative_mode_defines.names.gui_styles.main_menu_button,
 					caption = data.button_caption
 				}
-				button.style.visible = data.get_player_can_access_function(player)
+				button.visible = data.get_player_can_access_function(player)
 			end
 		end
 	end
@@ -1854,16 +1854,16 @@ local function show_or_hide_team_target_auto_apply_cheat_drop_down_from_data(che
 	-- Drop down inner flow.
 	local drop_down_inner_flow = drop_down_inner_frame[cheat_gui_data.drop_down_inner_flow_name]
 		
-	if drop_down_scroll_pane.style.visible ~= false then
+	if drop_down_scroll_pane.visible ~= false then
 		-- Hide.
-		drop_down_scroll_pane.style.visible = false
+		drop_down_scroll_pane.visible = false
 		-- Clear teams.
 		clear_teams_in_team_target_auto_apply_cheat_drop_down(drop_down_inner_flow)
 	else
 		-- Add teams.
 		add_teams_to_team_target_auto_apply_cheat_drop_down(cheat_gui_data, drop_down_inner_flow)
 		-- Show.
-		drop_down_scroll_pane.style.visible = true
+		drop_down_scroll_pane.visible = true
 	end
 end
 
@@ -1893,7 +1893,7 @@ local function update_team_target_auto_apply_cheat_status_from_data(cheats_conta
 	-- Also refresh the contents of the drop down, if it is visible.
 	-- Drop down scroll pane.
 	local drop_down_scroll_pane = drop_down_container[cheat_gui_data.drop_down_scroll_pane_name]
-	if drop_down_scroll_pane.style.visible ~= false then
+	if drop_down_scroll_pane.visible ~= false then
 		-- Drop down inner frame.
 		local drop_down_inner_frame = drop_down_scroll_pane[cheat_gui_data.drop_down_inner_frame_name]
 		-- Drop down inner flow (vertical spacing doesn't work in frame).
@@ -1922,7 +1922,7 @@ local function create_team_target_auto_apply_cheat_elements_from_data(cheats_con
 	drop_down_inner_frame.add{type = "flow", name = cheat_gui_data.drop_down_inner_flow_name, style = creative_mode_defines.names.gui_styles.no_vertical_spacing_resize_row_flow, direction = "vertical"}
 	
 	-- Hide the scorll pane first.
-	drop_down_scroll_pane.style.visible = false
+	drop_down_scroll_pane.visible = false
 	-- Update the current button.
 	update_team_target_auto_apply_cheat_status_from_data(cheats_container, cheat_gui_data, targets)
 end
@@ -1946,9 +1946,9 @@ end
 local function update_cheat_visibility_from_data_for_player(player, cheats_container, cheat_gui_data)
 	local cheat_container = cheats_container[cheat_gui_data.container_name]
 	if cheat_gui_data.cheat_data.get_player_can_access_function == nil then
-		cheat_container.style.visible = true
+		cheat_container.visible = true
 	else
-		cheat_container.style.visible = cheat_gui_data.cheat_data.get_player_can_access_function(player)
+		cheat_container.visible = cheat_gui_data.cheat_data.get_player_can_access_function(player)
 	end
 end
 
@@ -2099,10 +2099,10 @@ end
 -- Shows or hides the targets selection scroll pane according to the given GUI elements.
 local function show_or_hide_targets_selection(outer_container, targets_scroll_pane, show)
 	if show then
-		targets_scroll_pane.style.visible = true
+		targets_scroll_pane.visible = true
 		outer_container.style = "horizontal_flow"
 	else
-		targets_scroll_pane.style.visible = false
+		targets_scroll_pane.visible = false
 		outer_container.style = creative_mode_defines.names.gui_styles.no_horizontal_spacing_flow
 	end
 end
@@ -2115,7 +2115,7 @@ local function update_targets_selection_visibility_by_valid_target_count(outer_c
 		local actual_count = 0
 		for _, child_name in ipairs(targets_inner_container.children_names) do
 			local button = targets_inner_container[child_name]
-			if button.style.visible ~= false then
+			if button.visible ~= false then
 				actual_count = actual_count + 1
 				if actual_count > 1 then
 					break
@@ -2147,7 +2147,7 @@ local function get_all_selected_targets_in_cheats_menu_for_player(player, cheats
 			-- Iterate!
 			-- If the container is invisible, that means it only contains 1 valid target, e.g. the player himself if it is the personal cheats menu.
 			-- In that case, it is impossible for the player to select the button. So, we don't check the style.
-			local check_style = not targets_scroll_pane.style.visible == false
+			local check_style = not targets_scroll_pane.visible == false
 			if special_target ~= nil then
 				-- Special target is provided! We should check it.
 				local button_name_prefix = cheats_menu_gui_data.frame.outer_container.targets_scroll_pane.outer_container.inner_container.target_button.name_prefix
@@ -2273,7 +2273,7 @@ local function add_or_remove_target_in_cheats_menu_for_all_players(target, cheat
 						-- The button exists.
 						if is_add then
 							-- If such button was just hidden before, reveal it now.
-							if button.style.visible == false then
+							if button.visible == false then
 								-- Make sure it isn't selected.
 								local button_style_name = button.style.name
 								if button_style_name == creative_mode_defines.names.gui_styles.cheat_target_selected_button then
@@ -2281,7 +2281,7 @@ local function add_or_remove_target_in_cheats_menu_for_all_players(target, cheat
 								elseif button_style_name == creative_mode_defines.names.gui_styles.cheat_target_self_selected_button then
 									button.style = creative_mode_defines.names.gui_styles.cheat_target_self_unselected_button
 								else
-									button.style.visible = true
+									button.visible = true
 								end
 								-- Make sure we update the state AFTER the visibility of the targets container is updated.
 								update_targets_selection_visibility_for_player(player, cheats_menu_gui_data)
@@ -2592,7 +2592,7 @@ function gui_menu_cheats.update_menu_accessibility_according_to_access_right_for
 						-- Make sure the button is available for the player.
 						local cheats_menu_frame = cheats_menus_container[creative_mode_defines.names.gui.cheats_menu_frame]
 						local button = cheats_menu_frame[data.button_name]
-						button.style.visible = true
+						button.visible = true
 						
 						-- Update the targets and contents.
 						local cheats_menu_gui_data = data.cheats_menu_gui_data
@@ -2626,7 +2626,7 @@ function gui_menu_cheats.update_menu_accessibility_according_to_access_right_for
 						-- Hide the menu button.
 						local cheats_menu_frame = cheats_menus_container[creative_mode_defines.names.gui.cheats_menu_frame]
 						local button = cheats_menu_frame[data.button_name]
-						button.style.visible = false
+						button.visible = false
 						
 						-- Remove the menu.
 						create_or_destroy_cheats_menu_for_player(player, data.cheats_menu_gui_data, true)
@@ -3141,7 +3141,7 @@ local function on_gui_click_in_cheats_menu_target_buttons(element, element_name,
 					-- Select the buttons that are in range and deselect those that are not.
 					for index, child in ipairs(inner_container.children) do
 						local style = child.style
-						local visible = style.visible
+						local visible = visible
 						if visible ~= false then
 							local style_name = style.name
 							if index >= min_slot and index <= max_slot then

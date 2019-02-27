@@ -149,17 +149,17 @@ local function create_or_hide_main_menu_for_player(player)
 	-- Container.
 	local container = left[creative_mode_defines.names.gui.main_menu_container]
 	if container then
-		if container.style.visible ~= false then
+		if container.visible ~= false then
 			-- The container is visible. If the player is holding a magic wand and its menu is not opened, open it.
 			if not show_magic_wand_menu_for_player_by_cursor_stack(player) then
 				-- The menu is already opened. Hide the whole main menu.
-				container.style.visible = false
+				container.visible = false
 			end
 		else
             -- This works, but has the side-effect of the menu closing when the player tries to open inventory.
             --player.opened = container
 			-- The container is invisible. Show it.
-			container.style.visible = true
+			container.visible = true
 			-- Magic wand menu.
 			show_magic_wand_menu_for_player_by_cursor_stack(player)
 		end
@@ -178,7 +178,7 @@ local function create_or_hide_main_menu_for_player(player)
 				style = creative_mode_defines.names.gui_styles.main_menu_button,
 				caption = data.button_caption
 			}
-			button.style.visible = data.get_player_can_access_function(player)
+			button.visible = data.get_player_can_access_function(player)
 		end
 		
 		-- Magic wand menu.
@@ -204,7 +204,7 @@ function gui_menu.update_menu_accessibility_according_to_access_right_for_all_pl
 							-- Make sure the button is available for him/her.
 							local button = frame[data.button_name]
 							if button then
-								button.style.visible = true
+								button.visible = true
 							end
 							-- Update the accessibility of its contents if necessary.
 							local submenu_container = container[data.get_submenu_container_name_function()]
@@ -218,7 +218,7 @@ function gui_menu.update_menu_accessibility_according_to_access_right_for_all_pl
 							-- Hide menu button.
 							local button = frame[data.button_name]
 							if button then
-								button.style.visible = false
+								button.visible = false
 							end
 							-- Destroy menu.
 							close_submenu_for_player(player, data.get_submenu_container_name_function())
@@ -239,11 +239,11 @@ function gui_menu.on_player_cursor_stack_changed(event)
     local left = mod_gui.get_frame_flow(player)
     local container = left[creative_mode_defines.names.gui.main_menu_container]
     if show_magic_wand_menu_for_player_by_cursor_stack(player) then
-        if not((container ~= nil) and container.style.visible) then
+        if not((container ~= nil) and container.visible) then
             create_or_hide_main_menu_for_player(player)
         end
     else
-        if container and container.style.visible then
+        if container and container.visible then
             create_or_hide_main_menu_for_player(player)
         end 
     else
