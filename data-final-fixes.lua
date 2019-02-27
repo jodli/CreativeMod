@@ -112,7 +112,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			new_entity.autoplace = nil
 			table.insert(new_data, new_entity)
 			-- Flags.
-			local flags = {"goes-to-quickbar"}
+			local flags = {}
 			if not settings.startup[creative_mode_defines.names.settings.unhide_items].value then
 				table.insert(flags, "hidden")
 			end

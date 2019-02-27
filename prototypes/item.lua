@@ -1,5 +1,5 @@
-local flags_quickbar = {"goes-to-quickbar"}
-local flags_main_inventory = {"goes-to-main-inventory"}
+local flags_quickbar = {}
+local flags_main_inventory = {}
 if not settings.startup[creative_mode_defines.names.settings.unhide_items].value then
 	table.insert(flags_quickbar, "hidden")
 	table.insert(flags_main_inventory, "hidden")
@@ -453,7 +453,7 @@ data:extend(
 		name = creative_mode_defines.names.items.energy_absorption,
 		icon_size = 32,
 		icon = creative_mode_defines.mod_directory .. "/graphics/icons/energy-absorption.png",
-		flags = {"goes-to-main-inventory", "hidden"},
+		flags = {},
 		subgroup = creative_mode_defines.names.item_subgroups.energy,
 		order = "z",
 		stack_size = 50

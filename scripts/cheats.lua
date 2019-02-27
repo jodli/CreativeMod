@@ -712,7 +712,8 @@ cheats.personal_cheats_data =
 			default_disable_value = 0,
 			get_value_function = function(player)
 				if player and player.connected and player.character then
-					return player.quickbar_count_bonus
+					-- return player.quickbar_count_bonus
+					return 0
 				else
 					return nil
 				end
@@ -725,7 +726,7 @@ cheats.personal_cheats_data =
 				
 				if player.character then
 					global.creative_mode.personal_cheats.quickbar_bonus[player.index] = value
-					player.quickbar_count_bonus = value
+					-- player.quickbar_count_bonus = value
 					return nil
 				end
 				if player.controller_type == defines.controllers.ghost then
@@ -810,11 +811,11 @@ cheats.personal_cheats_data =
 						player.character = nil
 						if character then
 							-- Transfer items.
-							local character_quickbar = character.get_inventory(defines.inventory.player_quickbar)
+							-- local character_quickbar = character.get_inventory(defines.inventory.player_quickbar)
 							local character_main = character.get_inventory(defines.inventory.player_main)
-							local god_quickbar = player.get_inventory(defines.inventory.god_quickbar)
+							-- local god_quickbar = player.get_inventory(defines.inventory.god_quickbar)
 							local god_main = player.get_inventory(defines.inventory.god_main)
-							util.transfer_inventory_contents(character_quickbar, god_quickbar)
+							-- util.transfer_inventory_contents(character_quickbar, god_quickbar)
 							util.transfer_inventory_contents(character_main, god_main)
 							-- Transfer cursor stack.
 							local cursor_stack = character.cursor_stack 
