@@ -2,13 +2,13 @@
 creative_mode_defines = {}
 
 -- Mod ID.
-creative_mode_defines.mod_id = "creative-mode-fix"
+creative_mode_defines.mod_id = "creative-mod"
 -- Path to the mod's directory.
-creative_mode_defines.mod_directory = "__creative-mode-fix__"
+creative_mode_defines.mod_directory = "__creative-mod__"
 -- Prefix of the entity names and item names.
-creative_mode_defines.name_prefix = "creative-mode-fix_"
+creative_mode_defines.name_prefix = "creative-mod_"
 -- String pattern of the prefix.
-creative_mode_defines.name_prefix_pattern = "creative%-mode%-fix_"
+creative_mode_defines.name_prefix_pattern = "creative%-mod%_"
 
 -- Dictionary about the empty.png
 creative_mode_defines.empty_png = {}
