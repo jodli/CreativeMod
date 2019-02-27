@@ -1,0 +1,11 @@
+require("defines")
+require("scripts/util")
+
+require("prototypes.item-group")
+require("prototypes.recipe-category")
+require("prototypes.entity")
+require("prototypes.item")
+require("prototypes.equipment")
+require("prototypes.recipe")
+require("prototypes.style")
+require("prototypes.sprite")

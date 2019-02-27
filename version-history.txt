@@ -1,0 +1,598 @@
+Version 0.3.12:
+	- Fixes:
+		- Matter source, matter void and matter duplicator now no longer works on the space rocket.
+			- The space rocket does have a collider, so the previous version has not fixed the issue on it.
+
+Version 0.3.11:
+	- New:
+		- Added infinite resources for the Creator magic wand.
+	- Fixes:
+		- Matter source, matter void and matter duplicator now no longer works on entities that don't have collider, like the space rocket.
+
+Version 0.3.10:
+	- New:
+		- Added new entities: heat source, heat void, biters, spitters, and other units that can be spawned by spawners.
+	- Improvements:
+		- Matter sources will no longer insert modules to the module inventory of the targets if no filter is set.
+		- Turning off the god mode personal cheat now teleports your character to your current position.
+	- Fixes:
+		- Fixed potential error if god mode is turned off when the player and his/her character are not on the same surface.
+		- Fixed the bug that player character could be duplicated by spamming the off button of god mode.
+
+Version 0.3.9:
+	- New:
+		- New team cheat: player port recipe.
+	- Changes:
+		- Factorio version is now required to be 0.15.29+ (from 0.15.27+).
+		- Added the on_player_removed event to the player-related events category.
+	- Fixes:
+		- Fixed the error when the last creative lab is mined or destroyed.
+		- Fixed occasional error when a creative lab is mined or destroyed.
+
+Version 0.3.8:
+	- New:
+		- Added new entities: random item source, active electric energy interface (output), passive electric energy interface, active electric energy interface (input)
+		- Added Chinese mod name and description for Factorio 0.15.24+.
+	- Remove:
+		- Removed the recipe of the vanilla electric energy interface. The passive electric energy interface acts the same as it, with different default values.
+	- Improvements:
+		- The state of the cheat mode personal cheat is restored after player respawned.
+		- Updated the description of active energy source to make its energy product priority clearer.
+		- Resetting technologies via team cheats - all technologies will no longer turn the Creative tools, loaders and railgun recipes off if they were on.
+			- But calling LuaForce::reset() from other mods or command will still turn them off.
+		- The cursor stack is kept when switching god mode on or off.
+		- Optimized the creative lab. At most 10 labs can be refilled in every tick, reducing the performance issue due to large number of available science packs and built creative labs.
+	- Changes:
+		- Factorio version is now required to be 0.15.27+ (from 0.15.13+).
+		- Now cheat mode can only be toggled on players who are connected and not respawning.
+		- Added the on_player_deconstructed_area and on_player_setup_blueprint events to the item-related, player-related and position-related events categories.
+		- Added the on_player_configured_blueprint event to the player-related events category.
+		- Updated event logging system:
+			- it can now recognize the "message", "command" and "parameters" parameters from the on_console_chat event and the on_console_command event.
+			- added the following events to the player-related events category:
+				- on_console_chat
+				- on_console_command
+	- Fixes:
+		- Fixed error for 0.15.27+.
+		- Fixed the error when the main menu button is clicked while player is respawning.
+		- Fixed the error when the personal cheats UI is opened while player is respawning (caused by reading the state of cheat mode).
+		- Fixed the error when cheat mode is applied on a player who is repsawning.
+		- Fixed the error when deadly tiles are created by the Creator magic wand, with Don't kill players by creating tiles being turned on, while no player has a character (either repsawning or in god mode).
+		- Fixed the error when deadly tiles are restored by the Creator magic wand, with Don't kill players by removing tiles being turned on, while no player has a character (either repsawning or in god mode).
+		- Fixed some typos in Chinese locale.
+		
+Version 0.3.7:
+	- New:
+		- Now you can lock the item to be duplicated in duplicating chests and duplicating cargo wagon.
+	- Improvements:
+		- Improved the way to select or deselect targets in cheat target list:
+			- By default, when a target is selected, the other targets are deselected automatically.
+			- Hold control and click to select additional target without deselecting the selected ones.
+			- Hold shift and click to select multiple targets.
+		- Enhanced the interactivity of the filter slots in creative chests or creative cargo wagon:
+			- Hold shift and click to toggle multiple filter slots.
+			- Hold control and click to get a full stack of the item in the clicked slot of creative chests or creative cargo wagon.
+	- Fixes:
+		- Fixed the pollution, enemy evolution and enemy expansion game settings.
+		- Fixed the blueprint preview issue caused by matter source, matter void and matter duplicator.
+			- As a side effect, their indicators look different now.
+		- Fixed the bug that matter void failed to remove all filtered items on the transport belt in front of it if there are other unfiltered items.
+	
+Version 0.3.6:
+	- New:
+		- Added new entity: Super radar 2.
+		- Added 2 extra buttons under the daytime surface cheat to quickly switch between midday and midnight.
+		- Now you can create tiles or resources in patterns using the Creator magic wand. Available patterns are:
+			- No pattern (the original, default selection)
+			- Horizontal stripe
+			- Vertical stripe
+			- Checker
+			- Random
+		- Added option for also removing decoratives in the alternate mode of Creator magic wand. It is enabled by default.
+		- Added a new mod setting to unhide items and entities from slot filters. It is disabled by default.
+	- Remove:
+		- Removed the always day surface cheat. Enable freeze daytime and change daytime to 0 to get the same result.
+	- Improvements:
+		- Further multiplied the amount of fluid production from fluid source by 10, so a single fluid source can keep a pump always working in full capacity, unless it is next to a fluid void.
+		- Killing entities using either cheat or magic wand will add records to the kill count statistics of your force.
+			- As the result, the number of killed entities can be displayed on EvoGUI.
+		- Modding: instant blueprint can now handle item-request-proxy sent in on_built_entity.
+	- Changes:
+		- Changed the mod license from CC BY-NC 4.0 to GNU LGPLv3.
+		- Factorio version is now required to be equal or higher than 0.15.13 (from 0.15.12)
+		- Changed the entity type of fluid void, from "pipe-to-ground" to "storage-tank".
+			- The rotation of the next fluid void will no longer be automatically rotated to the opposite direction after building one.
+			- They can be connected with red and green wires.
+	- Fixes:
+		- Fixed the freeze daytime surface cheat for Factorio 0.15.13.
+			- It can now show the current status of the selected surfaces.
+		- Fixed the bug that fluid sources built by instant blueprint didn't start working automatically.
+	- Known issues:
+		- Please rebuild the fluid voids if you are loading an old save.
+	
+Version 0.3.5:
+	- Fixes:
+		- Fixed loading errors for 0.15.12.
+		- Fixed the super boiler, super cooler and super configurable boiler.
+			- They can be connected with red and green wires, because they are storage tanks now.
+		- Removed the obsolete config.lua.
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.15.12 (from 0.15.11)
+	- Known issues:
+		- Please rebuild the super boilers, super coolers and super configurable boilers if you are loading an old save.
+
+Version 0.3.4:
+	- Improvements:
+		- Pipes no long connect to the back of fluid source.
+		- Removed the option "50000" from the resource amount pseudo-slider in the Creator magic wand setting panel. Added "10000000" as the last option, to follow the 10-timed fluid amount in 0.15.
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.15.11 (from 0.15.10)
+	- Fixes:
+		- Fixed loading errors for 0.15.11.
+
+Version 0.3.3:
+	- New:
+		- New equipments: super fusion reactor, super personal roboport.
+		- Added recipes for the electric energy interface and the belt immunity equipment.
+		- Added the electric energy interface into the non-hidden creative item list of creative chests.
+		- Added per-player settings that are about the default values of cheats:
+			- Enable invincible player by default
+			- Enable instant blueprint by default
+			- Enable instant deconstruction by default
+			- Enable personal long reach by default
+			- Enable personal fast run by default
+			- Default technology research cheat type (research all, enable instant research, or do nothing)
+			- Override evolution factor by default, default evolution factor
+		- New surface cheats: freeze daytime, daytime
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.15.10 (from 0.15.1)
+		- Changed the entity type of fluid void, from "boiler" to "pipe-to-ground".
+			- Due to the nature of "pipe-to-ground", after building a fluid void, the rotation for the next one will be automatically rotated to the opposite direction.
+		- Changed the position of the belt immunity equipment in creative chests.
+		- Disabling all team cheats for any team will also disable instant research.
+	- Improvements:
+		- LuaTechnology::level and LuaTechnology::upgrade are included in the event logs that contain a technology.
+	- Fixes:
+		- Fixed loading errors for 0.15.10.
+		- Fixed error when logging a vanilla event that contains "tags" or "buffer".
+	- Known issues:
+		- The super boiler, super cooler and super configurable boiler are broken, again.
+		- Please rebuild the fluid voids if you are loading an old save.
+
+Version 0.3.2:
+	- New:
+		- Decreased the supply area of super electric pole to 4x4. Introduced super substation with the original 200x200 supply area.
+			- Super electric poles will be automatically migrated to super stations in old saves.
+		- Converted the options in config.lua to mod settings.
+			- Combined "auto_enable" and "show_popup_in_new_game" into "Default initial action".
+	- Remove:
+		- Removed config.lua.
+		- Removed remote function "update_config".
+	- Improvements:
+		- A message will be shown when "No, permanently" on the initial popup is clicked.
+		- Matter void can now remove fluid inside pump.
+		- When facing a reactor and no filter is set, matter void will only remove the used up fuel cells in the reactor. 
+		- When "Can remove from vehicles in front" is enabled, matter void can remove fluid from fluid wagon.
+		- When "Can duplicate in vehicles in front" is enabled, matter duplicator can duplicate fluid in fluid wagon.
+	- Changes:
+		- Each recipe of fluid source now generates 500 unit of fluid instead of 50.
+		- Updated the icons of the super robots, the cargo wagons, fluid source, fluid void, energy source, passive energy source, super electric pole and the super modules.
+		- Updated the colors of fluid void entity.
+		- Changed the entity type of fluid void. Now it can show the input direction in alt view.
+		- Special entity GUIs (e.g. creative chest GUI, matter source/void/duplicator GUI, super configurable boiler GUI) are displayed by default if player has not closed any of them before.
+	- Fixes:
+		- The enemy spawners and worms will no longer appear on the wild.
+		- Fixed super boiler, super cooler and super configurable boiler.
+			- They are now directional and have only one input and one output connection.
+			- Their default rotation is the same as that of fluid source and fluid void.
+			- Updated their entity graphics to show their directions without alt view.
+		- Fluid generated by matter duplicator will no longer exceed the fluidbox capacity.
+		- Fixed error when the Modifier popup shows an entity that has invalid sprite path.
+		- Fixed error when logging a vanilla event that contains "by_script", "alt", "control" or "shift".
+	- Known issues:
+		- Please rebuild the fluid voids if you are loading an old save.
+		- The super boilers have different default rotation than v0.3.0, please rotate them.
+		- The original settings in config.lua are not kept. Please modify the new settings in Options > Mods > Startup/Map.
+		
+Version 0.3.1:
+	- Fixes:
+		- Fixed error when placing a blueprint that has module inside an entity while instance blueprint is turned on, or when reviving an entity that has module inside using the magic wands.
+
+Version 0.3.0:
+	- New:
+		- Belt Immunity Equipment is now included inside the creative chests. 
+	- Fixes:
+		- Fixed the tooltip of build distance personal cheat displaying wrong default cheat value.
+	- Changes:
+		- Updated for Factorio 0.15.
+		- Factorio version is now required to be equal or higher than 0.15.1 (from 0.14.13)
+		- Super boiler, super cooler and super configurable boiler are now directional and have only 2 connection points in maximum.
+		- Evolution factor is moved from Game Settings to Team Cheats.
+		- Updated event logging system:
+			- it can now recognize the new event parameters.
+			- added the following events to the entity-related events category:
+				- on_biter_base_built
+				- on_entity_renamed
+				- on_market_item_purhcased
+				- on_player_dropped_item
+				- on_player_mined_entity
+				- on_robot_mined_entity
+				- on_selected_entity_changed
+				- on_train_created
+			- added the following events to the player-related events category:
+				- on_gui_elem_changed
+				- on_gui_selection_state_changed
+				- on_market_item_purhcased
+				- on_player_changed_force
+				- on_player_dropped_item
+				- on_player_mined_entity
+				- on_pre_entity_settings_pasted
+				- on_selected_entity_changed
+			- added the following events to the force-related events category:
+				- on_player_changed_force
+			- added the following events to the surface-related events category:
+				- on_pre_surface_deleted
+				- on_surface_created
+				- on_surface_deleted
+			- added the following events to the GUI-related events category:
+				- on_gui_elem_changed
+				- on_gui_selection_state_changed
+			- added a new category: settings-related events, with the following events:
+				- on_difficulty_settings_changed
+				- on_runtime_mod_setting_changed
+		- Modding: the event for entity removal caused by instant deconstruction or the magic wands is changed from on_entity_died to on_robot_pre_mined.
+			- the "robot" parameter will be a small table: {valid = false, type = "player", name = "player"}
+			- the index of player who triggered the removal will be stored in the "player_index" parameter
+			- removed the "force" parameter
+			- "instant_deconstruction" is true if it is caused by instant deconstruction. Otherwise, it is nil.
+		- Modding: the event for tile removal caused by instant deconstruction or the magic wands is changed from on_player_mined_tile to on_robot_mined_tile.
+			- the "robot" parameter will be a small table: {valid = false, type = "player", name = "player"}
+			- the index of player who triggered the removal will still be stored in the "player_index" parameter
+			- "instant_deconstruction" is true if it is caused by instant deconstruction. Otherwise, it is nil.
+	- Known issues:
+		- Super boiler, super cooler and super configurable boiler are broken.
+			
+Version 0.2.9:
+	- New:
+		- New option on the modifier popup: backer name.
+	- Fixes:
+		- Fixed error when instant blueprint is performed while logging is enabled for the on_robot_built_entity event.
+		- Ghost tile revival caused by Healer magic wand now invokes on_robot_built_tile instead of on_player_built_tile, for being consistent as instant blueprint.
+			- the "robot" parameter will be a small table: {valid = false, type = "player", name = "player"}
+			- the index of player who triggered the revival will still be stored in the "player_index" parameter
+			- additional parameter "revived" whose value is true
+	- Improvements:
+		- For the alternate mode of Modifier magic wand, the default values of "Don't select healthless entities" and "Don't select indestructible entities" are changed from true to false, making them different from the standard mode.
+		- Event logging now checks the "valid" property of parameters of following types before showing some advanced properties like position, train backer name. "valid = false" will be shown if valid is false.
+			- LuaEntity
+			- LuaEquipment
+			- LuaEquipmentGrid
+			- LuaForce
+			- LuaGuiElement
+			- LuaSurface
+			- LuaTechnology
+			- LuaTrain
+		- The on_robot_built_entity and on_robot_built_tile events invoked by this mod due to instant blueprint now have an additional parameter: "instant_blueprint". Its value is always true.
+		- Similar to above, the on_entity_died and on_player_mined_tile events invoked by this mod due to instant deconstruction now have an additional parameter: "instant_deconstruction". Its value is always true.
+
+Version 0.2.8:
+	- Fixes:
+		- Fixed possible error caused on other mods by reading the value of "robot" parameter in the on_robot_built_entity and on_robot_built_tile events that raised from entity/tile revival.
+			- Now the "robot" parameter contains a small table: {valid = false, type = "player", name = "player"}.
+		- Creative lab can now generate the science packs from the Research Revolution mod.
+
+Version 0.2.7:
+	- New:
+		- New entity: creative lab.
+		- New options on the modifier popup: to be looted, revive. 
+		- New remote function for registering your entities so they will be ignored by the instant-blueprint cheat: remote.call("creative-mode", "exclude_from_instant_blueprint", "<entity-name>")
+		- Also the same for the instant-deconstruction cheat: remote.call("creative-mode", "exclude_from_instant_deconstruction", "<entity-name>")
+		- A remote function for deregistering your entities from the blacklist of the instant-blueprint cheat: remote.call("creative-mode", "add_back_to_instant_blueprint", "<entity-name>")
+		- Same for the instant-deconstruction cheat: remote.call("creative-mode", "add_back_to_instant_deconstruction", "<entity-name>")
+		- And a remote function checking whether your entities have been ignored by the instant-blueprint cheat: remote.call("creative-mode", "has_excluded_from_instant_blueprint", "<entity-name>")
+		- Same for the instant-deconstruction cheat: remote.call("creative-mode", "has_excluded_from_instant_deconstruction", "<entity-name>")
+	- Changes:
+		- Modding: entity revival casued by instant blueprint or the Healer magic wand now raises on_robot_built_entity and on_robot_built_tile instead of on_built_entity and on_player_built_tile respectively.
+			- the "robot" parameter will be nil
+			- the index of player who triggered the revival will still be stored in the "player_index" parameter
+	- Improvements:
+		- Clicking "Yes" from the initial popup will also unhide the recipe category of creative tools.
+		- Delayed the effect of instant blueprint by 1 tick to increase mod compatibility. This leads to the following improvement.
+			- This makes instant blueprint doesn't work on the text plates that are placed with blueprints if your Text Plates mod version is below 0.1.16. Please update to v0.1.16 to fix this issue.
+		- When both instant deconstruction and instant blueprint are turned on, shift-placing a blueprint can now revive the ghosts that collide with other deconstructable entities, e.g. trees. 
+		- Modding: the events from entity revival (on_robot_built_entity, on_robot_built_tile) now contains an additional boolean parameter "revival" with the value true.
+		- Modding: all events raised from this mod now contains an additional string parameter "mod" with the value "creative-mode", which is the ID of this mod.
+		- Event logging now supports undocumented parameters and will show their data types. For boolean, number or string parameters, their values will also be shown.
+		- A pair of double quotes are added outside the values of string parameters in event logs.
+		- Event logs now also show the ghost_name, stack and unit_number of entity parameters if they support such values.
+		- The modifer popup now shows more info about the selected objects. If the objects in the same have different values, e.g. unit number, only 10 values will be shown in maximum.
+		- The super logistic robot and super construction robot now have absolute resistances, i.e. 100% resistance to all damange type.
+		- The enemy spawners and worms provided by this mod are now minable, repairable, blueprintable, and deconstructible. The natural spawners and worms remain unchanged.
+			- The suffix "(Creative Mdoe)" is added to their names to distinguish them from the natural ones.
+			- New option in config.lua, creative_mode_config.enemy_spawners_and_worms.add_name_suffix, for disabling the suffix.
+	- Fixes:
+		- Fixed the bug that instant blueprint removed the item requests of ghosts even though they cannot be revived due to collision with other entities.
+		- Fixed error when reviving text plates from the Text Plates mod using the Healer magic wand.
+		- The alien attractor marker will not move anymore after spawned.
+		- Fixed crash when setting the smoke entities, ghost entities or corpse entities to be active via the modifier popup. (https://forums.factorio.com/viewtopic.php?f=30&t=41386&p=243803#p243803)
+		- The corpses of destroyed enemy spawners and worms should no longer be a problem when you place blueprinted entities over them.
+
+Version 0.2.6:
+	- New:
+		- New entities: autofill requester chest, super beacon.
+		- 7 super modules: speed, effectivity, productivity, clean, slow, consumption, pollution.
+		- Separated the reach distance personal cheat into reach distance and build distance.
+		- Separated the reach distance team cheat into reach distance and build distance.
+		- New personal cheat: repair mined item.
+		- New option for the alternate mode of the Healer magic wand: don't affect indestructible entities.
+		- New options for both modes of the Modifier magic wand: ignore indestructible entities.
+	- Improvements:
+		- Matter Source/Void/Duplicator can now work properly on beacons.
+		- Clicking the main menu button while holding a magic wand will open the menu for that magic wand, even if the main menu is already opened.
+		- The messages after the value of a numeric cheat is changed by a player now shows the rounded value instead of the input value, if such cheat rounds the value into integer.
+			E.g. if you change your team reach distance to "2.5", the message will show "2" instead of "2.5".
+	- Fixes:
+		- Matter Source/Void/Duplicator can now work properly on entities that have fuel slots but no other type of inventory instead of throwing error.
+		- Fixed error when destroying a text plate from the Text Plates mod, or entities that are destroyed by other mods during on_entity_died, using the magic wands.
+		- Fixed the UI bug that if the menu was opened while holding a magic wand, the last opened menu was not closed properly.
+		- The keep last item personal cheat now works properly after a damaged entity is placed, if you have a spare inventory slot.
+	- Minor changes:
+		- Reordered the super robots and super roboport to the same line of the cargo wagons on crafting menu.
+		
+Version 0.2.5:
+	- Updated the simplified Chinese locale according to the changes in the previous version.
+
+Version 0.2.4:
+	- New:
+		- Separated the reach distance personal cheat into: reach distance (build distance and entity reach distance), resource reach distance, item drop distance.
+		- New personal cheats: item pickup distance, loot pickup distance, crafting speed, health bonus, inventory bonus, quickbar bonus.
+		- Separated the reach distance team cheat into: reach distance (build distance and entity reach distance), resource reach distance, item drop distance.
+		- New team cheats: item pickup distance, loot pickup distance, crafting speed, health bonus.
+	- Improvements:
+		- After the Creative Mode main menu is closed, the last opened submenu will be restored once the menu is opened again. But opening the main menu with magic wand will still open the corresponding magic wand menu.
+	- Fixes:
+		- Fixed the bug that the interface contents frame could not be opened right after it was closed, until another interface was opened.
+		- The "equipment" parameters in the on_player_placed_equipment event and the on_player_removed_equipment event are now recognized correctly when they are printed, written or logged.
+		- Fixed the crash caused by writing or logging any unrecognized event parameter.
+
+Version 0.2.3:
+	- New:
+		- New entities: Super Logistic Robot, Super Construction Robot, Super Roboport.
+	- Fixes:
+		- Team Cheat - Character inventory bonus is renamed to "Inventory bonus". Its description is also updated to reflect that its effect is applied to the players, not the characters.
+		- Updated the description of Team Cheat - Quickbar count to reflect that its effect is applied to the players, not the characters.
+		- Fixed missing word for Team Cheat - Stack "inserter" capacity bonus.
+		
+Version 0.2.2:
+	- New:
+		- New entity: Super Radar.
+		- New team cheats: character inventory bonus, quickbar count, inserter capacity bonus, stack inserter capacity bonus.
+		- Added a slider for changing resource amount generated by the Creator magic wand.
+		- New "Log events" option in odding > Events. It can log the selected events into factorio-current.log. But it shares to all players in multiplayer games.
+	- Improvements:
+		- Matter void will only remove the output items rather than all items on the assembling machine, chemical plant, furnace, or any other structure that can craft items, in front of it if no filter is set.
+		- Enriched the description of Fluid source, to remind for enabling the Creative tools' recipes before choosing the fluid recipes.
+		- Shifted the images of the alien attractor markers so they are now aligned to the center of cursor correctly.
+		- Compressed the images to reduce the overall size of the mod.
+	- Changes:
+		- The original "Log events" option in Modding > Events is renamed to "Write events". This does't affect its original functionality.
+	- Fixes:
+		- Fixed possible configurable inventory size for Creative cargo wagon in config.lua. It should be 254 instead of 255 due to the extra trash slot.
+		- Fixed the bug that the print events and log events checkboxes wasn't displayed properly.
+		- Fixed a typo in locale.
+	
+Version 0.2.1:
+	- New:
+		- New items: Small, Medium and Large alien attractors.
+		- Added new options for the alt-select mode of Creator magic wand: don't remove tiles if any entity is selected. It is on by default.
+		- Added buttons for removing the recorded actions of the Modifier magic wand.
+		- Added search button in Modding > Events.
+	- Improvements:
+		- Clearer descriptions for the magic wands.
+		- Creator magic wand can no longer remove its smoke, because that will just create more smoke.
+		- Modifier magic wand can no longer select its smoke.
+		- The items on ground, ghost entities and tile entities are separated by their item stacks, entities and tiles on the modifier popup, with proper icons and tooltips.
+		- The "Kill" action of the Modifier magic wand no longer closes the popup, so you can perform "Kill" to kill entities with health first, then perform "Remove" to remove the remaining healthless entities.
+		- Added entity backer name in the entity event messages, if the entity has backer name that.
+		- The opened or closed status of entity GUI is saved, meaning that if you have opened the GUI for an entity, e.g. Creative Chest, and then you select another one, the GUI will be automatically opened.
+		- Better alignment for the Creative Chest UI. Also changed the icons of Original View and Compact View.
+	- Fixes:
+		- Fixed the bug that the Creator magic wand could not create resources.
+		- Fixed error when clicking an already died entity on the modifier popup.
+		- Fixed error when trying to print or log the on_train_changed_state event.
+	- Minor changes:
+		- The modifier popup is automatically closed when you leave a multiplayer game.
+		- Both the Creative main menu and modifier popup are automatically closed whenever the version of Creative Mode is changed.
+		- Decreased the maximal height of the scroll views in Cheats, Build Options, Modding > Events and Interfaces, so they look better with the default window size of Factorio.
+	
+Version 0.2.0:
+	- New:
+		- New GUI after Creative Mode is enabled. With it, you can:
+			- enable or disable cheats whenever you like
+			- change build options
+			- print events in console and/or log them into text file
+			- check and test remote interfaces
+			- control the accessibility of different options for non-admin players in multiplayer games
+		- Cheats are separated into Personal Cheats, Team Cheats and Surface Cheats:
+			- Personal cheats: each player can have different set of personal cheats enabled.
+			- Team cheats: each cheat applies to all players in the selected teams.
+			- Surface cheats: each cheat applies to the selected surfaces.
+			- Global cheats: each cheat applies to the whole current game.
+		- New cheats:
+			- Personal cheats: keep last item, instant request, instant trash, god mode
+			- Team cheats: creative tools' recipes, railgun recipes, instant research, reach distance, mining speed, running speed, chart all, kill all units
+			- Surface cheats: peace mode, kill all enemies
+			- Global cheats
+		- New options for the start-game popup: Yes with cheats, No permanently
+		- New entities: Void Storage Chest, Super Loader, Creative Cargo Wagon, Duplicating Cargo Wagon, Void Cargo Wagon, Super Boiler, Super Cooler, Configurable Super Boiler, enemy worms and spawners (if no recipe for them).
+		- New items: Magic wands - Creator, Healer and Modifier.
+		- Now you can copy-and-paste between duplicating chests. If the first slot of the copied chest is occupied by an item, this item will fill the pasted chest. Otherwise, the pasted chest will be cleared.
+		- Loader, Fast Loader, Express Loader, Railgun and Railgun Dart are now included inside the creative chests.
+		- Item Source is renamed to Matter Source. When no filter is set, it can provide materials according to the crafting recipe in its target crafting machine, provide science pack to its target laboratory, or any items according to the filters on its targets (e.g. filters on cargo wagon).
+		- Item Void is renamed to Matter Void. When no filter is set, it can also nullify fluids in its front.
+		- A little bit further optimization for Item Source (now Matter Source), Item Void (now Matter Void) and Duplicator (now Matter Duplicator).
+		- The on_enabled and on_disabled events now have a parameter of player_index - the index of player who enabled or disabled Creative Mode. Also, they have tick and name, same as the built-in events.
+		- New remote function for registering your own remote function to the modding UI so it can be called with simple button click: remote.call("creative-mode", "register_remote_function_to_modding_ui", "<interface-name>", "<function_name>", [{caption = "<Button caption>", tooltip="<Button tooltip>"}])
+		- Also a remote function for deregistering your remote function from the modding UI: remote.call("creative-mode", "deregister_remote_function_from_modding_ui", "<interface-name>", "<function_name>")
+		- And a remote function for checking whether your remote function has been registered to the modding UI: remote.call("creative-mode", "has_registered_remote_function_to_modding_ui", "<interface-name>", "<function_name>")
+		- New remote function for registering your items so they will be ignored by the keep-last-item cheat: remote.call("creative-mode", "exclude_from_keep_last_item", "<item-name>")
+		- Also a remote function for deregistering your items from the blacklist of the keep-last-item cheat: remote.call("creative-mode", "add_back_to_keep_last_item", "<item-name>")
+		- And a remote function checking whether your items have been ignored by the keep-last-item cheat: remote.call("creative-mode", "has_excluded_from_keep_last_item", "<item-name>")
+	- Fixes:
+		- Fixed the bug that tiles could not be correctly marked for deconstruction by the deconstruction planner when instant deconstruction was enabled.
+		- Fixed unsynchronised GUI for creative chest in multiplayer game when two or more players are checking the same chest. 
+		- Fixed logic error for reviving a ghost tile and raising event for it. It should now be able to raise the event correctly, and it should be on_player_built_tile but not on_built_entity.
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.14.13 (from 0.14.4)
+		- New recipe category icon.
+		- Reordered items and recipes.
+		- The creative tools' recipes are no longer automatically enabled together with Creative Mode. You need to enable the new team cheat - creative tools' recipes - to enable them.
+		- All config for Item Source (now Matter Source), Item Void (now Matter Void), Duplicator (now Matter Duplicator) are removed from config.lua. Instead, you can now configure each individual entities in game just like the creative chests.
+		- Removed the popups for enable/disable cheats. Use the new GUI to do that instead.
+		- Removed remote.call("creative-mode", "creative_chest_per_cycle"), since the total number of item groups have already been shown in the creative chest GUI.
+		- Removed remote.call("creative-mode", "instant_blueprint", true|false), use the new GUI to enable/disable it.
+		- Removed remote.call("creative-mode", "instant_deconstruction", true|false), use the new GUI to enable/disable it.
+	- Minor Changes:
+		- Duplicator is renamed to Matter Duplicator.
+		- Removed unnecessary locale strings.
+	
+Version 0.1.5:
+	- New:
+		- Added remote.call("creative-mode", "is_enabled") for modders.
+	- Fixes:
+		- Fixed the bug that Creative Mode is incorrectly automatically enabled if config misc.auto_enable is on and then Creative Mode is manually turned off in game.
+		- Fixed the error when config item_source.can_drop_on_ground is set to true.
+		- Fixed the bug that config item_source.insert_only_once_to_player was not working properly.
+		- No more duplicated creative items will be presented in the creative chests if config creative_provider_chest.contain_hidden_items is set to true.
+		- Fixed the bug that config misc.show_popup_in_new_game did not work when it was set to false.
+		- Better performance for wired Item Sources, Item Voids and Duplicators.
+	- Changes:
+		- Updated for Factorio 0.14.
+		- Factorio version is now required to be equal or higher than 0.14.4 (from 0.13.17)
+		- Removed config misc.show_hint_after_creative_mode_denied.
+	
+Version 0.1.4:
+	- New:
+		- Added descriptions about the possible values for inventory size related config. If invalid values are provided, they will be automatically corrected and thus no error will be shown.
+		- Grouped the entities into different fast replaceable groups as follow:
+			- Item Source, Item Void, Duplicator
+			- Duplicating Chest, Duplicating Provider Chest, Void Requester Chest => container, the same group as the vanilla chests.
+			- Grouped Creative Chest, Creative Provider Chest
+			- Fluid Source, Fluid Void
+			- Active Energy Source, Passive Energy Source, Active Energy Void, Passive Energy Void
+		- Added one extra slot in the creative chests for conveniently voiding unwanted items. But the maximum usable slots become 254 (from 255).
+		- Copy-and-paste can work across Creative Chest and Creative Provider Chest.
+		- Added an option in the Creative Chest and Creative Provider Chest config GUI for changing the group of contents (item group) in the chest.
+	- Fixes:
+		- Fixed error if instant blueprint is enabled but it fails to instant build a blueprinted entity due to, for example, an obstacle at that position.
+		- Copy-and-pasting the creative chests now also has effect on their inventory display mode.
+	- Changes:
+		- Removed the config of creative_mode_config.creative_provider_chest.clear_non_used_slots. Creative chests now always clear the unused slots.
+
+Version 0.1.3:
+	- New:
+		- Added a command to enable or disable the instant blueprint cheat: /c remote.call("creative-mode", "instant_blueprint", true|false)
+		- Added a command to enable or disable the instant deconstruction cheat: /c remote.call("creative-mode", "instant_deconstruction", true|false)
+			- These 2 cheats can be enabled only when Creative Mode is also enabled.
+		- Instant blueprint can instantly supply modules according to the blueprint.
+		- Added compatibility to mods that can unmark entities for deconstruction right after they are marked by the deconstruction planned, like Filtered Deconstruction Planner.
+	- Fixes:
+		- Fixed error if player_index is not provided when any entity is marked for deconstruction.
+		- Fixed possible error in case Instant Blueprint is updated to also raise the on_entity_built and on_entity_died game events.
+		- Corrected the "disable" command shown in the "help" command: don't need to add double quotes in its optional Boolean parameter.
+
+Version 0.1.2:
+	- New:
+		- New entities: Creative Chest, Duplicating Chest, Duplicating Provider Chest, Void Requester Chest, Passive Energy Source
+		- The contents of Creative Provider Chest, as well as the new Creative Chest, are now configurable.
+		- New cheats: Instant Blueprint, Instant Deconstruction (Thanks Nexela for the code snippet!)
+			- They are automatically enabled if you load an existing game with this mod older than v0.1.2 under the following conditions:
+				1) Creative Mode is enabled, and
+				2) cheat_mode is enabled for player 1.
+	- Fixes:
+		- A bug in the previous version causing performance to be worse than before when Item Source, Item Void and Duplicator are working on static entities with inventory.
+		- The toggle-all button on the enable/disable cheats popups did not affect the toggle for increasing/resetting character running speed.
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.13.17 (from 0.13.11).
+		- Energy Source is renamed to Active Energy Source, in contrast to the new Passive Energy Source.
+		- Updated descriptions about Energy Source (now Active Energy Source) and Passive Energy Void.
+
+Version 0.1.1:
+	- New:
+		- New option in config.lua: auto_enable.
+	- Fixes:
+		- Fixed error when starting a multiplayer game with this mod installed.
+		- Item source, Item Void and Duplicator now do not work on and interfere logistic robots and construction robots.
+	- Changes:
+		- Factorio version is now required to be equal or higher than 0.13.11 (from 0.13.3).
+	- Minor Changes:
+		- Slightly updated the mod description to reflect the popup for enabling Creative Mode introduced since version 0.0.2.
+		- Improved the performance for Item Source, Item Void and Duplicator when they are working on any transport belt, static entities with inventory or static entities with fluidbox.
+
+Version 0.1.0:
+	- New:
+		- New entities: Duplicator, Passive Energy Void.
+		- Now you can permanently disable Creative Mode by using the parameter in the disable command: /c remote.call("creative-mode", "disable", true)
+		- Item Source and Item Void can now cooperate with circuit signal and different circuit operation modes.
+		- Item Source and Item Void can now work with belts, underground belts or splitters that are in front of them and perpendicular to their directions! Same as the Duplicator.
+		- Item Void now has a filter slot. If filter is set, the Item Void will only remove items that match the filter.
+		- Grouped the popups for enabling/disabling cheats into a giant popup. Increasing/resetting player reach and mining speed are also included.
+		- You can now also choose to enable/disable loaders, the cancelled overpowered vanilla entities. (See FFF #128)
+		- You can now also choose to increase/reset character running speed.
+	- Fixes:
+		- Creative Mode was improperly automatically enabled after any mod is updated or added.
+		- Version 0.0.3 failed to reset player mining speed when Creative Mode is disabled even if config is set to true.
+		- In the previous versions, resetting player mining speed wasn't properly reset to the initial speed. If you are loading for an existing game which has increased player mining speed before and want to reset it, type: /c game.player.character_mining_speed_modifier = 0
+		- Item Source and Item Void can now work with underground belts and splitters. But due to the API limitation, they cannot create compressed belts directly on underground belts or splitters.
+	- Changes:
+		- Energy Void is renamed to Active Energy Void, in contrast to the new Passive Energy Void.
+	- Minor Changes:
+		- Due to the new popup, increase_player_reach_when_enabled, increase_player_mining_speed_when_enabled, reset_player_reach_when_disabled and reset_player_mining_speed_when_disabled are removed from config.lua.
+		- Slightly adjusted the color of Item Void. It is completely gray-scale now.
+	
+Version 0.0.3:
+	- New:
+		- Added "Yes for all" buttons on the popups for enabling or disabling multiple cheats at once.
+		- Now you can copy-and-paste between creative provider chests for changing their contents.
+		- Changing the inventory size of Creative Provider Chest and/or whether hidden items should be included inside will automatically trigger item regrouping, which updates the number of chests required for each item cycle.
+		- Added command for checking how many Creative Provider Chests are needed for one item cycle: /c remote.call("creative-mode", "creative_chest_per_cycle")
+		- Added an option to preserve the configurable settings for each game. See preserve_settings in config.lua for details.
+		- To encounter the previous feature, a new command is added for updating the preserved settings: /c remote.call("creative-mode", "update_config")
+		- Added command for checking all available commands for this mod: /c remote.call("creative-mode", "help")
+		- Added on_disabled script event.
+	- Fixes:
+		- Fixed compatibility with god-mode (e.g. the sandbox scenario).
+		- Fixed compatibility with Test Mode.
+		- Fixed compatibility with Factorio 0.13.5.
+		- Item Source might be able to create fully compressed belt now.
+		- Fixed zh_CN localizations.
+	- Changes:
+		- All cheats are applied to all players.
+		- Due to a performance issue when hovering the creative provider chests, the default value of creative_mode_config.creative_provider_chest.inventory_size is tuned down to 150 (from 250).
+		- Slots that are not used for providing in-game items in the creative provider chests will be cleared by default. This can be turned off in config.lua.
+		- show_popups_for_more_features_when_enabled and show_popups_for_reset_features_when_disabled are removed from config.lua due to the new "Yes for all" buttons.
+	- Minor changes:
+		- The name of player who enabled/disabled Creative Mode is also included in the message.
+		- Removed the parameter in the on_enabled script event.
+		- Updated the localized names of the recipes for free fluids.
+
+Version 0.0.2:
+	- New:
+		- New entity: Creative Provider Chest.
+		- Added a popup for you to turn on Creative Mode in new game. This popup can be disabled in config.
+		- Added a command to disable Creative Mode: /c remote.call("creative-mode", "disable")
+	- Fixes:
+		- Placing Super Electric Poles could cause lag.
+		- Item Void could cause the game freeze.
+	- Changes:
+		- Reduced the maximum wire distance of Super Electric Poles to 150 (from 1000) but increased its supply area radius to 100 (from 50).
+		- New sprites and icons for Item Void and Item Source to indicate the fact that they are not chests.
+		- Changed the names of some configurable settings for consistency.
+	- Minor changes:
+		- Fluid Void, Energy Source and Energy Void now stop updating if they are marked for deconstruction, as being consistent with vanilla entities.
+		- Adjusted item and entity descriptions.
+		- Adjusted the zh_TW and zh_CN localizations to be consistent with the vanilla localized names.
+		- Updated mod info.
+
+Version 0.0.1:
+	- The first version for Factorio 0.13. Actually made many changes from the original mod.

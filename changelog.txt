@@ -1,0 +1,126 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.0.32
+Date: 5. 5. 2018
+  Bugfixes:
+    - Fixed chinese language files
+---------------------------------------------------------------------------------------------------
+Version: 0.0.31
+Date: 3. 5. 2018
+  Bugfixes:
+    - Fixed bug with 0.16.40+ equipment grid
+    - Fixed minor bug with matter voids
+---------------------------------------------------------------------------------------------------
+Version: 0.0.30
+Date: 14. 4. 2018
+  Bugfixes:
+    - Fixed bug with matter source connecting to an entity with a fluidbox
+---------------------------------------------------------------------------------------------------
+Version: 0.0.29
+Date: 10. 4. 2018
+  Bugfixes:
+    - Fixed more incompatibility issues with mods that use numeric indexes for some prototype data instead of named fields
+---------------------------------------------------------------------------------------------------
+Version: 0.0.28
+Date: 7. 4. 2018
+  Bugfixes:
+    - Fixed matter void backing up on only red belt
+---------------------------------------------------------------------------------------------------
+Version: 0.0.27
+Date: 3. 4. 2018
+  Bugfixes:
+    - Fixed icon layering with non-standard icons (partially, icon layering just disabled currently)
+    - Fixed empty table being passed where one shouldn't be
+---------------------------------------------------------------------------------------------------
+Version: 0.0.26
+Date: 3. 4. 2018
+  Bugfixes:
+    - Fixed PyCoal incompatibility
+---------------------------------------------------------------------------------------------------
+Version: 0.0.25
+Date: 17. 3. 2018
+  Info:
+    - Compatability update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.24
+Date: 1. 3. 2018
+  Info:
+    - Compatability update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.23
+Date: 17. 2. 2018
+  Bugfixes:
+    - Fix magic wand alt-select crash
+---------------------------------------------------------------------------------------------------
+Version: 0.0.22
+Date: 16. 2. 2018
+  Bugfixes:
+    - Fix loading issues related to fluidbox dimensions
+---------------------------------------------------------------------------------------------------
+Version: 0.0.21
+Date: 12. 2. 2018
+  Bugfixes:
+    - Should fix crash for matter sources feeding assemblers
+---------------------------------------------------------------------------------------------------
+Version: 0.0.20
+Date: 7. 2. 2018
+  Info:
+    - Compatibility update
+    - Possibly fixes errors with on_robot_built_tile and on_robot_mined_tile related to API changes. Needs more work and more testing.
+---------------------------------------------------------------------------------------------------
+Version: 0.0.19
+Date: 26. 1. 2018
+  Info:
+    - Compatibility update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.18
+Date: 12. 1. 2018
+  Bugfixes:
+    - Increased inter-mod compatibility
+---------------------------------------------------------------------------------------------------
+Version: 0.0.17
+Date: 12. 1. 2018
+  Bugfixes:
+    - Attempt to fix crash with certain mods
+---------------------------------------------------------------------------------------------------
+Version: 0.0.16
+Date: 12. 1. 2018
+  Info:
+    - Compatibility update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.15
+Date: 5. 1. 2018
+  Info:
+    - Compatibility update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.14
+Date: 3. 1. 2018
+  Bugfixes:
+    - Fixed compatibility for 0.16.13 logistics storage chest
+---------------------------------------------------------------------------------------------------
+Version: 0.0.13
+Date: 2. 1. 2018
+  Bugfixes:
+    - Fixed energy-void
+---------------------------------------------------------------------------------------------------
+Version: 0.0.12
+Date: 31. 12. 2017
+  Info:
+    - Future compatibility update (who patches 5 times during Christmas?)
+---------------------------------------------------------------------------------------------------
+Version: 0.0.11
+Date: 29. 12. 2017
+  Info:
+    - Compatibility update
+---------------------------------------------------------------------------------------------------
+Version: 0.0.10
+Date: 28. 12. 2017
+  Bugfixes:
+    - Fixed inability to disable mod with remote interface
+---------------------------------------------------------------------------------------------------
+Version: 0.0.9
+Date: 20. 12. 2017
+  Info:
+    - This isn't an official release of Creative Mode
+  Bugfixes:
+    - Fixed smoke
+    - Fixed styles
