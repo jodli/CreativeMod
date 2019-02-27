@@ -338,20 +338,6 @@ local personal_cheats_menu_gui_data =
 			apply_button_caption = creative_mode_defines.names.gui_captions.ok,
 			is_character_cheat = true
 		},
-		quickbar_bonus =
-		{
-			type = gui_menu_cheats.cheat_gui_type.numeric_apply,
-			cheat_data = cheats.personal_cheats_data.cheats.quickbar_bonus,
-			container_name = creative_mode_defines.names.gui.quickbar_bonus_container,
-			label_name = creative_mode_defines.names.gui.quickbar_bonus_label,
-			label_caption = {"gui.creative-mode_quickbar-bonus"},
-			label_tooltip = {"gui.creative-mode_quickbar-bonus-tooltip", {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}, {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}},
-			textfield_name = creative_mode_defines.names.gui.quickbar_bonus_textfield,
-			separator_name = creative_mode_defines.names.gui.quickbar_bonus_separator,
-			apply_button_name = creative_mode_defines.names.gui.quickbar_bonus_apply_button,
-			apply_button_caption = creative_mode_defines.names.gui_captions.ok,
-			is_character_cheat = true
-		},
 		health_bonus =
 		{
 			type = gui_menu_cheats.cheat_gui_type.numeric_apply,
@@ -735,19 +721,6 @@ local team_cheats_menu_gui_data =
 			textfield_name = creative_mode_defines.names.gui.character_inventory_bonus_textfield,
 			separator_name = creative_mode_defines.names.gui.character_inventory_bonus_separator,
 			apply_button_name = creative_mode_defines.names.gui.character_inventory_bonus_apply_button,
-			apply_button_caption = creative_mode_defines.names.gui_captions.ok
-		},
-		quickbar_count =
-		{
-			type = gui_menu_cheats.cheat_gui_type.numeric_apply,
-			cheat_data = cheats.team_cheats_data.cheats.quickbar_count,
-			container_name = creative_mode_defines.names.gui.quickbar_count_container,
-			label_name = creative_mode_defines.names.gui.quickbar_count_label,
-			label_caption = {"gui.creative-mode_quickbar-count"},
-			label_tooltip = {"gui.creative-mode_quickbar-count-tooltip"},
-			textfield_name = creative_mode_defines.names.gui.quickbar_count_textfield,
-			separator_name = creative_mode_defines.names.gui.quickbar_count_separator,
-			apply_button_name = creative_mode_defines.names.gui.quickbar_count_apply_button,
 			apply_button_caption = creative_mode_defines.names.gui_captions.ok
 		},
 		health_bonus =
