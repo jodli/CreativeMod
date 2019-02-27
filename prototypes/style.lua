@@ -2,20 +2,12 @@
 local function extract_monolith(file_name, x, y, width, height)
 	return
 	{
-		type = "monolith",
-		top_monolith_border = 0,
-		right_monolith_border = 0,
-		bottom_monolith_border = 0,
-		left_monolith_border = 0,
-		monolith_image =
-		{
-			filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. file_name,
-			priority = "extra-high-no-scale",
-			width = width,
-			height = height,
-			x = x,
-			y = y
-		},
+		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. file_name,
+		position = {x, y},
+		width = width,
+		height = height,
+		scale = 1,
+		corner_size = 3
 	}
 end
 -- Create styles.
@@ -38,8 +30,8 @@ local access_right_on_off_button_width = 300
 local inventory_slot_width = 36
 local big_button_width_height = 36
 local magic_wand_popup_slot_table_width = inventory_slot_width * 10 + 9
-local frame_caption_button_width = default_style["search_button"].width -- search_button_style with in base mod.
-local search_textfield_width = default_style["textfield"].width
+local frame_caption_button_width = default_style["search_button"].size -- search_button_style with in base mod.
+local search_textfield_width = default_style["search_textfield_with_fixed_width"].width
 local quick_action_remove_button_width = 18
 local magic_wand_popup_left_frame_caption_width = magic_wand_popup_slot_table_width - frame_caption_button_width
 local magic_wand_popup_right_frame_caption_width = cheat_width - frame_caption_button_width
@@ -108,8 +100,8 @@ default_style[creative_mode_defines.names.gui_styles.small_default_bold_button] 
 -- The style for the search textfield besides the frame title.
 default_style[creative_mode_defines.names.gui_styles.frame_search_textfield] =
 {
-	type = "textfield_style",
-	parent = "search_textfield",
+	type = "textbox_style",
+	parent = "search_textfield_with_fixed_width",
 	width = search_textfield_width,
 	scalable = false
 }
@@ -239,8 +231,8 @@ default_style[creative_mode_defines.names.gui_styles.slider_button_off] =
 -- Style for slider textfields.
 default_style[creative_mode_defines.names.gui_styles.slider_textfield] =
 {
-	type = "textfield_style",
-	parent = "textfield",
+	type = "textbox_style",
+	parent = "slider_value_textfield",
 	width = slider_textfield_width,
 	scalable = false
 }
@@ -272,7 +264,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_selection_cont
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "black.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	}
 }
@@ -295,7 +287,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_selected_butto
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "orange.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	hovered_font_color = {r = 1, g = 1, b = 1},
@@ -304,7 +296,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_selected_butto
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "orange.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	clicked_font_color = {r = 1, g = 1, b = 1},
@@ -313,7 +305,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_selected_butto
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "orange.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	disabled_font_color = {r = 0.5, g = 0.5, b = 0.5},
@@ -343,7 +335,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_unselected_but
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "grey.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	hovered_graphical_set =
@@ -351,7 +343,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_target_unselected_but
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "grey.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	}
 }
@@ -441,8 +433,8 @@ default_style[creative_mode_defines.names.gui_styles.cheat_on_off_button_on] =
 -- The cheat numeric textfield style.
 default_style[creative_mode_defines.names.gui_styles.cheat_numeric_textfield] =
 {
-	type = "textfield_style",
-	parent = "textfield",
+	type = "textbox_style",
+	parent = "long_number_textfield",
 	width = math.floor((cheat_width - cheat_label_width - 8) * 0.625),
 	scalable = false
 }
@@ -508,67 +500,43 @@ default_style[creative_mode_defines.names.gui_styles.cheat_value_drop_down_curre
 	bottom_padding = 2,
 	default_graphical_set =
 	{
-		type = "monolith",
-        top_monolith_border = 3,
-        right_monolith_border = 14,
-        bottom_monolith_border = 3,
-        left_monolith_border = 3,
-        monolith_image =
-        {
-			filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
-			priority = "extra-high-no-scale",
-			width = 150,
-			height = 25,
-			y = 0
-        }
+		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
+        top_border = 3,
+        right_border = 14,
+        bottom_border = 3,
+        left_border = 3,
+		width = 150,
+		height = 25,
 	},
 	hovered_graphical_set =
 	{
-		type = "monolith",
-        top_monolith_border = 3,
-        right_monolith_border = 14,
-        bottom_monolith_border = 3,
-        left_monolith_border = 3,
-        monolith_image =
-        {
-			filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
-			priority = "extra-high-no-scale",
-			width = 150,
-			height = 25,
-			y = 25
-        }
+        top_border = 3,
+        right_border = 14,
+        bottom_border = 3,
+        left_border = 3,
+		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
+		width = 150,
+		height = 25,
 	},
 	clicked_graphical_set =
 	{
-		type = "monolith",
-        top_monolith_border = 3,
-        right_monolith_border = 14,
-        bottom_monolith_border = 3,
-        left_monolith_border = 3,
-        monolith_image =
-        {
-			filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
-			priority = "extra-high-no-scale",
-			width = 150,
-			height = 25,
-			y = 50
-        }
+        top_border = 3,
+        right_border = 14,
+        bottom_border = 3,
+        left_border = 3,
+		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
+		width = 150,
+		height = 25,
 	},
 	disabled_graphical_set =
 	{
-		type = "monolith",
-        top_monolith_border = 3,
-        right_monolith_border = 14,
-        bottom_monolith_border = 3,
-        left_monolith_border = 3,
-        monolith_image =
-        {
-			filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
-			priority = "extra-high-no-scale",
-			width = 150,
-			height = 25,
-			y = 75
-        }
+        top_border = 3,
+        right_border = 14,
+        bottom_border = 3,
+        left_border = 3,
+		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "cheat-dropdown.png",
+		width = 150,
+		height = 25,
 	}
 }
 -- The style for cheat value target selection drop down (e.g. team selection) - scroll pane.
@@ -610,7 +578,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_value_drop_down_selec
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "orange.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	clicked_font_color = {r = 1, g = 1, b = 1},
@@ -619,7 +587,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_value_drop_down_selec
 		type = "composition",
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. "orange.png",
 		priority = "extra-high-no-scale",
-		corner_size = {0, 0},
+		corner_size = 1,
 		position = {0, 0}
 	},
 	disabled_font_color = {r = 0.5, g = 0.5, b = 0.5},
@@ -642,7 +610,7 @@ default_style[creative_mode_defines.names.gui_styles.cheat_value_drop_down_selec
 default_style[creative_mode_defines.names.gui_styles.magic_wand_frame_caption_label] =
 {
 	type = "label_style",
-	parent = creative_mode_defines.names.gui_styles.frame_caption_label,
+	-- parent = creative_mode_defines.names.gui_styles.frame_caption_label,
 	width = cheat_width * 2 - inventory_slot_width,
 	scalable = false
 }
@@ -792,7 +760,7 @@ default_style[creative_mode_defines.names.gui_styles.magic_wand_quick_action_rem
 default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_left_frame_caption_label] =
 {
 	type = "label_style",
-	parent = creative_mode_defines.names.gui_styles.frame_caption_label,
+	-- parent = creative_mode_defines.names.gui_styles.frame_caption_label,
 	width = magic_wand_popup_left_frame_caption_width,
 	scalable = false
 }
@@ -800,7 +768,7 @@ default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_left_frame
 default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_right_frame_caption_label] =
 {
 	type = "label_style",
-	parent = creative_mode_defines.names.gui_styles.frame_caption_label,
+	-- parent = creative_mode_defines.names.gui_styles.frame_caption_label,
 	width = magic_wand_popup_right_frame_caption_width,
 	scalable = false
 }
@@ -827,54 +795,41 @@ default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_item_on_gr
 	parent = creative_mode_defines.names.gui_styles.magic_wand_popup_ghost_slot_button,
 	default_graphical_set =
 	{
-		type = "monolith",
-		top_monolith_border = 1,
-		right_monolith_border = 1,
-		bottom_monolith_border = 1,
-		left_monolith_border = 1,
-		monolith_image =
-		{
-			filename = "__core__/graphics/gui.png",
-			priority = "extra-high-no-scale",
-			width = 36,
-			height = 36,
-			x = 111,
-			y = 72
-		}
+		top_border = 1,
+		right_border = 1,
+		bottom_border = 1,
+		left_border = 1,
+		filename = "__core__/graphics/gui.png",
+		width = 36,
+		height = 36,
+		x = 111,
+		y = 72
 	},
     hovered_graphical_set =
 	{
-		type = "monolith",
-		top_monolith_border = 1,
-		right_monolith_border = 1,
-		bottom_monolith_border = 1,
-		left_monolith_border = 1,
-		monolith_image =
-		{
-			filename = "__core__/graphics/gui.png",
-			priority = "extra-high-no-scale",
-			width = 36,
-			height = 36,
-			x = 148,
-			y = 72
-		}
+		top_border = 1,
+		right_border = 1,
+		bottom_border = 1,
+		left_border = 1,
+		filename = "__core__/graphics/gui.png",
+		priority = "extra-high-no-scale",
+		width = 36,
+		height = 36,
+		x = 148,
+		y = 72
 	},
     clicked_graphical_set =
 	{
-		type = "monolith",
-		top_monolith_border = 1,
-		right_monolith_border = 1,
-		bottom_monolith_border = 1,
-		left_monolith_border = 1,
-		monolith_image =
-		{
-			filename = "__core__/graphics/gui.png",
-			priority = "extra-high-no-scale",
-			width = 36,
-			height = 36,
-			x = 185,
-			y = 72
-		}
+		top_border = 1,
+		right_border = 1,
+		bottom_border = 1,
+		left_border = 1,
+		filename = "__core__/graphics/gui.png",
+		priority = "extra-high-no-scale",
+		width = 36,
+		height = 36,
+		x = 185,
+		y = 72
 	},
 }
 -- The ghost slot on magic wand popup.
@@ -897,7 +852,7 @@ default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_ghost_slot
 default_style[creative_mode_defines.names.gui_styles.events_menu_frame_caption_label] =
 {
 	type = "label_style",
-	parent = creative_mode_defines.names.gui_styles.frame_caption_label,
+	-- parent = creative_mode_defines.names.gui_styles.frame_caption_label,
 	width = events_menu_frame_caption_label_width,
 	scalable = false
 }
@@ -1083,7 +1038,7 @@ default_style[creative_mode_defines.names.gui_styles.inventory_toggle_all_button
 -- The item count textfield style.
 default_style[creative_mode_defines.names.gui_styles.item_count_textfield] =
 {
-	type = "textfield_style",
-	parent = "textfield",
+	type = "textbox_style",
+	parent = "short_number_textfield",
 	width = 70
 }
