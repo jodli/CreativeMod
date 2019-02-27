@@ -2393,8 +2393,9 @@ data:extend(
 		radius_visualisation_picture =
 		{
 			filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
-			width = 12,
-			height = 12
+      priority = "extra-high-no-scale",
+			width = 10,
+			height = 10
 		},
 		supply_area_distance = 64,
 		--energy_source = creative_mode_defines.non_electric_energy_source, -- Burner energy won't work on beacon.
