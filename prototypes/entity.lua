@@ -299,9 +299,9 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
 					filename = "__base__/graphics/entity/cargo-wagon/cargo-wagon-door-vertical-end.png",
 					line_length = 8,
 					width = 30,
-					height = 202,
+					height = 23,
 					frame_count = 8,
-					shift = {0, -0.84375},
+          shift = util.by_pixel(0, 62.5),
 					tint = tint
 				},
 				{
