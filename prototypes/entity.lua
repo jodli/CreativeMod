@@ -772,7 +772,7 @@ local function radar(entity_name, item_name, icon_name, pictures_name, scan_dist
 		energy_source =
 		{
 			type = "electric",
-			usage_priority = "terciary"
+			usage_priority = "tertiary"
 		},
 		energy_usage = "1kW",
 		pictures =
@@ -1782,7 +1782,7 @@ data:extend(
 		creative_mode_defines.names.items.passive_electric_energy_interface,
 		"passive-electric-energy-interface.png",
 		"passive-electric-energy-interface.png",
-		"terciary",
+		"tertiary",
 		"500GW",
 		"0kW",
 		"0kW",
@@ -1891,7 +1891,7 @@ data:extend(
 		{
 			type = "electric",
 			buffer_capacity = "5.4PW",
-			usage_priority = "terciary",
+			usage_priority = "tertiary",
 			input_flow_limit = "0W",
 			output_flow_limit = "5.4PW"
 		},
@@ -2033,7 +2033,7 @@ data:extend(
 		{
 			type = "electric",
 			buffer_capacity = "5.4PW",
-			usage_priority = "terciary",
+			usage_priority = "tertiary",
 			input_flow_limit = "5.4PW",
 			output_flow_limit = "0W"
 		},
@@ -2402,7 +2402,7 @@ data:extend(
 		energy_source =
 		{
 			type = "electric",
-			usage_priority = "terciary"
+			usage_priority = "tertiary"
 		},
 		energy_usage = "1kW",
 		vehicle_impact_sound = {filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65},
