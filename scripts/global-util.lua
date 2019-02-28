@@ -392,9 +392,25 @@ function global_util.renew_item_lists()
 			table.insert(global.tool_item_list, item)
 		end
 	end
+
+	global_util.remove_obsolete_items(global.non_hidden_item_list)
+	global_util.remove_obsolete_items(global.non_creative_hidden_item_list)
+	global_util.remove_obsolete_items(global.hidden_creative_enemy_item_list)
+	global_util.remove_obsolete_items(global.tool_item_list)
 	
 	-- Update data for the Creative Chest family.
 	creative_chest_util.update_item_lists_data()
+end
+
+function global_util.remove_obsolete_items(item_list)
+	local i = 1
+	while i <= #item_list do
+		if item_list[i].type == "mining-tool" then
+			table.remove(item_list, i)
+		else
+			i = i + 1
+		end
+	end
 end
 
 -- Returns whether all of the item lists are already exist.
