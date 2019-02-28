@@ -4,10 +4,9 @@ local function extract_monolith(file_name, x, y, width, height)
 	{
 		filename = creative_mode_defines.mod_directory .. "/graphics/gui/" .. file_name,
 		position = {x, y},
-		width = width,
-		height = height,
+		size = {width, height},
 		scale = 1,
-		corner_size = 3
+		border = 1
 	}
 end
 -- Create styles.
@@ -943,8 +942,8 @@ default_style[creative_mode_defines.names.gui_styles.entity_open_button] =
 	right_padding = 0,
 	bottom_padding = 0,
 	left_padding = 0,
-	width = big_button_width_height,
-	height = big_button_width_height,
+	width = big_button_width_height + 1,
+	height = big_button_width_height + 1,
 	left_click_sound =
 	{
 		{
