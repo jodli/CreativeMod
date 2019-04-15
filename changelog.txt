@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+Date: 15.04.2019
+  Bugfixes:
+    - Fixed a bug with limiting the cheat number input to valid values
+---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+Date: 15.04.2019
+  Info:
+    - Disabled the energy interfaces due to confusion with the missing GUI
+---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 28.02.2019
   Bugfixes:
