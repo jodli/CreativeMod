@@ -224,6 +224,7 @@ data:extend(
 		-- Active electric energy interface (output)
 		type = "recipe",
 		name = creative_mode_defines.names.recipes.active_electric_energy_interface_output,
+		hidden = "true",
 		ingredients = {},
 		result = creative_mode_defines.names.items.active_electric_energy_interface_output,
 		enabled = false
@@ -232,6 +233,7 @@ data:extend(
 		-- Passive electric energy interface
 		type = "recipe",
 		name = creative_mode_defines.names.recipes.passive_electric_energy_interface,
+		hidden = "true",
 		ingredients = {},
 		result = creative_mode_defines.names.items.passive_electric_energy_interface,
 		enabled = false
@@ -240,6 +242,7 @@ data:extend(
 		-- Active electric energy interface (input)
 		type = "recipe",
 		name = creative_mode_defines.names.recipes.active_electric_energy_interface_input,
+		hidden = "true",
 		ingredients = {},
 		result = creative_mode_defines.names.items.active_electric_energy_interface_input,
 		enabled = false
