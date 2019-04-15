@@ -16,12 +16,12 @@ cheats.default_cheat_values =
 -- Function for limiting the value to be positive only before it is applied.
 local function non_negative_number_limit_value_before_apply_function(value)
 	-- Negative value will cause error.
-	return util.clamp(value, 0, 10000000000)
+	return util.clamp(value, 0, 4294967295)
 end
 
 -- Function for limiting the value to be inside a large but safe range before it is applied.
 local function large_range_limit_value_before_apply_function(value)
-	return util.clamp(value, -10000000000, 10000000000)
+	return util.clamp(value, -1, 4294967296)
 end
 
 -- Applies all character-related personal cheats to the given player. Also updates GUI status about the cheat for all players, in case the given player is selected.
