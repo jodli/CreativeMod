@@ -796,7 +796,7 @@ cheats.personal_cheats_data =
 							-- Character is dead! Create new one.
 							character = player.surface.create_entity
 							{
-								name = "player",
+								name = "character",
 								position = player.position,
 								force = player.force
 							}
