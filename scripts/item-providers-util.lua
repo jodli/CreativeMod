@@ -471,7 +471,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 				-- The entity is a car.
 				if not car_entities then car_entities = {} end
 				table.insert(car_entities, entity)
-			elseif entity.type == "player" then
+			elseif entity.type == "character" then
 				-- The entity is a player.
 				if not player_entities then player_entities = {} end
 				table.insert(player_entities, entity)

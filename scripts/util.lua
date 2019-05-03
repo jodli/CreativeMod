@@ -138,7 +138,7 @@ end
 -- Returns the player who is controlling the given character entity.
 -- Nil will be returned if the given entity is not a character or no player is controlling it.
 function util.get_character_owning_player(entity)
-	if entity.type == "player" then
+	if entity.type == "character" then
 		if entity.force then
 			for _, player in ipairs(entity.force.connected_players) do
 				if player.character == entity then
@@ -162,7 +162,7 @@ end
 
 -- Returns an invalid robot parameter that can be used by events.
 local function get_fake_robot_param()
-	return {valid = false, type = "player", name = "player"}
+	return {valid = false, type = "character", name = "character"}
 end
 
 -- Fulfills the given item requests for the given entity.
