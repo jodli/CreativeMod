@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.3
+Date: 04.05.2019
+  Bugfixes:
+    - Fixed a bug where the Creator Wand ignored the "Don't delete the character" setting.
+    - Moar renaming of player to character.
+---------------------------------------------------------------------------------------------------
 Version: 1.1.2
 Date: 03.05.2019
   Bugfixes:
