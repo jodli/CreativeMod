@@ -772,7 +772,7 @@ cheats.personal_cheats_data =
 						player.character = nil
 						if character then
 							-- Transfer items.
-							local character_main = character.get_inventory(defines.inventory.player_main)
+							local character_main = character.get_inventory(defines.inventory.character_main)
 							local god_main = player.get_inventory(defines.inventory.god_main)
 							util.transfer_inventory_contents(character_main, god_main)
 							-- Transfer cursor stack.
@@ -802,7 +802,7 @@ cheats.personal_cheats_data =
 							}
 						end
 						-- Transfer items.
-						local character_main = character.get_inventory(defines.inventory.player_main)
+						local character_main = character.get_inventory(defines.inventory.character_main)
 						local god_main = player.get_inventory(defines.inventory.god_main)
 						util.transfer_inventory_contents(god_main, character_main)
 						-- Transfer cursor stack.
@@ -2513,7 +2513,7 @@ end
 
 -- Returns the logistic trash inventory on the given character.
 local function get_character_trash_inventory(character)
-	return character.get_inventory(defines.inventory.player_trash)
+	return character.get_inventory(defines.inventory.character_trash)
 end
 
 -- Applies instant trash on the given logistic trash inventory of the given player's character.
