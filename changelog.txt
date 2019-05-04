@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.4
+Date: 04.05.2019
+  Bugfixes:
+    - Fixed a bug with another mod that uses the robot.force field on the on_robot_built_entity event.
+---------------------------------------------------------------------------------------------------
 Version: 1.1.3
 Date: 04.05.2019
   Bugfixes:
