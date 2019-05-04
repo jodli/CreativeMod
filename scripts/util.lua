@@ -161,8 +161,8 @@ function util.raise_event(event_id, data)
 end
 
 -- Returns an invalid robot parameter that can be used by events.
-local function get_fake_robot_param()
-	return {valid = false, type = "character", name = "character"}
+local function get_fake_robot_param(force)
+	return {valid = false, type = "character", name = "character", force = force}
 end
 
 -- Fulfills the given item requests for the given entity.
@@ -227,7 +227,7 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 		end
 		util.raise_event(defines.events.on_robot_built_entity,
 		{
-			robot = get_fake_robot_param(),
+			robot = get_fake_robot_param(reviver_player.force),
 			created_entity = revived_entity,
 			
 			-- For modders:
