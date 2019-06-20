@@ -308,7 +308,7 @@ function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instan
 		-- Some mods like to make sure the entity is really dead.
 		return true
 	end
-	if entity.destroy() then
+	if entity.destroy({raise_destroy = true}) then
 		return true
 	end
 	return false
