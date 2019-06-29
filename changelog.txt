@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.0
+Date: 29.06.2019
+  Info:
+    - Reformatted all lua files for further work.
+  Bugfixes:
+    - Fixed that destroying an entity didn't raise the script_raised_destroy event.
+---------------------------------------------------------------------------------------------------
 Version: 1.1.4
 Date: 04.05.2019
   Bugfixes:
