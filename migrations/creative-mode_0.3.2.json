@@ -1,6 +1,8 @@
 {
-	"entity":
-	[
-		["creative-mode_super-electric-pole", "creative-mode_super-substation"]
+	"entity": [
+		[
+			"creative-mode_super-electric-pole",
+			"creative-mode_super-substation"
+		]
 	]
 }

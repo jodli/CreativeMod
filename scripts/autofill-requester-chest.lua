@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Autofill Requester Chest in this mod.
-if not autofill_requester_chest then autofill_requester_chest = {} end
+if not autofill_requester_chest then
+	autofill_requester_chest = {}
+end
 
 -- Refill the given chest according to its requests.
 local function refill_chest(chest)
@@ -8,7 +10,7 @@ local function refill_chest(chest)
 	local slot = 1
 	local item_prototypes = game.item_prototypes
 	local math_ceil = math.ceil
-	
+
 	local request_slot_count = chest.request_slot_count
 	for request_slot = 1, request_slot_count, 1 do
 		-- Get the request in the iterated request slot.
@@ -31,7 +33,7 @@ local function refill_chest(chest)
 					else
 						set_count = stack_size
 					end
-					inventory[slot].set_stack{name = item_name, count = set_count}
+					inventory[slot].set_stack {name = item_name, count = set_count}
 					item_count = item_count - set_count
 					slot = slot + 1
 					if slot > inventory_size then
@@ -54,7 +56,7 @@ local function refill_chests(chests, next_chest_to_update)
 	if #chests <= 0 then
 		return 1
 	end
-	
+
 	local chest_index = next_chest_to_update
 	for i = 1, 5, 1 do
 		local chest = chests[chest_index]
@@ -63,7 +65,7 @@ local function refill_chests(chests, next_chest_to_update)
 				-- Refill the chest.
 				refill_chest(chest)
 			end
-			
+
 			-- Prepare for the next chest.
 			chest_index = chest_index + 1
 			-- No more next chest. Return to the first chest.
@@ -81,11 +83,12 @@ local function refill_chests(chests, next_chest_to_update)
 	return chest_index
 end
 
-
 -- Processes the tables related to Autofill Requester Chests in global.
 function autofill_requester_chest.tick()
 	-- Refill the chests.
-	global.creative_mode.autofill_requester_chest_next_update_index = refill_chests(
+	global.creative_mode.autofill_requester_chest_next_update_index =
+		refill_chests(
 		global.creative_mode.autofill_requester_chest,
-		global.creative_mode.autofill_requester_chest_next_update_index)
+		global.creative_mode.autofill_requester_chest_next_update_index
+	)
 end

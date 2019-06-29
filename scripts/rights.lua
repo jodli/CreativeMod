@@ -1,14 +1,14 @@
 -- This file contains variables and functions about player rights.
-if not rights then rights = {} end
+if not rights then
+	rights = {}
+end
 
 -- All possible player right levels for enabling/disabling personal cheats.
-rights.access_personal_cheats_level =
-{
+rights.access_personal_cheats_level = {
 	-- Only admins have the right to enable/disable personal cheats for all non-admin players and himself.
 	admin_only = 0,
-
 	-- All players can enable/disable personal cheats freely for themselves.
-	free = 10,
+	free = 10
 }
 -- Default personal cheats access right level.
 rights.default_access_personal_cheats_level = rights.access_personal_cheats_level.free
@@ -16,16 +16,13 @@ rights.default_access_personal_cheats_level = rights.access_personal_cheats_leve
 rights.access_personal_cheats_code = "personal_cheats"
 
 -- All possible player right levels for enabling/disabling team cheats.
-rights.access_team_cheats_level =
-{
+rights.access_team_cheats_level = {
 	-- Only admins have the right to enable/disable cheats for all teams.
 	admin_only = 0,
-
 	-- Each non-admin player can enable/disable cheats for the team he belongs to.
 	own_team_only = 10,
-
 	-- All players can enable/disable cheats for all teams.
-	free = 20,
+	free = 20
 }
 -- Default team cheats access right level.
 rights.default_access_team_cheats_level = rights.access_team_cheats_level.admin_only
@@ -33,16 +30,13 @@ rights.default_access_team_cheats_level = rights.access_team_cheats_level.admin_
 rights.access_team_cheats_code = "team_cheats"
 
 -- All possible player right levels for enabling/disable surface cheats.
-rights.access_surface_cheats_level =
-{
+rights.access_surface_cheats_level = {
 	-- Only admins have the right to enable/disable cheats for all surfaces.
 	admin_only = 0,
-
 	-- Each non-admin player can enable/disable cheats for the surface he is on.
 	current_surface_only = 10,
-
 	-- All players can enable/disable cheats for all surfaces.
-	free = 20,
+	free = 20
 }
 -- Default surface cheats access right level.
 rights.default_access_surface_cheats_level = rights.access_surface_cheats_level.admin_only
@@ -50,13 +44,11 @@ rights.default_access_surface_cheats_level = rights.access_surface_cheats_level.
 rights.access_surface_cheats_code = "surface_cheats"
 
 -- All possible player right levels for enabling/disabling global cheats.
-rights.access_global_cheats_level =
-{
+rights.access_global_cheats_level = {
 	-- Only admin have the right to enable/disable the global cheats.
 	admin_only = 0,
-	
 	-- All players can enable/disable the global cheats.
-	free = 10,
+	free = 10
 }
 -- Default global cheats access right level.
 rights.default_access_global_cheats_level = rights.access_global_cheats_level.admin_only
@@ -74,11 +66,11 @@ function rights.can_player_access_personal_cheats_menu(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_personal_cheats == rights.access_personal_cheats_level.free then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -88,11 +80,11 @@ function rights.can_player_access_other_teams_cheats(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.free then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -102,11 +94,11 @@ function rights.can_player_access_team_cheats_menu(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.admin_only then
 		return false
 	end
-	
+
 	return true
 end
 
@@ -116,11 +108,11 @@ function rights.can_player_access_other_surfaces_cheats(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.free then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -130,11 +122,11 @@ function rights.can_player_access_surface_cheats_menu(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.admin_only then
 		return false
 	end
-	
+
 	return true
 end
 
@@ -144,18 +136,17 @@ function rights.can_player_access_global_cheats_menu(player)
 	if player.admin then
 		return true
 	end
-	
+
 	if global.creative_mode.player_rights.access_global_cheats == rights.access_global_cheats_level.admin_only then
 		return false
 	end
-	
+
 	return true
 end
 
 -- Returns whether the given player can access the cheats menu.
 function rights.can_player_access_cheats_menu(player)
-	return rights.can_player_access_personal_cheats_menu(player) or
-		rights.can_player_access_team_cheats_menu(player) or
+	return rights.can_player_access_personal_cheats_menu(player) or rights.can_player_access_team_cheats_menu(player) or
 		rights.can_player_access_surface_cheats_menu(player) or
 		rights.can_player_access_global_cheats_menu(player)
 end
@@ -163,16 +154,13 @@ end
 --------------------------------------------------------------------
 
 -- All possible player right levels for changing build options.
-rights.access_build_options_level =
-{
+rights.access_build_options_level = {
 	-- Only admins have the right to change build options for all non-admin players and himself.
 	admin_only = 0,
-
 	-- Non-admin players can change build options, except which team the built entities will belong to.
 	no_team_options = 10,
-
 	-- All players can change build options freely.
-	free = 20,
+	free = 20
 }
 -- Default build options access right level.
 rights.default_access_build_options_level = rights.access_build_options_level.no_team_options
@@ -205,11 +193,13 @@ function rights.can_player_access_build_options_menu(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.no_team_options or
-		global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free then
+	if
+		global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.no_team_options or
+			global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free
+	 then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -257,8 +247,7 @@ end
 
 -- Returns whether the given player can access the magic wand menu.
 function rights.can_player_access_magic_wand_menu(player)
-	return rights.can_player_use_creator_magic_wand(player) or
-		rights.can_player_use_healer_magic_wand(player) or
+	return rights.can_player_use_creator_magic_wand(player) or rights.can_player_use_healer_magic_wand(player) or
 		rights.can_player_use_modifier_magic_wand(player)
 end
 
@@ -286,9 +275,8 @@ function rights.can_player_access_creative_mode_menu(player)
 	if player.admin then
 		return true
 	end
-	
-	return rights.can_player_access_cheats_menu(player) or
-		rights.can_player_access_build_options_menu(player) or
+
+	return rights.can_player_access_cheats_menu(player) or rights.can_player_access_build_options_menu(player) or
 		rights.can_player_access_magic_wand_menu(player) or
 		rights.can_player_access_modding_menu(player)
 end

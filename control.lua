@@ -64,14 +64,14 @@ script.on_event(defines.events.on_tick, events.on_tick)
 -- Other events.
 local events_except_on_tick = {}
 for _, event in pairs(defines.events) do
-	if event ~= defines.events.on_tick then
-		table.insert(events_except_on_tick, event)
-	end
+    if event ~= defines.events.on_tick then
+        table.insert(events_except_on_tick, event)
+    end
 end
 script.on_event(events_except_on_tick, events.on_event)
 
 -- Create interface for lua command.
-remote.add_interface(creative_mode_defines.names.interface,		remote_interface.remote_functions)
+remote.add_interface(creative_mode_defines.names.interface, remote_interface.remote_functions)
 -- For demo usage of the remote interface, please see call_remote_functions() in scripts/events.lua.
 
 --[[commands.add_command("creative-mode.reload", "Reload, in case something broke", function(event)

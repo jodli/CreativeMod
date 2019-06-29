@@ -1,5 +1,7 @@
 -- This files contains variables and functions that are related to the Fluid Source in this mod.
-if not fluid_source then fluid_source = {} end
+if not fluid_source then
+	fluid_source = {}
+end
 
 -- Processes the fluid_source table in global.
 function fluid_source.tick()

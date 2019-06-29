@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Roboport in this mod.
-if not super_roboport then super_roboport = {} end
+if not super_roboport then
+	super_roboport = {}
+end
 
 -- Processes the table of super_roboport in global.
 function super_roboport.tick()

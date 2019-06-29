@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are not specific to any mod and can be used by other mods.
-if not util then util = {} end
+if not util then
+	util = {}
+end
 
 -- Cache the reference to math functions can speed up the process slightly.
 -- When called 1216 times in each frame, this can boost the FPS from 57 to 58.
@@ -19,7 +21,7 @@ transport_belt_item_distance = 0.28125
 -- @return true if the start substring was found in the string
 -- Source: https://github.com/Afforess/Factorio-Stdlib/blob/master/stdlib/string.lua
 function util.string_starts_with(s, start)
-    return string.find(s, start, 1, true) == 1
+	return string.find(s, start, 1, true) == 1
 end
 
 -- Limits the given number in between the given minimum and maximum inclusively.
@@ -76,8 +78,7 @@ end
 -- Note: turns out it is quite a FPS heavy task. Use only when needed.
 -- @param	position	It should contain {x: float, y: float}
 function util.get_tile_bb(position)
-	return
-	{
+	return {
 		{math_floor(position.x), math_floor(position.y)},
 		{math_ceil(position.x), math_ceil(position.y)}
 	}
@@ -130,7 +131,7 @@ function util.is_inserter_enabled(inserter)
 	if control and control.valid then
 		return not control.disabled
 	end
-	
+
 	-- No control? Because not connected to network?
 	return true
 end
@@ -156,7 +157,7 @@ function util.raise_event(event_id, data)
 	--data.name = event_id
 	--data.tick = game.tick
 	--data.mod = creative_mode_defines.mod_id
-    -- These are standard now (except officially its mod_name instead of mod)
+	-- These are standard now (except officially its mod_name instead of mod)
 	script.raise_event(event_id, data)
 end
 
@@ -174,13 +175,13 @@ function util.fulfill_item_requests(target_entity, item_requests)
 	if module_inventory then
 		for item_name, count in pairs(item_requests) do
 			-- Reduce the number of items being inserted.
-			item_requests[item_name] = count - module_inventory.insert{name = item_name, count = count}
+			item_requests[item_name] = count - module_inventory.insert {name = item_name, count = count}
 		end
 	end
 	-- In case there are items other than modules left (special items?), here is the last chance to insert them to the entity.
 	for item_name, count in pairs(item_requests) do
 		if count > 0 then
-			item_requests[item_name] = count - target_entity.insert{name = item_name, count = count}
+			item_requests[item_name] = count - target_entity.insert {name = item_name, count = count}
 		end
 	end
 	return item_requests
@@ -192,14 +193,14 @@ end
 function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, is_instant_blueprint)
 	-- Get the items this ghost will request when it is revived, most likely modules.
 	local item_requests = entity_ghost.item_requests
-	
+
 	-- Revive entity.
 	local _, revived_entity = entity_ghost.revive()
 	if revived_entity and revived_entity.valid then
 		-- Supply the requested items.
 		if item_requests then
 			util.fulfill_item_requests(revived_entity, item_requests)
-			
+
 			-- Remove item request because we have already supplied it.
 			-- We can't just set entity_ghost.item_requests to nil because entity_ghost is already invalid.
 			-- We can't set revived_entity.item_requests either because item_requests is only for ghost entity.
@@ -208,8 +209,8 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 			local x = position.x
 			local y = position.y
 			-- surface.find_entity cannot find entities with zero-sized collision box.
-			local item_request_proxies = revived_entity.surface.find_entities_filtered
-			{
+			local item_request_proxies =
+				revived_entity.surface.find_entities_filtered {
 				area = {{x - 0.1, y - 0.1}, {x + 0.1, y + 0.1}},
 				name = "item-request-proxy",
 				force = revived_entity.force,
@@ -220,23 +221,24 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 				item_request_proxy.destroy()
 			end
 		end
-		
+
 		-- Raise event.
 		if is_instant_blueprint == false then
 			is_instant_blueprint = nil
 		end
-		util.raise_event(defines.events.on_robot_built_entity,
-		{
-			robot = get_fake_robot_param(reviver_player.force),
-			created_entity = revived_entity,
-			
-			-- For modders:
-			revived = true,
-			instant_blueprint = is_instant_blueprint,
-			player_index = reviver_player.index
-		})
+		util.raise_event(
+			defines.events.on_robot_built_entity,
+			{
+				robot = get_fake_robot_param(reviver_player.force),
+				created_entity = revived_entity,
+				-- For modders:
+				revived = true,
+				instant_blueprint = is_instant_blueprint,
+				player_index = reviver_player.index
+			}
+		)
 	end
-	
+
 	-- Some mods may destroy the revived entity immediately. The entity is useful only if it is still valid.
 	if revived_entity and revived_entity.valid then
 		return revived_entity
@@ -245,22 +247,28 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 end
 
 -- Raises the on_robot_built_tile event for the revived tile ghosts at given positions.
-function util.raise_event_for_revived_tile_ghosts(tiles, item_prototype, item_stack, reviver_player_index, is_instant_blueprint)
+function util.raise_event_for_revived_tile_ghosts(
+	tiles,
+	item_prototype,
+	item_stack,
+	reviver_player_index,
+	is_instant_blueprint)
 	if is_instant_blueprint == false then
 		is_instant_blueprint = nil
 	end
-	util.raise_event(defines.events.on_robot_built_tile,
-	{
-		robot = get_fake_robot_param(),
-		tiles = tiles,
-        item = item_prototype,
-        stack = item_stack,
-		
-		-- For modders:
-		revived = true,
-		instant_blueprint = is_instant_blueprint,
-		player_index = reviver_player_index
-	})
+	util.raise_event(
+		defines.events.on_robot_built_tile,
+		{
+			robot = get_fake_robot_param(),
+			tiles = tiles,
+			item = item_prototype,
+			stack = item_stack,
+			-- For modders:
+			revived = true,
+			instant_blueprint = is_instant_blueprint,
+			player_index = reviver_player_index
+		}
+	)
 end
 
 -- Revives the given tile ghost and raises the on_robot_built_tile event for it.
@@ -269,17 +277,16 @@ function util.revive_tile_ghost_and_raise_event(tile_ghost, reviver_player, is_i
 	-- A simplified version of the entity ghost revive function, as tile doesn't have item requests.
 	-- No revived entity is returned because it is a tile.
 	local position = tile_ghost.position
-    local prototype = tile_ghost.ghost_prototype
-    local old_tile_prototype = tile_ghost.surface.get_tile(position).prototype
+	local prototype = tile_ghost.ghost_prototype
+	local old_tile_prototype = tile_ghost.surface.get_tile(position).prototype
 	local collided_enitties = tile_ghost.revive()
-	
-    
+
 	if collided_enitties then
 		local tiles = {}
-		table.insert(tiles, {old_tile=old_tile_prototype, position=position})
-        -- maybe it's time to switch to using script_raised_built/script_raised_destroy/script_raised_revive to handle these types of things
-        -- the number of fake objects is getting pretty large
-        local stack = {valid=false, valid_for_read=false}
+		table.insert(tiles, {old_tile = old_tile_prototype, position = position})
+		-- maybe it's time to switch to using script_raised_built/script_raised_destroy/script_raised_revive to handle these types of things
+		-- the number of fake objects is getting pretty large
+		local stack = {valid = false, valid_for_read = false}
 		util.raise_event_for_revived_tile_ghosts(tiles, prototype, stack, reviver_player.index, is_instant_blueprint)
 	end
 	return collided_enitties
@@ -295,15 +302,16 @@ function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instan
 	if is_instant_deconstruction == false then
 		is_instant_deconstruction = nil
 	end
-	util.raise_event(defines.events.on_robot_pre_mined,
-	{
-		robot = get_fake_robot_param(),
-		entity = entity,
-		
-		-- For modders:
-		player_index = destroyer_player.index,
-		instant_deconstruction = is_instant_deconstruction
-	})
+	util.raise_event(
+		defines.events.on_robot_pre_mined,
+		{
+			robot = get_fake_robot_param(),
+			entity = entity,
+			-- For modders:
+			player_index = destroyer_player.index,
+			instant_deconstruction = is_instant_deconstruction
+		}
+	)
 	if not entity.valid then
 		-- Some mods like to make sure the entity is really dead.
 		return true
@@ -319,17 +327,19 @@ function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_
 	if is_instant_deconstruction == false then
 		is_instant_deconstruction = nil
 	end
-	util.raise_event(defines.events.on_robot_mined_tile,
-	{
-		robot = get_fake_robot_param(),
-		tiles = tiles,
-		-- But it doesn't have surface parameter?
-        -- TODO: surface parameter is stored in the robot, which in this case is a fake robot, but should probably be sent
-		
-		-- For modders:
-		player_index = destroyer_player_index,
-		instant_deconstruction = is_instant_deconstruction
-	})
+	util.raise_event(
+		defines.events.on_robot_mined_tile,
+		{
+			robot = get_fake_robot_param(),
+			tiles = tiles,
+			-- But it doesn't have surface parameter?
+			-- TODO: surface parameter is stored in the robot, which in this case is a fake robot, but should probably be sent
+
+			-- For modders:
+			player_index = destroyer_player_index,
+			instant_deconstruction = is_instant_deconstruction
+		}
+	)
 end
 
 -- Kills the given entity and raises the on_entity_died event for it. Note that not all entities can be killed.

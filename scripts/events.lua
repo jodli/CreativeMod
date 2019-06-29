@@ -1,6 +1,8 @@
 -- This file manages event-related variables or functions that are specific for this mod.
 -- But the GUI related events are in gui.lua instead.
-if not events then events = {} end
+if not events then
+	events = {}
+end
 
 -- Calls the remote functions.
 local function call_remote_functions()
@@ -10,11 +12,13 @@ local function call_remote_functions()
 	remote.call("creative-mode", "exclude_from_keep_last_item", creative_mode_defines.names.items.alien_attractor_large)
 	-- Also run the examples, after our interface is ready for that.
 	-- Example: register the remote function register_by_remote_function_example_1 to the modding UI.
-	remote.call("creative-mode", "register_remote_function_to_modding_ui",
+	remote.call(
+		"creative-mode",
+		"register_remote_function_to_modding_ui",
 		"creative-mode", --  Interface name
 		"register_by_remote_function_example_1" -- Function name
 	)
-	
+
 	--[[
 	-- Demo for subscribing and using the custom events.
 	script.on_event(remote.call("creative-mode", "on_enabled"), function(event)
@@ -24,7 +28,7 @@ local function call_remote_functions()
 		game.print("Test: Creative Mode disabled!")
 	end)
 	--]]
-	
+
 	--[[
 	-- Demo for excluding an item from the keep-last-item personal cheat.
 	remote.call("creative-mode", "exclude_from_keep_last_item", "assembling-machine-2")
@@ -45,14 +49,14 @@ end
 function events.on_init()
 	-- Initializes meta-table.
 	global_util.initialize_or_update_global()
-	
+
 	-- Generate event IDs if they are not generated.
 	remote_interface.get_or_load_on_enabled_event_id()
 	remote_interface.get_or_load_on_disabled_event_id()
-	
+
 	-- Call remote functions.
 	call_remote_functions()
-	
+
 	-- Initializes the item lists.
 	global_util.initialize_item_lists_if_not_exist()
 end
@@ -63,7 +67,7 @@ function events.on_load(event)
 	-- Generate event IDs if they are not generated.
 	remote_interface.get_or_load_on_enabled_event_id()
 	remote_interface.get_or_load_on_disabled_event_id()
-	
+
 	-- Call remote functions.
 	call_remote_functions()
 end
@@ -82,18 +86,20 @@ function events.on_configuration_changed(data)
 	-- Is this mod just installed for an existing game?
 	local is_our_mod_new = false
 	if is_our_mod_changed then
-		is_our_mod_new = data.mod_changes[creative_mode_defines.mod_id].old_version == nil and data.mod_changes[creative_mode_defines.mod_id].new_version ~= nil
+		is_our_mod_new =
+			data.mod_changes[creative_mode_defines.mod_id].old_version == nil and
+			data.mod_changes[creative_mode_defines.mod_id].new_version ~= nil
 	end
 
 	-- If our mod has changed (whether version is different or the mod is new for existing game), new meta-tables may be needed. Initializes them if needed.
 	if is_our_mod_changed then
 		global_util.initialize_or_update_global()
-		
+
 		if not is_our_mod_new then
 			local our_mod_old_version = data.mod_changes[creative_mode_defines.mod_id].old_version
 			local our_mod_new_version = data.mod_changes[creative_mode_defines.mod_id].new_version
 			global_util.update_global_as_our_mod_updated(our_mod_old_version, our_mod_new_version)
-			
+
 			if our_mod_old_version < "0.2.0" and our_mod_new_version >= "0.2.0" then
 				-- Big changes in the GUI system in v0.2.0, so we have to force close the opened GUI.
 				for _, player in pairs(game.players) do
@@ -102,22 +108,22 @@ function events.on_configuration_changed(data)
 				-- Destroy more cheats popup.
 				gui.destroy_more_cheats_popup()
 				-- Create main menu button if Creative Mode is enabled.
-				gui_menu.create_or_destroy_main_menu_open_button_for_all_players()			
+				gui_menu.create_or_destroy_main_menu_open_button_for_all_players()
 			end
 		end
-		
+
 		-- Make sure the main menu and modifer popup is closed whenever our mod version has changed.
 		for _, player in pairs(game.connected_players) do
 			gui_menu.destroy_main_menu_for_player(player)
 			gui_menu_magicwand.create_or_destroy_modification_popup_for_player(player, false)
 		end
 	end
-	
+
 	-- For game version changed or any mod changed, item list needs to be updated.
 	if not global_util.item_lists_exist() or is_game_changed or is_any_mod_changed then
 		global_util.renew_item_lists()
 	end
-	
+
 	-- If creative mode is already enabled, we will also need to make sure all of our recipes are enabled in case there are new recipes for new items.
 	if is_game_changed or is_any_mod_changed then
 		local team_cheat_creative_tools_recipes = cheats.team_cheats_data.cheats.creative_tools_recipes
@@ -132,11 +138,13 @@ end
 -- Callback of the on_runtime_mod_setting_changed event, which is invoked when a runtime mod setting is changed by a player.
 local function on_runtime_mod_setting_changed(event)
 	local setting = event.setting
-	if setting == creative_mode_defines.names.settings.creative_chest_contains_hidden_items or
-		setting == creative_mode_defines.names.settings.creative_cargo_wagon_contains_hidden_items then
+	if
+		setting == creative_mode_defines.names.settings.creative_chest_contains_hidden_items or
+			setting == creative_mode_defines.names.settings.creative_cargo_wagon_contains_hidden_items
+	 then
 		-- Creative chest contains hidden items.
 		creative_chest_util.update_item_lists_data()
-		game.print{"message.creative-mode_creative-chest-item-group-updated"}
+		game.print {"message.creative-mode_creative-chest-item-group-updated"}
 	end
 end
 
@@ -171,11 +179,11 @@ function events.on_tick()
 			end
 		end
 	end
-	
+
 	-- Cheats should be executed first, so entities can be updated immediately after they are built by instant blueprint.
 	gui.tick()
 	cheats.tick()
-	
+
 	creative_chest_util.tick()
 	creative_chest.tick()
 	creative_lab.tick()
@@ -225,10 +233,10 @@ local function on_built_entity(event)
 	local is_tile_ghost = entity.name == "tile-ghost"
 	local is_ghost = is_entity_ghost or is_tile_ghost
 	local is_item_request_proxy = entity.name == "item-request-proxy"
-	
+
 	-- Pass to cheats.lua to verify the built entity.
 	cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_item_request_proxy)
-	
+
 	-- Register the built entity if it is one of the creative entities and it needs to be updated via script.
 	global_util.register_entity(entity)
 end
@@ -252,7 +260,7 @@ local function is_entity_creative_chest_family(entity)
 	if entity.name == creative_mode_defines.names.entities.creative_cargo_wagon then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -270,7 +278,7 @@ local function is_entity_duplicating_chest_family(entity)
 	if entity.name == creative_mode_defines.names.entities.duplicating_cargo_wagon then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -300,27 +308,27 @@ local function clear_inventory_before_mined_if_needed(entity)
 		inventory.clear()
 		return true
 	end
-	
+
 	-- Autofill requester chest.
 	if entity.name == creative_mode_defines.names.entities.autofill_requester_chest then
 		entity.get_output_inventory().clear()
 		return true
 	end
-	
+
 	-- Duplicating chest family.
 	if is_entity_duplicating_chest_family(entity) then
 		local inventory = duplicating_chest_util.get_inventory(entity)
 		inventory.clear()
 		return true
 	end
-	
+
 	-- Void chest family.
 	if is_entity_void_chest_family(entity) then
 		local inventory = void_chest_util.get_inventory(entity)
 		inventory.clear()
 		return true
 	end
-	
+
 	-- Creative lab.
 	if entity.name == creative_mode_defines.names.entities.creative_lab then
 		local inventory = entity.get_inventory(defines.inventory.lab_input)
@@ -329,7 +337,7 @@ local function clear_inventory_before_mined_if_needed(entity)
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -345,7 +353,7 @@ end
 local function on_marked_for_deconstruction(event)
 	-- Clear inventory if needed.
 	clear_inventory_before_mined_if_needed(event.entity)
-	
+
 	-- Apply cheats, e.g. instant deconstruction.
 	cheats.on_marked_for_deconstruction(event.player_index, event.entity)
 end
@@ -357,31 +365,36 @@ local function on_entity_settings_pasted(event)
 		creative_chest_util.on_entity_copied_pasted(event.source, event.destination)
 		return
 	end
-	
+
 	-- If both the source and destination entities are members of the Duplicating Chest family, copy the contents from the source chest to the destination chest.
 	if is_entity_duplicating_chest_family(event.source) and is_entity_duplicating_chest_family(event.destination) then
 		duplicating_chest_util.on_entity_copied_pasted(event.source, event.destination)
 		return
 	end
-	
+
 	-- If both the source and destination entities are Configurable Super Boilers...
-	if event.source.name == creative_mode_defines.names.entities.configurable_super_boiler and event.destination.name == event.source.name then
+	if
+		event.source.name == creative_mode_defines.names.entities.configurable_super_boiler and
+			event.destination.name == event.source.name
+	 then
 		configurable_super_boiler.on_entity_copied_pasted(event.source, event.destination)
 		return
 	end
-	
+
 	-- If both the source and destination entities are Matter Sources...
-	if event.source.name == creative_mode_defines.names.entities.item_source and event.destination.name == event.source.name then
+	if
+		event.source.name == creative_mode_defines.names.entities.item_source and event.destination.name == event.source.name
+	 then
 		item_source.on_entity_copied_pasted(event.source, event.destination)
 		return
 	end
-	
+
 	-- If both the source and destination entities are Matter Duplicators...
 	if event.source.name == creative_mode_defines.names.entities.duplicator and event.destination.name == event.source.name then
 		duplicator.on_entity_copied_pasted(event.source, event.destination)
 		return
 	end
-	
+
 	-- If both the source and destination entities are Matter Voids...
 	if event.source.name == creative_mode_defines.names.entities.item_void and event.destination.name == event.source.name then
 		item_void.on_entity_copied_pasted(event.source, event.destination)
@@ -417,8 +430,8 @@ local function on_player_changed_surface(event)
 end
 
 -- Callback of the on_player_cursor_stack_changed event, which is invoked after a player picks up or puts down an item stack.
-local function on_player_cursor_stack_changed(event) 
-    gui.on_player_cursor_stack_changed(event)
+local function on_player_cursor_stack_changed(event)
+	gui.on_player_cursor_stack_changed(event)
 end
 
 -- Callback of the on_player_selected_area event, which is invoked after a player selected an area with a selection-tool item.
@@ -428,7 +441,7 @@ local function on_player_selected_area(event)
 	local item_name = event.item
 	local entities = event.entities
 	local tiles = event.tiles
-	
+
 	-- Forward the event to magic wand - creator.
 	if magic_wand_creator.on_player_selected_area(player, area, item_name, entities, tiles) then
 		return
@@ -450,7 +463,7 @@ local function on_player_alt_selected_area(event)
 	local item_name = event.item
 	local entities = event.entities
 	local tiles = event.tiles
-	
+
 	-- Forward the event to magic wand - creator.
 	if magic_wand_creator.on_player_alt_selected_area(player, area, item_name, entities, tiles) then
 		return
@@ -468,7 +481,7 @@ end
 -- Callback of the on_player_placed_equipment event, which is invoked after a player placed an equipment into equipment grid.
 local function on_player_placed_equipment(event)
 	local equipment = event.equipment
-	
+
 	-- Register the equipments that need to be refilled with energy.
 	if equipment.name == creative_mode_defines.names.equipments.super_personal_roboport_equipment then
 		table.insert(global.energy_refill_equipments, equipment)
@@ -487,7 +500,7 @@ end
 
 -- Callback of the on_gui_closed event. Forward to gui.lua
 local function on_gui_closed(event)
-    gui.on_gui_closed(event)
+	gui.on_gui_closed(event)
 end
 
 -- Callback of the on_gui_click event. Forward to gui.lua.
@@ -511,8 +524,7 @@ local function on_gui_selection_state_changed(event)
 end
 
 -- The look up table for forwarding events to the corresponding handlers.
-local event_handlers_look_up =
-{
+local event_handlers_look_up = {
 	[defines.events.on_put_item] = on_put_item,
 	[defines.events.on_built_entity] = on_built_entity,
 	[defines.events.on_robot_built_entity] = on_robot_built_entity,
@@ -526,11 +538,11 @@ local event_handlers_look_up =
 	[defines.events.on_player_changed_surface] = on_player_changed_surface,
 	[defines.events.on_player_selected_area] = on_player_selected_area,
 	[defines.events.on_player_alt_selected_area] = on_player_alt_selected_area,
-    [defines.events.on_player_cursor_stack_changed] = on_player_cursor_stack_changed,
+	[defines.events.on_player_cursor_stack_changed] = on_player_cursor_stack_changed,
 	[defines.events.on_player_placed_equipment] = on_player_placed_equipment,
 	[defines.events.on_research_started] = on_research_started,
 	[defines.events.on_chunk_generated] = on_chunk_generated,
-    [defines.events.on_gui_closed] = on_gui_closed,
+	[defines.events.on_gui_closed] = on_gui_closed,
 	[defines.events.on_gui_click] = on_gui_click,
 	[defines.events.on_gui_text_changed] = on_gui_text_changed,
 	[defines.events.on_gui_checked_state_changed] = on_gui_checked_state_changed,
@@ -547,17 +559,19 @@ end
 local function get_entity_param_message(log_prefix, param_name, param)
 	local entity_type = param.type
 	local entity_name = param.name
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaEntity: {type = \"" .. entity_type .. "\", name = \"" .. entity_name .. "\""
+	local message =
+		log_prefix .. '"' .. param_name .. '" :: LuaEntity: {type = "' .. entity_type .. '", name = "' .. entity_name .. '"'
 	if param.valid then
 		if entity_name == "entity-ghost" or entity_name == "tile-ghost" then
-			message = message .. ", ghost_name = \"" .. param.ghost_name .. "\""
+			message = message .. ', ghost_name = "' .. param.ghost_name .. '"'
 		end
 		if entity_type == "item-entity" then
 			local stack = param.stack
-			message = message .. ", stack = {type = \"" .. stack.type .. "\", name = \"" .. stack.name .. "\", count = " .. stack.count .. "}"
+			message =
+				message .. ', stack = {type = "' .. stack.type .. '", name = "' .. stack.name .. '", count = ' .. stack.count .. "}"
 		end
 		if param.backer_name then
-			message = message .. ", backer_name = \"" .. param.backer_name .. "\""
+			message = message .. ', backer_name = "' .. param.backer_name .. '"'
 		end
 		if param.unit_number then
 			message = message .. ", unit_number = " .. param.unit_number
@@ -572,17 +586,23 @@ end
 
 -- Prints uint parameter.
 local function get_uint_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: uint: " .. param)
+	return (log_prefix .. '"' .. param_name .. '" :: uint: ' .. param)
 end
 
 -- Prints BoundingBox parameter.
 local function get_boundingbox_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: BoundingBox: {left_top = (" .. param.left_top.x .. ", " .. param.left_top.y .. "), right_bottom = (" .. param.right_bottom.x .. ", " .. param.right_bottom.y .. ")}")
+	return (log_prefix ..
+		'"' ..
+			param_name ..
+				'" :: BoundingBox: {left_top = (' ..
+					param.left_top.x ..
+						", " .. param.left_top.y .. "), right_bottom = (" .. param.right_bottom.x .. ", " .. param.right_bottom.y .. ")}")
 end
 
 -- Prints Surface parameter.
 local function get_surface_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaSurface: {name = \"" .. param.name .. "\", index = " .. param.index .. "\""
+	local message =
+		log_prefix .. '"' .. param_name .. '" :: LuaSurface: {name = "' .. param.name .. '", index = ' .. param.index .. '"'
 	if not param.valid then
 		message = message .. ", valid = false"
 	end
@@ -592,7 +612,7 @@ end
 
 -- Prints Force parameter.
 local function get_force_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaForce: {name = \"" .. param.name .. "\""
+	local message = log_prefix .. '"' .. param_name .. '" :: LuaForce: {name = "' .. param.name .. '"'
 	if not param.valid then
 		message = message .. ", valid = false"
 	end
@@ -602,7 +622,8 @@ end
 
 -- Prints GuiElement parameter.
 local function get_guielement_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaGuiElement: {name = \"" .. param.name .. "\", type = \"" .. param.type .. "\""
+	local message =
+		log_prefix .. '"' .. param_name .. '" :: LuaGuiElement: {name = "' .. param.name .. '", type = "' .. param.type .. '"'
 	if not param.valid then
 		message = message .. ", valid = false"
 	end
@@ -612,17 +633,19 @@ end
 
 -- Prints SimpleItemStack parameter.
 local function get_simpleitemstack_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: LuaItemStack: {name = \"" .. param.name .. "\", count = " .. param.count .. "}")
+	return (log_prefix ..
+		'"' .. param_name .. '" :: LuaItemStack: {name = "' .. param.name .. '", count = ' .. param.count .. "}")
 end
 
 -- Prints string parameter.
 local function get_string_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: string: \"" .. param .. "\"")
+	return (log_prefix .. '"' .. param_name .. '" :: string: "' .. param .. '"')
 end
 
 -- Prints Equipment parameter.
 local function get_equipment_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaEquipment: {type = \"" .. param.type .. "\", name = \"" .. param.name .. "\""
+	local message =
+		log_prefix .. '"' .. param_name .. '" :: LuaEquipment: {type = "' .. param.type .. '", name = "' .. param.name .. '"'
 	if param.valid then
 		message = message .. ", position = {" .. param.position.x .. ", " .. param.position.y .. "}"
 	else
@@ -634,7 +657,8 @@ end
 
 -- Prints EquipmentGrid parameter.
 local function get_equipmentgrid_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaEquipmentGrid: {width = " .. param.width .. ", height = " .. param.height
+	local message =
+		log_prefix .. '"' .. param_name .. '" :: LuaEquipmentGrid: {width = ' .. param.width .. ", height = " .. param.height
 	if not param.valid then
 		message = message .. ", valid = false"
 	end
@@ -644,12 +668,12 @@ end
 
 -- Prints Position parameter.
 local function get_position_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: Position: {x = " .. param.x .. ", y = " .. param.y .. "}")
+	return (log_prefix .. '"' .. param_name .. '" :: Position: {x = ' .. param.x .. ", y = " .. param.y .. "}")
 end
 
 -- Prints Technology parameter.
 local function get_technology_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaTechnology: {name = \"" .. param.name .. "\""
+	local message = log_prefix .. '"' .. param_name .. '" :: LuaTechnology: {name = "' .. param.name .. '"'
 	if param.valid then
 		message = message .. ", level = " .. param.level .. ", upgrade = " .. tostring(param.upgrade)
 	else
@@ -661,27 +685,27 @@ end
 
 -- Prints Entity array parameter.
 local function get_entity_array_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: array of LuaEntity: # = " .. #param)
+	return (log_prefix .. '"' .. param_name .. '" :: array of LuaEntity: # = ' .. #param)
 end
 
 -- Prints Tile array parameter.
 local function get_tile_array_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: array of LuaTile: # = " .. #param)
+	return (log_prefix .. '"' .. param_name .. '" :: array of LuaTile: # = ' .. #param)
 end
 
 -- Prints Position array parameter.
 local function get_position_array_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: array of Position: # = " .. #param)
+	return (log_prefix .. '"' .. param_name .. '" :: array of Position: # = ' .. #param)
 end
 
 -- Prints boolean parameter.
 local function get_boolean_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: boolean: " .. tostring(param))
+	return (log_prefix .. '"' .. param_name .. '" :: boolean: ' .. tostring(param))
 end
 
 -- Prints number parameter.
 local function get_number_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: number: " .. param)
+	return (log_prefix .. '"' .. param_name .. '" :: number: ' .. param)
 end
 
 -- Returns the backer name of the given train.
@@ -709,9 +733,10 @@ end
 -- Prints Train parameter.
 local function get_train_param_message(log_prefix, param_name, param)
 	local valid = param.valid
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaTrain: {"
+	local message = log_prefix .. '"' .. param_name .. '" :: LuaTrain: {'
 	if valid then
-		message = message .. "backer_name = \"" .. get_train_backer_name(param) .. "\", state = " .. get_train_state_string(param)
+		message =
+			message .. 'backer_name = "' .. get_train_backer_name(param) .. '", state = ' .. get_train_state_string(param)
 	end
 	message = message .. ", manual_mode = " .. tostring(param.manual_mode) .. ", speed = " .. param.speed
 	if not valid then
@@ -742,8 +767,7 @@ local function get_thread_tag_value(value)
 	return "(thread)"
 end
 -- Look up table for tag values according to their types.
-local get_tag_value_loop_up =
-{
+local get_tag_value_loop_up = {
 	["nil"] = get_string_tag_value,
 	["boolean"] = get_string_tag_value,
 	["number"] = get_string_tag_value,
@@ -755,7 +779,7 @@ local get_tag_value_loop_up =
 }
 -- Prints tags parameter.
 local function get_tags_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: dictionary string - Any: {"
+	local message = log_prefix .. '"' .. param_name .. '" :: dictionary string - Any: {'
 	local i = 1
 	for key, value in pairs(param) do
 		if i >= 2 then
@@ -766,17 +790,17 @@ local function get_tags_param_message(log_prefix, param_name, param)
 		i = i + 1
 	end
 	message = message .. "}"
-	return message	
+	return message
 end
 
 -- Prints mouse button parameter.
 local function get_mouse_button_param_message(log_prefix, param_name, param)
-	return (log_prefix .. "\"" .. param_name .. "\" :: defines.mouse_button_type: " .. tostring(param))
+	return (log_prefix .. '"' .. param_name .. '" :: defines.mouse_button_type: ' .. tostring(param))
 end
 
 -- Prints recipe parameter.
 local function get_recipe_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaRecipe: {name = " .. param.name
+	local message = log_prefix .. '"' .. param_name .. '" :: LuaRecipe: {name = ' .. param.name
 	if not param.valid then
 		message = message .. ", valid = false"
 	end
@@ -786,7 +810,7 @@ end
 
 -- Prints inventory message.
 local function get_inventory_param_message(log_prefix, param_name, param)
-	local message = log_prefix .. "\"" .. param_name .. "\" :: LuaInventory: {"
+	local message = log_prefix .. '"' .. param_name .. '" :: LuaInventory: {'
 	if param.valid then
 		message = message .. "index = " .. param.index .. ", # = " .. #param
 	else
@@ -797,12 +821,10 @@ local function get_inventory_param_message(log_prefix, param_name, param)
 end
 
 -- The look up table for getting the messages for event parameters according to the parameter name.
-local event_param_message_look_up =
-{
+local event_param_message_look_up = {
 	-- Don't print for "name" and "tick"
 	["name"] = get_empty_message,
 	["tick"] = get_empty_message,
-	
 	["created_entity"] = get_entity_param_message,
 	["player_index"] = get_uint_param_message,
 	["entity"] = get_entity_param_message,
@@ -845,34 +867,28 @@ local event_param_message_look_up =
 	["buffer"] = get_inventory_param_message,
 	["setting"] = get_string_param_message,
 	["last_entity"] = get_entity_param_message,
-	["rocket_silo"] = get_entity_param_message,
+	["rocket_silo"] = get_entity_param_message
 }
 
 -- Additional look up table for getting the messages for event parameters according to the parameter name and also the event ID.
 -- Because some events use the same parameter name. That's why we need another look up table for separating them.
-local repeated_event_param_message_look_up =
-{
-	[defines.events.on_entity_settings_pasted] =
-	{
+local repeated_event_param_message_look_up = {
+	[defines.events.on_entity_settings_pasted] = {
 		["source"] = get_entity_param_message,
-		["destination"] = get_entity_param_message,
+		["destination"] = get_entity_param_message
 	},
-	[defines.events.on_forces_merging] =
-	{
+	[defines.events.on_forces_merging] = {
 		["source"] = get_force_param_message,
-		["destination"] = get_force_param_message,
+		["destination"] = get_force_param_message
 	},
-	[defines.events.on_pre_entity_settings_pasted] =
-	{
+	[defines.events.on_pre_entity_settings_pasted] = {
 		["source"] = get_entity_param_message,
-		["destination"] = get_entity_param_message,
+		["destination"] = get_entity_param_message
 	},
-	[defines.events.on_player_placed_equipment] =
-	{
+	[defines.events.on_player_placed_equipment] = {
 		["equipment"] = get_equipment_param_message
 	},
-	[defines.events.on_player_removed_equipment] =
-	{
+	[defines.events.on_player_removed_equipment] = {
 		["equipment"] = get_string_param_message
 	}
 }
@@ -882,7 +898,7 @@ local function get_undocumented_boolean_param_message(log_prefix, param_name, pa
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-boolean", log_prefix, param_name, tostring(param)}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: boolean: " .. tostring(param))
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: boolean: ' .. tostring(param))
 end
 
 -- Prints undocumented number parameter.
@@ -890,7 +906,7 @@ local function get_undocumented_number_param_message(log_prefix, param_name, par
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-number", log_prefix, param_name, param}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: number: " .. param)
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: number: ' .. param)
 end
 
 -- Prints undocumented string parameter.
@@ -898,7 +914,7 @@ local function get_undocumented_string_param_message(log_prefix, param_name, par
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-string", log_prefix, param_name, param}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: string: \"" .. param .. "\"")
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: string: "' .. param .. '"')
 end
 
 -- Prints undocumented function parameter.
@@ -906,7 +922,7 @@ local function get_undocumented_function_param_message(log_prefix, param_name, p
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-function", log_prefix, param_name}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: function")
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: function')
 end
 
 -- Prints undocumented table parameter.
@@ -914,7 +930,7 @@ local function get_undocumented_table_param_message(log_prefix, param_name, para
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-table", log_prefix, param_name}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: table")
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: table')
 end
 
 -- Prints undocumented userdata parameter.
@@ -922,7 +938,7 @@ local function get_undocumented_userdata_param_message(log_prefix, param_name, p
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-userdata", log_prefix, param_name}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: userdata")
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: userdata')
 end
 
 -- Prints undocumented thread parameter.
@@ -930,12 +946,11 @@ local function get_undocumented_thread_param_message(log_prefix, param_name, par
 	if allow_localised_string then
 		return {"gui.creative-mode_undocumented-thread", log_prefix, param_name}
 	end
-	return (log_prefix .. "\"" .. param_name .. "\" (undocumented) :: thread")
+	return (log_prefix .. '"' .. param_name .. '" (undocumented) :: thread')
 end
 
 -- Extra look up table for undocumented parameters according to their types.
-local undocumented_event_param_message_loop_up =
-{
+local undocumented_event_param_message_loop_up = {
 	["boolean"] = get_undocumented_boolean_param_message,
 	["number"] = get_undocumented_number_param_message,
 	["string"] = get_undocumented_string_param_message,
@@ -957,7 +972,7 @@ local function create_event_name_message_if_not_exist(event, tick_prefix, messag
 	if message ~= nil then
 		return tick_prefix, message
 	end
-	
+
 	local event_id = event.name
 	local event_name = event_id_to_names_look_up[event_id]
 	tick_prefix = "T" .. event.tick .. "\t\t"
@@ -978,18 +993,22 @@ local function get_event_param_message(message_prefix, event_id, param_name, par
 			-- Undocumated param. We will try to parse it anyway.
 			local param_type = type(param)
 			if undocumented_event_param_message_loop_up[param_type] then
-				return undocumented_event_param_message_loop_up[param_type](message_prefix, param_name, param, allow_localised_string)
+				return undocumented_event_param_message_loop_up[param_type](
+					message_prefix,
+					param_name,
+					param,
+					allow_localised_string
+				)
 			end
 			-- Unknown type.
 			if allow_localised_string then
 				return {"gui.creative-mode_undocumented-unknown-type", message_prefix, param_name, param_type}
 			else
-				return message_prefix .. "\"" .. param_name .. "\" (undocumented) = " .. param_type .. " (unknown type)"
+				return message_prefix .. '"' .. param_name .. '" (undocumented) = ' .. param_type .. " (unknown type)"
 			end
 		end
 	end
 end
-
 
 -- The file name for writing event logs into txt file.
 events.event_write_file_name = creative_mode_defines.mod_id .. "/event-log.txt"
@@ -1007,17 +1026,28 @@ end
 
 -- Writes or logs the given event according to the given data.
 -- Returns the tick_prefix, name_message, param_message_prefix and full_write_or_log_message so they can be reused.
-local function write_or_log_events(player, is_write, also_apply_to_params, event_id, event, tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
+local function write_or_log_events(
+	player,
+	is_write,
+	also_apply_to_params,
+	event_id,
+	event,
+	tick_prefix,
+	name_message,
+	param_message_prefix,
+	full_write_or_log_message)
 	local final_message
 	-- Log the tick followed by the event name.
 	tick_prefix, name_message = create_event_name_message_if_not_exist(event, tick_prefix, name_message)
-	
+
 	-- Append the parameters if necessary.
 	if also_apply_to_params then
 		-- Create the full log message only if it does not exist.
 		if not full_write_or_log_message then
 			full_write_or_log_message = name_message
-			if not param_message_prefix then param_message_prefix = tick_prefix .. "(ID " .. event_id .. ")\t" end
+			if not param_message_prefix then
+				param_message_prefix = tick_prefix .. "(ID " .. event_id .. ")\t"
+			end
 			for param_name, param in pairs(event) do
 				local message = get_event_param_message(param_message_prefix, event_id, param_name, param, false)
 				if message then
@@ -1025,14 +1055,14 @@ local function write_or_log_events(player, is_write, also_apply_to_params, event
 				end
 			end
 		end
-		
+
 		-- Append the full message.
 		final_message = full_write_or_log_message
 	else
 		-- Only append the event name.
 		final_message = name_message
 	end
-	
+
 	if is_write then
 		-- Write.
 		game.write_file(get_event_write_file_path(player), final_message .. "\n", true, player.index)
@@ -1040,7 +1070,7 @@ local function write_or_log_events(player, is_write, also_apply_to_params, event
 		-- Log.
 		log(final_message)
 	end
-	
+
 	return tick_prefix, name_message, param_message_prefix, full_store_or_log_message
 end
 
@@ -1064,10 +1094,12 @@ function events.on_event(event)
 					-- Print the tick followed by the event name.
 					tick_prefix, name_message = create_event_name_message_if_not_exist(event, tick_prefix, name_message)
 					player.print(name_message)
-					
+
 					-- Print parameters.
 					if global.creative_mode.also_print_event_params[player.index] ~= false then
-						if not param_message_prefix then param_message_prefix = tick_prefix .. "(ID " .. event_id .. ")\t" end
+						if not param_message_prefix then
+							param_message_prefix = tick_prefix .. "(ID " .. event_id .. ")\t"
+						end
 						for param_name, param in pairs(event) do
 							local message = get_event_param_message(param_message_prefix, event_id, param_name, param, true)
 							if message then
@@ -1076,10 +1108,11 @@ function events.on_event(event)
 						end
 					end
 				end
-				
+
 				-- Write events.
 				if global.creative_mode.write_events[player.index] then
-					tick_prefix, name_message, param_message_prefix, full_write_or_log_message = write_or_log_events(
+					tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
+						write_or_log_events(
 						player,
 						true,
 						global.creative_mode.also_write_event_params[player.index] ~= false,
@@ -1088,12 +1121,14 @@ function events.on_event(event)
 						tick_prefix,
 						name_message,
 						param_message_prefix,
-						full_write_or_log_message)
+						full_write_or_log_message
+					)
 				end
-				
+
 				-- Log events.
 				if global.creative_mode.log_events[player.index] then
-					tick_prefix, name_message, param_message_prefix, full_write_or_log_message = write_or_log_events(
+					tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
+						write_or_log_events(
 						player,
 						false,
 						global.creative_mode.also_log_event_params[player.index] ~= false,
@@ -1102,12 +1137,13 @@ function events.on_event(event)
 						tick_prefix,
 						name_message,
 						param_message_prefix,
-						full_write_or_log_message)
+						full_write_or_log_message
+					)
 				end
 			end
 		end
 	end
-	
+
 	-- Forward the event to the corresponding handler.
 	if event_handlers_look_up[event_id] then
 		event_handlers_look_up[event_id](event)

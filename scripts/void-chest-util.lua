@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Void Chest family in this mod.
-if not void_chest_util then void_chest_util = {} end
+if not void_chest_util then
+	void_chest_util = {}
+end
 
 -- Returns the inventory of the given chest.
 function void_chest_util.get_inventory(chest)
@@ -16,7 +18,7 @@ function void_chest_util.remove_contents(chests, next_chest_to_update)
 	if #chests <= 0 then
 		return 1
 	end
-	
+
 	local chest_index = next_chest_to_update
 	for i = 1, 10, 1 do
 		local chest = chests[chest_index]
@@ -26,7 +28,7 @@ function void_chest_util.remove_contents(chests, next_chest_to_update)
 				local inventory = void_chest_util.get_inventory(chest)
 				inventory.clear()
 			end
-			
+
 			-- Prepare for the next chest.
 			chest_index = chest_index + 1
 			-- No more next chest. Return to the first chest.
@@ -38,7 +40,7 @@ function void_chest_util.remove_contents(chests, next_chest_to_update)
 			if chest_index > #chests then
 				return 1
 			end
-		end		
+		end
 	end
 	-- Return the index of the next chest to update.
 	return chest_index

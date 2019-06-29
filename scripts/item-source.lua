@@ -1,14 +1,15 @@
 -- This file contains variables or functions that are related to the Matter Source in this mod.
-if not item_source then item_source = {} end
+if not item_source then
+	item_source = {}
+end
 
 -- The position shift for item output for each direction.
-local item_source_shift =
-{
+local item_source_shift = {
 	-- The values are shifted from the original mod so surface.can_place_entity can work properly.
 	[defines.direction.north] = {x1 = 0.3, y1 = 0.9, x2 = -0.3, y2 = 0.9, x0 = 0, y0 = 0.9},
 	[defines.direction.east] = {x1 = -0.9, y1 = 0.3, x2 = -0.9, y2 = -0.3, x0 = -0.9, y0 = 0},
 	[defines.direction.south] = {x1 = -0.3, y1 = -0.9, x2 = 0.3, y2 = -0.9, x0 = 0, y0 = -0.9},
-	[defines.direction.west] = {x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0},
+	[defines.direction.west] = {x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0}
 }
 
 -- Processes the item_source_data table in global.
@@ -39,7 +40,17 @@ function item_source.tick()
 						item_source_data.slot1_inserted_players = nil
 						item_source_data.slot1_last_item_position_on_belt = nil
 					else
-						item_providers_util.output_or_remove_item(surf, pos, shift.x1, shift.y1, opposite_dir, slot1, output_or_remove_item_operation_mode.output_mode, 1, item_source_data)
+						item_providers_util.output_or_remove_item(
+							surf,
+							pos,
+							shift.x1,
+							shift.y1,
+							opposite_dir,
+							slot1,
+							output_or_remove_item_operation_mode.output_mode,
+							1,
+							item_source_data
+						)
 					end
 					-- Output for slot2.
 					if slot2 == nil then
@@ -47,10 +58,30 @@ function item_source.tick()
 						item_source_data.slot2_last_item_position_on_belt = nil
 						-- Output to crafting machine if no filter is set.
 						if slot1 == nil then
-							item_providers_util.output_or_remove_item(surf, pos, shift.x0, shift.y0, opposite_dir, nil, output_or_remove_item_operation_mode.output_mode, 0, item_source_data)
+							item_providers_util.output_or_remove_item(
+								surf,
+								pos,
+								shift.x0,
+								shift.y0,
+								opposite_dir,
+								nil,
+								output_or_remove_item_operation_mode.output_mode,
+								0,
+								item_source_data
+							)
 						end
 					else
-						item_providers_util.output_or_remove_item(surf, pos, shift.x2, shift.y2, opposite_dir, slot2, output_or_remove_item_operation_mode.output_mode, 2, item_source_data)
+						item_providers_util.output_or_remove_item(
+							surf,
+							pos,
+							shift.x2,
+							shift.y2,
+							opposite_dir,
+							slot2,
+							output_or_remove_item_operation_mode.output_mode,
+							2,
+							item_source_data
+						)
 					end
 				end
 			end

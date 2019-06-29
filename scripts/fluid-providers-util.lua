@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are common for our fluid provider entities and specific for this mod.
-if not fluid_providers_util then fluid_providers_util = {} end
+if not fluid_providers_util then
+	fluid_providers_util = {}
+end
 
 -- Removes all fluids inside the given entity.
 function fluid_providers_util.remove_all_fluids(entity)
@@ -39,7 +41,7 @@ function fluid_providers_util.cool_all_fluids_down_to_default_temperature(entity
 		local fluid = entity.fluidbox[i]
 		if fluid then
 			local fluid_prototype = game.fluid_prototypes[fluid.name]
-			fluid.temperature = fluid_prototype.default_temperature 
+			fluid.temperature = fluid_prototype.default_temperature
 			entity.fluidbox[i] = fluid
 		end
 	end

@@ -1,7 +1,9 @@
 local mod_gui = require("mod-gui")
 
 -- This file contains variables and functions related to Creative Mode menu GUI.
-if not gui_menu then gui_menu = {} end
+if not gui_menu then
+	gui_menu = {}
+end
 
 -- Creates or destroys the Creative Mode main menu button for the given player according to the current state of Creative Mode and also the player's access rights.
 -- Returns whether the button exists. If false is returned, it means the whole Creative Menu is removed for such player.
@@ -9,7 +11,12 @@ function gui_menu.create_or_destroy_main_menu_open_button_for_player(player)
 	local top = mod_gui.get_button_flow(player)
 	if global.creative_mode.enabled and rights.can_player_access_creative_mode_menu(player) then
 		if not top[creative_mode_defines.names.gui.main_menu_open_button] then
-			top.add{type = "button", name = creative_mode_defines.names.gui.main_menu_open_button, style = creative_mode_defines.names.gui_styles.main_menu_open_button, tooltip = {"gui.creative-mode_main-menu-open-button-tooltip"}}
+			top.add {
+				type = "button",
+				name = creative_mode_defines.names.gui.main_menu_open_button,
+				style = creative_mode_defines.names.gui_styles.main_menu_open_button,
+				tooltip = {"gui.creative-mode_main-menu-open-button-tooltip"}
+			}
 		end
 		return true
 	else
@@ -37,10 +44,8 @@ end
 --------------------------------------------------------------------
 
 -- GUI data about the submenu buttons.
-local submenus_gui_data =
-{
-	cheats =
-	{
+local submenus_gui_data = {
+	cheats = {
 		button_name = creative_mode_defines.names.gui.main_menu_open_cheats_button,
 		button_caption = {"gui.creative-mode_cheats"},
 		get_player_can_access_function = rights.can_player_access_cheats_menu,
@@ -48,8 +53,7 @@ local submenus_gui_data =
 		open_submenu_for_player_function = gui_menu_cheats.create_or_destroy_menu_for_player,
 		update_accessibility_for_player_function = gui_menu_cheats.update_menu_accessibility_according_to_access_right_for_player
 	},
-	build_options =
-	{
+	build_options = {
 		button_name = creative_mode_defines.names.gui.main_menu_open_build_options_button,
 		button_caption = {"gui.creative-mode_build-options"},
 		get_player_can_access_function = rights.can_player_access_build_options_menu,
@@ -57,8 +61,7 @@ local submenus_gui_data =
 		open_submenu_for_player_function = gui_menu_buildoptions.create_or_destroy_menu_for_player,
 		update_accessibility_for_player_function = gui_menu_buildoptions.update_menu_accessibility_according_to_access_right_for_player
 	},
-	magic_wand =
-	{
+	magic_wand = {
 		button_name = creative_mode_defines.names.gui.main_menu_open_magic_wand_button,
 		button_caption = {"gui.creative-mode_magic-wand"},
 		get_player_can_access_function = rights.can_player_access_magic_wand_menu,
@@ -66,8 +69,7 @@ local submenus_gui_data =
 		open_submenu_for_player_function = gui_menu_magicwand.create_or_destroy_menu_for_player,
 		update_accessibility_for_player_function = gui_menu_magicwand.update_menu_accessibility_according_to_access_right_for_player
 	},
-	modding =
-	{
+	modding = {
 		button_name = creative_mode_defines.names.gui.main_menu_open_modding_button,
 		button_caption = {"gui.creative-mode_modding"},
 		get_player_can_access_function = rights.can_player_access_modding_menu,
@@ -75,11 +77,12 @@ local submenus_gui_data =
 		open_submenu_for_player_function = gui_menu_modding.create_or_destroy_menu_for_player,
 		update_accessibility_for_player_function = nil
 	},
-	admin =
-	{
+	admin = {
 		button_name = creative_mode_defines.names.gui.main_menu_open_admin_button,
 		button_caption = {"gui.creative-mode_admin"},
-		get_player_can_access_function = function(player) return player.admin end,
+		get_player_can_access_function = function(player)
+			return player.admin
+		end,
 		get_submenu_container_name_function = gui_menu_admin.get_container_name,
 		open_submenu_for_player_function = gui_menu_admin.create_or_destroy_menu_for_player,
 		update_accessibility_for_player_function = nil
@@ -131,10 +134,8 @@ local function show_magic_wand_menu_for_player_by_cursor_stack(player)
 		local cursor_stack_name = cursor_stack.name
 		if cursor_stack_name == creative_mode_defines.names.items.magic_wand_creator then
 			return show_magic_wand_menu_for_player(player, gui_menu_magicwand.magic_wand_menus_gui_data.creator)
-			
 		elseif cursor_stack_name == creative_mode_defines.names.items.magic_wand_healer then
 			return show_magic_wand_menu_for_player(player, gui_menu_magicwand.magic_wand_menus_gui_data.healer)
-			
 		elseif cursor_stack_name == creative_mode_defines.names.items.magic_wand_modifier then
 			return show_magic_wand_menu_for_player(player, gui_menu_magicwand.magic_wand_menus_gui_data.modifier)
 		end
@@ -145,7 +146,7 @@ end
 -- Creates the Creative Mode main menu for the given player. If the menu already exists and is visible, it will be hidden instead.
 local function create_or_hide_main_menu_for_player(player)
 	local left = mod_gui.get_frame_flow(player)
-	
+
 	-- Container.
 	local container = left[creative_mode_defines.names.gui.main_menu_container]
 	if container then
@@ -156,23 +157,35 @@ local function create_or_hide_main_menu_for_player(player)
 				container.visible = false
 			end
 		else
-            -- This works, but has the side-effect of the menu closing when the player tries to open inventory.
-            --player.opened = container
+			-- This works, but has the side-effect of the menu closing when the player tries to open inventory.
+			--player.opened = container
 			-- The container is invisible. Show it.
 			container.visible = true
 			-- Magic wand menu.
 			show_magic_wand_menu_for_player_by_cursor_stack(player)
 		end
 	else
-		container = left.add{type = "flow", name = creative_mode_defines.names.gui.main_menu_container, style = creative_mode_defines.names.gui_styles.no_horizontal_spacing_flow, direction = "horizontal"}
-        -- This works, but has the side-effect of the menu closing when the player tries to open inventory.
-        --player.opened = container
+		container =
+			left.add {
+			type = "flow",
+			name = creative_mode_defines.names.gui.main_menu_container,
+			style = creative_mode_defines.names.gui_styles.no_horizontal_spacing_flow,
+			direction = "horizontal"
+		}
+		-- This works, but has the side-effect of the menu closing when the player tries to open inventory.
+		--player.opened = container
 		-- Frame.
-		local frame = container.add{type = "frame", name = creative_mode_defines.names.gui.main_menu_frame, direction = "vertical", caption = {"gui.creative-mode"}}
+		local frame =
+			container.add {
+			type = "frame",
+			name = creative_mode_defines.names.gui.main_menu_frame,
+			direction = "vertical",
+			caption = {"gui.creative-mode"}
+		}
 		-- Buttons.
 		for _, data in pairs(submenus_gui_data) do
-			local button = frame.add
-			{
+			local button =
+				frame.add {
 				type = "button",
 				name = data.button_name,
 				style = creative_mode_defines.names.gui_styles.main_menu_button,
@@ -180,7 +193,7 @@ local function create_or_hide_main_menu_for_player(player)
 			}
 			button.visible = data.get_player_can_access_function(player)
 		end
-		
+
 		-- Magic wand menu.
 		show_magic_wand_menu_for_player_by_cursor_stack(player)
 	end
@@ -190,7 +203,7 @@ end
 
 -- Updates the menu accessibility according to the newest access right for all players after the access rights of the given codes have changed.
 function gui_menu.update_menu_accessibility_according_to_access_right_for_all_players(updated_access_right_codes)
-	for _, player in pairs(game.players) do	
+	for _, player in pairs(game.players) do
 		if gui_menu.create_or_destroy_main_menu_open_button_for_player(player) then
 			-- The Creative Menu is still available for the player.
 			-- Update submenus.
@@ -233,7 +246,7 @@ end
 --------------------------------------------------------------------
 
 function gui_menu.on_player_cursor_stack_changed(event)
-    --[=[
+	--[=[
     -- sort-of working way to open the magic wand menu when you pick it up, and close when you put it down, but only works the first time you pick it up
     local player = game.players[event.player_index]
     local left = mod_gui.get_frame_flow(player)
@@ -259,10 +272,10 @@ function gui_menu.on_player_joined_game(event)
 	-- Many problems can be solved by this. >:D
 	local player = game.players[event.player_index]
 	gui_menu.destroy_main_menu_for_player(player)
-	
+
 	-- Also destroy the modifier popup.
 	gui_menu_magicwand.create_or_destroy_modification_popup_for_player(player, false)
-	
+
 	gui_menu_cheats.on_player_joined_game(event)
 end
 
@@ -284,13 +297,13 @@ function gui_menu.on_gui_click(element, element_name, player, button, alt, contr
 		create_or_hide_main_menu_for_player(player)
 		return true
 	end
-		
+
 	--------------------------------------------------------------------
-	
+
 	for _, data in pairs(submenus_gui_data) do
 		if element_name == data.button_name then
 			-- Submenu button.
-			
+
 			-- Close other submenus.
 			for _, data2 in pairs(submenus_gui_data) do
 				if data ~= data2 then
@@ -302,9 +315,9 @@ function gui_menu.on_gui_click(element, element_name, player, button, alt, contr
 			return true
 		end
 	end
-	
+
 	---------------------------------------------------------------------------------------------------
-	
+
 	-- Further extend the event to sub-menus.
 	if gui_menu_cheats.on_gui_click(element, element_name, player, button, alt, control, shift) then
 		return true

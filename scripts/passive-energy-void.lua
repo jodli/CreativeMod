@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Passive Energy Void in this mod.
-if not passive_energy_void then passive_energy_void = {} end
+if not passive_energy_void then
+	passive_energy_void = {}
+end
 
 -- Processes the table of passive_energy_void in global.
 function passive_energy_void.tick()

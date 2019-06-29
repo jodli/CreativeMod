@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Passive Energy Source in this mod.
-if not passive_energy_source then passive_energy_source = {} end
+if not passive_energy_source then
+	passive_energy_source = {}
+end
 
 -- Processes the table of passive_energy in global.
 function passive_energy_source.tick()

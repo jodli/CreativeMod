@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Heat Source in this mod.
-if not heat_source then heat_source = {} end
+if not heat_source then
+	heat_source = {}
+end
 
 -- Processes the table of heat_source in global.
 function heat_source.tick()

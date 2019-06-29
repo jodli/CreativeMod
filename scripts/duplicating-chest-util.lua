@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Duplicating Chest family in this mod.
-if not duplicating_chest_util then duplicating_chest_util = {} end
+if not duplicating_chest_util then
+	duplicating_chest_util = {}
+end
 
 -- Returns the inventory of the given chest.
 function duplicating_chest_util.get_inventory(chest)
@@ -14,7 +16,7 @@ end
 local function fill_chest_with_item(chest, item_prototype)
 	local inventory = duplicating_chest_util.get_inventory(chest)
 	for i = 1, #inventory, 1 do
-		inventory[i].set_stack{name = item_prototype.name, count = item_prototype.stack_size}
+		inventory[i].set_stack {name = item_prototype.name, count = item_prototype.stack_size}
 	end
 end
 
@@ -24,14 +26,14 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 	if #chest_datas <= 0 then
 		return 1
 	end
-	
+
 	local chest_index = next_chest_to_update
 	for i = 1, 10, 1 do
 		local chest_data = chest_datas[chest_index]
 		local chest = chest_data.entity
 		local lock_item = chest_data.lock_item
 		local locked_item_name = chest_data.locked_item_name
-		
+
 		if chest.valid then
 			if not chest.to_be_deconstructed(chest.force) then
 				-- Get the item to be duplicated.
@@ -49,8 +51,8 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 					-- We have to use valid_for_read instead.
 					if item ~= nil and item.valid_for_read then
 						-- Fill the whole chest immediately.
-						inventory.insert{name = item.name, count = item.prototype.stack_size * #inventory}
-						
+						inventory.insert {name = item.name, count = item.prototype.stack_size * #inventory}
+
 						-- Lock the item if it should be locked.
 						if lock_item then
 							chest_data.locked_item_name = item.name
@@ -58,7 +60,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 					end
 				end
 			end
-			
+
 			-- Prepare for the next chest.
 			chest_index = chest_index + 1
 			-- No more next chest. Return to the first chest.
@@ -70,7 +72,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 			if chest_index > #chest_datas then
 				return 1
 			end
-		end		
+		end
 	end
 	-- Return the index of the next chest to update.
 	return chest_index
@@ -79,11 +81,16 @@ end
 --------------------------------------------------------------
 
 -- Look up table for mapping the entity name to duplicating chest data list.
-local entity_name_to_data_list_look_up =
-{
-	[creative_mode_defines.names.entities.duplicating_chest] = function() return global.creative_mode.duplicating_chest_data end,
-	[creative_mode_defines.names.entities.duplicating_provider_chest] = function() return global.creative_mode.duplicating_provider_chest_data end,
-	[creative_mode_defines.names.entities.duplicating_cargo_wagon] = function() return global.creative_mode.duplicating_cargo_wagon_data end
+local entity_name_to_data_list_look_up = {
+	[creative_mode_defines.names.entities.duplicating_chest] = function()
+		return global.creative_mode.duplicating_chest_data
+	end,
+	[creative_mode_defines.names.entities.duplicating_provider_chest] = function()
+		return global.creative_mode.duplicating_provider_chest_data
+	end,
+	[creative_mode_defines.names.entities.duplicating_cargo_wagon] = function()
+		return global.creative_mode.duplicating_cargo_wagon_data
+	end
 }
 
 -- Returns the duplicating chest data according to the given entity.
@@ -111,14 +118,17 @@ function duplicating_chest_util.on_entity_copied_pasted(source_chest, destinatio
 	local source_data = duplicating_chest_util.get_data_for_entity(source_chest)
 	local destination_inventory = duplicating_chest_util.get_inventory(destination_chest)
 	local destination_data = duplicating_chest_util.get_data_for_entity(destination_chest)
-	
+
 	destination_inventory.clear()
-	
+
 	local source_item = source_inventory[1]
 	if source_item ~= nil and source_item.valid_for_read then
-		destination_inventory.insert{name = source_item.name, count = source_item.prototype.stack_size * #destination_inventory}
+		destination_inventory.insert {
+			name = source_item.name,
+			count = source_item.prototype.stack_size * #destination_inventory
+		}
 	end
-	
+
 	if source_data and destination_data then
 		destination_data.lock_item = source_data.lock_item
 		destination_data.locked_item_name = source_data.locked_item_name

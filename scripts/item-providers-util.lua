@@ -1,18 +1,24 @@
 -- This file contains variables or functions that are common for our item provider entities and specific for this mod.
-if not item_providers_util then item_providers_util = {} end
+if not item_providers_util then
+	item_providers_util = {}
+end
 
 -- Possible operation modes. Used by the ouput_or_remove_item functions.
-output_or_remove_item_operation_mode = { output_mode = 1, remove_mode = 2, duplicate_mode = 3 }
+output_or_remove_item_operation_mode = {output_mode = 1, remove_mode = 2, duplicate_mode = 3}
 
 -- Possible types of item containers.
-static_item_container_type = { unknown = 1, crafting_machine = 2, lab = 3}
+static_item_container_type = {unknown = 1, crafting_machine = 2, lab = 3}
 
 -- Possible transport belt type to work on. Used by the ouput_or_remove_item functions.
-local output_or_remove_item_transport_belt_type = { transport_belt = 0, underground_belt_input = 1, underground_belt_output = 2, splitter = 3 }
+local output_or_remove_item_transport_belt_type = {
+	transport_belt = 0,
+	underground_belt_input = 1,
+	underground_belt_output = 2,
+	splitter = 3
+}
 
 -- Non-movable entity types with at least one inventory that matter source, matter void and duplicator can work on.
-local static_item_containers =
-{
+local static_item_containers = {
 	["container"] = true,
 	["logistic-container"] = true,
 	["assembling-machine"] = true,
@@ -26,11 +32,10 @@ local static_item_containers =
 	["electric-turret"] = true,
 	["fluid-turret"] = true,
 	["beacon"] = true,
-	["reactor"] = true,
+	["reactor"] = true
 }
 -- Non-movable entity types with output slots that matter void should only work on their output slots when it has no filter.
-local static_item_containers_with_output_slots =
-{
+local static_item_containers_with_output_slots = {
 	["assembling-machine"] = defines.inventory.assembling_machine_output,
 	["furnace"] = defines.inventory.furnace_result,
 	["reactor"] = defines.inventory.burnt_result
@@ -38,8 +43,7 @@ local static_item_containers_with_output_slots =
 
 -- Non-movable entity types with at least one fluidbox that matter void and duplicator can work on.
 -- Known issue: assembling machine and mining drill have inventory. Our current logic does not support inventory + fluidbox at the same time.
-local static_fluidboxes =
-{
+local static_fluidboxes = {
 	["pipe"] = true,
 	["storage-tank"] = true,
 	["assembling-machine"] = true,
@@ -52,8 +56,7 @@ local static_fluidboxes =
 }
 
 -- List of module inventories that matter source, duplicator and void shouldn't work on.
-local module_inventories =
-{
+local module_inventories = {
 	[defines.inventory.furnace_modules] = true,
 	[defines.inventory.assembling_machine_modules] = true,
 	[defines.inventory.lab_modules] = true,
@@ -66,7 +69,7 @@ local function duplicate_first_item_in_inventory(inventory, filter_item_name)
 	if inventory.is_empty() then
 		return
 	end
-	
+
 	local item_name = nil
 	-- If filter is set, there must be at least one of that item in the inventory.
 	if filter_item_name then
@@ -84,12 +87,16 @@ end
 
 -- Duplicates the first item in each inventory of the given entity.
 -- Returns the table of inventories that the given entity has if required, also returns the container type of the entity.
-local function duplicate_first_item_in_each_inventory(entity, filter_item_name, entity_inventories, should_return_entity_inventories)
+local function duplicate_first_item_in_each_inventory(
+	entity,
+	filter_item_name,
+	entity_inventories,
+	should_return_entity_inventories)
 	-- If the entity has nothing inside, do nothing.
 	if not entity.has_items_inside() then
 		return entity_inventories
 	end
-	
+
 	-- If we have already known the inventories, just loop through it.
 	if entity_inventories then
 		for _, inv in ipairs(entity_inventories) do
@@ -100,7 +107,7 @@ local function duplicate_first_item_in_each_inventory(entity, filter_item_name, 
 		end
 		return entity_inventories
 	end
-	
+
 	-- We have not known the inventories yet. Find the inventories while removing items.
 	if should_return_entity_inventories then
 		entity_inventories = {}
@@ -122,7 +129,7 @@ local function remove_one_item_from_inventory(inventory, filter_item_name)
 	if inventory.is_empty() then
 		return
 	end
-	
+
 	local item_name = nil
 	-- If filter is set, there must be at least one of that item in the inventory.
 	if filter_item_name then
@@ -145,7 +152,7 @@ local function remove_one_item_in_entity(entity, filter_item_name, entity_invent
 	if not entity.has_items_inside() then
 		return entity_inventories
 	end
-	
+
 	-- If we have already known the inventories, just loop through it.
 	if entity_inventories then
 		for _, inv in ipairs(entity_inventories) do
@@ -156,7 +163,7 @@ local function remove_one_item_in_entity(entity, filter_item_name, entity_invent
 		end
 		return entity_inventories
 	end
-	
+
 	-- We have not known the inventories yet. Find the inventories while removing items.
 	if should_return_entity_inventories then
 		entity_inventories = {}
@@ -180,7 +187,7 @@ local function output_item_stack_according_to_inventory_slot_filters(inventory)
 		if inventory.can_set_filter(i, "iron-plate") then
 			local filter = inventory.get_filter(i)
 			if filter then
-				inventory[i].set_stack{name = filter, count = game.item_prototypes[filter].stack_size}
+				inventory[i].set_stack {name = filter, count = game.item_prototypes[filter].stack_size}
 			end
 		end
 	end
@@ -188,7 +195,10 @@ end
 
 -- Outputs item stacks according to the filters on the slots of the given entity.
 -- Returns the table of inventories that the given entity has if required.
-local function output_item_stack_according_to_inventories_slot_filters(entity, entity_inventories, should_return_entity_inventories)
+local function output_item_stack_according_to_inventories_slot_filters(
+	entity,
+	entity_inventories,
+	should_return_entity_inventories)
 	-- If we have already known the inventories, just loop through it.
 	if entity_inventories then
 		for _, inv in ipairs(entity_inventories) do
@@ -199,8 +209,7 @@ local function output_item_stack_according_to_inventories_slot_filters(entity, e
 		end
 		return entity_inventories
 	end
-	
-	
+
 	-- We have not known the inventories yet. Find the inventories while outputing items.
 	if should_return_entity_inventories then
 		entity_inventories = {}
@@ -279,7 +288,14 @@ end
 
 -- Outputs the given item stack or remove items on the given transport line.
 -- Returns the position of the last item inserted to the line.
-local function output_or_remove_item_on_transport_line(transport_line, belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, output_last_item_position_on_belt)
+local function output_or_remove_item_on_transport_line(
+	transport_line,
+	belt_speed,
+	operation_mode,
+	output_stack,
+	filter_item_name,
+	should_use_insert_at_back,
+	output_last_item_position_on_belt)
 	if operation_mode == output_or_remove_item_operation_mode.output_mode then
 		-- matter-source
 		if should_use_insert_at_back then
@@ -290,7 +306,12 @@ local function output_or_remove_item_on_transport_line(transport_line, belt_spee
 			if belt_speed > transport_belt_item_distance * 0.5 then
 				-- The belt is too fast that it needs our custom implementation to guarantee compressed belt.
 				-- Try to insert the item as near as the last item.
-				return insert_itemstack_on_transport_line_compressed(transport_line, output_stack, belt_speed, output_last_item_position_on_belt)
+				return insert_itemstack_on_transport_line_compressed(
+					transport_line,
+					output_stack,
+					belt_speed,
+					output_last_item_position_on_belt
+				)
 			else
 				-- The belt is not fast. It is OK to simply use insert_at(position, items) because it supports minimal shifting on the position in case that position is occupied.
 				transport_line.insert_at(1 - transport_belt_item_distance * 0.5, output_stack)
@@ -320,7 +341,12 @@ local function output_or_remove_item_on_transport_line(transport_line, belt_spee
 				transport_line.insert_at_back(stack)
 				return nil
 			else
-				return insert_itemstack_on_transport_line_compressed(transport_line, stack, belt_speed, output_last_item_position_on_belt)
+				return insert_itemstack_on_transport_line_compressed(
+					transport_line,
+					stack,
+					belt_speed,
+					output_last_item_position_on_belt
+				)
 			end
 		end
 	end
@@ -351,7 +377,7 @@ local function verify_and_get_last_working_transport_belt_or_container_or_fluidb
 			entity_data.last_working_transport_belt = nil
 		end
 	end
-	
+
 	-- Is any container cached?
 	if entity_data.last_working_static_container ~= nil then
 		-- Is the container valid?
@@ -370,7 +396,7 @@ local function verify_and_get_last_working_transport_belt_or_container_or_fluidb
 			entity_data.last_working_static_container = nil
 		end
 	end
-	
+
 	-- Is any fluidbox cached?
 	if entity_data.last_working_static_fluidbox ~= nil then
 		-- Is the fluidbox valid?
@@ -394,7 +420,16 @@ end
 
 -- Outputs the item of given name at the given position or remove the items there.
 -- For matter-source, matter-void and matter-duplicator, because they are inserters, their opposite directions should be given instead.
-function item_providers_util.output_or_remove_item(surface, position, shift_x, shift_y, direction, filter_item_name, operation_mode, output_item_slot, entity_data)
+function item_providers_util.output_or_remove_item(
+	surface,
+	position,
+	shift_x,
+	shift_y,
+	direction,
+	filter_item_name,
+	operation_mode,
+	output_item_slot,
+	entity_data)
 	-- Create a simple item stack according to the given item name of we are going to output it.
 	local output_stack = nil
 	if operation_mode == output_or_remove_item_operation_mode.output_mode and filter_item_name then
@@ -411,10 +446,12 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 	local car_entities = nil
 	local player_entities = nil
 	-- Whether the item should be dropped on ground as the last resort.
-	local drop_on_ground = operation_mode == output_or_remove_item_operation_mode.output_mode and output_stack and entity_data.can_drop_on_ground
+	local drop_on_ground =
+		operation_mode == output_or_remove_item_operation_mode.output_mode and output_stack and entity_data.can_drop_on_ground
 	-- Whether the items on ground should be removed.
-	local remove_from_ground = operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_ground
-	
+	local remove_from_ground =
+		operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_ground
+
 	-- Reset item_source's table of players being inserted with item.
 	local last_player_entities
 	if operation_mode == output_or_remove_item_operation_mode.output_mode then
@@ -426,19 +463,20 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 			entity_data.slot2_inserted_players = nil
 		end
 	end
-	
+
 	-- Do we have a valid cache of transport belt that is still working in this tick?
-	local transport_belt_entity, transport_belt_type, static_container_entity, static_fluidbox_entity = verify_and_get_last_working_transport_belt_or_container_or_fluidbox(entity_data)
-	if static_container_entity ~= nil  then
+	local transport_belt_entity, transport_belt_type, static_container_entity, static_fluidbox_entity =
+		verify_and_get_last_working_transport_belt_or_container_or_fluidbox(entity_data)
+	if static_container_entity ~= nil then
 		other_inventory_entity = static_container_entity
 	elseif static_fluidbox_entity ~= nil then
 		other_fluidbox_entity = static_fluidbox_entity
 	end
-	
+
 	-- We will need to search for working entity if nothing is cached.
 	if transport_belt_entity == nil and other_inventory_entity == nil and other_fluidbox_entity == nil then
 		-- Check if there is any entity in the grid at the given position.
-		for _, entity in ipairs(surface.find_entities_filtered{position = actual_position, force = entity_data.entity.force}) do	
+		for _, entity in ipairs(surface.find_entities_filtered {position = actual_position, force = entity_data.entity.force}) do
 			if entity.type == "transport-belt" then
 				-- Transport belt.
 				transport_belt_entity = entity
@@ -469,11 +507,15 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 				fluid_wagon_entity = entity
 			elseif entity.type == "car" then
 				-- The entity is a car.
-				if not car_entities then car_entities = {} end
+				if not car_entities then
+					car_entities = {}
+				end
 				table.insert(car_entities, entity)
 			elseif entity.type == "character" then
 				-- The entity is a player.
-				if not player_entities then player_entities = {} end
+				if not player_entities then
+					player_entities = {}
+				end
 				table.insert(player_entities, entity)
 			else
 				-- For other entity types, we have to check whether they are collidable and have inventory so that unwanted entities like particles are ignored.
@@ -486,7 +528,10 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 							other_inventory_entity = entity
 						end
 					else
-						if operation_mode == output_or_remove_item_operation_mode.remove_mode or operation_mode == output_or_remove_item_operation_mode.duplicate_mode then
+						if
+							operation_mode == output_or_remove_item_operation_mode.remove_mode or
+								operation_mode == output_or_remove_item_operation_mode.duplicate_mode
+						 then
 							-- Matter Void can also remove fluids, Matter Duplicator can also duplicate fluids.
 							if util.has_fluidbox(entity) then
 								other_fluidbox_entity = entity
@@ -497,7 +542,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 			end
 		end
 	end
-	
+
 	-- Work on transport belt.
 	if transport_belt_entity ~= nil then
 		-- Don't work on transport belt if it is matter source and with no filter is set.
@@ -508,12 +553,15 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 			-- Since we have a transport belt now, no container or fluidbox can be worked on.
 			entity_data.last_working_static_container = nil
 			entity_data.last_working_static_fluidbox = nil
-			
+
 			-- Now we need to check which transport line we should work on.
 			-- First, find out what type of belt it is.
 			local is_belt = transport_belt_type == output_or_remove_item_transport_belt_type.transport_belt
-			local is_underground_belt = transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_input or transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_output
-			local is_output_underground_belt = transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_output
+			local is_underground_belt =
+				transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_input or
+				transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_output
+			local is_output_underground_belt =
+				transport_belt_type == output_or_remove_item_transport_belt_type.underground_belt_output
 			local is_splitter = transport_belt_type == output_or_remove_item_transport_belt_type.splitter
 			local affected_line_num_1 = nil
 			local affected_line_num_2 = nil
@@ -694,7 +742,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 				if operation_mode == output_or_remove_item_operation_mode.remove_mode then
 					direction = util.oppositedirection(direction)
 				end
-				
+
 				-- Since the direction is not perfect, only one line can be affected.
 				if direction == defines.direction.north then
 					if transport_belt_entity.direction == defines.direction.east then
@@ -786,44 +834,114 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 					end
 				end
 			end
-			
+
 			local belt_speed = transport_belt_entity.prototype.belt_speed
 			-- Call the functions to actually insert or remove items.
 			if affected_line_num_1 then
 				if operation_mode == output_or_remove_item_operation_mode.output_mode then
 					if output_item_slot == 1 then
-						entity_data.slot1_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_1), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.slot1_last_item_position_on_belt)
+						entity_data.slot1_last_item_position_on_belt =
+							output_or_remove_item_on_transport_line(
+							transport_belt_entity.get_transport_line(affected_line_num_1),
+							belt_speed,
+							operation_mode,
+							output_stack,
+							filter_item_name,
+							should_use_insert_at_back,
+							entity_data.slot1_last_item_position_on_belt
+						)
 					else
-						entity_data.slot2_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_1), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.slot2_last_item_position_on_belt)
+						entity_data.slot2_last_item_position_on_belt =
+							output_or_remove_item_on_transport_line(
+							transport_belt_entity.get_transport_line(affected_line_num_1),
+							belt_speed,
+							operation_mode,
+							output_stack,
+							filter_item_name,
+							should_use_insert_at_back,
+							entity_data.slot2_last_item_position_on_belt
+						)
 					end
 				elseif operation_mode == output_or_remove_item_operation_mode.duplicate_mode then
-					entity_data.line1_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_1), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.line1_last_item_position_on_belt)
+					entity_data.line1_last_item_position_on_belt =
+						output_or_remove_item_on_transport_line(
+						transport_belt_entity.get_transport_line(affected_line_num_1),
+						belt_speed,
+						operation_mode,
+						output_stack,
+						filter_item_name,
+						should_use_insert_at_back,
+						entity_data.line1_last_item_position_on_belt
+					)
 				else
-					output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_1), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, nil)
+					output_or_remove_item_on_transport_line(
+						transport_belt_entity.get_transport_line(affected_line_num_1),
+						belt_speed,
+						operation_mode,
+						output_stack,
+						filter_item_name,
+						should_use_insert_at_back,
+						nil
+					)
 				end
 			end
 			if affected_line_num_2 then
 				if operation_mode == output_or_remove_item_operation_mode.output_mode then
 					if output_item_slot == 1 then
-						entity_data.slot1_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_2), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.slot1_last_item_position_on_belt)
+						entity_data.slot1_last_item_position_on_belt =
+							output_or_remove_item_on_transport_line(
+							transport_belt_entity.get_transport_line(affected_line_num_2),
+							belt_speed,
+							operation_mode,
+							output_stack,
+							filter_item_name,
+							should_use_insert_at_back,
+							entity_data.slot1_last_item_position_on_belt
+						)
 					else
-						entity_data.slot2_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_2), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.slot2_last_item_position_on_belt)
+						entity_data.slot2_last_item_position_on_belt =
+							output_or_remove_item_on_transport_line(
+							transport_belt_entity.get_transport_line(affected_line_num_2),
+							belt_speed,
+							operation_mode,
+							output_stack,
+							filter_item_name,
+							should_use_insert_at_back,
+							entity_data.slot2_last_item_position_on_belt
+						)
 					end
 				elseif operation_mode == output_or_remove_item_operation_mode.duplicate_mode then
-					entity_data.line2_last_item_position_on_belt = output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_2), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, entity_data.line2_last_item_position_on_belt)
+					entity_data.line2_last_item_position_on_belt =
+						output_or_remove_item_on_transport_line(
+						transport_belt_entity.get_transport_line(affected_line_num_2),
+						belt_speed,
+						operation_mode,
+						output_stack,
+						filter_item_name,
+						should_use_insert_at_back,
+						entity_data.line2_last_item_position_on_belt
+					)
 				else
-					output_or_remove_item_on_transport_line(transport_belt_entity.get_transport_line(affected_line_num_2), belt_speed, operation_mode, output_stack, filter_item_name, should_use_insert_at_back, nil)
+					output_or_remove_item_on_transport_line(
+						transport_belt_entity.get_transport_line(affected_line_num_2),
+						belt_speed,
+						operation_mode,
+						output_stack,
+						filter_item_name,
+						should_use_insert_at_back,
+						nil
+					)
 				end
 			end
 		end
 		return
 	end
-	
+
 	if operation_mode == output_or_remove_item_operation_mode.duplicate_mode then
 		entity_data.line1_last_item_position_on_belt = nil
 		entity_data.line2_last_item_position_on_belt = nil
 	end
-	
+
 	-- Work on other entities with different priorities.
 	if other_inventory_entity then
 		-- Cache it first if valid.
@@ -846,7 +964,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		end
 		-- Since we have a container, not fluidbox can be worked on.
 		entity_data.last_working_static_fluidbox = nil
-		
+
 		-- Other entities that are not train, car nor player.
 		if operation_mode == output_or_remove_item_operation_mode.output_mode then
 			if output_stack then
@@ -862,7 +980,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 						entity_data.last_working_static_container_type = static_item_container_type.unknown
 					end
 				end
-				
+
 				if entity_data.last_working_static_container_type == static_item_container_type.crafting_machine then
 					-- Crafting machine.
 					if other_inventory_entity.get_recipe() then
@@ -876,10 +994,10 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 						local next_fluid_index = 1
 						for i = 1, #ingredients, 1 do
 							local ingredient = ingredients[i]
-								-- Make sure it is an item. We can't "insert" fluids.
+							-- Make sure it is an item. We can't "insert" fluids.
 							if ingredient.type == "item" then
 								if input_inventory then
-									input_inventory.insert{name = ingredients[i].name, count = 1}
+									input_inventory.insert {name = ingredients[i].name, count = 1}
 								end
 							else
 								if next_fluid_index <= #other_inventory_entity.fluidbox then
@@ -887,8 +1005,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 									if fluid then
 										fluid.amount = fluid.amount + 1
 									else
-										fluid =
-										{
+										fluid = {
 											name = ingredient.name,
 											amount = 1
 										}
@@ -910,13 +1027,18 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 					if input_inventory then
 						-- Insert all tools (science packs) into it.
 						for _, item in ipairs(global.tool_item_list) do
-							input_inventory.insert{name = item.name, count = 1}
+							input_inventory.insert {name = item.name, count = 1}
 						end
 					end
 				else
 					-- Unknown container type.
 					-- We can still output items if the inventory slot has filter. (Although slot filter is only supported in vehicle and player.)
-					entity_data.last_working_static_container_inventories = output_item_stack_according_to_inventories_slot_filters(other_inventory_entity, entity_data.last_working_static_container_inventories, true)
+					entity_data.last_working_static_container_inventories =
+						output_item_stack_according_to_inventories_slot_filters(
+						other_inventory_entity,
+						entity_data.last_working_static_container_inventories,
+						true
+					)
 				end
 			end
 		elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
@@ -929,10 +1051,22 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 					inventory.clear()
 				end
 			else
-				entity_data.last_working_static_container_inventories = remove_one_item_in_entity(other_inventory_entity, filter_item_name, entity_data.last_working_static_container_inventories, true)
+				entity_data.last_working_static_container_inventories =
+					remove_one_item_in_entity(
+					other_inventory_entity,
+					filter_item_name,
+					entity_data.last_working_static_container_inventories,
+					true
+				)
 			end
 		else
-			entity_data.last_working_static_container_inventories = duplicate_first_item_in_each_inventory(other_inventory_entity, filter_item_name, entity_data.last_working_static_container_inventories, true)
+			entity_data.last_working_static_container_inventories =
+				duplicate_first_item_in_each_inventory(
+				other_inventory_entity,
+				filter_item_name,
+				entity_data.last_working_static_container_inventories,
+				true
+			)
 		end
 		return
 	elseif other_fluidbox_entity then
@@ -946,7 +1080,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 				return
 			end
 		end
-	
+
 		-- Doesn't work on fluid if filter is set.
 		if filter_item_name == nil then
 			if operation_mode == output_or_remove_item_operation_mode.remove_mode then
@@ -958,9 +1092,11 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		return
 	elseif train_entity then
 		-- Train.
-		if (operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_vehicle) or
-			(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
-			(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle) then
+		if
+			(operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_vehicle) or
+				(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
+				(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle)
+		 then
 			-- Output or remove only if the train is stationary.
 			if train_entity.train.speed == 0 then
 				if operation_mode == output_or_remove_item_operation_mode.output_mode then
@@ -979,8 +1115,10 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		return
 	elseif fluid_wagon_entity then
 		-- Fluid wagon.
-		if (operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
-			(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle) then
+		if
+			(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
+				(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle)
+		 then
 			-- Output or remove only if the train is stationary.
 			if fluid_wagon_entity.train.speed == 0 then
 				if operation_mode == output_or_remove_item_operation_mode.remove_mode then
@@ -993,9 +1131,11 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		return
 	elseif car_entities then
 		-- Cars.
-		if (operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_vehicle) or
-			(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
-			(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle) then
+		if
+			(operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_vehicle) or
+				(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_vehicle) or
+				(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_vehicle)
+		 then
 			-- Output or remove only if the car is stationary.
 			for _, car in ipairs(car_entities) do
 				if car.speed == 0 then
@@ -1016,9 +1156,11 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		return
 	elseif player_entities then
 		-- Players.
-		if (operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_player) or
-			(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_player) or
-			(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_player) then
+		if
+			(operation_mode == output_or_remove_item_operation_mode.output_mode and entity_data.can_insert_to_player) or
+				(operation_mode == output_or_remove_item_operation_mode.remove_mode and entity_data.can_remove_from_player) or
+				(operation_mode == output_or_remove_item_operation_mode.duplicate_mode and entity_data.can_duplicate_in_player)
+		 then
 			if operation_mode == output_or_remove_item_operation_mode.output_mode then
 				if output_stack then
 					-- Change the item count if needed.
@@ -1059,7 +1201,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		end
 		return
 	end
-	
+
 	-- The last resort. Drop item on ground or remove items on ground.
 	if drop_on_ground then
 		local drop_entity = {name = "item-on-ground", position = actual_position, stack = output_stack}
@@ -1068,7 +1210,9 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
 		end
 	elseif remove_from_ground then
 		-- Get tile bounding box if it has not been gotten.
-		for _, item in ipairs(surface.find_entities_filtered{area = util.get_tile_bb(actual_position), name = "item-on-ground"}) do
+		for _, item in ipairs(
+			surface.find_entities_filtered {area = util.get_tile_bb(actual_position), name = "item-on-ground"}
+		) do
 			if filter_item_name == nil or item.stack.name == filter_item_name then
 				item.destroy()
 			end

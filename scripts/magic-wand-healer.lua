@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Healer magic wand in this mod.
-if not magic_wand_healer then magic_wand_healer = {} end
+if not magic_wand_healer then
+	magic_wand_healer = {}
+end
 
 -- Gets whether the selected ghost entities can be revived for the given player.
 function magic_wand_healer.get_revive_ghosts(player)
@@ -13,7 +15,9 @@ end
 
 -- Sets whether the selected ghost entities can be revived for the given player.
 function magic_wand_healer.set_revive_ghosts(player, revive_ghosts)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts = revive_ghosts
 end
 
@@ -31,18 +35,21 @@ end
 
 -- Sets whether the selected entities belonging the given force can be healed for the given player.
 function magic_wand_healer.set_heal_entities_on_force(player, force, heal)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
-	if not global.creative_mode.magic_wand_settings.healer[player.index].heal_forces then global.creative_mode.magic_wand_settings.healer[player.index].heal_forces = {} end
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
+	if not global.creative_mode.magic_wand_settings.healer[player.index].heal_forces then
+		global.creative_mode.magic_wand_settings.healer[player.index].heal_forces = {}
+	end
 	global.creative_mode.magic_wand_settings.healer[player.index].heal_forces[force.name] = heal
 end
 
 ----
 
 -- Possible alt-mode actions for the Healer magic wand.
-magic_wand_healer.alt_mode_action =
-{
+magic_wand_healer.alt_mode_action = {
 	set_hp_to_one = 1,
-	kill = 2,
+	kill = 2
 }
 
 -- Returns the alt-mode action of the magic wand for the given player.
@@ -57,7 +64,9 @@ end
 
 -- Sets the alt-mode action of the magic wand for the given player.
 function magic_wand_healer.set_alt_mode_action(player, alt_mode_action)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action = alt_mode_action
 end
 
@@ -75,8 +84,11 @@ end
 
 -- Sets whether the alt-mode action of the magic wand can affect player characters for the given player.
 function magic_wand_healer.set_alt_mode_dont_affect_player_characters(player, alt_mode_dont_affect_player_characters)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters = alt_mode_dont_affect_player_characters
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
+	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters =
+		alt_mode_dont_affect_player_characters
 end
 
 ----
@@ -92,9 +104,14 @@ function magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(play
 end
 
 -- Sets whether the alt-mode action of the magic wand can affect indestructible entities for the given player.
-function magic_wand_healer.set_alt_mode_dont_affect_indestructible_entities(player, alt_mode_dont_affect_indestructible_entities)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities = alt_mode_dont_affect_indestructible_entities
+function magic_wand_healer.set_alt_mode_dont_affect_indestructible_entities(
+	player,
+	alt_mode_dont_affect_indestructible_entities)
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
+	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities =
+		alt_mode_dont_affect_indestructible_entities
 end
 
 ----
@@ -111,8 +128,12 @@ end
 
 -- Sets whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_healer.set_alt_mode_apply_on_force(player, force, apply)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then global.creative_mode.magic_wand_settings.healer[player.index] = {} end
-	if not global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces then global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces = {} end
+	if not global.creative_mode.magic_wand_settings.healer[player.index] then
+		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	end
+	if not global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces then
+		global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces = {}
+	end
 	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces[force.name] = apply
 end
 
@@ -120,7 +141,7 @@ end
 
 -- Creates smoke effect at the given position in the given surface.
 local function create_smoke_at(surface, position)
-    surface.create_trivial_smoke{name=creative_mode_defines.names.entities.magic_wand_smoke_healer, position=position}
+	surface.create_trivial_smoke {name = creative_mode_defines.names.entities.magic_wand_smoke_healer, position = position}
 end
 
 -- Creates smoke effect at the entity's position.
@@ -167,7 +188,9 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
 								local collided_enitties = entity.revive()
 								if collided_enitties then
 									-- Revived. Prepare the raise the event.
-									if not revived_tile_positions then revived_tile_positions = {} end
+									if not revived_tile_positions then
+										revived_tile_positions = {}
+									end
 									table.insert(revived_tile_positions, position)
 									create_smoke_at(surface, position)
 								end
@@ -178,20 +201,20 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
 			end
 			-- Raise event.
 			if revived_tile_positions then
-                -- TODO: fix this
-                local tiles={old_tile={valid=false}, position = revived_tile_positions}
-                local prototype={valid=false}
-                local stack={valid=false, valid_for_read=false}
+				-- TODO: fix this
+				local tiles = {old_tile = {valid = false}, position = revived_tile_positions}
+				local prototype = {valid = false}
+				local stack = {valid = false, valid_for_read = false}
 				util.raise_event_for_revived_tile_ghosts(tiles, prototype, stack, player.index, false)
 			end
 		else
 			-- No right to use.
-			player.print{"message.creative-mode_no-right-to-use-magic-wand"}
+			player.print {"message.creative-mode_no-right-to-use-magic-wand"}
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end
 
@@ -203,7 +226,8 @@ function magic_wand_healer.on_player_alt_selected_area(player, area, item_name, 
 			-- Lower the health of the selected entities or simply kill them.
 			local action = magic_wand_healer.get_alt_mode_action(player)
 			local dont_affect_player_characters = magic_wand_healer.get_alt_mode_dont_affect_player_characters(player)
-			local dont_affect_indestructible_entities = magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
+			local dont_affect_indestructible_entities =
+				magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
 			for _, entity in ipairs(entities) do
 				if entity.valid then -- It is possible that the entity becomes invalid.
 					-- Make sure the entity can be killed.
@@ -230,11 +254,11 @@ function magic_wand_healer.on_player_alt_selected_area(player, area, item_name, 
 			end
 		else
 			-- No right to use.
-			player.print{"message.creative-mode_no-right-to-use-magic-wand"}
+			player.print {"message.creative-mode_no-right-to-use-magic-wand"}
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end

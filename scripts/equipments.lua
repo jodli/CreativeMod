@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the equipments in this mod.
-if not equipments then equipments = {} end
+if not equipments then
+	equipments = {}
+end
 
 -- Refills the energy of the registered equipments in the global table.
 function equipments.tick()

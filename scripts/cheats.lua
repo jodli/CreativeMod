@@ -1,14 +1,15 @@
 require("rights")
 
 -- This file contains functions for enabling/disabling cheats.
-if not cheats then cheats = {} end
+if not cheats then
+	cheats = {}
+end
 
 -- Values for default cheating.
-cheats.default_cheat_values =
-{
+cheats.default_cheat_values = {
 	reach_distance = 10000000,
 	mining_speed = 1000,
-	running_speed = 2,
+	running_speed = 2
 }
 
 --------------------------------------------------------------------
@@ -28,89 +29,137 @@ end
 local function apply_character_cheats_to_player(player)
 	-- Cheat mode.
 	if global.creative_mode.personal_cheats.cheat_mode[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.cheat_mode.apply_to_target_function(player, global.creative_mode.personal_cheats.cheat_mode[player.index], nil)
+		cheats.personal_cheats_data.cheats.cheat_mode.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.cheat_mode[player.index],
+			nil
+		)
 	end
 	-- Invincible player.
 	if global.creative_mode.personal_cheats.invincible_player[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.invincible_player.apply_to_target_function(player, global.creative_mode.personal_cheats.invincible_player[player.index], nil)
+		cheats.personal_cheats_data.cheats.invincible_player.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.invincible_player[player.index],
+			nil
+		)
 	end
 	-- Reach distance.
 	if global.creative_mode.personal_cheats.reach_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.reach_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.reach_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.reach_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.reach_distance[player.index],
+			nil
+		)
 	end
 	-- Build distance.
 	if global.creative_mode.personal_cheats.build_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.build_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.build_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.build_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.build_distance[player.index],
+			nil
+		)
 	end
 	-- Resource reach distance.
 	if global.creative_mode.personal_cheats.resource_reach_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.resource_reach_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.resource_reach_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.resource_reach_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.resource_reach_distance[player.index],
+			nil
+		)
 	end
 	-- Item drop distance.
 	if global.creative_mode.personal_cheats.item_drop_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.item_drop_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.item_drop_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.item_drop_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.item_drop_distance[player.index],
+			nil
+		)
 	end
 	-- Item pickup distance.
 	if global.creative_mode.personal_cheats.item_pickup_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.item_pickup_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.item_pickup_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.item_pickup_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.item_pickup_distance[player.index],
+			nil
+		)
 	end
 	-- Loot pickup distance.
 	if global.creative_mode.personal_cheats.loot_pickup_distance[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.loot_pickup_distance.apply_to_target_function(player, global.creative_mode.personal_cheats.loot_pickup_distance[player.index], nil)
+		cheats.personal_cheats_data.cheats.loot_pickup_distance.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.loot_pickup_distance[player.index],
+			nil
+		)
 	end
 	-- Mining speed.
 	if global.creative_mode.personal_cheats.mining_speed[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.mining_speed.apply_to_target_function(player, global.creative_mode.personal_cheats.mining_speed[player.index], nil)
+		cheats.personal_cheats_data.cheats.mining_speed.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.mining_speed[player.index],
+			nil
+		)
 	end
 	-- Running speed.
 	if global.creative_mode.personal_cheats.running_speed[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.running_speed.apply_to_target_function(player, global.creative_mode.personal_cheats.running_speed[player.index], nil)
+		cheats.personal_cheats_data.cheats.running_speed.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.running_speed[player.index],
+			nil
+		)
 	end
 	-- Crafting speed.
 	if global.creative_mode.personal_cheats.crafting_speed[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.crafting_speed.apply_to_target_function(player, global.creative_mode.personal_cheats.crafting_speed[player.index], nil)
+		cheats.personal_cheats_data.cheats.crafting_speed.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.crafting_speed[player.index],
+			nil
+		)
 	end
 	-- Inventory bonus.
 	if global.creative_mode.personal_cheats.inventory_bonus[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.inventory_bonus.apply_to_target_function(player, global.creative_mode.personal_cheats.inventory_bonus[player.index], nil)
+		cheats.personal_cheats_data.cheats.inventory_bonus.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.inventory_bonus[player.index],
+			nil
+		)
 	end
 	-- Health bonus.
 	if global.creative_mode.personal_cheats.health_bonus[player.index] ~= nil then
-		cheats.personal_cheats_data.cheats.health_bonus.apply_to_target_function(player, global.creative_mode.personal_cheats.health_bonus[player.index], nil)
+		cheats.personal_cheats_data.cheats.health_bonus.apply_to_target_function(
+			player,
+			global.creative_mode.personal_cheats.health_bonus[player.index],
+			nil
+		)
 	end
-	
+
 	gui_menu_cheats.update_character_cheats_status_for_all_players_as_player_updated_his_status(player)
 end
 
 -- Data about all personal cheats.
-cheats.personal_cheats_data =
-{
+cheats.personal_cheats_data = {
 	-- Function for checking whether the target is self of the source player.
 	check_is_self_function = function(source_player, player)
 		return source_player == player
 	end,
 	-- Function for print a message to the admin after he failed to apply changes to a target.
 	print_admin_failed_to_apply_to_single_target_message_function = function(source_player, target, reason)
-		source_player.print{"message.creative-mode_failed-to-apply-to-single-player-admin", target.name, reason}
+		source_player.print {"message.creative-mode_failed-to-apply-to-single-player-admin", target.name, reason}
 	end,
 	-- Function for print a message to the admin after he failed to apply changes to multiple targets.
 	print_admin_failed_to_apply_to_multi_targets_message_function = function(source_player, fail_count, reason)
-		source_player.print{"message.creative-mode_failed-to-apply-to-multiple-players-admin", fail_count, reason}
+		source_player.print {"message.creative-mode_failed-to-apply-to-multiple-players-admin", fail_count, reason}
 	end,
 	-- Function for printing a message to the target after the admin applied "Enable All" or "Disable All" on it.
 	print_enabled_all_by_admin_message_function = function(source_player, player, enable)
 		if enable then
-			player.print{"message.creative-mode_personal-cheats-enabled-all-by-admin", source_player.name}
+			player.print {"message.creative-mode_personal-cheats-enabled-all-by-admin", source_player.name}
 		else
-			player.print{"message.creative-mode_personal-cheats-disabled-all-by-admin", source_player.name}
+			player.print {"message.creative-mode_personal-cheats-disabled-all-by-admin", source_player.name}
 		end
 	end,
-	
 	-- All cheats in this category. No other data except cheat data should be put inside.
-	cheats =
-	{
-		cheat_mode = 
-		{
+	cheats = {
+		cheat_mode = {
 			-- Whether this cheat is one of the default cheats that can be triggered by the "Enable All" and "Disable All" buttons.
 			is_default = true,
 			-- Value when "Enable All" is applied.
@@ -133,11 +182,11 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.controller_type == defines.controllers.ghost then
 					return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
 				end
-				
+
 				global.creative_mode.personal_cheats.cheat_mode[player.index] = enable
 				player.cheat_mode = enable
 				return nil
@@ -146,16 +195,15 @@ cheats.personal_cheats_data =
 			-- Only called if the the new value is different from current and target is not the source player himself according to the result of check_is_self_function.
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_cheat-mode-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_cheat-mode-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_cheat-mode-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_cheat-mode-disabled-by-admin", source_player.name}
 				end
 			end,
 			-- Function for getting whether the given player can access this cheat. Nil = all players can access, as long as they can see it.
 			get_player_can_access_function = nil
 		},
-		invincible_player =
-		{
+		invincible_player = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_invincible_player_by_default].value
 			end,
@@ -174,13 +222,13 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.character then
 					global.creative_mode.personal_cheats.invincible_player[player.index] = enable
 					player.character.destructible = not enable
 					return nil
 				end
-				
+
 				if player.controller_type == defines.controllers.ghost then
 					return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
 				else
@@ -189,15 +237,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_invincible-player-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_invincible-player-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_invincible-player-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_invincible-player-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		keep_last_item =
-		{
+		keep_last_item = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -214,15 +261,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_keep-last-item-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_keep-last-item-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_keep-last-item-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_keep-last-item-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		repair_mined_item =
-		{
+		repair_mined_item = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -239,15 +285,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_repair-mined-item-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_repair-mined-item-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_repair-mined-item-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_repair-mined-item-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		instant_request =
-		{
+		instant_request = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -264,15 +309,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_instant-request-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-request-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_instant-request-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-request-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		instant_trash =
-		{
+		instant_trash = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -289,15 +333,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_instant-trash-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-trash-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_instant-trash-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-trash-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		instant_blueprint =
-		{
+		instant_blueprint = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_instant_blueprint_by_default].value
 			end,
@@ -317,15 +360,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_instant-blueprint-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-blueprint-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_instant-blueprint-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-blueprint-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		instant_deconstruction =
-		{
+		instant_deconstruction = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_instant_deconstruction_by_default].value
 			end,
@@ -345,15 +387,14 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_instant-deconstruction-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-deconstruction-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_instant-deconstruction-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_instant-deconstruction-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		reach_distance =
-		{
+		reach_distance = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_personal_long_reach_by_default].value
 			end,
@@ -384,12 +425,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_reach-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_reach-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		build_distance =
-		{
+		build_distance = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_personal_long_reach_by_default].value
 			end,
@@ -420,12 +460,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_build-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_build-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		resource_reach_distance =
-		{
+		resource_reach_distance = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_personal_long_reach_by_default].value
 			end,
@@ -456,12 +495,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_resource-reach-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_resource-reach-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		item_drop_distance =
-		{
+		item_drop_distance = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_personal_long_reach_by_default].value
 			end,
@@ -492,12 +530,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_item-drop-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_item-drop-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		item_pickup_distance =
-		{
+		item_pickup_distance = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -525,12 +562,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_item-pickup-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_item-pickup-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		loot_pickup_distance =
-		{
+		loot_pickup_distance = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -558,12 +594,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_loot-pickup-distance-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_loot-pickup-distance-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		mining_speed =
-		{
+		mining_speed = {
 			is_default = true,
 			default_enable_value = cheats.default_cheat_values.mining_speed,
 			default_disable_value = 0,
@@ -579,7 +614,7 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-			
+
 				if player.character then
 					global.creative_mode.personal_cheats.mining_speed[player.index] = value
 					player.character_mining_speed_modifier = value
@@ -592,12 +627,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_mining-speed-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_mining-speed-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		running_speed =
-		{
+		running_speed = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.enable_personal_fast_run_by_default].value
 			end,
@@ -616,7 +650,7 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.character then
 					global.creative_mode.personal_cheats.running_speed[player.index] = value
 					player.character_running_speed_modifier = value
@@ -629,12 +663,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_running-speed-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_running-speed-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		crafting_speed =
-		{
+		crafting_speed = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -650,7 +683,7 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.character then
 					global.creative_mode.personal_cheats.crafting_speed[player.index] = value
 					player.character_crafting_speed_modifier = value
@@ -663,12 +696,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_crafting-speed-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_crafting-speed-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		inventory_bonus =
-		{
+		inventory_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -679,12 +711,14 @@ cheats.personal_cheats_data =
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0, 100000) end,
+			limit_value_before_apply_function = function(value)
+				return util.clamp(value, 0, 100000)
+			end,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.character then
 					global.creative_mode.personal_cheats.inventory_bonus[player.index] = value
 					player.character_inventory_slots_bonus = value
@@ -697,12 +731,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_inventory-bonus-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_inventory-bonus-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		health_bonus =
-		{
+		health_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -718,7 +751,7 @@ cheats.personal_cheats_data =
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
 				end
-				
+
 				if player.character then
 					global.creative_mode.personal_cheats.health_bonus[player.index] = value
 					player.character_health_bonus = value
@@ -731,12 +764,11 @@ cheats.personal_cheats_data =
 				end
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, value)
-				player.print{"message.creative-mode_health-bonus-updated-by-admin", source_player.name, value}
+				player.print {"message.creative-mode_health-bonus-updated-by-admin", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		god_mode =
-		{
+		god_mode = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -776,7 +808,7 @@ cheats.personal_cheats_data =
 							local god_main = player.get_inventory(defines.inventory.god_main)
 							util.transfer_inventory_contents(character_main, god_main)
 							-- Transfer cursor stack.
-							local cursor_stack = character.cursor_stack 
+							local cursor_stack = character.cursor_stack
 							if cursor_stack and cursor_stack.valid_for_read then
 								player.cursor_stack.set_stack(cursor_stack)
 								character.cursor_stack.clear()
@@ -794,8 +826,8 @@ cheats.personal_cheats_data =
 							global.creative_mode.personal_cheats.god_mode_character[player.index] = nil
 						else
 							-- Character is dead! Create new one.
-							character = player.surface.create_entity
-							{
+							character =
+								player.surface.create_entity {
 								name = "character",
 								position = player.position,
 								force = player.force
@@ -806,7 +838,7 @@ cheats.personal_cheats_data =
 						local god_main = player.get_inventory(defines.inventory.god_main)
 						util.transfer_inventory_contents(god_main, character_main)
 						-- Transfer cursor stack.
-						local cursor_stack = player.cursor_stack 
+						local cursor_stack = player.cursor_stack
 						if cursor_stack and cursor_stack.valid_for_read then
 							character.cursor_stack.set_stack(cursor_stack)
 							player.cursor_stack.clear()
@@ -822,7 +854,7 @@ cheats.personal_cheats_data =
 						player.teleport(position, surface)
 						-- Apply character cheats.
 						apply_character_cheats_to_player(player)
-						-- Note: don't raise the on_player_respawned event as it will generate a gun and ammo (starting items).
+					-- Note: don't raise the on_player_respawned event as it will generate a gun and ammo (starting items).
 					end
 				end
 				-- Apply cheat mode.
@@ -831,9 +863,9 @@ cheats.personal_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_god-mode-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_god-mode-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_god-mode-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_god-mode-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
@@ -842,8 +874,7 @@ cheats.personal_cheats_data =
 }
 
 -- Data about all team cheats.
-cheats.team_cheats_data =
-{
+cheats.team_cheats_data = {
 	check_is_self_function = function(source_player, force)
 		return false
 	end,
@@ -855,16 +886,13 @@ cheats.team_cheats_data =
 	end,
 	print_enabled_all_by_admin_message_function = function(source_player, force, enable)
 		if enable then
-			force.print{"message.creative-mode_team-cheats-enabled-all", source_player.name}
+			force.print {"message.creative-mode_team-cheats-enabled-all", source_player.name}
 		else
-			force.print{"message.creative-mode_team-cheats-disabled-all", source_player.name}
+			force.print {"message.creative-mode_team-cheats-disabled-all", source_player.name}
 		end
 	end,
-	
-	cheats =
-	{
-		creative_tools_recipes = 
-		{
+	cheats = {
+		creative_tools_recipes = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -878,17 +906,17 @@ cheats.team_cheats_data =
 			apply_to_target_function = function(force, enable, source_player)
 				-- Item recipes.
 				for _, recipe_name in pairs(creative_mode_defines.names.recipes) do
-                    local recipe = force.recipes[recipe_name]
+					local recipe = force.recipes[recipe_name]
 					if recipe then
 						recipe.enabled = enable
 					end
 				end
 				-- Free fluid recipes. Get the recipe names by looping through the fluid prototypes in game.
 				for _, fluid in pairs(game.fluid_prototypes) do
-                    local recipe = force.recipes[creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name]
-                    if recipe then
-                        recipe.enabled = enable
-                    end
+					local recipe = force.recipes[creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name]
+					if recipe then
+						recipe.enabled = enable
+					end
 				end
 				-- Enemy recipes.
 				for _, entity in pairs(game.entity_prototypes) do
@@ -901,15 +929,14 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_creative-tools-recipes-enabled", source_player.name}
+					force.print {"message.creative-mode_creative-tools-recipes-enabled", source_player.name}
 				else
-					force.print{"message.creative-mode_creative-tools-recipes-disabled", source_player.name}
+					force.print {"message.creative-mode_creative-tools-recipes-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		loaders_recipes = 
-		{
+		loaders_recipes = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -933,15 +960,14 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_loaders-recipes-enabled", source_player.name}
+					force.print {"message.creative-mode_loaders-recipes-enabled", source_player.name}
 				else
-					force.print{"message.creative-mode_loaders-recipes-disabled", source_player.name}
+					force.print {"message.creative-mode_loaders-recipes-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		railgun_recipes =
-		{
+		railgun_recipes = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -965,15 +991,14 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_railgun-recipes-enabled", source_player.name}
+					force.print {"message.creative-mode_railgun-recipes-enabled", source_player.name}
 				else
-					force.print{"message.creative-mode_railgun-recipes-disabled", source_player.name}
+					force.print {"message.creative-mode_railgun-recipes-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		player_port_recipe =
-		{
+		player_port_recipe = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -995,21 +1020,22 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_player-port-recipe-enabled", source_player.name}
+					force.print {"message.creative-mode_player-port-recipe-enabled", source_player.name}
 				else
-					force.print{"message.creative-mode_player-port-recipe-disabled", source_player.name}
+					force.print {"message.creative-mode_player-port-recipe-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
-		},		
-		research_all_technologies =
-		{
+		},
+		research_all_technologies = {
 			get_is_default_from_player = function(source_player)
-				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ~= creative_mode_defines.values.default_technology_research_cheat_types.nothing
+				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ~=
+					creative_mode_defines.values.default_technology_research_cheat_types.nothing
 			end,
 			is_default = true,
 			get_default_enable_value_from_player = function(source_player)
-				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value == creative_mode_defines.values.default_technology_research_cheat_types.research_all
+				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ==
+					creative_mode_defines.values.default_technology_research_cheat_types.research_all
 			end,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1023,13 +1049,14 @@ cheats.team_cheats_data =
 				else
 					-- Calling LuaForce::reset() will hide all the originally hidden recipes.
 					-- We have to enable them back if they were enabled.
-					local creative_tools_recipes_enabled = cheats.team_cheats_data.cheats.creative_tools_recipes.get_value_function(force)
+					local creative_tools_recipes_enabled =
+						cheats.team_cheats_data.cheats.creative_tools_recipes.get_value_function(force)
 					local loaders_recipes_enabled = cheats.team_cheats_data.cheats.loaders_recipes.get_value_function(force)
 					local railgun_recipes_enabled = cheats.team_cheats_data.cheats.railgun_recipes.get_value_function(force)
 					local player_port_recipe_enabled = cheats.team_cheats_data.cheats.player_port_recipe.get_value_function(force)
-					
+
 					force.reset()
-					
+
 					if creative_tools_recipes_enabled then
 						cheats.team_cheats_data.cheats.creative_tools_recipes.apply_to_target_function(force, true, source_player)
 					end
@@ -1047,21 +1074,22 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_all-technologies-researched", source_player.name}
+					force.print {"message.creative-mode_all-technologies-researched", source_player.name}
 				else
-					force.print{"message.creative-mode_all-technologies-reset", source_player.name}
+					force.print {"message.creative-mode_all-technologies-reset", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		instant_research =
-		{
+		instant_research = {
 			get_is_default_from_player = function(source_player)
-				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ~= creative_mode_defines.values.default_technology_research_cheat_types.nothing
+				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ~=
+					creative_mode_defines.values.default_technology_research_cheat_types.nothing
 			end,
 			is_default = true,
 			get_default_enable_value_from_player = function(source_player)
-				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value == creative_mode_defines.values.default_technology_research_cheat_types.instant_research
+				return source_player.mod_settings[creative_mode_defines.names.settings.default_technology_research_cheat_type].value ==
+					creative_mode_defines.values.default_technology_research_cheat_types.instant_research
 			end,
 			default_enable_value = false,
 			default_disable_value = false,
@@ -1078,15 +1106,14 @@ cheats.team_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
 				if enable then
-					force.print{"message.creative-mode_instant-research-enabled", source_player.name}
+					force.print {"message.creative-mode_instant-research-enabled", source_player.name}
 				else
-					force.print{"message.creative-mode_instant-research-disabled", source_player.name}
+					force.print {"message.creative-mode_instant-research-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		reach_distance =
-		{
+		reach_distance = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.reach_distance,
 			default_disable_value = 0,
@@ -1102,12 +1129,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-reach-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-reach-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		build_distance =
-		{
+		build_distance = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.reach_distance,
 			default_disable_value = 0,
@@ -1123,12 +1149,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-build-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-build-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		resource_reach_distance =
-		{
+		resource_reach_distance = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.reach_distance,
 			default_disable_value = 0,
@@ -1144,12 +1169,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-resource-reach-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-resource-reach-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		item_drop_distance =
-		{
+		item_drop_distance = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.reach_distance,
 			default_disable_value = 0,
@@ -1165,12 +1189,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-item-drop-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-item-drop-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		item_pickup_distance =
-		{
+		item_pickup_distance = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1186,12 +1209,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-item-pickup-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-item-pickup-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		loot_pickup_distance =
-		{
+		loot_pickup_distance = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1207,12 +1229,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-loot-pickup-distance-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-loot-pickup-distance-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
-		},	
-		mining_speed =
-		{
+		},
+		mining_speed = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.mining_speed,
 			default_disable_value = 0,
@@ -1229,12 +1250,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-mining-speed-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-mining-speed-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		running_speed =
-		{
+		running_speed = {
 			is_default = false,
 			default_enable_value = cheats.default_cheat_values.running_speed,
 			default_disable_value = 0,
@@ -1250,12 +1270,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-running-speed-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-running-speed-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		crafting_speed =
-		{
+		crafting_speed = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1271,12 +1290,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_team-crafting-speed-updated", source_player.name, value}
+				force.print {"message.creative-mode_team-crafting-speed-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		character_inventory_bonus =
-		{
+		character_inventory_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1286,18 +1304,19 @@ cheats.team_cheats_data =
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0, 100000) end,
+			limit_value_before_apply_function = function(value)
+				return util.clamp(value, 0, 100000)
+			end,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_inventory_slots_bonus = value
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_character-inventory-bonus-updated", source_player.name, value}
+				force.print {"message.creative-mode_character-inventory-bonus-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		health_bonus =
-		{
+		health_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1313,12 +1332,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_character-health-bonus-updated", source_player.name, value}
+				force.print {"message.creative-mode_character-health-bonus-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		inserter_capacity_bonus =
-		{
+		inserter_capacity_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1334,12 +1352,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_inserter-capacity-bonus", source_player.name, value}
+				force.print {"message.creative-mode_inserter-capacity-bonus", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		stack_inserter_capacity_bonus =
-		{
+		stack_inserter_capacity_bonus = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1355,12 +1372,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_stack-inserter-capacity-bonus", source_player.name, value}
+				force.print {"message.creative-mode_stack-inserter-capacity-bonus", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		evolution_factor =
-		{
+		evolution_factor = {
 			get_is_default_from_player = function(source_player)
 				return source_player.mod_settings[creative_mode_defines.names.settings.override_evolution_factor_by_default].value
 			end,
@@ -1376,18 +1392,19 @@ cheats.team_cheats_data =
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0, 1) end,
+			limit_value_before_apply_function = function(value)
+				return util.clamp(value, 0, 1)
+			end,
 			apply_to_target_function = function(force, value, source_player)
 				force.evolution_factor = value
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_evolution-factor-updated", source_player.name, value}
+				force.print {"message.creative-mode_evolution-factor-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		chart_all =
-		{
+		chart_all = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1398,12 +1415,11 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_chart-all-applied", source_player.name}
+				force.print {"message.creative-mode_chart-all-applied", source_player.name}
 			end,
 			get_player_can_access_function = nil
 		},
-		kill_all_units =
-		{
+		kill_all_units = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1414,7 +1430,7 @@ cheats.team_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, value)
-				force.print{"message.creative-mode_kill-all-units-applied", source_player.name}
+				force.print {"message.creative-mode_kill-all-units-applied", source_player.name}
 			end,
 			get_player_can_access_function = nil
 		}
@@ -1422,8 +1438,7 @@ cheats.team_cheats_data =
 }
 
 -- Data about all surface cheats.
-cheats.surface_cheats_data =
-{
+cheats.surface_cheats_data = {
 	check_is_self_function = function(source_player, surface)
 		return false
 	end,
@@ -1436,11 +1451,8 @@ cheats.surface_cheats_data =
 	print_enabled_all_by_admin_message_function = function(source_player, surface, enable)
 		-- No enable all so far.
 	end,
-	
-	cheats =
-	{
-		freeze_daytime =
-		{
+	cheats = {
+		freeze_daytime = {
 			is_default = true,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1457,15 +1469,14 @@ cheats.surface_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, enable)
 				if enable then
-					surface.print{"message.creative-mode_daytime-frozen", source_player.name}
+					surface.print {"message.creative-mode_daytime-frozen", source_player.name}
 				else
-					surface.print{"message.creative-mode_daytime-unfrozen", source_player.name}
+					surface.print {"message.creative-mode_daytime-unfrozen", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		daytime =
-		{
+		daytime = {
 			is_default = true,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1475,18 +1486,19 @@ cheats.surface_cheats_data =
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0, 1) end,
+			limit_value_before_apply_function = function(value)
+				return util.clamp(value, 0, 1)
+			end,
 			apply_to_target_function = function(surface, value, source_player)
 				surface.daytime = value
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, value)
-				surface.print{"message.creative-mode_daytime-updated", source_player.name, value}
+				surface.print {"message.creative-mode_daytime-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		daytime_selection =
-		{
+		daytime_selection = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1501,7 +1513,14 @@ cheats.surface_cheats_data =
 				else
 					value = 0.5
 				end
-				cheats.apply_cheat_to_targets(source_player, {surface}, cheats.surface_cheats_data, cheats.surface_cheats_data.cheats.daytime, value, false)
+				cheats.apply_cheat_to_targets(
+					source_player,
+					{surface},
+					cheats.surface_cheats_data,
+					cheats.surface_cheats_data.cheats.daytime,
+					value,
+					false
+				)
 				-- Update the GUI status of the daytime cheat.
 				gui_menu_cheats.update_daytime_cheats_status_for_all_players_as_surface_updated_its_daytime(surface)
 			end,
@@ -1512,12 +1531,11 @@ cheats.surface_cheats_data =
 				else
 					value = 0.5
 				end
-				surface.print{"message.creative-mode_daytime-updated", source_player.name, value}
+				surface.print {"message.creative-mode_daytime-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		peaceful_mode = 
-		{
+		peaceful_mode = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1534,15 +1552,14 @@ cheats.surface_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, enable)
 				if enable then
-					surface.print{"message.creative-mode_peaceful-mode-enabled", source_player.name}
+					surface.print {"message.creative-mode_peaceful-mode-enabled", source_player.name}
 				else
-					surface.print{"message.creative-mode_peaceful-mode-disabled", source_player.name}
+					surface.print {"message.creative-mode_peaceful-mode-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		destroy_all_enemies =
-		{
+		destroy_all_enemies = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1551,19 +1568,18 @@ cheats.surface_cheats_data =
 			apply_to_target_function = function(surface, value, source_player)
 				for chunk in surface.get_chunks() do
 					local area = {{chunk.x * 32, chunk.y * 32}, {chunk.x * 32 + 32, chunk.y * 32 + 32}}
-					for _, entity in pairs(surface.find_entities_filtered{area = area, force = "enemy"}) do
+					for _, entity in pairs(surface.find_entities_filtered {area = area, force = "enemy"}) do
 						util.kill_entity_and_raise_event(entity, source_player)
 					end
 				end
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, value)
-				surface.print{"message.creative-mode_destroy-all-enemies-applied", source_player.name}
+				surface.print {"message.creative-mode_destroy-all-enemies-applied", source_player.name}
 			end,
 			get_player_can_access_function = nil
 		},
-		remove_all_enemies =
-		{
+		remove_all_enemies = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1572,19 +1588,18 @@ cheats.surface_cheats_data =
 			apply_to_target_function = function(surface, value, source_player)
 				for chunk in surface.get_chunks() do
 					local area = {{chunk.x * 32, chunk.y * 32}, {chunk.x * 32 + 32, chunk.y * 32 + 32}}
-					for _, entity in pairs(surface.find_entities_filtered{area = area, force = "enemy"}) do
+					for _, entity in pairs(surface.find_entities_filtered {area = area, force = "enemy"}) do
 						util.destroy_entity_and_raise_event(entity, source_player, false)
 					end
 				end
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, value)
-				surface.print{"message.creative-mode_remove-all-enemies-applied", source_player.name}
+				surface.print {"message.creative-mode_remove-all-enemies-applied", source_player.name}
 			end,
 			get_player_can_access_function = nil
 		},
-		dont_generate_enemy =
-		{
+		dont_generate_enemy = {
 			is_default = false,
 			default_enable_value = true,
 			default_disable_value = false,
@@ -1601,9 +1616,9 @@ cheats.surface_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, surface, enable)
 				if enable then
-					surface.print{"message.creative-mode_dont-generate-enemy-enabled", source_player.name}
+					surface.print {"message.creative-mode_dont-generate-enemy-enabled", source_player.name}
 				else
-					surface.print{"message.creative-mode_dont-generate-enemy-disabled", source_player.name}
+					surface.print {"message.creative-mode_dont-generate-enemy-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
@@ -1612,8 +1627,7 @@ cheats.surface_cheats_data =
 }
 
 -- Data about all global cheats.
-cheats.global_cheats_data =
-{
+cheats.global_cheats_data = {
 	check_is_self_function = function(source_player, target)
 		return false
 	end,
@@ -1626,11 +1640,8 @@ cheats.global_cheats_data =
 	print_enabled_all_by_admin_message_function = function(source_player, target, enable)
 		-- No enable all so far.
 	end,
-	
-	cheats =
-	{
-		pollution =
-		{
+	cheats = {
+		pollution = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1644,15 +1655,14 @@ cheats.global_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, enable)
 				if enable then
-					game.print{"message.creative-mode_pollution-enabled", source_player.name}
+					game.print {"message.creative-mode_pollution-enabled", source_player.name}
 				else
-					game.print{"message.creative-mode_pollution-disabled", source_player.name}
+					game.print {"message.creative-mode_pollution-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		enemy_evolution =
-		{
+		enemy_evolution = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1666,15 +1676,14 @@ cheats.global_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, enable)
 				if enable then
-					game.print{"message.creative-mode_enemy-evolution-enabled", source_player.name}
+					game.print {"message.creative-mode_enemy-evolution-enabled", source_player.name}
 				else
-					game.print{"message.creative-mode_enemy-evolution-disabled", source_player.name}
+					game.print {"message.creative-mode_enemy-evolution-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		evolution_time_factor =
-		{
+		evolution_time_factor = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1687,12 +1696,11 @@ cheats.global_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_evolution-time-factor-updated", source_player.name, value}
+				game.print {"message.creative-mode_evolution-time-factor-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		evolution_destroy_factor =
-		{
+		evolution_destroy_factor = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1705,12 +1713,11 @@ cheats.global_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_evolution-destroy-factor-updated", source_player.name, value}
+				game.print {"message.creative-mode_evolution-destroy-factor-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		evolution_pollution_factor =
-		{
+		evolution_pollution_factor = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1723,12 +1730,11 @@ cheats.global_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_evolution-pollution-factor-updated", source_player.name, value}
+				game.print {"message.creative-mode_evolution-pollution-factor-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		enemy_expansion =
-		{
+		enemy_expansion = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1742,15 +1748,14 @@ cheats.global_cheats_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, enable)
 				if enable then
-					game.print{"message.creative-mode_enemy-expansion-enabled", source_player.name}
+					game.print {"message.creative-mode_enemy-expansion-enabled", source_player.name}
 				else
-					game.print{"message.creative-mode_enemy-expansion-disabled", source_player.name}
+					game.print {"message.creative-mode_enemy-expansion-disabled", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		enemy_expansion_min_cooldown =
-		{
+		enemy_expansion_min_cooldown = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1763,12 +1768,11 @@ cheats.global_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_enemy-expansion-min-cooldown-updated", source_player.name, value}
+				game.print {"message.creative-mode_enemy-expansion-min-cooldown-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		enemy_expansion_max_cooldown =
-		{
+		enemy_expansion_max_cooldown = {
 			is_default = false,
 			default_enable_value = 0,
 			default_disable_value = 0,
@@ -1781,25 +1785,26 @@ cheats.global_cheats_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_enemy-expansion-max-cooldown-updated", source_player.name, value}
+				game.print {"message.creative-mode_enemy-expansion-max-cooldown-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		},
-		game_speed =
-		{
+		game_speed = {
 			is_default = false,
 			default_enable_value = 1,
 			default_disable_value = 1,
 			get_value_function = function(target)
 				return game.speed
 			end,
-			limit_value_before_apply_function = function(value) return util.clamp(value, 0.1, 100) end,
+			limit_value_before_apply_function = function(value)
+				return util.clamp(value, 0.1, 100)
+			end,
 			apply_to_target_function = function(target, value, source_player)
 				game.speed = value
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, target, value)
-				game.print{"message.creative-mode_game-speed-updated", source_player.name, value}
+				game.print {"message.creative-mode_game-speed-updated", source_player.name, value}
 			end,
 			get_player_can_access_function = nil
 		}
@@ -1807,8 +1812,7 @@ cheats.global_cheats_data =
 }
 
 -- Data about all build options.
-cheats.build_options_data =
-{
+cheats.build_options_data = {
 	check_is_self_function = function(source_player, player)
 		return source_player == player
 	end,
@@ -1821,11 +1825,8 @@ cheats.build_options_data =
 	print_enabled_all_by_admin_message_function = function(source_player, player, enable)
 		-- No enable all so far.
 	end,
-	
-	cheats =
-	{
-		active = 
-		{
+	cheats = {
+		active = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1846,15 +1847,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-active-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-active-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-active-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-active-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		destructible = 
-		{
+		destructible = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1875,15 +1875,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-destructible-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-destructible-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-destructible-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-destructible-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		minable = 
-		{
+		minable = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1904,15 +1903,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-minable-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-minable-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-minable-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-minable-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		rotatable = 
-		{
+		rotatable = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1933,15 +1931,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-rotatable-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-rotatable-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-rotatable-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-rotatable-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		operable = 
-		{
+		operable = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1962,15 +1959,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-operable-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-operable-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-operable-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-operable-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		full_health = 
-		{
+		full_health = {
 			is_default = false,
 			default_enable_value = false,
 			default_disable_value = true,
@@ -1991,15 +1987,14 @@ cheats.build_options_data =
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, enable)
 				if enable then
-					player.print{"message.creative-mode_build-full-health-enabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-full-health-enabled-by-admin", source_player.name}
 				else
-					player.print{"message.creative-mode_build-full-health-disabled-by-admin", source_player.name}
+					player.print {"message.creative-mode_build-full-health-disabled-by-admin", source_player.name}
 				end
 			end,
 			get_player_can_access_function = nil
 		},
-		team =
-		{
+		team = {
 			is_default = false,
 			default_enable_value = "",
 			default_disable_value = "",
@@ -2024,7 +2019,7 @@ cheats.build_options_data =
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, player, force)
-				player.print{"message.creative-mode_build-team-updated-by-admin", source_player.name, force.name}
+				player.print {"message.creative-mode_build-team-updated-by-admin", source_player.name, force.name}
 			end,
 			get_player_can_access_function = rights.can_player_access_build_team_options
 		}
@@ -2033,15 +2028,12 @@ cheats.build_options_data =
 
 -- Data about all magic wand modifications.
 -- Actually a simplified version of the above cheats data.
-cheats.magic_wand_modifications =
-{
+cheats.magic_wand_modifications = {
 	check_is_self_function = function(source_player, target)
 		return true
 	end,
-	cheats =
-	{
-		active = 
-		{
+	cheats = {
+		active = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.active
@@ -2061,8 +2053,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		destructible =
-		{
+		destructible = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.destructible
@@ -2075,8 +2066,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		minable =
-		{
+		minable = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.minable
@@ -2089,8 +2079,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		rotatable =
-		{
+		rotatable = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.rotatable
@@ -2103,8 +2092,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		operable =
-		{
+		operable = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.operable
@@ -2117,8 +2105,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		full_health =
-		{
+		full_health = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					if entity.health then
@@ -2139,8 +2126,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		backer_name =
-		{
+		backer_name = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.backer_name
@@ -2155,8 +2141,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		to_be_looted =
-		{
+		to_be_looted = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					if entity.name == "item-on-ground" then
@@ -2173,8 +2158,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		revive =
-		{
+		revive = {
 			get_value_function = nil,
 			limit_value_before_apply_function = nil,
 			apply_to_target_function = function(entity, value, source_player)
@@ -2186,8 +2170,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		kill =
-		{
+		kill = {
 			get_value_function = nil,
 			limit_value_before_apply_function = nil,
 			apply_to_target_function = function(entity, value, source_player)
@@ -2195,8 +2178,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		destroy =
-		{
+		destroy = {
 			get_value_function = nil,
 			limit_value_before_apply_function = nil,
 			apply_to_target_function = function(entity, value, source_player)
@@ -2204,8 +2186,7 @@ cheats.magic_wand_modifications =
 				return nil
 			end
 		},
-		team =
-		{
+		team = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					return entity.force
@@ -2255,7 +2236,7 @@ function cheats.apply_cheat_to_targets(source_player, targets, cheats_data, chea
 					else
 						value_after_change = cheat.get_value_function(target)
 					end
-					if should_print_message and not is_self  then
+					if should_print_message and not is_self then
 						if value_before_change ~= value_after_change then
 							cheat.print_applied_by_admin_message_function(source_player, target, value_after_change)
 						else
@@ -2308,8 +2289,8 @@ function cheats.apply_cheat_to_targets(source_player, targets, cheats_data, chea
 			fail_count = fail_count + 1
 		end
 	end
-	
-	-- Failed to apply on one or more players 
+
+	-- Failed to apply on one or more players
 	if should_print_message and failure_reason ~= nil then
 		if fail_count <= 1 then
 			if is_self_failed then
@@ -2317,7 +2298,11 @@ function cheats.apply_cheat_to_targets(source_player, targets, cheats_data, chea
 				source_player.print(failure_reason)
 			else
 				-- Failed to apply on a non-self target.
-				cheats_data.print_admin_failed_to_apply_to_single_target_message_function(source_player, failed_target, failure_reason)
+				cheats_data.print_admin_failed_to_apply_to_single_target_message_function(
+					source_player,
+					failed_target,
+					failure_reason
+				)
 			end
 		else
 			-- Failed to apply on multiple targets.
@@ -2329,7 +2314,12 @@ end
 
 -- Enables or disables all the cheats in the given cheats data to the given targets.
 -- @param cheats_data	For example, the personal_cheats_data.
-function cheats.enable_or_disable_all_cheats_to_targets(source_player, targets, cheats_data, enable, should_print_message)
+function cheats.enable_or_disable_all_cheats_to_targets(
+	source_player,
+	targets,
+	cheats_data,
+	enable,
+	should_print_message)
 	-- Iterate all cheats inside the cheats_data to enable or disable them.
 	for _, cheat_data in pairs(cheats_data.cheats) do
 		local is_default
@@ -2372,7 +2362,7 @@ function cheats.check_creative_mode_has_enabled(player)
 	-- If creative mode has not been enabled, notify the player in charge and do nothing.
 	if not global.creative_mode.enabled then
 		if player then
-			player.print{"message.creative-mode_not-yet-enabled"}
+			player.print {"message.creative-mode_not-yet-enabled"}
 		end
 		return false
 	end
@@ -2382,21 +2372,26 @@ end
 -- Enables or disables Creative Mode for all players.
 -- @param source_player	The player who enables or disables Creative Mode.
 -- @param ignore_current_state Whether the current state of Creative Mode should be ignored, such that the given command for enabling or disabling Creative Mode will be executed for sure.
-function cheats.enable_or_disable_creative_mode(source_player, enable, is_permanent, auto_apply_to_all_cheats, ignore_current_state)
+function cheats.enable_or_disable_creative_mode(
+	source_player,
+	enable,
+	is_permanent,
+	auto_apply_to_all_cheats,
+	ignore_current_state)
 	if not ignore_current_state then
 		if enable then
 			-- If creative mode has been enabled, notify the player in charge and do nothing.
 			if global.creative_mode.enabled then
 				if source_player then
-					source_player.print{"message.creative-mode_already-enabled"}
+					source_player.print {"message.creative-mode_already-enabled"}
 				end
 				return
 			end
-			
+
 			-- If creative mode has already been permanently disabled, notify the player in charge and do nothing.
 			if global.creative_mode.permanently_disabled then
 				if source_player then
-					source_player.print{"message.creative-mode_enable-failed"}
+					source_player.print {"message.creative-mode_enable-failed"}
 				end
 				return
 			end
@@ -2407,29 +2402,29 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
 			end
 		end
 	end
-	
+
 	-- Also unhide/hide the items so they can be selected as filter.
 	-- Unfortunately, LuaItemPrototype doesn't have flags property. This cannot be done at this moment.
---		for _, item in pairs(creative_mode_defines.names.items) do
---			if game.item_prototypes[item] ~= nil then
---				if enable then
---					table.remove(game.item_prototypes[item].flags, 2) -- The hidden flag is the second one.
---				else
---					table.insert(game.item_prototypes[item].flags, "hidden")
---				end
---			end
---		end
-	
+	--		for _, item in pairs(creative_mode_defines.names.items) do
+	--			if game.item_prototypes[item] ~= nil then
+	--				if enable then
+	--					table.remove(game.item_prototypes[item].flags, 2) -- The hidden flag is the second one.
+	--				else
+	--					table.insert(game.item_prototypes[item].flags, "hidden")
+	--				end
+	--			end
+	--		end
+
 	local player_name = source_player.name
-	
+
 	-- Save as creative mode has been enabled/disabled.
 	local previous_state = global.creative_mode.enabled
 	global.creative_mode.enabled = enable
-	
+
 	if enable then
 		-- Notify the players.
-		game.print{"message.creative-mode_enable-succeeded", player_name}
-		
+		game.print {"message.creative-mode_enable-succeeded", player_name}
+
 		-- Also raise the on-enable event.
 		if not previous_state then
 			remote_interface.raise_on_enabled_event(source_player)
@@ -2437,37 +2432,57 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
 	else
 		-- Notify the players.
 		if is_permanent then
-			game.print{"message.creative-mode_permanently-disable-succeeded", player_name}
+			game.print {"message.creative-mode_permanently-disable-succeeded", player_name}
 		else
-			game.print{"message.creative-mode_disable-succeeded", player_name}
+			game.print {"message.creative-mode_disable-succeeded", player_name}
 		end
-		
+
 		-- Also raise the on-disable event.
 		if previous_state then
 			remote_interface.raise_on_disabled_event(source_player)
 		end
 	end
-	
+
 	-- If it is permanently disabled, save the state so it cannot be enabled later.
 	if not enable and is_permanent then
 		global.creative_mode.permanently_disabled = true
 	end
-	
+
 	-- Apply to all cheats if needed
 	if auto_apply_to_all_cheats then
 		-- Personal cheats.
-		cheats.enable_or_disable_all_cheats_to_targets(source_player, game.players, cheats.personal_cheats_data, enable, false)
+		cheats.enable_or_disable_all_cheats_to_targets(
+			source_player,
+			game.players,
+			cheats.personal_cheats_data,
+			enable,
+			false
+		)
 		-- Team cheats.
 		cheats.enable_or_disable_all_cheats_to_targets(source_player, game.forces, cheats.team_cheats_data, enable, false)
 		-- Surface cheat - freeze daytime.
-		cheats.apply_cheat_to_targets(source_player, game.surfaces, cheats.surface_cheats_data, cheats.surface_cheats_data.cheats.freeze_daytime, enable, false)
+		cheats.apply_cheat_to_targets(
+			source_player,
+			game.surfaces,
+			cheats.surface_cheats_data,
+			cheats.surface_cheats_data.cheats.freeze_daytime,
+			enable,
+			false
+		)
 		-- Surface cheat - set daytime to 0.
 		if enable then
-			cheats.apply_cheat_to_targets(source_player, game.surfaces, cheats.surface_cheats_data, cheats.surface_cheats_data.cheats.daytime, 0, false)
+			cheats.apply_cheat_to_targets(
+				source_player,
+				game.surfaces,
+				cheats.surface_cheats_data,
+				cheats.surface_cheats_data.cheats.daytime,
+				0,
+				false
+			)
 		end
-		
+
 		if enable then
-			game.print{"message.creative-mode_enabled-all-cheats", player_name}
+			game.print {"message.creative-mode_enabled-all-cheats", player_name}
 		end
 	else
 		-- Unlock the creative tools' recipes.
@@ -2475,7 +2490,7 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
 			cheats.team_cheats_data.cheats.creative_tools_recipes.apply_to_target_function(force, enable, nil)
 		end
 	end
-	
+
 	-- Create or destroy the Creative Mode menu button.
 	gui_menu.create_or_destroy_main_menu_open_button_for_all_players()
 end
@@ -2484,7 +2499,8 @@ end
 
 -- Returns whether the given player is a valid candidate for instant request.
 local function is_player_valid_for_instant_request(player)
-	return global.creative_mode.personal_cheats.instant_request[player.index] and player.valid and player.connected and player.character
+	return global.creative_mode.personal_cheats.instant_request[player.index] and player.valid and player.connected and
+		player.character
 end
 
 -- Returns the number of logistic request slot on the given character.
@@ -2499,16 +2515,15 @@ local function apply_instant_request_on_player_character_slot(player, character,
 		local item_count_diff = requested_item_stack.count - player.get_item_count(requested_item_stack.name)
 		if item_count_diff > 0 then
 			-- Insert the wanted item.
-			player.insert{name = requested_item_stack.name, count = item_count_diff}
+			player.insert {name = requested_item_stack.name, count = item_count_diff}
 		end
 	end
 end
 
-
-
 -- Returns whether the given player is a valid candidate for instant trash.
 local function is_player_valid_for_instant_trash(player)
-	return global.creative_mode.personal_cheats.instant_trash[player.index] and player.valid and player.connected and player.character
+	return global.creative_mode.personal_cheats.instant_trash[player.index] and player.valid and player.connected and
+		player.character
 end
 
 -- Returns the logistic trash inventory on the given character.
@@ -2523,11 +2538,14 @@ local function apply_instant_trash_on_player_character_inventory(player, charact
 	end
 end
 
-
-
 -- Returns 1) the next valid player for slot cheat, e.g. instant request or instant trash, 2) whether the player index is updated,
 -- 3) the iterated next player index, and 4) the remaining number of check player count
-local function get_next_valid_player_for_slot_cheat(initial_next_player_index, current_next_player_index, check_same_player_index, remaining_total_check_player_count, check_player_valid_function)
+local function get_next_valid_player_for_slot_cheat(
+	initial_next_player_index,
+	current_next_player_index,
+	check_same_player_index,
+	remaining_total_check_player_count,
+	check_player_valid_function)
 	local player_count = #game.players
 	local player_index_updated = false
 	repeat
@@ -2540,19 +2558,19 @@ local function get_next_valid_player_for_slot_cheat(initial_next_player_index, c
 			current_next_player_index = 1
 			player_index_updated = true
 		end
-		
+
 		-- Avoid infinite loop.
 		if check_same_player_index and initial_next_player_index == current_next_player_index then
 			-- We are back to the starting player. Don't process anymore!
 			return nil, player_index_updated, current_next_player_index, remaining_total_check_player_count
 		end
-		
+
 		local player = game.players[current_next_player_index]
 		if check_player_valid_function(player) then
 			-- The player is a valid candidate.
 			return player, player_index_updated, current_next_player_index, remaining_total_check_player_count
 		end
-		
+
 		-- Invalid candidate, check the next player.
 		current_next_player_index = current_next_player_index + 1
 		player_index_updated = true
@@ -2574,7 +2592,14 @@ end
 -- @param apply_to_whole_inventory_at_once			If there is a specific inventory, whether the cheat can be applied to the whole inventory at once. For instant trash, it is true.
 -- @param get_inventory_or_slot_count_function		The function for getting the inventory, or maximum number of slots to be operated on the same player. It should accept LuaEntity (character) and returns either the inventory or the number of slots.
 -- @param apply_effect_function						The function for actually applying cheat effect on players. It should accept LuaPlayer, LuaEntity (character). If the cheat cannot be applied to the whole inventory at once, it should also accept uint (slot index). If there is specific inventory, it should also accept the inventory.
-local function apply_slot_cheat_to_players(initial_next_player_index, initial_slot_index, check_player_valid_function, have_specific_inventory, apply_to_whole_inventory_at_once, get_inventory_or_slot_count_function, apply_effect_function)
+local function apply_slot_cheat_to_players(
+	initial_next_player_index,
+	initial_slot_index,
+	check_player_valid_function,
+	have_specific_inventory,
+	apply_to_whole_inventory_at_once,
+	get_inventory_or_slot_count_function,
+	apply_effect_function)
 	-- Note: the logic is different from Creative Chest.
 	-- 		For Creative Chest, if the iterated chest is invalid, the tick will do nothing.
 	-- 		But for instant request (and instant trash), we want every ticks to be busy, to shorten the time between updates on each player.
@@ -2591,15 +2616,17 @@ local function apply_slot_cheat_to_players(initial_next_player_index, initial_sl
 	repeat
 		-- Get the valid player.
 		local player, player_index_updated
-		player, player_index_updated, current_next_player_index, remaining_total_check_player_count = get_next_valid_player_for_slot_cheat(
+		player, player_index_updated, current_next_player_index, remaining_total_check_player_count =
+			get_next_valid_player_for_slot_cheat(
 			initial_next_player_index,
 			current_next_player_index,
 			check_same_player_index,
 			remaining_total_check_player_count,
-			check_player_valid_function)
+			check_player_valid_function
+		)
 		if player then
 			current_next_player_index = player.index
-			
+
 			-- Get character and apply cheat.
 			local character = player.character
 			local slot_count
@@ -2609,11 +2636,11 @@ local function apply_slot_cheat_to_players(initial_next_player_index, initial_sl
 			else
 				slot_count = get_inventory_or_slot_count_function(character)
 			end
-			
+
 			if have_specific_inventory and apply_to_whole_inventory_at_once then
 				-- Apply to the whole inventory at once.
 				apply_effect_function(player, character, inventory)
-				
+
 				-- Next player.
 				current_next_player_index = current_next_player_index + 1
 				remaining_total_check_player_count = remaining_total_check_player_count - 1
@@ -2627,7 +2654,7 @@ local function apply_slot_cheat_to_players(initial_next_player_index, initial_sl
 					-- The player index has been updated. Reset slot index.
 					slot_index = 1
 				end
-				-- Get slot count.				
+				-- Get slot count.
 				if have_specific_inventory then
 					if inventory then
 						slot_count = #inventory
@@ -2642,7 +2669,7 @@ local function apply_slot_cheat_to_players(initial_next_player_index, initial_sl
 					remaining_total_slot_count = remaining_total_slot_count - 1
 					slot_index = slot_index + 1
 				end
-				
+
 				if remaining_total_slot_count > 0 then
 					-- We can check more slots. Go to the next player.
 					current_next_player_index = current_next_player_index + 1
@@ -2682,25 +2709,30 @@ end
 -- Applies cheat events that have been pending in the previous ticks.
 function cheats.tick()
 	-- Instant request.
-	global.creative_mode.personal_cheats.instant_request_next_player_index, global.creative_mode.personal_cheats.instant_request_next_player_slot_index = apply_slot_cheat_to_players(
+	global.creative_mode.personal_cheats.instant_request_next_player_index,
+		global.creative_mode.personal_cheats.instant_request_next_player_slot_index =
+		apply_slot_cheat_to_players(
 		global.creative_mode.personal_cheats.instant_request_next_player_index,
 		global.creative_mode.personal_cheats.instant_request_next_player_slot_index,
 		is_player_valid_for_instant_request,
 		false,
 		false,
 		get_character_request_slot_count,
-		apply_instant_request_on_player_character_slot)
-	
+		apply_instant_request_on_player_character_slot
+	)
+
 	-- Instant trash.
-	global.creative_mode.personal_cheats.instant_trash_next_player_index, _ = apply_slot_cheat_to_players(
+	global.creative_mode.personal_cheats.instant_trash_next_player_index, _ =
+		apply_slot_cheat_to_players(
 		global.creative_mode.personal_cheats.instant_trash_next_player_index,
 		0,
 		is_player_valid_for_instant_trash,
 		true,
 		true,
 		get_character_trash_inventory,
-		apply_instant_trash_on_player_character_inventory)
-	
+		apply_instant_trash_on_player_character_inventory
+	)
+
 	-- Instant blueprint. Iterate from back to front.
 	for i = #global.creative_mode.pending_instant_blueprint, 1, -1 do
 		local data = global.creative_mode.pending_instant_blueprint[i]
@@ -2734,7 +2766,7 @@ function cheats.tick()
 				else
 					revive_result = util.revive_tile_ghost_and_raise_event(entity, player, true)
 				end
-				
+
 				if revive_result == nil then
 					-- The ghost can not be revived.
 					if try_revive_count >= 1 then
@@ -2750,7 +2782,7 @@ function cheats.tick()
 			table.remove(global.creative_mode.pending_instant_blueprint, i)
 		end
 	end
-	
+
 	-- Instant deconstruction. Iterate from back to front.
 	-- Prepare for tile deconstruction.
 	local new_tiles_on_surfaces = nil
@@ -2771,21 +2803,33 @@ function cheats.tick()
 					local hidden_tile = surface.get_hidden_tile(position)
 					if hidden_tile then
 						-- Group the tiles to be set. Set them only after all data is ready.
-						if not new_tiles_on_surfaces then new_tiles_on_surfaces = {} end
+						if not new_tiles_on_surfaces then
+							new_tiles_on_surfaces = {}
+						end
 						-- Don't directly use "surface" as the key, because in each iteration, surface is a different instance of table. Use surface name instead because it is a primitive data type.
-						if not new_tiles_on_surfaces[surface_name] then new_tiles_on_surfaces[surface_name] = {} end
+						if not new_tiles_on_surfaces[surface_name] then
+							new_tiles_on_surfaces[surface_name] = {}
+						end
 						-- Tile array, for setting tiles.
-						if not new_tiles_on_surfaces[surface_name].tiles then new_tiles_on_surfaces[surface_name].tiles = {} end
+						if not new_tiles_on_surfaces[surface_name].tiles then
+							new_tiles_on_surfaces[surface_name].tiles = {}
+						end
 						-- Position array associated with player index, for raising event.
-						if not new_tiles_on_surfaces[surface_name].event_data then new_tiles_on_surfaces[surface_name].event_data = {} end
-						if not new_tiles_on_surfaces[surface_name].event_data[player_index] then new_tiles_on_surfaces[surface_name].event_data[player_index] = {} end
+						if not new_tiles_on_surfaces[surface_name].event_data then
+							new_tiles_on_surfaces[surface_name].event_data = {}
+						end
+						if not new_tiles_on_surfaces[surface_name].event_data[player_index] then
+							new_tiles_on_surfaces[surface_name].event_data[player_index] = {}
+						end
 						-- Record.
 						table.insert(new_tiles_on_surfaces[surface_name].event_data[player_index], position)
-						table.insert(new_tiles_on_surfaces[surface_name].tiles, 
-						{
-							name = hidden_tile,
-							position = position
-						})
+						table.insert(
+							new_tiles_on_surfaces[surface_name].tiles,
+							{
+								name = hidden_tile,
+								position = position
+							}
+						)
 					end
 					entity.destroy()
 				else
@@ -2804,20 +2848,27 @@ function cheats.tick()
 			-- Raise event.
 			local event_data = data.event_data
 			for player_index, positions in pairs(event_data) do
-                --TODO: FIXME
-                tiles = {}
-                table.insert(tiles, {old_tile={valid=false}--[=[TODO]=],position=positions})
+				--TODO: FIXME
+				tiles = {}
+				table.insert(
+					tiles,
+					{
+						old_tile = {valid = false},
+						 --[=[TODO]=]
+						position = positions
+					}
+				)
 				util.raise_event_for_destroyed_tiles(tiles, player_index, true)
 			end
 		end
 	end
-	
+
 	-- Surface cheat - don't generate enemy.
 	for i = #global.creative_mode.pending_areas_to_remove_enemies, 1, -1 do
 		local surface = global.creative_mode.pending_areas_to_remove_enemies[i].surface
 		local area = global.creative_mode.pending_areas_to_remove_enemies[i].area
 		if surface.valid then
-			for _, entity in pairs(surface.find_entities_filtered{area = area, force = "enemy"}) do
+			for _, entity in pairs(surface.find_entities_filtered {area = area, force = "enemy"}) do
 				entity.destroy()
 			end
 		end
@@ -2867,7 +2918,7 @@ function cheats.on_put_item(player)
 						-- But it is possible that cursor stack count is still 1 because the item is damaged, i.e. prototype is stackable but the actual item is not!
 						if cursor_stack.count <= 1 then
 							-- Insert an item to player's inventory.
-							if player.insert{name = cursor_stack_name, count = 1} > 0 then
+							if player.insert {name = cursor_stack_name, count = 1} > 0 then
 								-- This event is invoked even if the player uses the item to build ghost entity, i.e. no item is going to be spent.
 								-- In that case, we will have to get back the inserted item.
 								global.creative_mode.personal_cheats.has_restored_cursor_stack[player.index] = game.tick
@@ -2878,7 +2929,7 @@ function cheats.on_put_item(player)
 						end
 					else
 						-- The item is not stackable. Insert the item to the player's inventory.
-						if player.insert{name = cursor_stack_name, count = 1} > 0 then
+						if player.insert {name = cursor_stack_name, count = 1} > 0 then
 							global.creative_mode.personal_cheats.has_restored_cursor_stack[player.index] = game.tick
 						end
 					end
@@ -2927,10 +2978,10 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
 				if cursor_stack_prototype.stackable and cursor_stack_prototype.stack_size > 1 then
 					cursor_stack.count = 1
 				else
-					player.remove_item{name = cursor_stack.name, count = 1}
+					player.remove_item {name = cursor_stack.name, count = 1}
 				end
 			end
-		else
+		else --
 			-- If the player use the rail planner system to build rails, it is possible that the rail is consumed but the on_put_item was not fired.
 			-- The following was a planned fix for that, but unfortunately, the cursor stack has already become invalid for read and we cannot get its data.
 			--[[
@@ -2942,8 +2993,7 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
 					player.cursor_stack.count = 1
 				end
 			end
-			]]--
-			
+			]]
 			-- Approach no. 2
 			-- It works, but need more work to make it mod-proof. (Build a rail entity type to rail item table)
 			--[[
@@ -2956,7 +3006,7 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
 		end
 		global.creative_mode.personal_cheats.has_restored_cursor_stack[player.index] = nil
 	end
-	
+
 	-- Build options.
 	-- Active.
 	if global.creative_mode.build_options.active[player.index] == false then
@@ -2991,23 +3041,25 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
 			entity.force = force
 		end
 	end
-	
+
 	-- Instant blueprint. (Has to be done at last.)
 	if global.creative_mode.personal_cheats.instant_blueprint[player.index] then
 		if is_ghost or is_item_request_proxy then
 			-- Make sure the entity is not ignored by instant blueprint.
-			if not is_ghost or not instant_blueprint_blacklist[entity.ghost_name] then 
+			if not is_ghost or not instant_blueprint_blacklist[entity.ghost_name] then
 				-- We don't do the job if the instant-blueprint mod is installed and is activated.
 				if not mod_compatibler.is_instant_blueprint_installed_and_activated_for_player(player) then
 					-- Don't construct it right now.
-					table.insert(global.creative_mode.pending_instant_blueprint,
-					{
-						entity = entity,
-						player_index = player.index,
-						is_entity_ghost = is_entity_ghost,
-						try_revive_count = 0, -- We will only try to revive each ghost twice.
-						is_item_request_proxy = is_item_request_proxy,
-					})
+					table.insert(
+						global.creative_mode.pending_instant_blueprint,
+						{
+							entity = entity,
+							player_index = player.index,
+							is_entity_ghost = is_entity_ghost,
+							try_revive_count = 0, -- We will only try to revive each ghost twice.
+							is_item_request_proxy = is_item_request_proxy
+						}
+					)
 				end
 			end
 		end
@@ -3052,11 +3104,13 @@ function cheats.on_marked_for_deconstruction(player_index, entity)
 				-- We shouldn't raise event if the instant-blueprint mod is installed and is activated.
 				if not mod_compatibler.is_instant_blueprint_installed_and_activated_for_player_index(player_index) then
 					-- Don't destroy it right now. Filtered Deconstruction Planner may unmark the entity if it is filtered.
-					table.insert(global.creative_mode.pending_instant_deconstruction,
-					{
-						entity = entity,
-						player_index = player_index
-					})
+					table.insert(
+						global.creative_mode.pending_instant_deconstruction,
+						{
+							entity = entity,
+							player_index = player_index
+						}
+					)
 				end
 			end
 		end
@@ -3091,7 +3145,7 @@ end
 
 -- Applies cheats to the force whose research has been started if necessary.
 function cheats.on_research_started(event)
-	local research  = event.research
+	local research = event.research
 	local force = research.force
 	if global.creative_mode.team_cheats.instant_research[force.name] then
 		force.research_progress = 1

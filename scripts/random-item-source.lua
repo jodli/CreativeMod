@@ -1,14 +1,15 @@
 -- This file contains variables or functions that are related to the Random Item Source in this mod.
-if not random_item_source then random_item_source = {} end
+if not random_item_source then
+	random_item_source = {}
+end
 
 -- The position shift for item output for each direction.
-local random_item_source_shift =
-{
+local random_item_source_shift = {
 	-- The values are shifted from the original mod so surface.can_place_entity can work properly.
 	[defines.direction.north] = {x1 = 0.3, y1 = 0.9, x2 = -0.3, y2 = 0.9, x0 = 0, y0 = 0.9},
 	[defines.direction.east] = {x1 = -0.9, y1 = 0.3, x2 = -0.9, y2 = -0.3, x0 = -0.9, y0 = 0},
 	[defines.direction.south] = {x1 = -0.3, y1 = -0.9, x2 = 0.3, y2 = -0.9, x0 = 0, y0 = -0.9},
-	[defines.direction.west] = {x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0},
+	[defines.direction.west] = {x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0}
 }
 
 -- Picks the name of item to be generated according to the given array of circuit signals.
@@ -16,7 +17,7 @@ local function pick_item_from_signals(signals)
 	if signals == nil then
 		return nil
 	end
-	
+
 	-- Get total count.
 	local total_count = 0
 	local is_all_non_items = true
@@ -24,12 +25,12 @@ local function pick_item_from_signals(signals)
 		total_count = total_count + signal_data.count
 		is_all_non_items = is_all_non_items and signal_data.signal.type ~= "item"
 	end
-	
+
 	if is_all_non_items or total_count <= 0 then
 		-- All signals are non items. No item will be picked.
 		return nil
 	end
-	
+
 	-- Pick signal by count.
 	total_count = util.random(1, total_count)
 	for _, signal_data in pairs(signals) do
@@ -62,7 +63,7 @@ function random_item_source.tick()
 					if controller then
 						local green_network = controller.get_circuit_network(defines.wire_type.green)
 						local red_network = controller.get_circuit_network(defines.wire_type.red)
-					
+
 						-- Get the left and right item names.
 						local slot1 = nil
 						if green_network then
@@ -72,7 +73,7 @@ function random_item_source.tick()
 						if red_network then
 							slot2 = pick_item_from_signals(red_network.signals)
 						end
-											
+
 						-- Get the random-item-source's surface, position and shift for output, so we can drop items accordingly.
 						local surf = random_item_source.surface
 						local pos = random_item_source.position
@@ -84,14 +85,34 @@ function random_item_source.tick()
 							random_item_source_data.slot1_inserted_players = nil
 							random_item_source_data.slot1_last_item_position_on_belt = nil
 						else
-							item_providers_util.output_or_remove_item(surf, pos, shift.x1, shift.y1, opposite_dir, slot1, output_or_remove_item_operation_mode.output_mode, 1, random_item_source_data)
+							item_providers_util.output_or_remove_item(
+								surf,
+								pos,
+								shift.x1,
+								shift.y1,
+								opposite_dir,
+								slot1,
+								output_or_remove_item_operation_mode.output_mode,
+								1,
+								random_item_source_data
+							)
 						end
 						-- Output for slot2.
 						if slot2 == nil then
 							random_item_source_data.slot2_inserted_players = nil
 							random_item_source_data.slot2_last_item_position_on_belt = nil
 						else
-							item_providers_util.output_or_remove_item(surf, pos, shift.x2, shift.y2, opposite_dir, slot2, output_or_remove_item_operation_mode.output_mode, 2, random_item_source_data)
+							item_providers_util.output_or_remove_item(
+								surf,
+								pos,
+								shift.x2,
+								shift.y2,
+								opposite_dir,
+								slot2,
+								output_or_remove_item_operation_mode.output_mode,
+								2,
+								random_item_source_data
+							)
 						end
 					end
 				end

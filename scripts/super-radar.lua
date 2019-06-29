@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Radar in this mod.
-if not super_radar then super_radar = {} end
+if not super_radar then
+	super_radar = {}
+end
 
 -- Processes the table of super_radar in global.
 function super_radar.tick()

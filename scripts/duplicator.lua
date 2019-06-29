@@ -1,13 +1,14 @@
 -- This file contains variables or functions that are related to the Duplicator in this mod.
-if not duplicator then duplicator = {} end
+if not duplicator then
+	duplicator = {}
+end
 
 -- The position shift for duplicating items or fluids for each direction.
-local duplicator_shift =
-{
+local duplicator_shift = {
 	[defines.direction.north] = {x = 0, y = 1},
 	[defines.direction.east] = {x = -1, y = 0},
 	[defines.direction.south] = {x = 0, y = -1},
-	[defines.direction.west] = {x = 1, y = 0},
+	[defines.direction.west] = {x = 1, y = 0}
 }
 
 -- Processes the table of duplicator_data in global.
@@ -30,7 +31,17 @@ function duplicator.tick()
 					local shift = duplicator_shift[dir]
 					local filter = duplicator.get_filter(1)
 					-- Duplicate the items in front of it.
-					item_providers_util.output_or_remove_item(surf, pos, shift.x, shift.y, util.oppositedirection(dir), filter, output_or_remove_item_operation_mode.duplicate_mode, nil, duplicator_data)
+					item_providers_util.output_or_remove_item(
+						surf,
+						pos,
+						shift.x,
+						shift.y,
+						util.oppositedirection(dir),
+						filter,
+						output_or_remove_item_operation_mode.duplicate_mode,
+						nil,
+						duplicator_data
+					)
 				end
 			end
 		else

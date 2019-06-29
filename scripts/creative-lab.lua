@@ -1,17 +1,19 @@
 -- This file contains variables or functions that are related to the Creative Lab in this mod.
-if not creative_lab then creative_lab = {} end
+if not creative_lab then
+	creative_lab = {}
+end
 
 -- Processes the table of creative_lab in global.
 function creative_lab.tick()
 	local next_update_index = global.creative_mode.creative_lab_next_update_index
 	local creative_labs = global.creative_mode.creative_lab
 	local lab_count = #creative_labs
-	
+
 	if lab_count <= 0 then
 		-- Nothing to do.
 		return
 	end
-	
+
 	-- Refill energy. This has to be done in every tick for every labs, or otherwise the no-energy icon will appear.
 	-- Also remove invalid labs from the array.
 	local labs_updated = false
@@ -27,7 +29,7 @@ function creative_lab.tick()
 			lab_count = lab_count - 1
 		end
 	end
-	
+
 	-- Do we still have valid labs?
 	if lab_count > 0 then
 		-- Make sure the update index is in range.
@@ -40,7 +42,7 @@ function creative_lab.tick()
 			-- Update the lab.
 			if not creative_lab.to_be_deconstructed(creative_lab.force) then
 				for _, item in ipairs(global.tool_item_list) do
-					creative_lab.insert{name = item.name, count = game.item_prototypes[item.name].stack_size}
+					creative_lab.insert {name = item.name, count = game.item_prototypes[item.name].stack_size}
 				end
 			end
 			-- Prepare for the next lab.
@@ -54,7 +56,7 @@ function creative_lab.tick()
 	else
 		next_update_index = 1
 	end
-	
+
 	if labs_updated then
 		global.creative_mode.creative_lab = creative_labs
 	end

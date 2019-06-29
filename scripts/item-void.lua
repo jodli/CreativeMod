@@ -1,9 +1,10 @@
 -- This file contains variables or functions that are related to the Matter Void in this mod.
-if not item_void then item_void = {} end
+if not item_void then
+	item_void = {}
+end
 
 -- The position shift for item removal for each direction.
-local item_void_shift =
-{
+local item_void_shift = {
 	[defines.direction.north] = {x = 0, y = -0.9},
 	[defines.direction.east] = {x = 0.9, y = 0},
 	[defines.direction.south] = {x = 0, y = 0.9},
@@ -30,7 +31,17 @@ function item_void.tick()
 					local shift = item_void_shift[dir]
 					local filter = item_void.get_filter(1)
 					-- Remove the items in front of it.
-					item_providers_util.output_or_remove_item(surf, pos, shift.x, shift.y, util.oppositedirection(dir), filter, output_or_remove_item_operation_mode.remove_mode, nil, item_void_data)
+					item_providers_util.output_or_remove_item(
+						surf,
+						pos,
+						shift.x,
+						shift.y,
+						util.oppositedirection(dir),
+						filter,
+						output_or_remove_item_operation_mode.remove_mode,
+						nil,
+						item_void_data
+					)
 				end
 			end
 		else

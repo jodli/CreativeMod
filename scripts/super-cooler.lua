@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Cooler in this mod.
-if not super_cooler then super_cooler = {} end
+if not super_cooler then
+	super_cooler = {}
+end
 
 -- Processes the table of super_cooler in global.
 function super_cooler.tick()

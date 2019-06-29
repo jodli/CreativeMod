@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Active Energy Source in this mod.
-if not energy_source then energy_source = {} end
+if not energy_source then
+	energy_source = {}
+end
 
 -- Processes the table of energy_source in global.
 function energy_source.tick()

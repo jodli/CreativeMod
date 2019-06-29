@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Energy Void in this mod.
-if not energy_void then energy_void = {} end
+if not energy_void then
+	energy_void = {}
+end
 
 -- Processes the table of energy_void in global.
 function energy_void.tick()

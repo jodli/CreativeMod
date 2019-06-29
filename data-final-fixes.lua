@@ -1,21 +1,21 @@
 -- Create free recipe for each fluid.
 for _, fluid in pairs(data.raw["fluid"]) do
 	data:extend(
-	{
 		{
-			type = "recipe",
-			name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
-			category = creative_mode_defines.names.recipe_categories.free_fluids,
-			ingredients = {},
-			results =
 			{
-				{type = "fluid", name = fluid.name, amount = 5000}
-			},
-			main_product = fluid.name,
-			subgroup = creative_mode_defines.names.item_subgroups.free_fluids,
-			enabled = false
+				type = "recipe",
+				name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
+				category = creative_mode_defines.names.recipe_categories.free_fluids,
+				ingredients = {},
+				results = {
+					{type = "fluid", name = fluid.name, amount = 5000}
+				},
+				main_product = fluid.name,
+				subgroup = creative_mode_defines.names.item_subgroups.free_fluids,
+				enabled = false
+			}
 		}
-	})
+	)
 end
 
 -- Some mods (e.g. Bob's Modules) add limitations to all productivity modules. But we want our super productivity module to be limitless.
@@ -24,11 +24,10 @@ data.raw["module"][creative_mode_defines.names.recipes.super_productivity_module
 --------------------------------------------------------------
 
 -- All possible data raw names for items that have place results of entities.
-local possible_data_raw_types_for_items_of_entities =
-{
+local possible_data_raw_types_for_items_of_entities = {
 	"item",
-	"item-with-entity-data",	-- 0.13
-	"item-with-label",			-- 0.13
+	"item-with-entity-data", -- 0.13
+	"item-with-label" -- 0.13
 }
 -- Make a dictionary for recording all items' place results, so we can find whether the items for the enemy worms and spawners already exist.
 local item_place_results = {}
@@ -71,14 +70,17 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 	if not data.raw[raw_name] then
 		return
 	end
-	
+
 	-- We will extend the data after the following for-loop, to avoid problem caused by altering the iterating list.
 	local new_data = {}
 	for _, entity in pairs(data.raw[raw_name]) do
 		-- Add item and recipe only if
 		-- a) for structures: there is no item for the entity. If there is already an item, there is high chance that its recipe is also there.
 		-- b) for units: there is spawner for the unit. If there is no spawner for the unit, there is high chance that the unit is created by script for special purpose.
-		if (raw_name == "unit" and has_spawner_for_enemy_unit(entity)) or (raw_name ~= "unit" and not has_item_for_enemy_entity(entity)) then
+		if
+			(raw_name == "unit" and has_spawner_for_enemy_unit(entity)) or
+				(raw_name ~= "unit" and not has_item_for_enemy_entity(entity))
+		 then
 			local entity_name = creative_mode_defines.names.enemy_entity_prefix .. entity.name
 			local entity_localised_name
 			if settings.startup[creative_mode_defines.names.settings.enemy_structures_add_name_suffix].value then
@@ -98,8 +100,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			end
 			local item_name = creative_mode_defines.names.enemy_item_prefix .. entity.name
 			local recipe_name = creative_mode_defines.names.enemy_recipe_prefix .. entity.name
-			
-			
+
 			-- Clone the entity.
 			-- We don't use the original entity because that will make their corpse collide with our structures.
 			local new_entity = util.table.deepcopy(entity)
@@ -117,36 +118,40 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 				table.insert(flags, "hidden")
 			end
 			-- Create item for the entity.
-			table.insert(new_data,
-			{
-				type = "item",
-				name = item_name,
-				localised_name = entity_localised_name, -- Item does not know the entity's custom localised name, so we have to also use custom localised name for it.
-				icon_size = 32,
-                icon = entity.icon,
-				flags = flags,
-				subgroup = creative_mode_defines.names.item_subgroups.enemies,
-				--order = entity.order,
-				place_result = entity_name,
-				stack_size = 50
-			})
+			table.insert(
+				new_data,
+				{
+					type = "item",
+					name = item_name,
+					localised_name = entity_localised_name, -- Item does not know the entity's custom localised name, so we have to also use custom localised name for it.
+					icon_size = 32,
+					icon = entity.icon,
+					flags = flags,
+					subgroup = creative_mode_defines.names.item_subgroups.enemies,
+					--order = entity.order,
+					place_result = entity_name,
+					stack_size = 50
+				}
+			)
 			-- And recipe.
-			table.insert(new_data,
-			{
-				type = "recipe",
-				name = recipe_name,
-				category = creative_mode_defines.names.recipe_categories.enemies,
-				ingredients = {},
-				result = item_name,
-				enabled = false
-			})
+			table.insert(
+				new_data,
+				{
+					type = "recipe",
+					name = recipe_name,
+					category = creative_mode_defines.names.recipe_categories.enemies,
+					ingredients = {},
+					result = item_name,
+					enabled = false
+				}
+			)
 		end
 	end
-	
+
 	-- Extend data.
-    if #new_data > 0 then
-        data:extend(new_data)
-    end
+	if #new_data > 0 then
+		data:extend(new_data)
+	end
 end
 
 -- Worms.
@@ -162,11 +167,13 @@ clone_enemy_entities_in_data_raw_and_create_recipe("unit")
 local resistances = {}
 for _, damage_type in pairs(data.raw["damage-type"]) do
 	local damage_type_name = damage_type.name
-	table.insert(resistances,
-	{
-		type = damage_type_name,
-		percent = 100
-	})
+	table.insert(
+		resistances,
+		{
+			type = damage_type_name,
+			percent = 100
+		}
+	)
 end
 
 -- Make the super robots to have absolute resistance.
@@ -252,19 +259,18 @@ for _, name in pairs(finite_resource_names) do
 	end
 	local icons = resource.icons
 	if icons then
-        -- TODO: support non-standard icon sizes
-        if resource.icon_size == 32 then
-            table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"})
-        end
+		-- TODO: support non-standard icon sizes
+		if resource.icon_size == 32 then
+			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"})
+		end
 	else
-        -- TODO: support non-standard icon sizes
-        if resource.icon_size == 32 then
-            resource.icons =
-            {
-                {icon = resource.icon},
-                {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"}
-            }
-        end
+		-- TODO: support non-standard icon sizes
+		if resource.icon_size == 32 then
+			resource.icons = {
+				{icon = resource.icon},
+				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"}
+			}
+		end
 	end
 	resource.infinite = true
 	resource.minimum = 60000
@@ -278,11 +284,11 @@ for _, name in pairs(finite_resource_names) do
 			for _, result in pairs(results) do
 				result.amount_min = 10
 				result.amount_max = 10
-                if not result.name then 
-                    result.name = result[1]
-                    result[1] = nil
-                    result[2] = nil
-                end
+				if not result.name then
+					result.name = result[1]
+					result[1] = nil
+					result[2] = nil
+				end
 			end
 		else
 			local result = minable.result
@@ -293,6 +299,6 @@ for _, name in pairs(finite_resource_names) do
 		end
 	end
 	resource.autoplace = nil
-	
-	data:extend{resource}
+
+	data:extend {resource}
 end

@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Boiler in this mod.
-if not super_boiler then super_boiler = {} end
+if not super_boiler then
+	super_boiler = {}
+end
 
 -- Processes the table of super_boiler in global.
 function super_boiler.tick()

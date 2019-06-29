@@ -1,5 +1,7 @@
 -- This file manages variables or functions that are related to the compatibility to other mods.
-if not mod_compatibler then mod_compatibler = {} end
+if not mod_compatibler then
+	mod_compatibler = {}
+end
 
 -------------------------------------------------
 -- Instant Blueprint

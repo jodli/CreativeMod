@@ -1,7 +1,6 @@
 require("defines")
 
-data:extend
-{
+data:extend {
 	{
 		-- Default initial action.
 		type = "string-setting",
@@ -9,7 +8,7 @@ data:extend
 		setting_type = "runtime-global",
 		default_value = creative_mode_defines.values.default_initial_actions.show_popup,
 		allowed_values = creative_mode_defines.values.default_initial_actions,
-		order = "a-a",
+		order = "a-a"
 	},
 	{
 		-- Unhide items.
@@ -19,7 +18,6 @@ data:extend
 		default_value = false,
 		order = "a-b"
 	},
-	
 	{
 		-- Creative chest size.
 		type = "int-setting",
@@ -38,7 +36,6 @@ data:extend
 		default_value = false,
 		order = "b-b"
 	},
-	
 	{
 		-- Autofill requester chest size.
 		type = "int-setting",
@@ -49,7 +46,6 @@ data:extend
 		maximum_value = 255,
 		order = "c"
 	},
-	
 	{
 		-- Duplicating chest size.
 		type = "int-setting",
@@ -60,7 +56,6 @@ data:extend
 		maximum_value = 255,
 		order = "d"
 	},
-	
 	{
 		-- Void requester chest size.
 		type = "int-setting",
@@ -71,7 +66,6 @@ data:extend
 		maximum_value = 255,
 		order = "e"
 	},
-	
 	{
 		-- Void storage chest size.
 		type = "int-setting",
@@ -82,7 +76,6 @@ data:extend
 		maximum_value = 255,
 		order = "f"
 	},
-	
 	{
 		-- Creative cargo wagon size.
 		type = "int-setting",
@@ -101,7 +94,6 @@ data:extend
 		default_value = true,
 		order = "g-b"
 	},
-	
 	{
 		-- Duplicating cargo wagon size.
 		type = "int-setting",
@@ -112,7 +104,6 @@ data:extend
 		maximum_value = 255,
 		order = "h"
 	},
-	
 	{
 		-- Void cargo wagon size.
 		type = "int-setting",
@@ -123,7 +114,6 @@ data:extend
 		maximum_value = 255,
 		order = "i"
 	},
-	
 	{
 		-- Add suffix to enemy structures' names.
 		type = "bool-setting",
@@ -132,9 +122,8 @@ data:extend
 		default_value = true,
 		order = "j"
 	},
-	
 	---------------------------------------------------------------------------------------
-	
+
 	{
 		-- Enable invincible player by default.
 		type = "bool-setting",
@@ -184,7 +173,6 @@ data:extend
 		allowed_values = creative_mode_defines.values.default_technology_research_cheat_types,
 		order = "l[force-cheat]-a[technology-research-cheat-type]"
 	},
-	
 	{
 		-- Override evolution factor by default.
 		type = "bool-setting",
@@ -202,5 +190,5 @@ data:extend
 		minimum_value = 0,
 		maximum_value = 1,
 		order = "l[force-cheat]-c[default-evolution]"
-	},
+	}
 }

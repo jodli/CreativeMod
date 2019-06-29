@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Creator magic wand in this mod.
-if not magic_wand_creator then magic_wand_creator = {} end
+if not magic_wand_creator then
+	magic_wand_creator = {}
+end
 
 -- Returns whether tile correction should be performed for the given player.
 function magic_wand_creator.get_tile_correction(player)
@@ -13,7 +15,9 @@ end
 
 -- Sets whether tile correction should be performed for the given player.
 function magic_wand_creator.set_tile_correction(player, tile_correction)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].tile_correction = tile_correction
 end
 
@@ -31,7 +35,9 @@ end
 
 -- Sets whether the don't-kill-players-by-tiles option is turned on for the given player.
 function magic_wand_creator.set_dont_kill_players_by_tiles(player, dont_kill_players_by_tiles)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles = dont_kill_players_by_tiles
 end
 
@@ -52,13 +58,15 @@ end
 
 -- Sets the given tile prototype as the selected tile by the given player. It can be nil.
 function magic_wand_creator.set_selected_tile_prototype(player, tile_prototype)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	if tile_prototype then
 		global.creative_mode.magic_wand_settings.creator[player.index].tile_name = tile_prototype.name
 	else
 		global.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_name = "" 
+	global.creative_mode.magic_wand_settings.creator[player.index].resource_name = ""
 end
 
 ----
@@ -77,7 +85,9 @@ end
 
 -- Sets the given resource entity prototype as the selected resource by the given player. It can be nil.
 function magic_wand_creator.set_selected_resource_prototype(player, resource_prototype)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
 	if resource_prototype then
 		global.creative_mode.magic_wand_settings.creator[player.index].resource_name = resource_prototype.name
@@ -101,7 +111,9 @@ end
 
 -- Sets the resource amount when creating resources for the given player.
 function magic_wand_creator.set_resource_amount(player, resource_amount)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].resource_amount = resource_amount
 end
 
@@ -119,7 +131,9 @@ end
 
 -- Sets the index of the used pattern for the given player.
 function magic_wand_creator.set_use_pattern(player, used_pattern_index)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index = used_pattern_index
 end
 
@@ -140,13 +154,15 @@ end
 
 -- Sets the given tile prototype as the second selected tile by the given player. It can be nil.
 function magic_wand_creator.set_selected_tile_prototype_2(player, tile_prototype_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	if tile_prototype_2 then
 		global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = tile_prototype_2.name
 	else
 		global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = "" 
+	global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = ""
 end
 
 ----
@@ -165,7 +181,9 @@ end
 
 -- Sets the given resource entity prototype as the second selected resource by the given player. It can be nil.
 function magic_wand_creator.set_selected_resource_prototype_2(player, resource_prototype_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
 	if resource_prototype_2 then
 		global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = resource_prototype_2.name
@@ -189,7 +207,9 @@ end
 
 -- Sets the resource amount when creating resources based on the second selected resource for the given player.
 function magic_wand_creator.set_resource_amount_2(player, resource_amount_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].resource_amount_2 = resource_amount_2
 end
 
@@ -207,7 +227,9 @@ end
 
 -- Sets whether the also-remove-decoratives option is turned on for the given player.
 function magic_wand_creator.set_also_remove_decoratives(player, also_remove_decoratives)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives = also_remove_decoratives
 end
 
@@ -225,8 +247,11 @@ end
 
 -- Sets whether the don't-remove-player-characters option is turned on for the given player.
 function magic_wand_creator.set_dont_remove_player_characters(player, dont_remove_player_characters)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters = dont_remove_player_characters
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
+	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters =
+		dont_remove_player_characters
 end
 
 ----
@@ -242,9 +267,14 @@ function magic_wand_creator.get_dont_remove_tiles_if_any_entity_is_selected(play
 end
 
 -- Sets whether tile removal should not be performed when there is any entity being selected for the given player.
-function magic_wand_creator.set_dont_remove_tiles_if_any_entity_is_selected(player, dont_remove_tiles_if_any_entity_is_selected)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected = dont_remove_tiles_if_any_entity_is_selected
+function magic_wand_creator.set_dont_remove_tiles_if_any_entity_is_selected(
+	player,
+	dont_remove_tiles_if_any_entity_is_selected)
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
+	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected =
+		dont_remove_tiles_if_any_entity_is_selected
 end
 
 ----
@@ -261,8 +291,11 @@ end
 
 -- Sets whether the don't-kill-players-by-removing-tiles option is turned on for the given player.
 function magic_wand_creator.set_dont_kill_players_by_removing_tiles(player, dont_kill_players_by_removing_tiles)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles = dont_kill_players_by_removing_tiles
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
+	global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles =
+		dont_kill_players_by_removing_tiles
 end
 
 ----
@@ -279,8 +312,12 @@ end
 
 -- Sets whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_creator.set_alt_mode_apply_on_force(player, force, apply)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then global.creative_mode.magic_wand_settings.creator[player.index] = {} end
-	if not global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces then global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces = {} end
+	if not global.creative_mode.magic_wand_settings.creator[player.index] then
+		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	end
+	if not global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces then
+		global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces = {}
+	end
 	global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces[force.name] = apply
 end
 
@@ -288,7 +325,10 @@ end
 
 -- Creates smoke effect at the given position in the given surface.
 local function create_smoke_at(surface, position)
-    surface.create_trivial_smoke{name = creative_mode_defines.names.entities.magic_wand_smoke_creator, position = position}
+	surface.create_trivial_smoke {
+		name = creative_mode_defines.names.entities.magic_wand_smoke_creator,
+		position = position
+	}
 end
 
 -- Creates smoke effect at the entity's position.
@@ -308,20 +348,20 @@ local function get_safe_positions_for_all_players_on_surface(surface)
 				local position = character.position
 				local rounded_x = util.round(position.x)
 				local rounded_y = util.round(position.y)
-				
+
 				-- Give him a 3x3 safe area.
 				local x = rounded_x - 1
 				player_positions[x] = player_positions[x] or {}
 				player_positions[x][rounded_y - 1] = true
 				player_positions[x][rounded_y] = true
 				player_positions[x][rounded_y + 1] = true
-				
+
 				x = rounded_x
 				player_positions[x] = player_positions[x] or {}
 				player_positions[x][rounded_y - 1] = true
 				player_positions[x][rounded_y] = true
 				player_positions[x][rounded_y + 1] = true
-				
+
 				x = rounded_x + 1
 				player_positions[x] = player_positions[x] or {}
 				player_positions[x][rounded_y - 1] = true
@@ -334,15 +374,19 @@ local function get_safe_positions_for_all_players_on_surface(surface)
 end
 
 -- Creates tiles or resources in checker pattern on the given tiles for the given player.
-local function create_tiles_or_resources_in_pattern(player, tiles, tile_or_resource_prototype_data_list, pattern_function)
+local function create_tiles_or_resources_in_pattern(
+	player,
+	tiles,
+	tile_or_resource_prototype_data_list,
+	pattern_function)
 	local surface = player.surface
-	
+
 	local dont_kill_players_by_tiles = magic_wand_creator.get_dont_kill_players_by_tiles(player)
 	local player_positions
-	
+
 	local tiles_to_be_created
 	local tile_positions_to_be_created
-	
+
 	-- Iterate the selected tiles.
 	for _, tile in pairs(tiles) do
 		local position = tile.position
@@ -363,16 +407,20 @@ local function create_tiles_or_resources_in_pattern(player, tiles, tile_or_resou
 				player_positions = player_positions or get_safe_positions_for_all_players_on_surface(surface)
 			end
 			if tile.name ~= new_tile_name then
-				if not can_tile_kill_player or not dont_kill_players_by_tiles or not player_positions[x] or not player_positions[x][y] then
+				if
+					not can_tile_kill_player or not dont_kill_players_by_tiles or not player_positions[x] or not player_positions[x][y]
+				 then
 					-- Prepare to set tiles.
 					tiles_to_be_created = tiles_to_be_created or {}
 					tile_positions_to_be_created = tile_positions_to_be_created or {}
 					-- Record the position and tile name, so we can set them later.
-					table.insert(tiles_to_be_created,
-					{
-						name = new_tile_name,
-						position = position
-					})
+					table.insert(
+						tiles_to_be_created,
+						{
+							name = new_tile_name,
+							position = position
+						}
+					)
 					table.insert(tile_positions_to_be_created, position)
 					create_smoke_at(surface, position)
 				end
@@ -385,9 +433,9 @@ local function create_tiles_or_resources_in_pattern(player, tiles, tile_or_resou
 			if selected_resource then
 				local new_resource_name = selected_resource.name
 				-- Create entity if possible.
-				if surface.can_place_entity{name = new_resource_name, position = position} then
-					local entity = surface.create_entity
-					{
+				if surface.can_place_entity {name = new_resource_name, position = position} then
+					local entity =
+						surface.create_entity {
 						name = new_resource_name,
 						position = position,
 						amount = resource_amount
@@ -395,30 +443,33 @@ local function create_tiles_or_resources_in_pattern(player, tiles, tile_or_resou
 					if entity then
 						create_smoke_effect_at_entity_position(entity)
 						-- Raise event.
-						util.raise_event(defines.events.on_built_entity,
-						{
-							created_entity = entity,
-							player_index = player.index
-						})
+						util.raise_event(
+							defines.events.on_built_entity,
+							{
+								created_entity = entity,
+								player_index = player.index
+							}
+						)
 					end
 				end
 			end
 		end
 	end
-	
+
 	-- Actually create tiles.
 	if tiles_to_be_created then
 		surface.set_tiles(tiles_to_be_created, magic_wand_creator.get_tile_correction(player))
 		-- Raise event.
-		util.raise_event(defines.events.on_player_built_tile,
-		{
-			player_index = player.index,
-            surface_index = player.surface.index,
-			positions = tile_positions_to_be_created
-		})
+		util.raise_event(
+			defines.events.on_player_built_tile,
+			{
+				player_index = player.index,
+				surface_index = player.surface.index,
+				positions = tile_positions_to_be_created
+			}
+		)
 	end
 end
-
 
 -- Handler of the on_player_selected_area event.
 -- Returns whether the event is consumed and hence no need to further pass it to other handlers.
@@ -426,8 +477,7 @@ function magic_wand_creator.on_player_selected_area(player, area, item_name, ent
 	if item_name == creative_mode_defines.names.items.magic_wand_creator then
 		if rights.can_player_use_creator_magic_wand(player) then
 			-- Get the first selected tile or resource.
-			local tile_or_resource_prototype_data_list =
-			{
+			local tile_or_resource_prototype_data_list = {
 				{
 					tile_prototype = magic_wand_creator.get_selected_tile_prototype(player),
 					resource_prototype = magic_wand_creator.get_selected_resource_prototype(player),
@@ -439,44 +489,56 @@ function magic_wand_creator.on_player_selected_area(player, area, item_name, ent
 			-- Create second tile or resource?
 			if pattern_index > 1 then
 				-- Yes. Get the second selected tile or resource.
-				table.insert(tile_or_resource_prototype_data_list,
-				{
-					tile_prototype = magic_wand_creator.get_selected_tile_prototype_2(player),
-					resource_prototype = magic_wand_creator.get_selected_resource_prototype_2(player),
-					resource_amount = magic_wand_creator.get_resource_amount_2(player)
-				})
+				table.insert(
+					tile_or_resource_prototype_data_list,
+					{
+						tile_prototype = magic_wand_creator.get_selected_tile_prototype_2(player),
+						resource_prototype = magic_wand_creator.get_selected_resource_prototype_2(player),
+						resource_amount = magic_wand_creator.get_resource_amount_2(player)
+					}
+				)
 			end
 			-- Pattern function.
 			local pattern_function
 			local data_count = #tile_or_resource_prototype_data_list
 			if pattern_index == 2 then
 				-- Horizontal stripe.
-				pattern_function = function(x, y) return y % data_count + 1 end
+				pattern_function = function(x, y)
+					return y % data_count + 1
+				end
 			elseif pattern_index == 3 then
 				-- Vertical stripe.
-				pattern_function = function(x, y) return x % data_count + 1 end
+				pattern_function = function(x, y)
+					return x % data_count + 1
+				end
 			elseif pattern_index == 4 then
 				-- Checker.
-				pattern_function = function(x, y) return (x + y) % data_count + 1 end
+				pattern_function = function(x, y)
+					return (x + y) % data_count + 1
+				end
 			elseif pattern_index == 5 then
 				-- Random.
-				pattern_function = function(x, y) return util.random(1, data_count) end
+				pattern_function = function(x, y)
+					return util.random(1, data_count)
+				end
 			else
 				-- Default: no pattern.
-				pattern_function = function(x, y) return 1 end
+				pattern_function = function(x, y)
+					return 1
+				end
 			end
-			
+
 			-- Create tiles or resources!
 			local data_count = #tile_or_resource_prototype_data_list
 			create_tiles_or_resources_in_pattern(player, tiles, tile_or_resource_prototype_data_list, pattern_function)
 		else
 			-- No right to use.
-			player.print{"message.creative-mode_no-right-to-use-magic-wand"}
+			player.print {"message.creative-mode_no-right-to-use-magic-wand"}
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end
 
@@ -486,12 +548,12 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 	if item_name == creative_mode_defines.names.items.magic_wand_creator then
 		if rights.can_player_use_creator_magic_wand(player) then
 			local surface = player.surface
-			
+
 			-- Removes decoratives.
 			if magic_wand_creator.get_also_remove_decoratives(player) then
 				surface.destroy_decoratives(area)
 			end
-			
+
 			-- Removes the selected entities.
 			local has_destroyed_entity = false
 			local dont_remove_player_characters = magic_wand_creator.get_dont_remove_player_characters(player)
@@ -521,7 +583,7 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 					end
 				end
 			end
-			
+
 			-- Also remove tiles.
 			-- But check if we can do so first.
 			if has_destroyed_entity and magic_wand_creator.get_dont_remove_tiles_if_any_entity_is_selected(player) then
@@ -550,16 +612,29 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 						end
 					end
 					if remove_this_tile then
-						if not new_tiles then new_tiles = {} end
-						if not old_tiles then old_tiles = {} end
-						table.insert(new_tiles,
-						{
-							name = hidden_tile_name,
-							position = position
-						})
-                        --TODO: FIXME
-						table.insert(old_tiles, {old_tile={valid=false}--[=[TODO]=],position=position})
-						create_smoke_at(surface, position)	
+						if not new_tiles then
+							new_tiles = {}
+						end
+						if not old_tiles then
+							old_tiles = {}
+						end
+						table.insert(
+							new_tiles,
+							{
+								name = hidden_tile_name,
+								position = position
+							}
+						)
+						--TODO: FIXME
+						table.insert(
+							old_tiles,
+							{
+								old_tile = {valid = false},
+								 --[=[TODO]=]
+								position = position
+							}
+						)
+						create_smoke_at(surface, position)
 					end
 				end
 			end
@@ -570,11 +645,11 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 			end
 		else
 			-- No right to use.
-			player.print{"message.creative-mode_no-right-to-use-magic-wand"}
+			player.print {"message.creative-mode_no-right-to-use-magic-wand"}
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end

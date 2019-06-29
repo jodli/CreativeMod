@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Beacon in this mod.
-if not super_beacon then super_beacon = {} end
+if not super_beacon then
+	super_beacon = {}
+end
 
 -- Processes the table of super_beacon in global.
 function super_beacon.tick()

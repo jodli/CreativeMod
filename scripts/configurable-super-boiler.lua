@@ -1,5 +1,7 @@
 -- This file contains variables or functions that are related to the Super Boiler in this mod.
-if not configurable_super_boiler then configurable_super_boiler = {} end
+if not configurable_super_boiler then
+	configurable_super_boiler = {}
+end
 
 -- Processes the table of configurable_super_boiler_data in global.
 function configurable_super_boiler.tick()
@@ -23,7 +25,12 @@ end
 function configurable_super_boiler.update_temperature(configurable_super_boiler_data, new_temperature)
 	if configurable_super_boiler_data.temperature ~= new_temperature then
 		local entity = configurable_super_boiler_data.entity
-		entity.surface.create_entity{name = "flying-text", position = entity.position, color = {r = 1, g = 1, b = 1}, text = new_temperature .. "°C"}
+		entity.surface.create_entity {
+			name = "flying-text",
+			position = entity.position,
+			color = {r = 1, g = 1, b = 1},
+			text = new_temperature .. "°C"
+		}
 		configurable_super_boiler_data.temperature = new_temperature
 	end
 end
@@ -49,6 +56,6 @@ function configurable_super_boiler.on_entity_copied_pasted(source, destination)
 	if not destination_data then
 		return
 	end
-	
+
 	configurable_super_boiler.update_temperature(destination_data, source_data.temperature)
 end
