@@ -19,7 +19,7 @@ data:extend(
 		{
 			type = "sprite",
 			name = creative_mode_defines.names.sprites.search,
-			filename = "__core__/graphics/icons/search.png",
+			filename = creative_mode_defines.mod_directory .. "/graphics/sprites/search.png",
 			width = 32,
 			height = 32,
 			scale = 1
