@@ -51,6 +51,7 @@ require("scripts.super-roboport")
 require("scripts.util")
 require("scripts.void-cargo-wagon")
 require("scripts.void-chest-util")
+require("scripts.void-chest")
 require("scripts.void-requester-chest")
 require("scripts.void-storage-chest")
 
