@@ -688,6 +688,7 @@ local function lab(entity_name, item_name, icon_name, on_animation_filename, off
 	local lab = table.deepcopy(data.raw["lab"]["lab"])
 	lab.name = entity_name
 	lab.icon_size = 32
+	lab.icon_mipmaps = 1
 	lab.icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name
 	lab.minable = {mining_time = 0.5, result = item_name}
 	lab.on_animation.filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. on_animation_filename
