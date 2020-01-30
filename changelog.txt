@@ -1,8 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.2
 Date: 30.01.2020
+  Info:
+    - Update mod to Factorio 0.18.2
   Bugfixes:
     - Fixed a crash with a missing sound.
+    - Fixed missaligned sprites in the inventory. (Thanks to Crow08)
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.1
 Date: 24.01.2020
