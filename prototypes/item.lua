@@ -111,7 +111,8 @@ data:extend(
 			-- Creative cargo wagon
 			type = "item",
 			name = creative_mode_defines.names.items.creative_cargo_wagon,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/cargo-wagon.png",
@@ -128,7 +129,8 @@ data:extend(
 			-- Duplicating cargo wagon
 			type = "item",
 			name = creative_mode_defines.names.items.duplicating_cargo_wagon,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/cargo-wagon.png",
@@ -145,7 +147,8 @@ data:extend(
 			-- Void cargo wagon
 			type = "item",
 			name = creative_mode_defines.names.items.void_cargo_wagon,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/cargo-wagon.png",
@@ -162,7 +165,8 @@ data:extend(
 			-- Super logistic robot.
 			type = "item",
 			name = creative_mode_defines.names.items.super_logistic_robot,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/logistic-robot.png",
@@ -179,7 +183,8 @@ data:extend(
 			-- Super construction robot.
 			type = "item",
 			name = creative_mode_defines.names.items.super_construction_robot,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/construction-robot.png",
@@ -270,7 +275,8 @@ data:extend(
 			-- Heat source
 			type = "item",
 			name = creative_mode_defines.names.items.heat_source,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/heat-pipe.png",
@@ -287,7 +293,8 @@ data:extend(
 			-- Heat void
 			type = "item",
 			name = creative_mode_defines.names.items.heat_void,
-			icon_size = 32,
+			icon_size = 64,
+			icon_mipmaps = 4,
 			icons = {
 				{
 					icon = "__base__/graphics/icons/heat-pipe.png",
