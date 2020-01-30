@@ -57,6 +57,16 @@ data:extend {
 		order = "d"
 	},
 	{
+		-- Void chest size.
+		type = "int-setting",
+		name = creative_mode_defines.names.settings.void_chest_size,
+		setting_type = "startup",
+		default_value = 48,
+		minimum_value = 1,
+		maximum_value = 255,
+		order = "e"
+	},
+	{
 		-- Void requester chest size.
 		type = "int-setting",
 		name = creative_mode_defines.names.settings.void_requester_chest_size,
@@ -64,7 +74,7 @@ data:extend {
 		default_value = 48,
 		minimum_value = 1,
 		maximum_value = 255,
-		order = "e"
+		order = "f"
 	},
 	{
 		-- Void storage chest size.
@@ -74,7 +84,7 @@ data:extend {
 		default_value = 48,
 		minimum_value = 1,
 		maximum_value = 255,
-		order = "f"
+		order = "g"
 	},
 	{
 		-- Creative cargo wagon size.

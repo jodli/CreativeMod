@@ -54,6 +54,12 @@ function global_util.initialize_or_update_global()
 	if not global.creative_mode.void_requester_chest_next_update_index then
 		global.creative_mode.void_requester_chest_next_update_index = 1
 	end
+	if not global.creative_mode.void_chest then
+		global.creative_mode.void_chest = {}
+	end
+	if not global.creative_mode.void_chest_next_update_index then
+		global.creative_mode.void_chest_next_update_index = 1
+	end
 	if not global.creative_mode.void_storage_chest then
 		global.creative_mode.void_storage_chest = {}
 	end
@@ -704,6 +710,9 @@ local register_entity_look_up_functions = {
 	end,
 	[creative_mode_defines.names.entities.void_requester_chest] = function(entity)
 		table.insert(global.creative_mode.void_requester_chest, entity)
+	end,
+	[creative_mode_defines.names.entities.void_chest] = function(entity)
+		table.insert(global.creative_mode.void_chest, entity)
 	end,
 	[creative_mode_defines.names.entities.void_storage_chest] = function(entity)
 		table.insert(global.creative_mode.void_storage_chest, entity)

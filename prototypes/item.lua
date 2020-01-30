@@ -70,6 +70,18 @@ data:extend(
 			stack_size = 50
 		},
 		{
+			-- Void chest
+			type = "item",
+			name = creative_mode_defines.names.items.void_chest,
+			icon_size = 32,
+			icon = creative_mode_defines.mod_directory .. "/graphics/icons/void-chest.png",
+			flags = flags_quickbar,
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "f",
+			place_result = creative_mode_defines.names.entities.void_chest,
+			stack_size = 50
+		},
+		{
 			-- Void requester chest
 			type = "item",
 			name = creative_mode_defines.names.items.void_requester_chest,
@@ -77,7 +89,7 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/void-requester-chest.png",
 			flags = flags_quickbar,
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "f",
+			order = "g",
 			place_result = creative_mode_defines.names.entities.void_requester_chest,
 			stack_size = 50
 		},
@@ -89,7 +101,7 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/void-storage-chest.png",
 			flags = flags_quickbar,
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "g",
+			order = "h",
 			place_result = creative_mode_defines.names.entities.void_storage_chest,
 			stack_size = 50
 		},
@@ -101,7 +113,7 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
 			flags = flags_quickbar,
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "h",
+			order = "i",
 			place_result = creative_mode_defines.names.entities.super_loader,
 			stack_size = 50
 		},

@@ -192,6 +192,7 @@ function events.on_tick()
 	duplicating_chest.tick()
 	duplicating_provider_chest.tick()
 	void_requester_chest.tick()
+	void_chest.tick()
 	void_storage_chest.tick()
 	creative_cargo_wagon.tick()
 	duplicating_cargo_wagon.tick()
@@ -286,6 +287,10 @@ end
 local function is_entity_void_chest_family(entity)
 	-- Void requester chest.
 	if entity.name == creative_mode_defines.names.entities.void_requester_chest then
+		return true
+	end
+	-- Void chest.
+	if entity.name == creative_mode_defines.names.entities.void_chest then
 		return true
 	end
 	-- Void storage chest.

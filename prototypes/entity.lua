@@ -976,6 +976,15 @@ data:extend(
 			settings.startup[creative_mode_defines.names.settings.void_requester_chest_size].value,
 			"requester"
 		),
+		-- Void chest
+		container(
+			creative_mode_defines.names.entities.void_chest,
+			creative_mode_defines.names.items.void_chest,
+			"void-chest.png",
+			"void-chest.png",
+			nil,
+			settings.startup[creative_mode_defines.names.settings.void_chest_size].value
+		),
 		-- Void storage chest
 		logistic_container(
 			creative_mode_defines.names.entities.void_storage_chest,
