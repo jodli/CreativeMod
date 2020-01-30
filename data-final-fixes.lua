@@ -124,7 +124,8 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 					type = "item",
 					name = item_name,
 					localised_name = entity_localised_name, -- Item does not know the entity's custom localised name, so we have to also use custom localised name for it.
-					icon_size = 32,
+					icon_size = 64,
+					icon_mipmaps = 4,
 					icon = entity.icon,
 					flags = flags,
 					subgroup = creative_mode_defines.names.item_subgroups.enemies,
