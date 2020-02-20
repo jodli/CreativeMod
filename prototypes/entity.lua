@@ -1101,7 +1101,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 42,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1113,7 +1113,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				tint = {r = 1, g = 0.3, b = 0.3}
 			},
@@ -1124,7 +1124,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 126,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1136,7 +1136,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 84,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1145,43 +1145,47 @@ data:extend(
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
+				shift = util.by_pixel(32, 19.5),
 				direction_count = 16,
-				y = 23
+				y = 29,
+				draw_as_shadow = true
 			},
 			shadow_idle_with_cargo = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
+				shift = util.by_pixel(32, 19.5),
+				direction_count = 16,
+				draw_as_shadow = true
 			},
 			shadow_in_motion = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
+				shift = util.by_pixel(32, 19.5),
 				direction_count = 16,
-				y = 23
+				y = 29,
+				draw_as_shadow = true
 			},
 			shadow_in_motion_with_cargo = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
+				shift = util.by_pixel(32, 19.5),
+				direction_count = 16,
+				draw_as_shadow = true
 			},
 			working_sound = flying_robot(0.5),
 			cargo_centered = {0.0, 0.2}
