@@ -875,6 +875,333 @@ local function alien_attractor_proxy(entity_name, mark_scale)
 	}
 end
 
+-- Super logistic robot.
+		--[[{
+			type = "logistic-robot",
+			name = creative_mode_defines.names.entities.super_logistic_robot,
+			icon_size = 32,
+			icons = {
+				{
+					icon = "__base__/graphics/icons/logistic-robot.png",
+					tint = {r = 1, g = 0.3, b = 0.3}
+				}
+			},
+			flags = {"placeable-player", "player-creation", "placeable-off-grid", "not-on-map"},
+			minable = {hardness = 0.1, mining_time = 0.1, result = creative_mode_defines.names.items.super_logistic_robot},
+			resistances = {},
+			max_health = 100,
+			collision_box = {{0, 0}, {0, 0}},
+			selection_box = {{-0.5, -1.5}, {0.5, -0.5}},
+			max_payload_size = 1000,
+			speed = 100,
+			transfer_distance = 0.5,
+			max_energy = "0kJ",
+			energy_per_tick = "0kJ",
+			speed_multiplier_when_out_of_energy = 1,
+			energy_per_move = "0kJ",
+			min_to_charge = 0,
+			max_to_charge = 0,
+			idle = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 41,
+				height = 42,
+				frame_count = 1,
+				shift = {0.015625, -0.09375},
+				direction_count = 16,
+				y = 42,
+				tint = {r = 1, g = 0.3, b = 0.3}
+			},
+			idle_with_cargo = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 41,
+				height = 42,
+				frame_count = 1,
+				shift = {0.015625, -0.09375},
+				direction_count = 16,
+				tint = {r = 1, g = 0.3, b = 0.3}
+			},
+			in_motion = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 41,
+				height = 42,
+				frame_count = 1,
+				shift = {0.015625, -0.09375},
+				direction_count = 16,
+				y = 126,
+				tint = {r = 1, g = 0.3, b = 0.3}
+			},
+			in_motion_with_cargo = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 41,
+				height = 42,
+				frame_count = 1,
+				shift = {0.015625, -0.09375},
+				direction_count = 16,
+				y = 84,
+				tint = {r = 1, g = 0.3, b = 0.3}
+			},
+			shadow_idle = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 59,
+				height = 23,
+				frame_count = 1,
+				shift = {0.96875, 0.609375},
+				direction_count = 16,
+				y = 23
+			},
+			shadow_idle_with_cargo = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 59,
+				height = 23,
+				frame_count = 1,
+				shift = {0.96875, 0.609375},
+				direction_count = 16
+			},
+			shadow_in_motion = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 59,
+				height = 23,
+				frame_count = 1,
+				shift = {0.96875, 0.609375},
+				direction_count = 16,
+				y = 23
+			},
+			shadow_in_motion_with_cargo = {
+				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 59,
+				height = 23,
+				frame_count = 1,
+				shift = {0.96875, 0.609375},
+				direction_count = 16
+			},
+			working_sound = flying_robot(0.5),
+			cargo_centered = {0.0, 0.2}
+		},--]]
+    
+local function super_logistic_robot(entity_name)
+  local bot = table.deepcopy(data.raw["logistic-robot"]["logistic-robot"])
+  bot.name = entity_name
+  bot.minable.result = entity_name
+  bot.max_payload_size = 1000
+	bot.speed = 100
+	bot.max_energy = "0kJ"
+	bot.energy_per_tick = "0kJ"
+	bot.speed_multiplier_when_out_of_energy = 1
+	bot.energy_per_move = "0kJ"
+	bot.min_to_charge = 0
+	bot.max_to_charge = 0
+  return bot
+end
+
+
+    --[[
+		-- Super construction robot.
+		{
+			type = "construction-robot",
+			name = creative_mode_defines.names.entities.super_construction_robot,
+			icon_size = 32,
+			icons = {
+				{
+					icon = "__base__/graphics/icons/construction-robot.png",
+					tint = {r = 0.3, g = 0.3, b = 1}
+				}
+			},
+			flags = {"placeable-player", "player-creation", "placeable-off-grid", "not-on-map"},
+			minable = {hardness = 0.1, mining_time = 0.1, result = creative_mode_defines.names.items.super_construction_robot},
+			resistances = {},
+			max_health = 100,
+			collision_box = {{0, 0}, {0, 0}},
+			selection_box = {{-0.5, -1.5}, {0.5, -0.5}},
+			max_payload_size = 1,
+			speed = 100,
+			transfer_distance = 0.5,
+			max_energy = "0kJ",
+			energy_per_tick = "0kJ",
+			speed_multiplier_when_out_of_energy = 1,
+			energy_per_move = "0kJ",
+			min_to_charge = 0,
+			max_to_charge = 0,
+			working_light = {intensity = 0.8, size = 3},
+			idle = {
+				filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 32,
+				height = 36,
+				frame_count = 1,
+				shift = {0, -0.15625},
+				direction_count = 16,
+				tint = {r = 0.3, g = 0.3, b = 1}
+			},
+			in_motion = {
+				filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
+				priority = "high",
+				line_length = 16,
+				width = 32,
+				height = 36,
+				frame_count = 1,
+				shift = {0, -0.15625},
+				direction_count = 16,
+				y = 36,
+				tint = {r = 0.3, g = 0.3, b = 1}
+			},
+			shadow_idle = {
+				filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 50,
+				height = 24,
+				frame_count = 1,
+				shift = {1.09375, 0.59375},
+				direction_count = 16
+			},
+			shadow_in_motion = {
+				filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
+				priority = "high",
+				line_length = 16,
+				width = 50,
+				height = 24,
+				frame_count = 1,
+				shift = {1.09375, 0.59375},
+				direction_count = 16
+			},
+			working = {
+				filename = "__base__/graphics/entity/construction-robot/construction-robot-working.png",
+				priority = "high",
+				line_length = 2,
+				width = 28,
+				height = 36,
+				frame_count = 2,
+				shift = {0, -0.15625},
+				direction_count = 16,
+				animation_speed = 0.3,
+				tint = {r = 0.3, g = 0.3, b = 1}
+			},
+			shadow_working = {
+				stripes = util.multiplystripes(
+					2,
+					{
+						{
+							filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
+							width_in_frames = 16,
+							height_in_frames = 1
+						}
+					}
+				),
+				priority = "high",
+				width = 50,
+				height = 24,
+				frame_count = 2,
+				shift = {1.09375, 0.59375},
+				direction_count = 16
+			},
+			smoke = {
+				filename = "__base__/graphics/entity/smoke-construction/smoke-01.png",
+				width = 39,
+				height = 32,
+				frame_count = 19,
+				line_length = 19,
+				shift = {0.078125, -0.15625},
+				animation_speed = 0.3
+			},
+			sparks = {
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-01.png",
+					width = 39,
+					height = 34,
+					frame_count = 19,
+					line_length = 19,
+					shift = {-0.109375, 0.3125},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				},
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-02.png",
+					width = 36,
+					height = 32,
+					frame_count = 19,
+					line_length = 19,
+					shift = {0.03125, 0.125},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				},
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-03.png",
+					width = 42,
+					height = 29,
+					frame_count = 19,
+					line_length = 19,
+					shift = {-0.0625, 0.203125},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				},
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-04.png",
+					width = 40,
+					height = 35,
+					frame_count = 19,
+					line_length = 19,
+					shift = {-0.0625, 0.234375},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				},
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-05.png",
+					width = 39,
+					height = 29,
+					frame_count = 19,
+					line_length = 19,
+					shift = {-0.109375, 0.171875},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				},
+				{
+					filename = "__base__/graphics/entity/sparks/sparks-06.png",
+					width = 44,
+					height = 36,
+					frame_count = 19,
+					line_length = 19,
+					shift = {0.03125, 0.3125},
+					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
+					animation_speed = 0.3
+				}
+			},
+			working_sound = construction_robot(0.5),
+			cargo_centered = {0.0, 0.2},
+			construction_vector = {0.30, 0.22}
+		},--]]
+
+
+local function super_construction_robot(entity_name)
+  local bot = table.deepcopy(data.raw["construction-robot"]["construction-robot"])
+  bot.name = entity_name
+  bot.minable.result = entity_name
+  bot.max_energy = "0kJ"
+  bot.energy_per_tick = "0kJ"
+  bot.speed_multiplier_when_out_of_energy = 1
+  bot.energy_per_move = "0kJ"
+  bot.min_to_charge = 0
+  bot.max_to_charge = 0
+  return bot
+end
+
+
 circuit_connector_definitions[creative_mode_defines.names.entities.super_roboport] =
 	circuit_connector_definitions.create(
 	universal_connector_template,
@@ -1068,299 +1395,13 @@ data:extend(
 			nil,
 			settings.startup[creative_mode_defines.names.settings.void_cargo_wagon_size].value
 		),
-		-- Super logistic robot.
-		{
-			type = "logistic-robot",
-			name = creative_mode_defines.names.entities.super_logistic_robot,
-			icon_size = 32,
-			icons = {
-				{
-					icon = "__base__/graphics/icons/logistic-robot.png",
-					tint = {r = 1, g = 0.3, b = 0.3}
-				}
-			},
-			flags = {"placeable-player", "player-creation", "placeable-off-grid", "not-on-map"},
-			minable = {hardness = 0.1, mining_time = 0.1, result = creative_mode_defines.names.items.super_logistic_robot},
-			resistances = {},
-			max_health = 100,
-			collision_box = {{0, 0}, {0, 0}},
-			selection_box = {{-0.5, -1.5}, {0.5, -0.5}},
-			max_payload_size = 1000,
-			speed = 100,
-			transfer_distance = 0.5,
-			max_energy = "0kJ",
-			energy_per_tick = "0kJ",
-			speed_multiplier_when_out_of_energy = 1,
-			energy_per_move = "0kJ",
-			min_to_charge = 0,
-			max_to_charge = 0,
-			idle = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 41,
-				height = 42,
-				frame_count = 1,
-				shift = {0.015625, -0.09375},
-				direction_count = 16,
-				y = 42,
-				tint = {r = 1, g = 0.3, b = 0.3}
-			},
-			idle_with_cargo = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 41,
-				height = 42,
-				frame_count = 1,
-				shift = {0.015625, -0.09375},
-				direction_count = 16,
-				tint = {r = 1, g = 0.3, b = 0.3}
-			},
-			in_motion = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 41,
-				height = 42,
-				frame_count = 1,
-				shift = {0.015625, -0.09375},
-				direction_count = 16,
-				y = 126,
-				tint = {r = 1, g = 0.3, b = 0.3}
-			},
-			in_motion_with_cargo = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 41,
-				height = 42,
-				frame_count = 1,
-				shift = {0.015625, -0.09375},
-				direction_count = 16,
-				y = 84,
-				tint = {r = 1, g = 0.3, b = 0.3}
-			},
-			shadow_idle = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 59,
-				height = 23,
-				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16,
-				y = 23
-			},
-			shadow_idle_with_cargo = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 59,
-				height = 23,
-				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
-			},
-			shadow_in_motion = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 59,
-				height = 23,
-				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16,
-				y = 23
-			},
-			shadow_in_motion_with_cargo = {
-				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 59,
-				height = 23,
-				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
-			},
-			working_sound = flying_robot(0.5),
-			cargo_centered = {0.0, 0.2}
-		},
-		-- Super construction robot.
-		{
-			type = "construction-robot",
-			name = creative_mode_defines.names.entities.super_construction_robot,
-			icon_size = 32,
-			icons = {
-				{
-					icon = "__base__/graphics/icons/construction-robot.png",
-					tint = {r = 0.3, g = 0.3, b = 1}
-				}
-			},
-			flags = {"placeable-player", "player-creation", "placeable-off-grid", "not-on-map"},
-			minable = {hardness = 0.1, mining_time = 0.1, result = creative_mode_defines.names.items.super_construction_robot},
-			resistances = {},
-			max_health = 100,
-			collision_box = {{0, 0}, {0, 0}},
-			selection_box = {{-0.5, -1.5}, {0.5, -0.5}},
-			max_payload_size = 1,
-			speed = 100,
-			transfer_distance = 0.5,
-			max_energy = "0kJ",
-			energy_per_tick = "0kJ",
-			speed_multiplier_when_out_of_energy = 1,
-			energy_per_move = "0kJ",
-			min_to_charge = 0,
-			max_to_charge = 0,
-			working_light = {intensity = 0.8, size = 3},
-			idle = {
-				filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 32,
-				height = 36,
-				frame_count = 1,
-				shift = {0, -0.15625},
-				direction_count = 16,
-				tint = {r = 0.3, g = 0.3, b = 1}
-			},
-			in_motion = {
-				filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
-				priority = "high",
-				line_length = 16,
-				width = 32,
-				height = 36,
-				frame_count = 1,
-				shift = {0, -0.15625},
-				direction_count = 16,
-				y = 36,
-				tint = {r = 0.3, g = 0.3, b = 1}
-			},
-			shadow_idle = {
-				filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 50,
-				height = 24,
-				frame_count = 1,
-				shift = {1.09375, 0.59375},
-				direction_count = 16
-			},
-			shadow_in_motion = {
-				filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
-				priority = "high",
-				line_length = 16,
-				width = 50,
-				height = 24,
-				frame_count = 1,
-				shift = {1.09375, 0.59375},
-				direction_count = 16
-			},
-			working = {
-				filename = "__base__/graphics/entity/construction-robot/construction-robot-working.png",
-				priority = "high",
-				line_length = 2,
-				width = 28,
-				height = 36,
-				frame_count = 2,
-				shift = {0, -0.15625},
-				direction_count = 16,
-				animation_speed = 0.3,
-				tint = {r = 0.3, g = 0.3, b = 1}
-			},
-			shadow_working = {
-				stripes = util.multiplystripes(
-					2,
-					{
-						{
-							filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
-							width_in_frames = 16,
-							height_in_frames = 1
-						}
-					}
-				),
-				priority = "high",
-				width = 50,
-				height = 24,
-				frame_count = 2,
-				shift = {1.09375, 0.59375},
-				direction_count = 16
-			},
-			smoke = {
-				filename = "__base__/graphics/entity/smoke-construction/smoke-01.png",
-				width = 39,
-				height = 32,
-				frame_count = 19,
-				line_length = 19,
-				shift = {0.078125, -0.15625},
-				animation_speed = 0.3
-			},
-			sparks = {
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-01.png",
-					width = 39,
-					height = 34,
-					frame_count = 19,
-					line_length = 19,
-					shift = {-0.109375, 0.3125},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				},
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-02.png",
-					width = 36,
-					height = 32,
-					frame_count = 19,
-					line_length = 19,
-					shift = {0.03125, 0.125},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				},
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-03.png",
-					width = 42,
-					height = 29,
-					frame_count = 19,
-					line_length = 19,
-					shift = {-0.0625, 0.203125},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				},
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-04.png",
-					width = 40,
-					height = 35,
-					frame_count = 19,
-					line_length = 19,
-					shift = {-0.0625, 0.234375},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				},
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-05.png",
-					width = 39,
-					height = 29,
-					frame_count = 19,
-					line_length = 19,
-					shift = {-0.109375, 0.171875},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				},
-				{
-					filename = "__base__/graphics/entity/sparks/sparks-06.png",
-					width = 44,
-					height = 36,
-					frame_count = 19,
-					line_length = 19,
-					shift = {0.03125, 0.3125},
-					tint = {r = 1.0, g = 0.9, b = 0.0, a = 1.0},
-					animation_speed = 0.3
-				}
-			},
-			working_sound = construction_robot(0.5),
-			cargo_centered = {0.0, 0.2},
-			construction_vector = {0.30, 0.22}
-		},
+    
+    -- Super Logistic Robot
+    super_logistic_robot(creative_mode_defines.names.entities.super_logistic_robot),
+    
+    -- Super Construction Robot
+    super_construction_robot(creative_mode_defines.names.entities.super_construction_robot),
+		
 		-- Super roboport.
 		{
 			type = "roboport",
