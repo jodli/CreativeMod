@@ -117,6 +117,15 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			if not settings.startup[creative_mode_defines.names.settings.unhide_items].value then
 				table.insert(flags, "hidden")
 			end
+			-- Support for composed icons.
+			local icons = entity.icons
+			if icons then
+				fixed_icons = icons
+			else
+				fixed_icons = {
+					{icon = entity.icon}
+				}
+			end
 			-- Create item for the entity.
 			table.insert(
 				new_data,
@@ -126,7 +135,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 					localised_name = entity_localised_name, -- Item does not know the entity's custom localised name, so we have to also use custom localised name for it.
 					icon_size = entity.icon_size,
 					icon_mipmaps = entity.icon_mipmaps,
-					icon = entity.icon,
+					icons = fixed_icons,
 					flags = flags,
 					subgroup = creative_mode_defines.names.item_subgroups.enemies,
 					--order = entity.order,
