@@ -260,16 +260,21 @@ for _, name in pairs(finite_resource_names) do
 	end
 	local icons = resource.icons
 	if icons then
-		-- TODO: support non-standard icon sizes
 		if resource.icon_size == 32 then
-			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"})
+			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"})
+		elseif resource.icon_size == 64 then
+			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"})
 		end
 	else
-		-- TODO: support non-standard icon sizes
 		if resource.icon_size == 32 then
 			resource.icons = {
 				{icon = resource.icon},
-				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"}
+				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"}
+			}
+		elseif resource.icon_size == 64 then
+			resource.icons = {
+				{icon = resource.icon},
+				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"}
 			}
 		end
 	end
