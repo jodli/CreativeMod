@@ -539,6 +539,7 @@ local event_handlers_look_up = {
 	[defines.events.on_built_entity] = on_built_entity,
 	[defines.events.on_robot_built_entity] = on_robot_built_entity,
 	[defines.events.script_raised_built] = on_script_raised_built,
+	[defines.events.script_raised_revive] = on_script_raised_built,
 	[defines.events.on_pre_player_mined_item] = on_preplayer_mined_item,
 	[defines.events.on_marked_for_deconstruction] = on_marked_for_deconstruction,
 	[defines.events.on_entity_settings_pasted] = on_entity_settings_pasted,
