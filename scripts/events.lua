@@ -359,6 +359,12 @@ local function on_preplayer_mined_item(event)
 	cheats.on_preplayer_mined_item(event.player_index, event.entity)
 end
 
+-- Callback of the script_raised_destroy event, which is invoked by other mods, when they are destroying entities or calling it with `script.raise_event()`
+local function on_script_raised_destroy(event)
+	-- Clear inventory if needed.
+	clear_inventory_before_mined_if_needed(event.entity)
+end
+
 -- Callback of the on_marked_for_deconstruction event, which is invoked when an entity is marked for deconstruction.
 local function on_marked_for_deconstruction(event)
 	-- Clear inventory if needed.
@@ -541,6 +547,7 @@ local event_handlers_look_up = {
 	[defines.events.script_raised_built] = on_script_raised_built,
 	[defines.events.script_raised_revive] = on_script_raised_built,
 	[defines.events.on_pre_player_mined_item] = on_preplayer_mined_item,
+	[defines.events.script_raised_destroy] = on_script_raised_destroy,
 	[defines.events.on_marked_for_deconstruction] = on_marked_for_deconstruction,
 	[defines.events.on_entity_settings_pasted] = on_entity_settings_pasted,
 	[defines.events.on_player_created] = on_player_created,
