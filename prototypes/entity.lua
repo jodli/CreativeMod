@@ -687,6 +687,7 @@ end
 local function lab(entity_name, item_name, icon_name, on_animation_filename, off_animation_filename)
 	local lab = table.deepcopy(data.raw["lab"]["lab"])
 	lab.name = entity_name
+	lab.next_upgrade = ""
 	lab.icon_size = 32
 	lab.icon_mipmaps = 1
 	lab.icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name

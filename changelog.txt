@@ -2,7 +2,8 @@
 Version: 1.3.3
 Date: 2020-03-17
   Info:
-    - Update mod to Factorio 0.18.13
+    - Update mod to Factorio 0.18.13.
+    - Add mod compatibility for "Built-in-Beacons" mod.
 ---------------------------------------------------------------------------------------------------
 Version: 1.3.2
 Date: 02.03.2020
