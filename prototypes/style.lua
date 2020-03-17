@@ -639,7 +639,7 @@ default_style[creative_mode_defines.names.gui_styles.creative_chest_filter_slot_
 -- The tile slot selected button style.
 default_style[creative_mode_defines.names.gui_styles.tile_slot_selected] = {
 	type = "button_style",
-	parent = "logistic_button_selected_slot",
+	parent = "selected_logistic_slot_button",
 	left_click_sound = {
 		{
 			filename = "__core__/sound/list-box-click.ogg",
