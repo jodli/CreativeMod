@@ -687,7 +687,9 @@ end
 local function lab(entity_name, item_name, icon_name, on_animation_filename, off_animation_filename)
 	local lab = table.deepcopy(data.raw["lab"]["lab"])
 	lab.name = entity_name
+	lab.next_upgrade = ""
 	lab.icon_size = 32
+	lab.icon_mipmaps = 1
 	lab.icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name
 	lab.minable = {mining_time = 0.5, result = item_name}
 	lab.on_animation.filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. on_animation_filename
@@ -975,6 +977,15 @@ data:extend(
 			settings.startup[creative_mode_defines.names.settings.void_requester_chest_size].value,
 			"requester"
 		),
+		-- Void chest
+		container(
+			creative_mode_defines.names.entities.void_chest,
+			creative_mode_defines.names.items.void_chest,
+			"void-chest.png",
+			"void-chest.png",
+			nil,
+			settings.startup[creative_mode_defines.names.settings.void_chest_size].value
+		),
 		-- Void storage chest
 		logistic_container(
 			creative_mode_defines.names.entities.void_storage_chest,
@@ -1091,7 +1102,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 42,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1103,7 +1114,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				tint = {r = 1, g = 0.3, b = 0.3}
 			},
@@ -1114,7 +1125,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 126,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1126,7 +1137,7 @@ data:extend(
 				width = 41,
 				height = 42,
 				frame_count = 1,
-				shift = {0.015625, -0.09375},
+				shift = util.by_pixel(0, -3),
 				direction_count = 16,
 				y = 84,
 				tint = {r = 1, g = 0.3, b = 0.3}
@@ -1135,43 +1146,47 @@ data:extend(
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
+				shift = util.by_pixel(32, 19.5),
 				direction_count = 16,
-				y = 23
+				y = 29,
+				draw_as_shadow = true
 			},
 			shadow_idle_with_cargo = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
+				shift = util.by_pixel(32, 19.5),
+				direction_count = 16,
+				draw_as_shadow = true
 			},
 			shadow_in_motion = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
+				shift = util.by_pixel(32, 19.5),
 				direction_count = 16,
-				y = 23
+				y = 29,
+				draw_as_shadow = true
 			},
 			shadow_in_motion_with_cargo = {
 				filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
 				priority = "high",
 				line_length = 16,
-				width = 59,
-				height = 23,
+				width = 58,
+				height = 29,
 				frame_count = 1,
-				shift = {0.96875, 0.609375},
-				direction_count = 16
+				shift = util.by_pixel(32, 19.5),
+				direction_count = 16,
+				draw_as_shadow = true
 			},
 			working_sound = flying_robot(0.5),
 			cargo_centered = {0.0, 0.2}
@@ -1974,7 +1989,7 @@ data:extend(
 			energy_source = {
 				type = "electric",
 				usage_priority = "secondary-input",
-				emissions = 0
+				emissions_per_minute = 0
 			},
 			energy_usage = "5.4PW",
 			ingredient_count = 0,

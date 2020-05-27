@@ -117,6 +117,15 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			if not settings.startup[creative_mode_defines.names.settings.unhide_items].value then
 				table.insert(flags, "hidden")
 			end
+			-- Support for composed icons.
+			local icons = entity.icons
+			if icons then
+				fixed_icons = icons
+			else
+				fixed_icons = {
+					{icon = entity.icon}
+				}
+			end
 			-- Create item for the entity.
 			table.insert(
 				new_data,
@@ -124,9 +133,9 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 					type = "item",
 					name = item_name,
 					localised_name = entity_localised_name, -- Item does not know the entity's custom localised name, so we have to also use custom localised name for it.
-					icon_size = 64,
-					icon_mipmaps = 4,
-					icon = entity.icon,
+					icon_size = entity.icon_size,
+					icon_mipmaps = entity.icon_mipmaps,
+					icons = fixed_icons,
 					flags = flags,
 					subgroup = creative_mode_defines.names.item_subgroups.enemies,
 					--order = entity.order,
@@ -260,16 +269,21 @@ for _, name in pairs(finite_resource_names) do
 	end
 	local icons = resource.icons
 	if icons then
-		-- TODO: support non-standard icon sizes
 		if resource.icon_size == 32 then
-			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"})
+			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"})
+		elseif resource.icon_size == 64 then
+			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"})
 		end
 	else
-		-- TODO: support non-standard icon sizes
 		if resource.icon_size == 32 then
 			resource.icons = {
 				{icon = resource.icon},
-				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource.png"}
+				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"}
+			}
+		elseif resource.icon_size == 64 then
+			resource.icons = {
+				{icon = resource.icon},
+				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"}
 			}
 		end
 	end

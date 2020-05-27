@@ -44,6 +44,7 @@ creative_mode_defines.names.settings = {
 	autofill_requester_chest_size = creative_mode_defines.name_prefix .. "autofill-requester-chest-size",
 	duplicating_chest_size = creative_mode_defines.name_prefix .. "duplicating-chest-size",
 	void_requester_chest_size = creative_mode_defines.name_prefix .. "void-requester-chest-size",
+	void_chest_size = creative_mode_defines.name_prefix .. "void-chest-size",
 	void_storage_chest_size = creative_mode_defines.name_prefix .. "void-storage-chest-size",
 	creative_cargo_wagon_size = creative_mode_defines.name_prefix .. "creative-cargo-wagon-size",
 	creative_cargo_wagon_contains_hidden_items = creative_mode_defines.name_prefix ..
@@ -84,6 +85,7 @@ creative_mode_defines.names.entities = {
 	duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
 	duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
 	void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
+	void_chest = creative_mode_defines.name_prefix .. "void-chest",
 	void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
 	super_loader = creative_mode_defines.name_prefix .. "super-loader",
 	creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
@@ -137,6 +139,7 @@ creative_mode_defines.names.items = {
 	duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
 	duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
 	void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
+	void_chest = creative_mode_defines.name_prefix .. "void-chest",
 	void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
 	super_loader = creative_mode_defines.name_prefix .. "super-loader",
 	creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
@@ -213,6 +216,7 @@ creative_mode_defines.names.recipes = {
 	duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
 	duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
 	void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
+	void_chest = creative_mode_defines.name_prefix .. "void-chest",
 	void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
 	super_loader = creative_mode_defines.name_prefix .. "super-loader",
 	creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
@@ -1220,7 +1224,7 @@ creative_mode_defines.names.gui_styles = {
 	frame_caption_label = "frame_caption_label",
 	long_dialog_button = "creative_mode_long_dialog_button_style",
 	small_default_bold_button = "creative_mode_small_default_bold_button_style",
-	frame_caption_button = "search_button",
+	frame_caption_button = "frame_action_button",
 	frame_search_textfield = "creative_mode_frame_search_textfield_style",
 	frame_search_textfield_placeholder_flow = "creative_mode_frame_search_textfield_placeholder_flow_style",
 	main_menu_open_button = "creative_mode_main_menu_open_button_style",
@@ -1400,6 +1404,10 @@ table.insert(
 table.insert(
 	creative_mode_defines.values.creative_provider_chest_additional_content_names,
 	creative_mode_defines.names.items.void_requester_chest
+)
+table.insert(
+	creative_mode_defines.values.creative_provider_chest_additional_content_names,
+	creative_mode_defines.names.items.void_chest
 )
 table.insert(
 	creative_mode_defines.values.creative_provider_chest_additional_content_names,

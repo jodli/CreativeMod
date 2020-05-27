@@ -49,6 +49,14 @@ data:extend(
 			enabled = false
 		},
 		{
+			-- Void chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.void_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.items.void_chest,
+			enabled = false
+		},
+		{
 			-- Void storage chest
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_storage_chest,
