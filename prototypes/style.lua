@@ -28,7 +28,7 @@ local access_right_on_off_button_width = 300
 local inventory_slot_width = 36
 local big_button_width_height = 36
 local magic_wand_popup_slot_table_width = inventory_slot_width * 10 + 9
-local frame_caption_button_width = default_style["search_button"].size -- search_button_style with in base mod.
+local frame_caption_button_width = default_style["frame_action_button"].size -- search_button_style with in base mod.
 local search_textfield_width = default_style["search_textfield_with_fixed_width"].width
 local quick_action_remove_button_width = 18
 local magic_wand_popup_left_frame_caption_width = magic_wand_popup_slot_table_width - frame_caption_button_width
@@ -639,7 +639,7 @@ default_style[creative_mode_defines.names.gui_styles.creative_chest_filter_slot_
 -- The tile slot selected button style.
 default_style[creative_mode_defines.names.gui_styles.tile_slot_selected] = {
 	type = "button_style",
-	parent = "selected_logistic_slot_button",
+	parent = "logistic_slot_button",
 	left_click_sound = {
 		{
 			filename = "__core__/sound/list-box-click.ogg",
@@ -768,7 +768,7 @@ default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_item_on_gr
 -- The ghost slot on magic wand popup.
 default_style[creative_mode_defines.names.gui_styles.magic_wand_popup_ghost_slot_button] = {
 	type = "button_style",
-	parent = "slot_with_filter_button",
+	parent = "blue_slot",
 	left_click_sound = {
 		{
 			filename = "__core__/sound/list-box-click.ogg",
