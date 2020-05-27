@@ -227,10 +227,9 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 			is_instant_blueprint = nil
 		end
 		util.raise_event(
-			defines.events.on_robot_built_entity,
+			defines.events.script_raised_revive,
 			{
-				robot = get_fake_robot_param(reviver_player.force),
-				created_entity = revived_entity,
+				entity = revived_entity,
 				-- For modders:
 				revived = true,
 				instant_blueprint = is_instant_blueprint,
@@ -257,12 +256,9 @@ function util.raise_event_for_revived_tile_ghosts(
 		is_instant_blueprint = nil
 	end
 	util.raise_event(
-		defines.events.on_robot_built_tile,
+		defines.events.script_raised_set_tiles,
 		{
-			robot = get_fake_robot_param(),
 			tiles = tiles,
-			item = item_prototype,
-			stack = item_stack,
 			-- For modders:
 			revived = true,
 			instant_blueprint = is_instant_blueprint,
@@ -303,9 +299,8 @@ function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instan
 		is_instant_deconstruction = nil
 	end
 	util.raise_event(
-		defines.events.on_robot_pre_mined,
+		defines.events.script_raised_destroy,
 		{
-			robot = get_fake_robot_param(),
 			entity = entity,
 			-- For modders:
 			player_index = destroyer_player.index,
@@ -328,13 +323,9 @@ function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_
 		is_instant_deconstruction = nil
 	end
 	util.raise_event(
-		defines.events.on_robot_mined_tile,
+		defines.events.script_raised_set_tiles,
 		{
-			robot = get_fake_robot_param(),
 			tiles = tiles,
-			-- But it doesn't have surface parameter?
-			-- TODO: surface parameter is stored in the robot, which in this case is a fake robot, but should probably be sent
-
 			-- For modders:
 			player_index = destroyer_player_index,
 			instant_deconstruction = is_instant_deconstruction

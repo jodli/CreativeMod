@@ -444,10 +444,9 @@ local function create_tiles_or_resources_in_pattern(
 						create_smoke_effect_at_entity_position(entity)
 						-- Raise event.
 						util.raise_event(
-							defines.events.on_built_entity,
+							defines.events.script_raised_built,
 							{
-								created_entity = entity,
-								player_index = player.index
+								entity = entity,
 							}
 						)
 					end
@@ -461,11 +460,10 @@ local function create_tiles_or_resources_in_pattern(
 		surface.set_tiles(tiles_to_be_created, magic_wand_creator.get_tile_correction(player))
 		-- Raise event.
 		util.raise_event(
-			defines.events.on_player_built_tile,
+			defines.events.script_raised_set_tiles,
 			{
-				player_index = player.index,
+				tiles = tiles_to_be_created,
 				surface_index = player.surface.index,
-				positions = tile_positions_to_be_created
 			}
 		)
 	end
