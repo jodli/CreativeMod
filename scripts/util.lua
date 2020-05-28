@@ -158,7 +158,7 @@ function util.raise_event(event_id, data)
 	--data.tick = game.tick
 	--data.mod = creative_mode_defines.mod_id
 	-- These are standard now (except officially its mod_name instead of mod)
-	script.raise_event(event_id, data)
+	script.raise_event(event_id, data.entity)
 end
 
 -- Returns an invalid robot parameter that can be used by events.
@@ -187,7 +187,7 @@ function util.fulfill_item_requests(target_entity, item_requests)
 	return item_requests
 end
 
--- Revives the given entity ghost and raises the on_robot_built_entity event for it.
+-- Revives the given entity ghost and raises the script_raised_built event for it.
 -- You shouldn't call this function if the given ghost is actually a tile ghost!
 -- Returns the revived entity. It can be null if it is not revived.
 function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, is_instant_blueprint)
@@ -195,48 +195,18 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 	local item_requests = entity_ghost.item_requests
 
 	-- Revive entity.
-	local _, revived_entity = entity_ghost.revive()
+	local _, revived_entity, item_request_proxy = entity_ghost.revive({return_item_request_proxy = true, raise_revive = true})
 	if revived_entity and revived_entity.valid then
 		-- Supply the requested items.
 		if item_requests then
 			util.fulfill_item_requests(revived_entity, item_requests)
 
 			-- Remove item request because we have already supplied it.
-			-- We can't just set entity_ghost.item_requests to nil because entity_ghost is already invalid.
-			-- We can't set revived_entity.item_requests either because item_requests is only for ghost entity.
-			-- So we have to use the ugly way.
-			local position = revived_entity.position
-			local x = position.x
-			local y = position.y
-			-- surface.find_entity cannot find entities with zero-sized collision box.
-			local item_request_proxies =
-				revived_entity.surface.find_entities_filtered {
-				area = {{x - 0.1, y - 0.1}, {x + 0.1, y + 0.1}},
-				name = "item-request-proxy",
-				force = revived_entity.force,
-				limit = 1
-			}
-			if #item_request_proxies > 0 then
-				local item_request_proxy = item_request_proxies[1]
+			if item_request_proxy then
 				item_request_proxy.destroy()
 			end
 		end
 
-		-- Raise event.
-		if is_instant_blueprint == false then
-			is_instant_blueprint = nil
-		end
-		util.raise_event(
-			defines.events.on_robot_built_entity,
-			{
-				robot = get_fake_robot_param(reviver_player.force),
-				created_entity = revived_entity,
-				-- For modders:
-				revived = true,
-				instant_blueprint = is_instant_blueprint,
-				player_index = reviver_player.index
-			}
-		)
 	end
 
 	-- Some mods may destroy the revived entity immediately. The entity is useful only if it is still valid.
@@ -246,32 +216,7 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 	return nil
 end
 
--- Raises the on_robot_built_tile event for the revived tile ghosts at given positions.
-function util.raise_event_for_revived_tile_ghosts(
-	tiles,
-	item_prototype,
-	item_stack,
-	reviver_player_index,
-	is_instant_blueprint)
-	if is_instant_blueprint == false then
-		is_instant_blueprint = nil
-	end
-	util.raise_event(
-		defines.events.on_robot_built_tile,
-		{
-			robot = get_fake_robot_param(),
-			tiles = tiles,
-			item = item_prototype,
-			stack = item_stack,
-			-- For modders:
-			revived = true,
-			instant_blueprint = is_instant_blueprint,
-			player_index = reviver_player_index
-		}
-	)
-end
-
--- Revives the given tile ghost and raises the on_robot_built_tile event for it.
+-- Revives the given tile ghost and raises the script_raised_built event for it.
 -- Returns the position of the revived tile. It will be nil if it cannot be revived.
 function util.revive_tile_ghost_and_raise_event(tile_ghost, reviver_player, is_instant_blueprint)
 	-- A simplified version of the entity ghost revive function, as tile doesn't have item requests.
@@ -279,56 +224,37 @@ function util.revive_tile_ghost_and_raise_event(tile_ghost, reviver_player, is_i
 	local position = tile_ghost.position
 	local prototype = tile_ghost.ghost_prototype
 	local old_tile_prototype = tile_ghost.surface.get_tile(position).prototype
-	local collided_enitties = tile_ghost.revive()
+	local collided_entities = tile_ghost.revive({raise_revive = true})
 
-	if collided_enitties then
+	if collided_entities then
 		local tiles = {}
 		table.insert(tiles, {old_tile = old_tile_prototype, position = position})
-		-- maybe it's time to switch to using script_raised_built/script_raised_destroy/script_raised_revive to handle these types of things
-		-- the number of fake objects is getting pretty large
-		local stack = {valid = false, valid_for_read = false}
-		util.raise_event_for_revived_tile_ghosts(tiles, prototype, stack, reviver_player.index, is_instant_blueprint)
 	end
-	return collided_enitties
+	return collided_entities
 end
 
--- Destroys the given entity and raises the on_robot_pre_mined event for it. Note that not all entites can be destroyed.
+-- Destroys the given entity and raises the script_raised_destroy event for it. Note that not all entites can be destroyed.
 -- Returns whether the entity is destroyed.
 -- @param destroyer_player	Optional.
 function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instant_deconstruction)
 	-- No default event for LuaEntity::destroy(). Just a workaround.
 	-- Here we assume the entity will 100% be removed.
 	-- See this discussion: https://forums.factorio.com/viewtopic.php?f=34&t=34952
-	if is_instant_deconstruction == false then
-		is_instant_deconstruction = nil
-	end
-	util.raise_event(
-		defines.events.on_robot_pre_mined,
-		{
-			robot = get_fake_robot_param(),
-			entity = entity,
-			-- For modders:
-			player_index = destroyer_player.index,
-			instant_deconstruction = is_instant_deconstruction
-		}
-	)
-	if not entity.valid then
-		-- Some mods like to make sure the entity is really dead.
-		return true
-	end
-	if entity.destroy({raise_destroy = true}) then
-		return true
+	if entity.can_be_destroyed() == true then
+		if entity.destroy({raise_destroy = true}) then
+			return true
+		end
 	end
 	return false
 end
 
--- Raises the on_robot_mined_tile event for the destroyed tiles at given positions.
+-- Raises the script_raised_destroy event for the destroyed tiles at given positions.
 function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_instant_deconstruction)
 	if is_instant_deconstruction == false then
 		is_instant_deconstruction = nil
 	end
 	util.raise_event(
-		defines.events.on_robot_mined_tile,
+		defines.events.script_raised_destroy,
 		{
 			robot = get_fake_robot_param(),
 			tiles = tiles,
@@ -342,7 +268,7 @@ function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_
 	)
 end
 
--- Kills the given entity and raises the on_entity_died event for it. Note that not all entities can be killed.
+-- Kills the given entity and raises the script_raised_destroy event for it. Note that not all entities can be killed.
 -- Returns whether the entity is killed.
 function util.kill_entity_and_raise_event(entity, killer_player)
 	if entity.health ~= nil then
@@ -352,7 +278,7 @@ function util.kill_entity_and_raise_event(entity, killer_player)
 			local count = kill_count_statistics.get_input_count(entity.name)
 			kill_count_statistics.set_input_count(entity.name, count + 1)
 		end
-		entity.die() -- LuaEntity.die() will raise the on_entity_died event.
+		entity.destroy({raise_destroy = true}) -- LuaEntity.destroy() will raise the script_raised_destroy event.
 		return true
 	end
 	return false

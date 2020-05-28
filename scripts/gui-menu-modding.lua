@@ -103,7 +103,7 @@ local event_categories = {
 			defines.events.on_biter_base_built,
 			defines.events.on_built_entity,
 			defines.events.on_canceled_deconstruction,
-			defines.events.on_entity_died,
+			defines.events.script_raised_destroy,
 			defines.events.on_entity_renamed,
 			defines.events.on_entity_settings_pasted,
 			defines.events.on_marked_for_deconstruction,
@@ -116,12 +116,10 @@ local event_categories = {
 			defines.events.on_pre_entity_settings_pasted,
 			defines.events.on_preplayer_mined_item,
 			defines.events.on_resource_depleted,
-			defines.events.on_robot_built_entity,
-			defines.events.on_robot_built_tile,
+			defines.events.script_raised_built,
+			defines.events.script_raised_revive,
 			defines.events.on_robot_mined,
 			defines.events.on_robot_mined_entity,
-			defines.events.on_robot_mined_tile,
-			defines.events.on_robot_pre_mined,
 			defines.events.on_rocket_launched,
 			defines.events.on_sector_scanned,
 			defines.events.on_selected_entity_changed,
@@ -139,11 +137,12 @@ local event_categories = {
 		hide_button_name = creative_mode_defines.names.gui.event_category_tile_hide_button,
 		events = {
 			defines.events.on_player_alt_selected_area,
-			defines.events.on_player_built_tile,
+			defines.events.script_raised_set_tiles,
 			defines.events.on_player_mined_tile,
 			defines.events.on_player_selected_area,
-			defines.events.on_robot_built_tile,
-			defines.events.on_robot_mined_tile
+			defines.events.script_raised_built,
+			defines.events.script_raised_destroy
+			defines.events.script_raised_revive,
 		}
 	},
 	player_related_events = {
@@ -169,7 +168,7 @@ local event_categories = {
 			defines.events.on_player_alt_selected_area,
 			defines.events.on_player_ammo_inventory_changed,
 			defines.events.on_player_armor_inventory_changed,
-			defines.events.on_player_built_tile,
+			defines.events.script_raised_set_tiles,
 			defines.events.on_player_changed_force,
 			defines.events.on_player_changed_surface,
 			defines.events.on_player_configured_blueprint,
@@ -211,7 +210,7 @@ local event_categories = {
 		show_button_name = creative_mode_defines.names.gui.event_category_force_show_button,
 		hide_button_name = creative_mode_defines.names.gui.event_category_force_hide_button,
 		events = {
-			defines.events.on_entity_died,
+			defines.events.script_raised_destroy,
 			defines.events.on_force_created,
 			defines.events.on_forces_merging,
 			defines.events.on_player_changed_force
@@ -242,14 +241,14 @@ local event_categories = {
 		events = {
 			defines.events.on_chunk_generated,
 			defines.events.on_player_alt_selected_area,
-			defines.events.on_player_built_tile,
+			defines.events.script_raised_set_tiles,
 			defines.events.on_player_deconstructed_area,
 			defines.events.on_player_mined_tile,
 			defines.events.on_player_selected_area,
 			defines.events.on_player_setup_blueprint,
 			defines.events.on_put_item,
-			defines.events.on_robot_built_tile,
-			defines.events.on_robot_mined_tile,
+			defines.events.script_raised_built,
+			defines.events.script_raised_destroy,
 			defines.events.on_sector_scanned
 		}
 	},

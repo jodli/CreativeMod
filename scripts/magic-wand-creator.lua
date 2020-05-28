@@ -434,23 +434,13 @@ local function create_tiles_or_resources_in_pattern(
 				local new_resource_name = selected_resource.name
 				-- Create entity if possible.
 				if surface.can_place_entity {name = new_resource_name, position = position} then
-					local entity =
 						surface.create_entity {
 						name = new_resource_name,
 						position = position,
-						amount = resource_amount
+						amount = resource_amount,
+						create_build_effect_smoke = true,
+						raise_built = true
 					}
-					if entity then
-						create_smoke_effect_at_entity_position(entity)
-						-- Raise event.
-						util.raise_event(
-							defines.events.on_built_entity,
-							{
-								created_entity = entity,
-								player_index = player.index
-							}
-						)
-					end
 				end
 			end
 		end
@@ -458,16 +448,7 @@ local function create_tiles_or_resources_in_pattern(
 
 	-- Actually create tiles.
 	if tiles_to_be_created then
-		surface.set_tiles(tiles_to_be_created, magic_wand_creator.get_tile_correction(player))
-		-- Raise event.
-		util.raise_event(
-			defines.events.on_player_built_tile,
-			{
-				player_index = player.index,
-				surface_index = player.surface.index,
-				positions = tile_positions_to_be_created
-			}
-		)
+		surface.set_tiles(tiles_to_be_created, magic_wand_creator.get_tile_correction(player), true, true, true)
 	end
 end
 

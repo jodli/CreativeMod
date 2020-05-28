@@ -3095,7 +3095,7 @@ end
 -- Applies cheats when an entity is marked for deconstruction.
 function cheats.on_marked_for_deconstruction(player_index, entity)
 	-- Thanks Nexela for the inspiration of following snippet.
-	-- Instant deconstruction, raise on_entity_died event.
+	-- Instant deconstruction, raise script_raised_destroy event.
 	-- Make sure player_index is provided. Some mods use LuaEntity::order_deconstruction which dosn't not have player_index.
 	if player_index ~= nil then
 		if global.creative_mode.personal_cheats.instant_deconstruction[player_index] then
