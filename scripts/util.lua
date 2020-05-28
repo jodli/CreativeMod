@@ -158,7 +158,7 @@ function util.raise_event(event_id, data)
 	--data.tick = game.tick
 	--data.mod = creative_mode_defines.mod_id
 	-- These are standard now (except officially its mod_name instead of mod)
-	script.raise_event(event_id, data.entity)
+	script.raise_event(event_id, data)
 end
 
 -- Returns an invalid robot parameter that can be used by events.
@@ -246,26 +246,6 @@ function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instan
 		end
 	end
 	return false
-end
-
--- Raises the script_raised_destroy event for the destroyed tiles at given positions.
-function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_instant_deconstruction)
-	if is_instant_deconstruction == false then
-		is_instant_deconstruction = nil
-	end
-	util.raise_event(
-		defines.events.script_raised_destroy,
-		{
-			robot = get_fake_robot_param(),
-			entity = tiles,
-			-- But it doesn't have surface parameter?
-			-- TODO: surface parameter is stored in the robot, which in this case is a fake robot, but should probably be sent
-
-			-- For modders:
-			player_index = destroyer_player_index,
-			instant_deconstruction = is_instant_deconstruction
-		}
-	)
 end
 
 -- Kills the given entity and raises the script_raised_destroy event for it. Note that not all entities can be killed.

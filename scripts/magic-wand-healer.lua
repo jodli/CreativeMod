@@ -199,14 +199,6 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
 					end
 				end
 			end
-			-- Raise event.
-			if revived_tile_positions then
-				-- TODO: fix this
-				local tiles = {old_tile = {valid = false}, position = revived_tile_positions}
-				local prototype = {valid = false}
-				local stack = {valid = false, valid_for_read = false}
-				util.raise_event_for_revived_tile_ghosts(tiles, prototype, stack, player.index, false)
-			end
 		else
 			-- No right to use.
 			player.print {"message.creative-mode_no-right-to-use-magic-wand"}
