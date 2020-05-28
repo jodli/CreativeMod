@@ -141,8 +141,8 @@ local event_categories = {
 			defines.events.on_player_mined_tile,
 			defines.events.on_player_selected_area,
 			defines.events.script_raised_built,
-			defines.events.script_raised_destroy
-			defines.events.script_raised_revive,
+			defines.events.script_raised_destroy,
+			defines.events.script_raised_revive
 		}
 	},
 	player_related_events = {

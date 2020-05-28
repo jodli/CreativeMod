@@ -606,23 +606,13 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 								position = position
 							}
 						)
-						--TODO: FIXME
-						table.insert(
-							old_tiles,
-							{
-								old_tile = {valid = false},
-								 --[=[TODO]=]
-								position = position
-							}
-						)
 						create_smoke_at(surface, position)
 					end
 				end
 			end
 			if new_tiles then
-				surface.set_tiles(new_tiles)
-				-- Raise event.
-				util.raise_event_for_destroyed_tiles(old_tiles, player.index, false)
+				-- Set tiles and raise event.
+				surface.set_tiles(new_tiles, true, true, true, true)
 			end
 		else
 			-- No right to use.

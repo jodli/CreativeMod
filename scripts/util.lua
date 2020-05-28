@@ -257,7 +257,7 @@ function util.raise_event_for_destroyed_tiles(tiles, destroyer_player_index, is_
 		defines.events.script_raised_destroy,
 		{
 			robot = get_fake_robot_param(),
-			tiles = tiles,
+			entity = tiles,
 			-- But it doesn't have surface parameter?
 			-- TODO: surface parameter is stored in the robot, which in this case is a fake robot, but should probably be sent
 

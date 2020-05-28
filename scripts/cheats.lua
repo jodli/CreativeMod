@@ -2843,23 +2843,8 @@ function cheats.tick()
 	if new_tiles_on_surfaces then
 		for surface_name, data in pairs(new_tiles_on_surfaces) do
 			local surface = game.surfaces[surface_name]
-			-- Set tiles.
-			surface.set_tiles(data.tiles, true)
-			-- Raise event.
-			local event_data = data.event_data
-			for player_index, positions in pairs(event_data) do
-				--TODO: FIXME
-				tiles = {}
-				table.insert(
-					tiles,
-					{
-						old_tile = {valid = false},
-						 --[=[TODO]=]
-						position = positions
-					}
-				)
-				util.raise_event_for_destroyed_tiles(tiles, player_index, true)
-			end
+			-- Set tiles and raise the event
+			surface.set_tiles(data.tiles, true, true, true, true)
 		end
 	end
 
