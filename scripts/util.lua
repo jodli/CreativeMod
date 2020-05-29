@@ -50,8 +50,10 @@ end
 -- Returns a random number inside the given range using the Factorio random generator.
 -- The range is optional. See API doc.
 function util.random(minimum, maximum)
-	global.random = global.random or game.create_random_generator()
-	return global.random(minimum, maximum)
+	if util.random_generator == nil then
+		util.random_generator =  game.create_random_generator()
+	end
+	return util.random_generator(minimum, maximum)
 end
 
 -- Returns whether the given sorted array contain the given specific value.
