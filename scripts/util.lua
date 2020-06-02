@@ -189,7 +189,7 @@ function util.fulfill_item_requests(target_entity, item_requests)
 	return item_requests
 end
 
--- Revives the given entity ghost and raises the script_raised_built event for it.
+-- Revives the given entity ghost and raises the script_raised_revive event for it.
 -- You shouldn't call this function if the given ghost is actually a tile ghost!
 -- Returns the revived entity. It can be null if it is not revived.
 function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, is_instant_blueprint)

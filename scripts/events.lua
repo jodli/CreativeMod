@@ -242,8 +242,8 @@ local function on_built_entity(event)
 	global_util.register_entity(entity)
 end
 
--- Callback of the script_raised_built event, which is invoked when an entity is built by robot.
-local function script_raised_built(event)
+-- Callback of the script_raised_built event, which is invoked when an entity is revived by robot.
+local function script_raised_revive(event)
 	global_util.register_entity(event.entity)
 end
 
@@ -532,7 +532,7 @@ end
 local event_handlers_look_up = {
 	[defines.events.on_put_item] = on_put_item,
 	[defines.events.on_built_entity] = on_built_entity,
-	[defines.events.script_raised_built] = script_raised_built,
+	[defines.events.script_raised_revive] = script_raised_revive,
 	[defines.events.on_pre_player_mined_item] = on_preplayer_mined_item,
 	[defines.events.on_marked_for_deconstruction] = on_marked_for_deconstruction,
 	[defines.events.on_entity_settings_pasted] = on_entity_settings_pasted,
