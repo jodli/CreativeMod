@@ -564,8 +564,11 @@ end
 local function get_entity_param_message(log_prefix, param_name, param)
 	local entity_type = param.type
 	local entity_name = param.name
-	local message =
-		log_prefix .. '"' .. param_name .. '" :: LuaEntity: {type = "' .. entity_type .. '", name = "' .. entity_name .. '"'
+	local message = log_prefix
+	if param_name ~= '' then
+		message = message .. '"' .. param_name .. '"'
+	end
+	message = message .. ' :: LuaEntity: {type = "' .. entity_type .. '", name = "' .. entity_name .. '"'
 	if param.valid then
 		if entity_name == "entity-ghost" or entity_name == "tile-ghost" then
 			message = message .. ', ghost_name = "' .. param.ghost_name .. '"'
@@ -586,6 +589,21 @@ local function get_entity_param_message(log_prefix, param_name, param)
 		message = message .. ", valid = false"
 	end
 	message = message .. "}"
+	return message
+end
+
+-- Prints table parameter.
+local function get_table_param_message(log_prefix, param_name, param)
+	local table = param.get()
+
+	local message = log_prefix .. '"' .. param_name .. '" table :: {'
+	for i, entry in ipairs(table) do
+		message = message .. get_entity_param_message(i, '', entry)
+		if next(table, i) ~= nil then
+			message = message .. ', '
+		end
+	end
+	message = message .. '}'
 	return message
 end
 
@@ -833,6 +851,7 @@ local event_param_message_look_up = {
 	["created_entity"] = get_entity_param_message,
 	["player_index"] = get_uint_param_message,
 	["entity"] = get_entity_param_message,
+	["mapping"] = get_table_param_message,
 	["area"] = get_boundingbox_param_message,
 	["surface"] = get_surface_param_message,
 	["message"] = get_string_param_message,
@@ -960,7 +979,6 @@ local undocumented_event_param_message_loop_up = {
 	["number"] = get_undocumented_number_param_message,
 	["string"] = get_undocumented_string_param_message,
 	["function"] = get_undocumented_function_param_message,
-	["table"] = get_undocumented_table_param_message,
 	["userdata"] = get_undocumented_userdata_param_message,
 	["thread"] = get_undocumented_thread_param_message
 }
