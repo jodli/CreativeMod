@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.4.4
+Date: 2020-06-06
+  Bugfixes:
+    - Fix bug with printing tables in event logging.
+    - Clamp values to safe ranges before applying cheats.
+---------------------------------------------------------------------------------------------------
 Version: 1.4.3
 Date: 2020-06-02
   Info:
