@@ -15,9 +15,21 @@ cheats.default_cheat_values = {
 --------------------------------------------------------------------
 
 -- Function for limiting the value to be positive only before it is applied.
-local function non_negative_number_limit_value_before_apply_function(value)
+local function uint32_limit_value_before_apply_function(value)
 	-- Negative value will cause error.
 	return util.clamp(value, 0, 4294967295)
+end
+
+-- Function for limiting the value to be positive only before it is applied.
+local function int32_limit_value_before_apply_function(value)
+	-- Negative value will cause error.
+	return util.clamp(value, -2147483648, 2147483647)
+end
+
+-- Function for limiting the value to be positive only before it is applied.
+local function pickup_distance_limit_value_before_apply_function(value)
+	-- Negative value will cause error.
+	return util.clamp(value, 0, 320)
 end
 
 -- Function for limiting the value to be inside a large but safe range before it is applied.
@@ -408,7 +420,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -443,7 +455,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -478,7 +490,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -513,7 +525,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -545,7 +557,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = pickup_distance_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -577,7 +589,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = pickup_distance_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -746,7 +758,7 @@ cheats.personal_cheats_data = {
 					return nil
 				end
 			end,
-			limit_value_before_apply_function = large_range_limit_value_before_apply_function,
+			limit_value_before_apply_function = int32_limit_value_before_apply_function,
 			apply_to_target_function = function(player, value, source_player)
 				if not player.connected then
 					return {"message.creative-mode_player-is-offline"}
@@ -1123,7 +1135,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_reach_distance_bonus = value
 				return nil
@@ -1143,7 +1155,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_build_distance_bonus = value
 				return nil
@@ -1163,7 +1175,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_resource_reach_distance_bonus = value
 				return nil
@@ -1183,7 +1195,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_item_drop_distance_bonus = value
 				return nil
@@ -1203,7 +1215,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_item_pickup_distance_bonus = value
 				return nil
@@ -1223,7 +1235,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.character_loot_pickup_distance_bonus = value
 				return nil
@@ -1346,7 +1358,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.inserter_stack_size_bonus = value
 				return nil
@@ -1366,7 +1378,7 @@ cheats.team_cheats_data = {
 				end
 				return nil
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(force, value, source_player)
 				force.stack_inserter_capacity_bonus = value
 				return nil
@@ -1762,7 +1774,7 @@ cheats.global_cheats_data = {
 			get_value_function = function(target)
 				return game.map_settings.enemy_expansion.min_expansion_cooldown
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(target, value, source_player)
 				game.map_settings.enemy_expansion.min_expansion_cooldown = value
 				return nil
@@ -1779,7 +1791,7 @@ cheats.global_cheats_data = {
 			get_value_function = function(target)
 				return game.map_settings.enemy_expansion.max_expansion_cooldown
 			end,
-			limit_value_before_apply_function = non_negative_number_limit_value_before_apply_function,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
 			apply_to_target_function = function(target, value, source_player)
 				game.map_settings.enemy_expansion.max_expansion_cooldown = value
 				return nil
