@@ -592,6 +592,24 @@ local function get_entity_param_message(log_prefix, param_name, param)
 	return message
 end
 
+-- Prints Prototype parameter.
+local function get_prototype_param_message(log_prefix, param_name, param)
+	local entity_type = param.type
+	local entity_name = param.name
+	local message = log_prefix
+	if param_name ~= '' then
+		message = message .. '"' .. param_name .. '"'
+	end
+	message = message .. ' :: LuaItemPrototype: {type = "' .. entity_type .. '", name = "' .. entity_name .. '"'
+	if param.valid then
+		message = message .. ", valid = true"
+	else
+		message = message .. ", valid = false"
+	end
+	message = message .. "}"
+	return message
+end
+
 -- Prints table parameter.
 local function get_table_param_message(log_prefix, param_name, param)
 	local table = param.get()
@@ -860,7 +878,8 @@ local event_param_message_look_up = {
 	["force"] = get_force_param_message,
 	["element"] = get_guielement_param_message,
 	["item_stack"] = get_simpleitemstack_param_message,
-	["item"] = get_string_param_message,
+	["item-table"] = get_prototype_param_message,
+	["item-string"] = get_string_param_message,
 	["entities"] = get_entity_array_param_message,
 	["tiles"] = get_tile_array_param_message,
 	["positions"] = get_position_array_param_message,
@@ -1009,6 +1028,15 @@ local function get_event_param_message(message_prefix, event_id, param_name, par
 	if repeated_event_param_message_look_up[event_id] and repeated_event_param_message_look_up[event_id][param_name] then
 		return repeated_event_param_message_look_up[event_id][param_name](message_prefix, param_name, param)
 	else
+		-- Prepare param_name if there's multiple fits...
+		if param_name == 'item' then
+			local param_type = type(param)
+			if param_type == 'table' then
+				param_name = param_name .. '-table'
+			elseif param_type == 'string' then
+				param_name = param_name .. '-string'
+			end
+		end
 		-- Check for the normal event params look up table.
 		if event_param_message_look_up[param_name] then
 			return event_param_message_look_up[param_name](message_prefix, param_name, param)
