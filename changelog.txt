@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.5.0
+Date: 2020-06-07
+  Info:
+    - Add void lab that just deletes science packs.
+    - Add void technology that (hopefully) researches endlessly. You can change the base time for this technology in the mod settings.
+---------------------------------------------------------------------------------------------------
 Version: 1.4.4
 Date: 2020-06-06
   Bugfixes:
