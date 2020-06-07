@@ -1058,6 +1058,8 @@ cheats.team_cheats_data = {
 			apply_to_target_function = function(force, enable, source_player)
 				if enable then
 					force.research_all_technologies()
+					-- "Unresearch" the void technology.
+					force.technologies[creative_mode_defines.names.technology.void_technology].researched = false
 				else
 					-- Calling LuaForce::reset() will hide all the originally hidden recipes.
 					-- We have to enable them back if they were enabled.
@@ -3147,7 +3149,7 @@ function cheats.on_research_started(event)
 
 	-- Exclude our void technology from the instant research... Destroys the point I guess :D
 	if global.creative_mode.team_cheats.instant_research[force.name]
-		and not research.name == creative_mode_defines.names.technology.void_technology then
+		and research.name ~= creative_mode_defines.names.technology.void_technology then
 		force.research_progress = 1
 	end
 end
