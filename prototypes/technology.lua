@@ -49,7 +49,7 @@ data:extend({
         unit = {
             count = 4294967296,
             ingredients = create_void_technology_ingredients(),
-            time = 30
+            time = settings.startup[creative_mode_defines.names.settings.time_for_void_technology].value
         }
     }
 })

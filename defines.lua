@@ -46,6 +46,7 @@ creative_mode_defines.names.settings = {
 	void_requester_chest_size = creative_mode_defines.name_prefix .. "void-requester-chest-size",
 	void_chest_size = creative_mode_defines.name_prefix .. "void-chest-size",
 	void_storage_chest_size = creative_mode_defines.name_prefix .. "void-storage-chest-size",
+	time_for_void_technology = creative_mode_defines.name_prefix .. "time-for-void-technology",
 	creative_cargo_wagon_size = creative_mode_defines.name_prefix .. "creative-cargo-wagon-size",
 	creative_cargo_wagon_contains_hidden_items = creative_mode_defines.name_prefix ..
 		"creative-cargo-wagon-contains-hidden-items",

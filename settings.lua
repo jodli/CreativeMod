@@ -125,12 +125,22 @@ data:extend {
 		order = "i"
 	},
 	{
+		-- Time setting for void technology.
+		type = "int-setting",
+		name = creative_mode_defines.names.settings.time_for_void_technology,
+		setting_type = "startup",
+		default_value = 30,
+		minimum_value = 1,
+		maximum_value = 4294967296,
+		order = "j"
+	},
+	{
 		-- Add suffix to enemy structures' names.
 		type = "bool-setting",
 		name = creative_mode_defines.names.settings.enemy_structures_add_name_suffix,
 		setting_type = "startup",
 		default_value = true,
-		order = "j"
+		order = "k"
 	},
 	---------------------------------------------------------------------------------------
 
@@ -140,7 +150,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.enable_invincible_player_by_default,
 		setting_type = "runtime-per-user",
 		default_value = true,
-		order = "k[personal-cheat]-a[invincible-player]"
+		order = "l[personal-cheat]-a[invincible-player]"
 	},
 	{
 		-- Enable instant blueprint by default.
@@ -148,7 +158,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.enable_instant_blueprint_by_default,
 		setting_type = "runtime-per-user",
 		default_value = true,
-		order = "k[personal-cheat]-b[instant-blueprint]"
+		order = "l[personal-cheat]-b[instant-blueprint]"
 	},
 	{
 		-- Enable instant deconstruction by default.
@@ -156,7 +166,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.enable_instant_deconstruction_by_default,
 		setting_type = "runtime-per-user",
 		default_value = true,
-		order = "k[personal-cheat]-c[instant-deconstruction]"
+		order = "l[personal-cheat]-c[instant-deconstruction]"
 	},
 	{
 		-- Enable personal long reach by default.
@@ -164,7 +174,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.enable_personal_long_reach_by_default,
 		setting_type = "runtime-per-user",
 		default_value = true,
-		order = "k[personal-cheat]-d[long-reach]"
+		order = "l[personal-cheat]-d[long-reach]"
 	},
 	{
 		-- Enable personal fast run by default.
@@ -172,7 +182,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.enable_personal_fast_run_by_default,
 		setting_type = "runtime-per-user",
 		default_value = true,
-		order = "k[personal-cheat]-e[fast-run]"
+		order = "l[personal-cheat]-e[fast-run]"
 	},
 	{
 		-- Default technology research cheat type.
@@ -181,7 +191,7 @@ data:extend {
 		setting_type = "runtime-per-user",
 		default_value = creative_mode_defines.values.default_technology_research_cheat_types.research_all,
 		allowed_values = creative_mode_defines.values.default_technology_research_cheat_types,
-		order = "l[force-cheat]-a[technology-research-cheat-type]"
+		order = "m[force-cheat]-a[technology-research-cheat-type]"
 	},
 	{
 		-- Override evolution factor by default.
@@ -189,7 +199,7 @@ data:extend {
 		name = creative_mode_defines.names.settings.override_evolution_factor_by_default,
 		setting_type = "runtime-per-user",
 		default_value = false,
-		order = "l[force-cheat]-b[override-evolution]"
+		order = "m[force-cheat]-b[override-evolution]"
 	},
 	{
 		-- Default evolution factor.
@@ -199,6 +209,6 @@ data:extend {
 		default_value = 1,
 		minimum_value = 0,
 		maximum_value = 1,
-		order = "l[force-cheat]-c[default-evolution]"
+		order = "m[force-cheat]-c[default-evolution]"
 	}
 }
