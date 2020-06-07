@@ -3144,7 +3144,10 @@ end
 function cheats.on_research_started(event)
 	local research = event.research
 	local force = research.force
-	if global.creative_mode.team_cheats.instant_research[force.name] then
+
+	-- Exclude our void technology from the instant research... Destroys the point I guess :D
+	if global.creative_mode.team_cheats.instant_research[force.name]
+		and not research.name == creative_mode_defines.names.technology.void_technology then
 		force.research_progress = 1
 	end
 end

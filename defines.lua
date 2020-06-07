@@ -127,6 +127,10 @@ creative_mode_defines.names.entities = {
 	alien_attractor_proxy_large = creative_mode_defines.name_prefix .. "alien-attractor-proxy-large",
 	super_beacon = creative_mode_defines.name_prefix .. "super-beacon"
 }
+-- Technology names
+creative_mode_defines.names.technology = {
+	void_technology = creative_mode_defines.name_prefix .. "void-technology",
+}
 -- Equipment names
 creative_mode_defines.names.equipments = {
 	super_fusion_reactor_equipment = creative_mode_defines.name_prefix .. "super-fusion-reactor-equipment",
