@@ -66,6 +66,12 @@ function global_util.initialize_or_update_global()
 	if not global.creative_mode.void_storage_chest_next_update_index then
 		global.creative_mode.void_storage_chest_next_update_index = 1
 	end
+    if not global.creative_mode.void_lab then
+        global.creative_mode.void_lab = {}
+    end
+    if not global.creative_mode.void_lab_next_update_index then
+        global.creative_mode.void_lab_next_update_index = 1
+    end
 	if not global.creative_mode.creative_cargo_wagon_data_groups then
 		global.creative_mode.creative_cargo_wagon_data_groups = {}
 	end
@@ -871,6 +877,9 @@ local register_entity_look_up_functions = {
 	[creative_mode_defines.names.entities.creative_lab] = function(entity)
 		table.insert(global.creative_mode.creative_lab, entity)
 	end,
+    [creative_mode_defines.names.entities.void_lab] = function(entity)
+        table.insert(global.creative_mode.void_lab, entity)
+    end,
 	[creative_mode_defines.names.entities.energy_source] = function(entity)
 		table.insert(global.creative_mode.energy_source, entity)
 	end,

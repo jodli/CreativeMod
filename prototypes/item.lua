@@ -381,6 +381,27 @@ data:extend(
 			place_result = creative_mode_defines.names.entities.creative_lab,
 			stack_size = 50
 		},
+    {
+        -- Void lab
+        type = "item",
+        name = creative_mode_defines.names.items.void_lab,
+        icon_size = 64,
+        icons = {
+            {
+                icon = "__base__/graphics/icons/lab.png",
+                tint = {
+                    r = 50,
+                    g = 50,
+                    b = 50
+                }
+            }
+        },
+        flags = flags_quickbar,
+        subgroup = creative_mode_defines.names.item_subgroups.advanced,
+        order = "f",
+        place_result = creative_mode_defines.names.entities.void_lab,
+        stack_size = 50
+    },
 		-----------------------------------------------------------------------------
 
 		{

@@ -699,6 +699,42 @@ local function lab(entity_name, item_name, icon_name, on_animation_filename, off
 	return lab
 end
 
+local function void_lab()
+    local lab = table.deepcopy(data.raw["lab"]["lab"])
+    lab.name = creative_mode_defines.names.entities.void_lab
+    lab.icons = {
+        {
+            icon = "__base__/graphics/entity/lab/lab.png",
+            tint = {
+                r = 50,
+                g = 50,
+                b = 50
+            }
+        }
+    }
+    lab.on_animation.layers[1].tint = {
+        r = 50,
+        g = 50,
+        b = 50
+    }
+    lab.off_animation.layers[1].tint = {
+        r = 50,
+        g = 50,
+        b = 50
+    }
+    lab.on_animation.layers[1].hr_version.tint = {
+        r = 50,
+        g = 50,
+        b = 50
+    }
+    lab.off_animation.layers[1].hr_version.tint = {
+        r = 50,
+        g = 50,
+        b = 50
+    }
+    return lab
+end
+
 -- Generates data for electric energy interface.
 local function electric_energy_interface(
 	entity_name,
@@ -1751,13 +1787,9 @@ data:extend(
 			0
 		),
 		-- Creative lab
-		lab(
-			creative_mode_defines.names.entities.creative_lab,
-			creative_mode_defines.names.items.creative_lab,
-			"creative-lab.png",
-			"creative-lab.png",
-			"creative-lab.png"
-		),
+    lab(creative_mode_defines.names.entities.creative_lab, creative_mode_defines.names.items.creative_lab,
+        "creative-lab.png", "creative-lab.png", "creative-lab.png"),
+    void_lab(),
 		-----------------------------------------------------------------------------
 
 		-- Active electric energy interface (output)

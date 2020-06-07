@@ -222,6 +222,14 @@ data:extend(
 			result = creative_mode_defines.names.items.creative_lab,
 			enabled = false
 		},
+		{
+			-- Creative lab
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.void_lab,
+			ingredients = {},
+			result = creative_mode_defines.names.items.void_lab,
+			enabled = false
+		},
 		-----------------------------------------------------------------------------
 
 		{

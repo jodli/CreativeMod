@@ -106,6 +106,7 @@ creative_mode_defines.names.entities = {
 	item_void = creative_mode_defines.name_prefix .. "item-void",
 	random_item_source = creative_mode_defines.name_prefix .. "random-item-source",
 	creative_lab = creative_mode_defines.name_prefix .. "creative-lab",
+	void_lab = creative_mode_defines.name_prefix .. "void-lab",
 	active_electric_energy_interface_output = creative_mode_defines.name_prefix ..
 		"active-electric-energy-interface-output",
 	active_electric_energy_interface_input = creative_mode_defines.name_prefix .. "active-electric-energy-interface-input",
@@ -160,6 +161,7 @@ creative_mode_defines.names.items = {
 	item_void = creative_mode_defines.name_prefix .. "item-void",
 	random_item_source = creative_mode_defines.name_prefix .. "random-item-source",
 	creative_lab = creative_mode_defines.name_prefix .. "creative-lab",
+	void_lab = creative_mode_defines.name_prefix .. "void-lab",
 	active_electric_energy_interface_output = creative_mode_defines.name_prefix ..
 		"active-electric-energy-interface-output",
 	active_electric_energy_interface_input = creative_mode_defines.name_prefix .. "active-electric-energy-interface-input",
@@ -237,6 +239,7 @@ creative_mode_defines.names.recipes = {
 	item_void = creative_mode_defines.name_prefix .. "item-void",
 	random_item_source = creative_mode_defines.name_prefix .. "random-item-source",
 	creative_lab = creative_mode_defines.name_prefix .. "creative-lab",
+	void_lab = creative_mode_defines.name_prefix .. "void-lab",
 	active_electric_energy_interface_output = creative_mode_defines.name_prefix ..
 		"active-electric-energy-interface-output",
 	active_electric_energy_interface_input = creative_mode_defines.name_prefix .. "active-electric-energy-interface-input",
