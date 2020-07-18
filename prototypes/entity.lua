@@ -1,76 +1,115 @@
 require("scripts/creative-chest-util")
 require("circuit-connector-sprites")
 
+
 local function flying_robot(volume)
-	return {
-		sound = {
-			{
-				filename = "__base__/sound/flying-robot-1.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-2.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-3.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-4.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-5.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-6.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-7.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-8.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/flying-robot-9.ogg", volume = volume
-			}
+	return
+	{
+		sound =
+		{
+		{
+			filename = "__base__/sound/construction-robot-11.ogg", volume = volume
 		},
-		max_sounds_per_type = 5,
+		{
+			filename = "__base__/sound/construction-robot-12.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-13.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-14.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-15.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-16.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-17.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-18.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-19.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/flying-robot-1.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-2.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-3.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-4.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-5.ogg", volume = 0.43
+		}
+		},
+		max_sounds_per_type = 20,
 		audible_distance_modifier = 1,
+		fade_in_ticks = 8,
+		fade_out_ticks = 10,
 		probability = 1 / (10 * 60) -- average pause between the sound is 10 seconds
 	}
 end
 
 local function construction_robot(volume)
-	return {
-		sound = {
-			{
-				filename = "__base__/sound/construction-robot-1.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-2.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-3.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-4.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-5.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-6.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-7.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-8.ogg", volume = volume
-			},
-			{
-				filename = "__base__/sound/construction-robot-9.ogg", volume = volume
-			}
+	return
+	{
+		sound =
+		{
+		{
+			filename = "__base__/sound/construction-robot-1.ogg", volume = volume
 		},
-		max_sounds_per_type = 1,
+		{
+			filename = "__base__/sound/construction-robot-2.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-3.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-4.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-5.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-6.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-7.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-8.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/construction-robot-9.ogg", volume = volume
+		},
+		{
+			filename = "__base__/sound/flying-robot-1.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-2.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-3.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-4.ogg", volume = 0.43
+		},
+		{
+			filename = "__base__/sound/flying-robot-5.ogg", volume = 0.43
+		}
+		},
+		max_sounds_per_type = 20,
 		audible_distance_modifier = 1,
+		fade_in_ticks = 8,
+		fade_out_ticks = 8,
 		probability = 1 / (10 * 60) -- average pause between the sound is 10 seconds
 	}
 end
@@ -1224,7 +1263,7 @@ data:extend(
 				direction_count = 16,
 				draw_as_shadow = true
 			},
-			working_sound = flying_robot(0.5),
+			working_sound = flying_robot(0.48),
 			cargo_centered = {0.0, 0.2}
 		},
 		-- Super construction robot.
@@ -1398,7 +1437,15 @@ data:extend(
 					animation_speed = 0.3
 				}
 			},
-			working_sound = construction_robot(0.5),
+			repairing_sound =
+			{
+			  { filename = "__base__/sound/robot-repair-1.ogg" },
+			  { filename = "__base__/sound/robot-repair-2.ogg" },
+			  { filename = "__base__/sound/robot-repair-3.ogg" },
+			  { filename = "__base__/sound/robot-repair-4.ogg" },
+			  { filename = "__base__/sound/robot-repair-5.ogg" }
+			},
+			working_sound = construction_robot(0.47),
 			cargo_centered = {0.0, 0.2},
 			construction_vector = {0.30, 0.22}
 		},
