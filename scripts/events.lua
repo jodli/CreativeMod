@@ -156,7 +156,7 @@ function events.on_tick()
 	-- It is not shown in the 0th tick so the message box has to be closed before the popup is shown.
 	if not global.creative_mode.has_asked_for_enable and not global.creative_mode.enabled then
 		if game.tick >= 1 then
-			if game.players[1] ~= nil then
+			if game.players[1] ~= nil and game.players[1].character ~= nil then -- Wait until the initial cutscene is over.
 				global.creative_mode.has_asked_for_enable = true
 				-- Check the default initial action in settings.
 				local default_initial_action = settings.global[creative_mode_defines.names.settings.default_initial_action].value
