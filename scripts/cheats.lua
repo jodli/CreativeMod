@@ -1066,7 +1066,9 @@ cheats.team_cheats_data = {
 				if enable then
 					force.research_all_technologies()
 					-- "Unresearch" the void technology.
-					force.technologies[creative_mode_defines.names.technology.void_technology].researched = false
+					if force.technologies[creative_mode_defines.names.technology.void_technology] ~= nil then
+						force.technologies[creative_mode_defines.names.technology.void_technology].researched = false
+					end
 				else
 					-- Calling LuaForce::reset() will hide all the originally hidden recipes.
 					-- We have to enable them back if they were enabled.

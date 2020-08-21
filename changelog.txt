@@ -5,6 +5,7 @@ Date: 2020-08-21
     - Disable void technology by default. You can enable it with unlocking the creative tools recipes.
   Bugfixes:
     - Wait for initial dialog to display until the cutscene is over.
+    - Fix incompatibility with science altering mods, e.g. Space Exploration.
 ---------------------------------------------------------------------------------------------------
 Version: 1.5.1
 Date: 2020-07-18

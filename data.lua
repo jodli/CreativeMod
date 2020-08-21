@@ -9,4 +9,7 @@ require("prototypes.equipment")
 require("prototypes.recipe")
 require("prototypes.style")
 require("prototypes.sprite")
-require("prototypes.technology")
+
+if not util.array_contains_key(mods, "space-exploration-postprocess") then
+    require("prototypes.technology")
+end
