@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.5.2
+Version: 1.6.0
 Date: 2020-08-21
   Info:
     - Disable void technology by default. You can enable it with unlocking the creative tools recipes.
