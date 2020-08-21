@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.5.2
 Date: 2020-08-21
+  Info:
+    - Disable void technology by default. You can enable it with unlocking the creative tools recipes.
   Bugfixes:
     - Wait for initial dialog to display until the cutscene is over.
 ---------------------------------------------------------------------------------------------------

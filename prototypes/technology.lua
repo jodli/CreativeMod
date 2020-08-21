@@ -35,6 +35,7 @@ data:extend({
     {
         type = "technology",
         name = creative_mode_defines.names.technology.void_technology,
+        enabled = false,
         icon_size = 64,
         icons = {
             {

@@ -937,6 +937,13 @@ cheats.team_cheats_data = {
 						recipe.enabled = enable
 					end
 				end
+				-- Technology
+				for _, technology_name in pairs(creative_mode_defines.names.technology) do
+					local technology = force.technologies[technology_name]
+					if technology then
+						technology.enabled = enable
+					end
+				end
 				return nil
 			end,
 			print_applied_by_admin_message_function = function(source_player, force, enable)
