@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.6.2
+Date: 2020-10-12
+  Bugfixes:
+    - Fix not displaying initial dialog where the player has no character (godmode-style used in Sandbox and other scenarios).
+---------------------------------------------------------------------------------------------------
+Version: 1.6.1
+Date: 2020-09-13
+  Bugfixes:
+    - Fix cross mod incompatibility with Shortcuts mod. Thanks to ickputzdirwech! <3
+---------------------------------------------------------------------------------------------------
 Version: 1.6.0
 Date: 2020-08-21
   Info:
