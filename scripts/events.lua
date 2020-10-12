@@ -156,25 +156,30 @@ function events.on_tick()
 	-- It is not shown in the 0th tick so the message box has to be closed before the popup is shown.
 	if not global.creative_mode.has_asked_for_enable and not global.creative_mode.enabled then
 		if game.tick >= 1 then
-			if game.players[1] ~= nil and game.players[1].character ~= nil then -- Wait until the initial cutscene is over.
+			-- Wait until the initial cutscene is over.
+			-- We wait until there's at least one connected player not currently
+			-- in a cutscene. There are likely ways to sneak around these
+			-- checks, but it works perfect for Factorio 1.0's scenarios.
+			local player = game.players[1]
+			if player ~= nil and player.controller_type ~= defines.controllers.cutscene then
 				global.creative_mode.has_asked_for_enable = true
 				-- Check the default initial action in settings.
 				local default_initial_action = settings.global[creative_mode_defines.names.settings.default_initial_action].value
 				if default_initial_action == creative_mode_defines.values.default_initial_actions.enable then
 					-- Enable CM.
-					cheats.enable_or_disable_creative_mode(game.players[1], true, false, false, true)
+					cheats.enable_or_disable_creative_mode(player, true, false, false, true)
 				elseif default_initial_action == creative_mode_defines.values.default_initial_actions.enable_all then
 					-- Enable all cheats.
-					cheats.enable_or_disable_creative_mode(game.players[1], true, false, true, true)
+					cheats.enable_or_disable_creative_mode(player, true, false, true, true)
 				elseif default_initial_action == creative_mode_defines.values.default_initial_actions.disable then
 					-- Disable CM.
-					cheats.enable_or_disable_creative_mode(game.players[1], false, false, false, true)
+					cheats.enable_or_disable_creative_mode(player, false, false, false, true)
 				elseif default_initial_action == creative_mode_defines.values.default_initial_actions.disable_permanently then
 					-- Disable permanently.
-					cheats.enable_or_disable_creative_mode(game.players[1], false, true, false, true)
+					cheats.enable_or_disable_creative_mode(player, false, true, false, true)
 				else
 					-- Default: show popup.
-					gui.show_main_popup(game.players[1], gui.main_popup_content_type.enable_creative_mode)
+					gui.show_main_popup(player, gui.main_popup_content_type.enable_creative_mode)
 				end
 			end
 		end
