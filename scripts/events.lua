@@ -222,10 +222,10 @@ end
 
 --------------------------------------------------------------------
 
--- Callback of the on_put_item event, which is invoked when a player uses item to build something.
-local function on_put_item(event)
+-- Callback of the on_pre_build event, which is invoked when a player uses item to build something.
+local function on_pre_build(event)
     local player = game.players[event.player_index]
-    cheats.on_put_item(player)
+    cheats.on_pre_build(player)
 end
 
 -- Callback of the on_built_entity event, which is invoked when an entity is built by player.
@@ -531,7 +531,7 @@ end
 
 -- The look up table for forwarding events to the corresponding handlers.
 local event_handlers_look_up = {
-    [defines.events.on_put_item] = on_put_item,
+    [defines.events.on_pre_build] = on_pre_build,
     [defines.events.on_built_entity] = on_built_entity,
     [defines.events.script_raised_revive] = script_raised_revive,
     [defines.events.on_pre_player_mined_item] = on_preplayer_mined_item,

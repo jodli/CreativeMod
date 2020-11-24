@@ -1,3 +1,5 @@
+local mod_gui = require("mod-gui")
+
 -- This file contains variables and functions related to Creative Mode menu - modding GUI.
 if not gui_menu_modding then
 	gui_menu_modding = {}

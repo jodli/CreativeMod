@@ -1,3 +1,5 @@
+local mod_gui = require("mod-gui")
+
 -- This file contains variables and functions related to entity GUI.
 if not gui_entity then
 	gui_entity = {}
@@ -821,7 +823,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						-- Textfield.
 						local set_temp_textfield =
 							set_temp_container[creative_mode_defines.names.gui.configurable_super_boiler_set_temp_textfield]
-						set_temp_textfield.text = temperature
+						set_temp_textfield.text = tostring(temperature)
 					end
 				end
 			)
@@ -1131,7 +1133,7 @@ function gui_entity.on_gui_text_changed(element, element_name, player)
 							]
 							local amount_field =
 								insert_to_player_amount_container[creative_mode_defines.names.gui.item_source_insert_once_to_player_amount_field]
-							amount_field.text = amount
+							amount_field.text = tostring(amount)
 						end
 					end
 				end
