@@ -886,7 +886,6 @@ local event_param_message_look_up = {
     ["surface_index"] = get_uint_param_message,
     ["grid"] = get_equipmentgrid_param_message,
     ["count"] = get_uint_param_message,
-    ["player_port"] = get_entity_param_message,
     ["position"] = get_position_param_message,
     ["research"] = get_technology_param_message,
     ["robot"] = get_entity_param_message,

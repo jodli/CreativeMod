@@ -988,8 +988,6 @@ cheats.team_cheats_data = {
                                                                .get_value_function(force)
                     local loaders_recipes_enabled = cheats.team_cheats_data.cheats.loaders_recipes.get_value_function(
                                                         force)
-                    local player_port_recipe_enabled = cheats.team_cheats_data.cheats.player_port_recipe
-                                                           .get_value_function(force)
 
                     force.reset()
 
@@ -999,10 +997,6 @@ cheats.team_cheats_data = {
                     end
                     if loaders_recipes_enabled then
                         cheats.team_cheats_data.cheats.loaders_recipes.apply_to_target_function(force, true,
-                            source_player)
-                    end
-                    if player_port_recipe_enabled then
-                        cheats.team_cheats_data.cheats.player_port_recipe.apply_to_target_function(force, true,
                             source_player)
                     end
                 end
