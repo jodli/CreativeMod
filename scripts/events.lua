@@ -879,6 +879,7 @@ local event_param_message_look_up = {
     ["element"] = get_guielement_param_message,
     ["stack"] = get_simpleitemstack_param_message,
     ["item_stack"] = get_simpleitemstack_param_message,
+    ["target"] = get_prototype_param_message,
     ["item-table"] = get_prototype_param_message,
     ["item-string"] = get_string_param_message,
     ["entities"] = get_entity_array_param_message,
