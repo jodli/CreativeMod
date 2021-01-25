@@ -879,7 +879,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						local start_item_index =
 							creative_chest_util.get_start_end_item_index_for_group(group_number, inventory_size - 1, contain_hidden_items)
 						local item = creative_chest_util.get_item_at(start_item_index + slot - 1, contain_hidden_items)
-						player.clean_cursor()
+						player.clear_cursor()
 						player.cursor_stack.set_stack {name = item.name, count = item.stack_size}
 
 						-- Record the slot for the next shift-click.
