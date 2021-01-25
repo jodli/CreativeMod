@@ -200,7 +200,7 @@ local event_categories = {
 			defines.events.on_pre_entity_settings_pasted,
 			defines.events.on_pre_player_died,
 			defines.events.on_pre_player_mined_item,
-			defines.events.on_put_item,
+			defines.events.on_pre_build,
 			defines.events.on_selected_entity_changed
 		}
 	},
@@ -248,7 +248,7 @@ local event_categories = {
 			defines.events.on_player_mined_tile,
 			defines.events.on_player_selected_area,
 			defines.events.on_player_setup_blueprint,
-			defines.events.on_put_item,
+			defines.events.on_pre_build,
 			defines.events.script_raised_built,
 			defines.events.script_raised_destroy,
 			defines.events.on_sector_scanned
@@ -713,7 +713,7 @@ end
 		["function_name_1"] = {},
 		["function_name_2"] = {caption = "...", tooltip = "..."},
 	},
-	
+
 	["interface-name-2"] =
 	{
 		["function_name_1"] = {caption = "..."}

@@ -2864,7 +2864,7 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
                 end
             end
         else --
-            -- If the player use the rail planner system to build rails, it is possible that the rail is consumed but the on_put_item was not fired.
+            -- If the player use the rail planner system to build rails, it is possible that the rail is consumed but the on_pre_build was not fired.
             -- The following was a planned fix for that, but unfortunately, the cursor stack has already become invalid for read and we cannot get its data.
             --[[
 			if not is_ghost and (entity.type == "straight-rail" or entity.type == "curved-rail") then
