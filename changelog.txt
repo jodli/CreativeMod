@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.8.0
+Date: 2022-08-03
+  Bugfixes:
+    - Crash when loaders are disabled
+    - Support other spawner.result_units
+    - Check count when inserting into module inventory
+    - Check player for nil before continuing
+    - Only log param if valid for read
+---------------------------------------------------------------------------------------------------
 Version: 1.7.1
 Date: 2020-11-26
   Bugfixes:
