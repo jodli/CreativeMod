@@ -99,7 +99,7 @@ end
 -- Note: turns out it is quite a FPS heavy task. Use only when needed.
 -- @param	position	It should contain {x: float, y: float}
 function util.get_tile_bb(position)
-    return {{math_floor(position.x), math_floor(position.y)}, {math_ceil(position.x), math_ceil(position.y)}}
+    return { { math_floor(position.x), math_floor(position.y) }, { math_ceil(position.x), math_ceil(position.y) } }
 end
 
 -- Returns whether the given entity has at least one inventory.
@@ -197,11 +197,13 @@ function util.fulfill_item_requests(target_entity, item_requests)
     local module_inventory = target_entity.get_module_inventory()
     if module_inventory then
         for item_name, count in pairs(item_requests) do
-            -- Reduce the number of items being inserted.
-            item_requests[item_name] = count - module_inventory.insert {
-                name = item_name,
-                count = count
-            }
+            if count > 0 then
+                -- Reduce the number of items being inserted.
+                item_requests[item_name] = count - module_inventory.insert {
+                    name = item_name,
+                    count = count
+                }
+            end
         end
     end
     -- In case there are items other than modules left (special items?), here is the last chance to insert them to the entity.
@@ -225,7 +227,7 @@ function util.revive_entity_ghost_and_raise_event(entity_ghost, reviver_player, 
 
     -- Revive entity.
     local _, revived_entity, item_request_proxy = entity_ghost.revive(
-                                                      {
+        {
             return_item_request_proxy = true,
             raise_revive = true
         })
