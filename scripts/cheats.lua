@@ -116,18 +116,18 @@ cheats.personal_cheats_data = {
     end,
     -- Function for print a message to the admin after he failed to apply changes to a target.
     print_admin_failed_to_apply_to_single_target_message_function = function(source_player, target, reason)
-        source_player.print {"message.creative-mode_failed-to-apply-to-single-player-admin", target.name, reason}
+        source_player.print { "message.creative-mode_failed-to-apply-to-single-player-admin", target.name, reason }
     end,
     -- Function for print a message to the admin after he failed to apply changes to multiple targets.
     print_admin_failed_to_apply_to_multi_targets_message_function = function(source_player, fail_count, reason)
-        source_player.print {"message.creative-mode_failed-to-apply-to-multiple-players-admin", fail_count, reason}
+        source_player.print { "message.creative-mode_failed-to-apply-to-multiple-players-admin", fail_count, reason }
     end,
     -- Function for printing a message to the target after the admin applied "Enable All" or "Disable All" on it.
     print_enabled_all_by_admin_message_function = function(source_player, player, enable)
         if enable then
-            player.print {"message.creative-mode_personal-cheats-enabled-all-by-admin", source_player.name}
+            player.print { "message.creative-mode_personal-cheats-enabled-all-by-admin", source_player.name }
         else
-            player.print {"message.creative-mode_personal-cheats-disabled-all-by-admin", source_player.name}
+            player.print { "message.creative-mode_personal-cheats-disabled-all-by-admin", source_player.name }
         end
     end,
     -- All cheats in this category. No other data except cheat data should be put inside.
@@ -153,11 +153,11 @@ cheats.personal_cheats_data = {
             -- Function for applying the cheat to a single target. source_player may be nil, depending on the cheat. Returns the locale key of failure reason if it cannot be applied to target.
             apply_to_target_function = function(player, enable, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 end
 
                 global.creative_mode.personal_cheats.cheat_mode[player.index] = enable
@@ -168,9 +168,9 @@ cheats.personal_cheats_data = {
             -- Only called if the the new value is different from current and target is not the source player himself according to the result of check_is_self_function.
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_cheat-mode-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_cheat-mode-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_cheat-mode-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_cheat-mode-disabled-by-admin", source_player.name }
                 end
             end,
             -- Function for getting whether the given player can access this cheat. Nil = all players can access, as long as they can see it.
@@ -179,7 +179,7 @@ cheats.personal_cheats_data = {
         invincible_player = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_invincible_player_by_default].value
+                    .enable_invincible_player_by_default].value
             end,
             is_default = true,
             default_enable_value = true,
@@ -194,7 +194,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = nil,
             apply_to_target_function = function(player, enable, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -204,16 +204,16 @@ cheats.personal_cheats_data = {
                 end
 
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_invincible-player-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_invincible-player-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_invincible-player-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_invincible-player-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -235,9 +235,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_keep-last-item-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_keep-last-item-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_keep-last-item-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_keep-last-item-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -259,9 +259,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_repair-mined-item-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_repair-mined-item-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_repair-mined-item-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_repair-mined-item-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -283,9 +283,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_instant-request-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-request-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_instant-request-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-request-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -307,9 +307,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_instant-trash-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-trash-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_instant-trash-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-trash-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -317,7 +317,7 @@ cheats.personal_cheats_data = {
         instant_blueprint = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_instant_blueprint_by_default].value
+                    .enable_instant_blueprint_by_default].value
             end,
             is_default = true,
             default_enable_value = true,
@@ -335,9 +335,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_instant-blueprint-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-blueprint-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_instant-blueprint-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-blueprint-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -345,7 +345,7 @@ cheats.personal_cheats_data = {
         instant_deconstruction = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_instant_deconstruction_by_default].value
+                    .enable_instant_deconstruction_by_default].value
             end,
             is_default = true,
             default_enable_value = true,
@@ -363,9 +363,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_instant-deconstruction-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-deconstruction-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_instant-deconstruction-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_instant-deconstruction-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -373,7 +373,7 @@ cheats.personal_cheats_data = {
         reach_distance = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_personal_long_reach_by_default].value
+                    .enable_personal_long_reach_by_default].value
             end,
             is_default = true,
             default_enable_value = cheats.default_cheat_values.reach_distance,
@@ -388,7 +388,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = uint32_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.reach_distance[player.index] = value
@@ -396,20 +396,20 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_reach-distance-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_reach-distance-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
         build_distance = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_personal_long_reach_by_default].value
+                    .enable_personal_long_reach_by_default].value
             end,
             is_default = true,
             default_enable_value = cheats.default_cheat_values.reach_distance,
@@ -424,7 +424,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = uint32_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.build_distance[player.index] = value
@@ -432,20 +432,20 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_build-distance-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_build-distance-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
         resource_reach_distance = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_personal_long_reach_by_default].value
+                    .enable_personal_long_reach_by_default].value
             end,
             is_default = true,
             default_enable_value = cheats.default_cheat_values.reach_distance,
@@ -460,7 +460,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = uint32_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.resource_reach_distance[player.index] = value
@@ -468,21 +468,21 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_resource-reach-distance-updated-by-admin", source_player.name,
-                              value}
+                player.print { "message.creative-mode_resource-reach-distance-updated-by-admin", source_player.name,
+                    value }
             end,
             get_player_can_access_function = nil
         },
         item_drop_distance = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_personal_long_reach_by_default].value
+                    .enable_personal_long_reach_by_default].value
             end,
             is_default = true,
             default_enable_value = cheats.default_cheat_values.reach_distance,
@@ -497,7 +497,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = uint32_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.item_drop_distance[player.index] = value
@@ -505,13 +505,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_item-drop-distance-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_item-drop-distance-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -529,7 +529,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = pickup_distance_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.item_pickup_distance[player.index] = value
@@ -537,13 +537,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_item-pickup-distance-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_item-pickup-distance-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -561,7 +561,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = pickup_distance_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.character then
                     global.creative_mode.personal_cheats.loot_pickup_distance[player.index] = value
@@ -569,13 +569,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_loot-pickup-distance-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_loot-pickup-distance-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -593,7 +593,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = large_range_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -602,20 +602,20 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_mining-speed-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_mining-speed-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
         running_speed = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .enable_personal_fast_run_by_default].value
+                    .enable_personal_fast_run_by_default].value
             end,
             is_default = true,
             default_enable_value = cheats.default_cheat_values.running_speed,
@@ -630,7 +630,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = large_range_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -639,13 +639,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_running-speed-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_running-speed-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -663,7 +663,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = large_range_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -672,13 +672,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_crafting-speed-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_crafting-speed-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -698,7 +698,7 @@ cheats.personal_cheats_data = {
             end,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -707,13 +707,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_inventory-bonus-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_inventory-bonus-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -731,7 +731,7 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = int32_limit_value_before_apply_function,
             apply_to_target_function = function(player, value, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
 
                 if player.character then
@@ -740,13 +740,13 @@ cheats.personal_cheats_data = {
                     return nil
                 end
                 if player.controller_type == defines.controllers.ghost then
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 else
-                    return {"gui.creative-mode_cannot-apply-this-cheat-in-god-mode"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-in-god-mode" }
                 end
             end,
             print_applied_by_admin_message_function = function(source_player, player, value)
-                player.print {"message.creative-mode_health-bonus-updated-by-admin", source_player.name, value}
+                player.print { "message.creative-mode_health-bonus-updated-by-admin", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -768,11 +768,11 @@ cheats.personal_cheats_data = {
             limit_value_before_apply_function = nil,
             apply_to_target_function = function(player, enable, source_player)
                 if not player.connected then
-                    return {"message.creative-mode_player-is-offline"}
+                    return { "message.creative-mode_player-is-offline" }
                 end
                 if player.controller_type == defines.controllers.ghost then
                     -- Cannot apply before player respawned.
-                    return {"gui.creative-mode_cannot-apply-this-cheat-before-respawned"}
+                    return { "gui.creative-mode_cannot-apply-this-cheat-before-respawned" }
                 end
                 -- Cheat mode will be reset after toggling god mode, so we will need to apply it again.
                 local cheat_mode = player.cheat_mode
@@ -845,9 +845,9 @@ cheats.personal_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_god-mode-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_god-mode-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_god-mode-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_god-mode-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -868,9 +868,9 @@ cheats.team_cheats_data = {
     end,
     print_enabled_all_by_admin_message_function = function(source_player, force, enable)
         if enable then
-            force.print {"message.creative-mode_team-cheats-enabled-all", source_player.name}
+            force.print { "message.creative-mode_team-cheats-enabled-all", source_player.name }
         else
-            force.print {"message.creative-mode_team-cheats-disabled-all", source_player.name}
+            force.print { "message.creative-mode_team-cheats-disabled-all", source_player.name }
         end
     end,
     cheats = {
@@ -918,9 +918,9 @@ cheats.team_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, force, enable)
                 if enable then
-                    force.print {"message.creative-mode_creative-tools-recipes-enabled", source_player.name}
+                    force.print { "message.creative-mode_creative-tools-recipes-enabled", source_player.name }
                 else
-                    force.print {"message.creative-mode_creative-tools-recipes-disabled", source_player.name}
+                    force.print { "message.creative-mode_creative-tools-recipes-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -949,9 +949,9 @@ cheats.team_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, force, enable)
                 if enable then
-                    force.print {"message.creative-mode_loaders-recipes-enabled", source_player.name}
+                    force.print { "message.creative-mode_loaders-recipes-enabled", source_player.name }
                 else
-                    force.print {"message.creative-mode_loaders-recipes-disabled", source_player.name}
+                    force.print { "message.creative-mode_loaders-recipes-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -959,14 +959,14 @@ cheats.team_cheats_data = {
         research_all_technologies = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .default_technology_research_cheat_type].value ~=
-                           creative_mode_defines.values.default_technology_research_cheat_types.nothing
+                    .default_technology_research_cheat_type].value ~=
+                    creative_mode_defines.values.default_technology_research_cheat_types.nothing
             end,
             is_default = true,
             get_default_enable_value_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .default_technology_research_cheat_type].value ==
-                           creative_mode_defines.values.default_technology_research_cheat_types.research_all
+                    .default_technology_research_cheat_type].value ==
+                    creative_mode_defines.values.default_technology_research_cheat_types.research_all
             end,
             default_enable_value = true,
             default_disable_value = false,
@@ -985,9 +985,9 @@ cheats.team_cheats_data = {
                     -- Calling LuaForce::reset() will hide all the originally hidden recipes.
                     -- We have to enable them back if they were enabled.
                     local creative_tools_recipes_enabled = cheats.team_cheats_data.cheats.creative_tools_recipes
-                                                               .get_value_function(force)
+                        .get_value_function(force)
                     local loaders_recipes_enabled = cheats.team_cheats_data.cheats.loaders_recipes.get_value_function(
-                                                        force)
+                        force)
 
                     force.reset()
 
@@ -1004,9 +1004,9 @@ cheats.team_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, force, enable)
                 if enable then
-                    force.print {"message.creative-mode_all-technologies-researched", source_player.name}
+                    force.print { "message.creative-mode_all-technologies-researched", source_player.name }
                 else
-                    force.print {"message.creative-mode_all-technologies-reset", source_player.name}
+                    force.print { "message.creative-mode_all-technologies-reset", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1014,14 +1014,14 @@ cheats.team_cheats_data = {
         instant_research = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .default_technology_research_cheat_type].value ~=
-                           creative_mode_defines.values.default_technology_research_cheat_types.nothing
+                    .default_technology_research_cheat_type].value ~=
+                    creative_mode_defines.values.default_technology_research_cheat_types.nothing
             end,
             is_default = true,
             get_default_enable_value_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .default_technology_research_cheat_type].value ==
-                           creative_mode_defines.values.default_technology_research_cheat_types.instant_research
+                    .default_technology_research_cheat_type].value ==
+                    creative_mode_defines.values.default_technology_research_cheat_types.instant_research
             end,
             default_enable_value = false,
             default_disable_value = false,
@@ -1038,9 +1038,9 @@ cheats.team_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, force, enable)
                 if enable then
-                    force.print {"message.creative-mode_instant-research-enabled", source_player.name}
+                    force.print { "message.creative-mode_instant-research-enabled", source_player.name }
                 else
-                    force.print {"message.creative-mode_instant-research-disabled", source_player.name}
+                    force.print { "message.creative-mode_instant-research-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1061,7 +1061,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-reach-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-reach-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1081,7 +1081,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-build-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-build-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1101,7 +1101,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-resource-reach-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-resource-reach-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1121,7 +1121,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-item-drop-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-item-drop-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1141,7 +1141,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-item-pickup-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-item-pickup-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1161,7 +1161,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-loot-pickup-distance-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-loot-pickup-distance-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1182,7 +1182,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-mining-speed-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-mining-speed-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1202,7 +1202,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-running-speed-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-running-speed-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1222,7 +1222,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_team-crafting-speed-updated", source_player.name, value}
+                force.print { "message.creative-mode_team-crafting-speed-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1244,7 +1244,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_character-inventory-bonus-updated", source_player.name, value}
+                force.print { "message.creative-mode_character-inventory-bonus-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1264,7 +1264,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_character-health-bonus-updated", source_player.name, value}
+                force.print { "message.creative-mode_character-health-bonus-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1284,7 +1284,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_inserter-capacity-bonus", source_player.name, value}
+                force.print { "message.creative-mode_inserter-capacity-bonus", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1304,14 +1304,14 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_stack-inserter-capacity-bonus", source_player.name, value}
+                force.print { "message.creative-mode_stack-inserter-capacity-bonus", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
         evolution_factor = {
             get_is_default_from_player = function(source_player)
                 return source_player.mod_settings[creative_mode_defines.names.settings
-                           .override_evolution_factor_by_default].value
+                    .override_evolution_factor_by_default].value
             end,
             is_default = false,
             get_default_enable_value_from_player = function(source_player)
@@ -1333,7 +1333,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_evolution-factor-updated", source_player.name, value}
+                force.print { "message.creative-mode_evolution-factor-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1348,7 +1348,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_chart-all-applied", source_player.name}
+                force.print { "message.creative-mode_chart-all-applied", source_player.name }
             end,
             get_player_can_access_function = nil
         },
@@ -1363,7 +1363,7 @@ cheats.team_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print {"message.creative-mode_kill-all-units-applied", source_player.name}
+                force.print { "message.creative-mode_kill-all-units-applied", source_player.name }
             end,
             get_player_can_access_function = nil
         }
@@ -1402,9 +1402,9 @@ cheats.surface_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, surface, enable)
                 if enable then
-                    surface.print {"message.creative-mode_daytime-frozen", source_player.name}
+                    surface.print { "message.creative-mode_daytime-frozen", source_player.name }
                 else
-                    surface.print {"message.creative-mode_daytime-unfrozen", source_player.name}
+                    surface.print { "message.creative-mode_daytime-unfrozen", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1427,7 +1427,7 @@ cheats.surface_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, surface, value)
-                surface.print {"message.creative-mode_daytime-updated", source_player.name, value}
+                surface.print { "message.creative-mode_daytime-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1446,7 +1446,7 @@ cheats.surface_cheats_data = {
                 else
                     value = 0.5
                 end
-                cheats.apply_cheat_to_targets(source_player, {surface}, cheats.surface_cheats_data,
+                cheats.apply_cheat_to_targets(source_player, { surface }, cheats.surface_cheats_data,
                     cheats.surface_cheats_data.cheats.daytime, value, false)
                 -- Update the GUI status of the daytime cheat.
                 gui_menu_cheats.update_daytime_cheats_status_for_all_players_as_surface_updated_its_daytime(surface)
@@ -1458,7 +1458,7 @@ cheats.surface_cheats_data = {
                 else
                     value = 0.5
                 end
-                surface.print {"message.creative-mode_daytime-updated", source_player.name, value}
+                surface.print { "message.creative-mode_daytime-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1479,9 +1479,9 @@ cheats.surface_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, surface, enable)
                 if enable then
-                    surface.print {"message.creative-mode_peaceful-mode-enabled", source_player.name}
+                    surface.print { "message.creative-mode_peaceful-mode-enabled", source_player.name }
                 else
-                    surface.print {"message.creative-mode_peaceful-mode-disabled", source_player.name}
+                    surface.print { "message.creative-mode_peaceful-mode-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1494,7 +1494,7 @@ cheats.surface_cheats_data = {
             limit_value_before_apply_function = nil,
             apply_to_target_function = function(surface, value, source_player)
                 for chunk in surface.get_chunks() do
-                    local area = {{chunk.x * 32, chunk.y * 32}, {chunk.x * 32 + 32, chunk.y * 32 + 32}}
+                    local area = { { chunk.x * 32, chunk.y * 32 }, { chunk.x * 32 + 32, chunk.y * 32 + 32 } }
                     for _, entity in pairs(surface.find_entities_filtered {
                         area = area,
                         force = "enemy"
@@ -1505,7 +1505,7 @@ cheats.surface_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, surface, value)
-                surface.print {"message.creative-mode_destroy-all-enemies-applied", source_player.name}
+                surface.print { "message.creative-mode_destroy-all-enemies-applied", source_player.name }
             end,
             get_player_can_access_function = nil
         },
@@ -1517,7 +1517,7 @@ cheats.surface_cheats_data = {
             limit_value_before_apply_function = nil,
             apply_to_target_function = function(surface, value, source_player)
                 for chunk in surface.get_chunks() do
-                    local area = {{chunk.x * 32, chunk.y * 32}, {chunk.x * 32 + 32, chunk.y * 32 + 32}}
+                    local area = { { chunk.x * 32, chunk.y * 32 }, { chunk.x * 32 + 32, chunk.y * 32 + 32 } }
                     for _, entity in pairs(surface.find_entities_filtered {
                         area = area,
                         force = "enemy"
@@ -1528,7 +1528,7 @@ cheats.surface_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, surface, value)
-                surface.print {"message.creative-mode_remove-all-enemies-applied", source_player.name}
+                surface.print { "message.creative-mode_remove-all-enemies-applied", source_player.name }
             end,
             get_player_can_access_function = nil
         },
@@ -1549,9 +1549,9 @@ cheats.surface_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, surface, enable)
                 if enable then
-                    surface.print {"message.creative-mode_dont-generate-enemy-enabled", source_player.name}
+                    surface.print { "message.creative-mode_dont-generate-enemy-enabled", source_player.name }
                 else
-                    surface.print {"message.creative-mode_dont-generate-enemy-disabled", source_player.name}
+                    surface.print { "message.creative-mode_dont-generate-enemy-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1588,9 +1588,9 @@ cheats.global_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, target, enable)
                 if enable then
-                    game.print {"message.creative-mode_pollution-enabled", source_player.name}
+                    game.print { "message.creative-mode_pollution-enabled", source_player.name }
                 else
-                    game.print {"message.creative-mode_pollution-disabled", source_player.name}
+                    game.print { "message.creative-mode_pollution-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1609,9 +1609,9 @@ cheats.global_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, target, enable)
                 if enable then
-                    game.print {"message.creative-mode_enemy-evolution-enabled", source_player.name}
+                    game.print { "message.creative-mode_enemy-evolution-enabled", source_player.name }
                 else
-                    game.print {"message.creative-mode_enemy-evolution-disabled", source_player.name}
+                    game.print { "message.creative-mode_enemy-evolution-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1629,7 +1629,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_evolution-time-factor-updated", source_player.name, value}
+                game.print { "message.creative-mode_evolution-time-factor-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1646,7 +1646,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_evolution-destroy-factor-updated", source_player.name, value}
+                game.print { "message.creative-mode_evolution-destroy-factor-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1663,7 +1663,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_evolution-pollution-factor-updated", source_player.name, value}
+                game.print { "message.creative-mode_evolution-pollution-factor-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1681,9 +1681,9 @@ cheats.global_cheats_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, target, enable)
                 if enable then
-                    game.print {"message.creative-mode_enemy-expansion-enabled", source_player.name}
+                    game.print { "message.creative-mode_enemy-expansion-enabled", source_player.name }
                 else
-                    game.print {"message.creative-mode_enemy-expansion-disabled", source_player.name}
+                    game.print { "message.creative-mode_enemy-expansion-disabled", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1701,7 +1701,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_enemy-expansion-min-cooldown-updated", source_player.name, value}
+                game.print { "message.creative-mode_enemy-expansion-min-cooldown-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1718,7 +1718,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_enemy-expansion-max-cooldown-updated", source_player.name, value}
+                game.print { "message.creative-mode_enemy-expansion-max-cooldown-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },
@@ -1737,7 +1737,7 @@ cheats.global_cheats_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, target, value)
-                game.print {"message.creative-mode_game-speed-updated", source_player.name, value}
+                game.print { "message.creative-mode_game-speed-updated", source_player.name, value }
             end,
             get_player_can_access_function = nil
         }
@@ -1780,9 +1780,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-active-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-active-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-active-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-active-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1808,9 +1808,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-destructible-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-destructible-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-destructible-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-destructible-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1836,9 +1836,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-minable-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-minable-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-minable-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-minable-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1864,9 +1864,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-rotatable-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-rotatable-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-rotatable-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-rotatable-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1892,9 +1892,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-operable-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-operable-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-operable-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-operable-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1920,9 +1920,9 @@ cheats.build_options_data = {
             end,
             print_applied_by_admin_message_function = function(source_player, player, enable)
                 if enable then
-                    player.print {"message.creative-mode_build-full-health-enabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-full-health-enabled-by-admin", source_player.name }
                 else
-                    player.print {"message.creative-mode_build-full-health-disabled-by-admin", source_player.name}
+                    player.print { "message.creative-mode_build-full-health-disabled-by-admin", source_player.name }
                 end
             end,
             get_player_can_access_function = nil
@@ -1952,7 +1952,7 @@ cheats.build_options_data = {
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, player, force)
-                player.print {"message.creative-mode_build-team-updated-by-admin", source_player.name, force.name}
+                player.print { "message.creative-mode_build-team-updated-by-admin", source_player.name, force.name }
             end,
             get_player_can_access_function = rights.can_player_access_build_team_options
         }
@@ -2246,7 +2246,7 @@ end
 -- Enables or disables all the cheats in the given cheats data to the given targets.
 -- @param cheats_data	For example, the personal_cheats_data.
 function cheats.enable_or_disable_all_cheats_to_targets(source_player, targets, cheats_data, enable,
-    should_print_message)
+                                                        should_print_message)
     -- Iterate all cheats inside the cheats_data to enable or disable them.
     for _, cheat_data in pairs(cheats_data.cheats) do
         local is_default
@@ -2290,7 +2290,7 @@ function cheats.check_creative_mode_has_enabled(player)
     -- If creative mode has not been enabled, notify the player in charge and do nothing.
     if not global.creative_mode.enabled then
         if player then
-            player.print {"message.creative-mode_not-yet-enabled"}
+            player.print { "message.creative-mode_not-yet-enabled" }
         end
         return false
     end
@@ -2301,13 +2301,13 @@ end
 -- @param source_player	The player who enables or disables Creative Mode.
 -- @param ignore_current_state Whether the current state of Creative Mode should be ignored, such that the given command for enabling or disabling Creative Mode will be executed for sure.
 function cheats.enable_or_disable_creative_mode(source_player, enable, is_permanent, auto_apply_to_all_cheats,
-    ignore_current_state)
+                                                ignore_current_state)
     if not ignore_current_state then
         if enable then
             -- If creative mode has been enabled, notify the player in charge and do nothing.
             if global.creative_mode.enabled then
                 if source_player then
-                    source_player.print {"message.creative-mode_already-enabled"}
+                    source_player.print { "message.creative-mode_already-enabled" }
                 end
                 return
             end
@@ -2315,7 +2315,7 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
             -- If creative mode has already been permanently disabled, notify the player in charge and do nothing.
             if global.creative_mode.permanently_disabled then
                 if source_player then
-                    source_player.print {"message.creative-mode_enable-failed"}
+                    source_player.print { "message.creative-mode_enable-failed" }
                 end
                 return
             end
@@ -2347,7 +2347,7 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
 
     if enable then
         -- Notify the players.
-        game.print {"message.creative-mode_enable-succeeded", player_name}
+        game.print { "message.creative-mode_enable-succeeded", player_name }
 
         -- Also raise the on-enable event.
         if not previous_state then
@@ -2356,9 +2356,9 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
     else
         -- Notify the players.
         if is_permanent then
-            game.print {"message.creative-mode_permanently-disable-succeeded", player_name}
+            game.print { "message.creative-mode_permanently-disable-succeeded", player_name }
         else
-            game.print {"message.creative-mode_disable-succeeded", player_name}
+            game.print { "message.creative-mode_disable-succeeded", player_name }
         end
 
         -- Also raise the on-disable event.
@@ -2390,7 +2390,7 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
         end
 
         if enable then
-            game.print {"message.creative-mode_enabled-all-cheats", player_name}
+            game.print { "message.creative-mode_enabled-all-cheats", player_name }
         end
     else
         -- Unlock the creative tools' recipes.
@@ -2407,8 +2407,9 @@ end
 
 -- Returns whether the given player is a valid candidate for instant request.
 local function is_player_valid_for_instant_request(player)
-    return global.creative_mode.personal_cheats.instant_request[player.index] and player.valid and player.connected and
-               player.character
+    return player and global.creative_mode.personal_cheats.instant_request[player.index] and player.valid and
+        player.connected and
+        player.character
 end
 
 -- Returns the number of logistic request slot on the given character.
@@ -2434,7 +2435,7 @@ end
 -- Returns whether the given player is a valid candidate for instant trash.
 local function is_player_valid_for_instant_trash(player)
     return global.creative_mode.personal_cheats.instant_trash[player.index] and player.valid and player.connected and
-               player.character
+        player.character
 end
 
 -- Returns the logistic trash inventory on the given character.
@@ -2452,7 +2453,8 @@ end
 -- Returns 1) the next valid player for slot cheat, e.g. instant request or instant trash, 2) whether the player index is updated,
 -- 3) the iterated next player index, and 4) the remaining number of check player count
 local function get_next_valid_player_for_slot_cheat(initial_next_player_index, current_next_player_index,
-    check_same_player_index, remaining_total_check_player_count, check_player_valid_function)
+                                                    check_same_player_index, remaining_total_check_player_count,
+                                                    check_player_valid_function)
     local player_count = #game.players
     local player_index_updated = false
     repeat
@@ -2500,8 +2502,9 @@ end
 -- @param get_inventory_or_slot_count_function		The function for getting the inventory, or maximum number of slots to be operated on the same player. It should accept LuaEntity (character) and returns either the inventory or the number of slots.
 -- @param apply_effect_function						The function for actually applying cheat effect on players. It should accept LuaPlayer, LuaEntity (character). If the cheat cannot be applied to the whole inventory at once, it should also accept uint (slot index). If there is specific inventory, it should also accept the inventory.
 local function apply_slot_cheat_to_players(initial_next_player_index, initial_slot_index, check_player_valid_function,
-    have_specific_inventory, apply_to_whole_inventory_at_once, get_inventory_or_slot_count_function,
-    apply_effect_function)
+                                           have_specific_inventory, apply_to_whole_inventory_at_once,
+                                           get_inventory_or_slot_count_function,
+                                           apply_effect_function)
     -- Note: the logic is different from Creative Chest.
     -- 		For Creative Chest, if the iterated chest is invalid, the tick will do nothing.
     -- 		But for instant request (and instant trash), we want every ticks to be busy, to shorten the time between updates on each player.
@@ -2519,8 +2522,8 @@ local function apply_slot_cheat_to_players(initial_next_player_index, initial_sl
         -- Get the valid player.
         local player, player_index_updated
         player, player_index_updated, current_next_player_index, remaining_total_check_player_count =
-            get_next_valid_player_for_slot_cheat(initial_next_player_index, current_next_player_index,
-                check_same_player_index, remaining_total_check_player_count, check_player_valid_function)
+        get_next_valid_player_for_slot_cheat(initial_next_player_index, current_next_player_index,
+            check_same_player_index, remaining_total_check_player_count, check_player_valid_function)
         if player then
             current_next_player_index = player.index
 
@@ -2608,18 +2611,18 @@ function cheats.tick()
     -- Instant request.
     global.creative_mode.personal_cheats.instant_request_next_player_index, global.creative_mode.personal_cheats
         .instant_request_next_player_slot_index = apply_slot_cheat_to_players(
-                                                      global.creative_mode.personal_cheats
-                                                          .instant_request_next_player_index, global.creative_mode
-                                                          .personal_cheats.instant_request_next_player_slot_index,
-                                                      is_player_valid_for_instant_request, false, false,
-                                                      get_character_request_slot_count,
-                                                      apply_instant_request_on_player_character_slot)
+        global.creative_mode.personal_cheats
+        .instant_request_next_player_index, global.creative_mode
+        .personal_cheats.instant_request_next_player_slot_index,
+        is_player_valid_for_instant_request, false, false,
+        get_character_request_slot_count,
+        apply_instant_request_on_player_character_slot)
 
     -- Instant trash.
     global.creative_mode.personal_cheats.instant_trash_next_player_index, _ =
-        apply_slot_cheat_to_players(global.creative_mode.personal_cheats.instant_trash_next_player_index, 0,
-            is_player_valid_for_instant_trash, true, true, get_character_trash_inventory,
-            apply_instant_trash_on_player_character_inventory)
+    apply_slot_cheat_to_players(global.creative_mode.personal_cheats.instant_trash_next_player_index, 0,
+        is_player_valid_for_instant_trash, true, true, get_character_trash_inventory,
+        apply_instant_trash_on_player_character_inventory)
 
     -- Instant blueprint. Iterate from back to front.
     for i = #global.creative_mode.pending_instant_blueprint, 1, -1 do
