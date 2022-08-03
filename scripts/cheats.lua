@@ -932,7 +932,7 @@ cheats.team_cheats_data = {
             get_value_function = function(force)
                 if force then
                     for _, recipe_name in pairs(creative_mode_defines.names.loader_recipes) do
-                        if not force.recipes[recipe_name].enabled then
+                        if not (force.recipes[recipe_name] and force.recipes[recipe_name].enabled) then
                             return false
                         end
                     end
@@ -943,7 +943,9 @@ cheats.team_cheats_data = {
             limit_value_before_apply_function = nil,
             apply_to_target_function = function(force, enable, source_player)
                 for _, recipe_name in pairs(creative_mode_defines.names.loader_recipes) do
-                    force.recipes[recipe_name].enabled = enable
+                    if force.recipes[recipe_name] then
+                        force.recipes[recipe_name].enabled = enable
+                    end
                 end
                 return nil
             end,
