@@ -8,7 +8,7 @@ for _, fluid in pairs(data.raw["fluid"]) do
 				category = creative_mode_defines.names.recipe_categories.free_fluids,
 				ingredients = {},
 				results = {
-					{type = "fluid", name = fluid.name, amount = 5000}
+					{ type = "fluid", name = fluid.name, amount = 5000 }
 				},
 				main_product = fluid.name,
 				subgroup = creative_mode_defines.names.item_subgroups.free_fluids,
@@ -54,7 +54,7 @@ if unit_spawners then
 		local result_units = spawner.result_units
 		if result_units then
 			for _, unit_data in pairs(result_units) do
-				spawnable_units[unit_data[1]] = true
+				spawnable_units[unit_data[1] or unit_data.unit] = true
 			end
 		end
 	end
@@ -77,25 +77,24 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 		-- Add item and recipe only if
 		-- a) for structures: there is no item for the entity. If there is already an item, there is high chance that its recipe is also there.
 		-- b) for units: there is spawner for the unit. If there is no spawner for the unit, there is high chance that the unit is created by script for special purpose.
-		if
-			(raw_name == "unit" and has_spawner_for_enemy_unit(entity)) or
-				(raw_name ~= "unit" and not has_item_for_enemy_entity(entity))
-		 then
+		if (raw_name == "unit" and has_spawner_for_enemy_unit(entity)) or
+			(raw_name ~= "unit" and not has_item_for_enemy_entity(entity))
+		then
 			local entity_name = creative_mode_defines.names.enemy_entity_prefix .. entity.name
 			local entity_localised_name
 			if settings.startup[creative_mode_defines.names.settings.enemy_structures_add_name_suffix].value then
 				-- Add suffix to these new spawners and worms.
 				if entity.localised_name then
-					entity_localised_name = {"entity-name.creative-mode_enemy-object", entity.localised_name}
+					entity_localised_name = { "entity-name.creative-mode_enemy-object", entity.localised_name }
 				else
-					entity_localised_name = {"entity-name.creative-mode_enemy-object", "__ENTITY__" .. entity.name .. "__"}
+					entity_localised_name = { "entity-name.creative-mode_enemy-object", "__ENTITY__" .. entity.name .. "__" }
 				end
 			else
 				-- Use their original name.
 				if entity.localised_name then
 					entity_localised_name = entity.localised_name
 				else
-					entity_localised_name = {"entity-name." .. entity.name}
+					entity_localised_name = { "entity-name." .. entity.name }
 				end
 			end
 			local item_name = creative_mode_defines.names.enemy_item_prefix .. entity.name
@@ -105,10 +104,10 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			-- We don't use the original entity because that will make their corpse collide with our structures.
 			local new_entity = util.table.deepcopy(entity)
 			new_entity.name = entity_name
-			new_entity.flags = {"player-creation"} -- Reset the flags so it is blueprintable and repairable.
+			new_entity.flags = { "player-creation" } -- Reset the flags so it is blueprintable and repairable.
 			new_entity.localised_name = entity_localised_name
 			-- Make the entity minable.
-			new_entity.minable = {hardness = 0.2, mining_time = 0.5, result = item_name}
+			new_entity.minable = { hardness = 0.2, mining_time = 0.5, result = item_name }
 			-- No autoplace.
 			new_entity.autoplace = nil
 			table.insert(new_data, new_entity)
@@ -123,7 +122,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 				fixed_icons = icons
 			else
 				fixed_icons = {
-					{icon = entity.icon}
+					{ icon = entity.icon }
 				}
 			end
 			-- Create item for the entity.
@@ -263,27 +262,27 @@ for _, name in pairs(finite_resource_names) do
 	local resource = util.table.deepcopy(data_raw_resource[name])
 	resource.name = creative_mode_defines.names.infinite_resource_prefix .. name
 	if resource.localised_name then
-		resource.localised_name = {"entity-name.creative-mode_infinite-resource", resource.localised_name}
+		resource.localised_name = { "entity-name.creative-mode_infinite-resource", resource.localised_name }
 	else
-		resource.localised_name = {"entity-name.creative-mode_infinite-resource", "__ENTITY__" .. name .. "__"}
+		resource.localised_name = { "entity-name.creative-mode_infinite-resource", "__ENTITY__" .. name .. "__" }
 	end
 	local icons = resource.icons
 	if icons then
 		if resource.icon_size == 32 then
-			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"})
+			table.insert(icons, { icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png" })
 		elseif resource.icon_size == 64 then
-			table.insert(icons, {icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"})
+			table.insert(icons, { icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png" })
 		end
 	else
 		if resource.icon_size == 32 then
 			resource.icons = {
-				{icon = resource.icon},
-				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png"}
+				{ icon = resource.icon },
+				{ icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-32.png" }
 			}
 		elseif resource.icon_size == 64 then
 			resource.icons = {
-				{icon = resource.icon},
-				{icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png"}
+				{ icon = resource.icon },
+				{ icon = creative_mode_defines.mod_directory .. "/graphics/icons/infinite-resource-64.png" }
 			}
 		end
 	end
@@ -315,5 +314,5 @@ for _, name in pairs(finite_resource_names) do
 	end
 	resource.autoplace = nil
 
-	data:extend {resource}
+	data:extend { resource }
 end
