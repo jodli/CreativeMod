@@ -13,7 +13,7 @@ local function call_remote_functions()
     -- Also run the examples, after our interface is ready for that.
     -- Example: register the remote function register_by_remote_function_example_1 to the modding UI.
     remote.call("creative-mode", "register_remote_function_to_modding_ui", "creative-mode", --  Interface name
-    "register_by_remote_function_example_1" -- Function name
+        "register_by_remote_function_example_1"-- Function name
     )
 
     --[[
@@ -84,7 +84,7 @@ function events.on_configuration_changed(data)
     local is_our_mod_new = false
     if is_our_mod_changed then
         is_our_mod_new = data.mod_changes[creative_mode_defines.mod_id].old_version == nil and
-                             data.mod_changes[creative_mode_defines.mod_id].new_version ~= nil
+            data.mod_changes[creative_mode_defines.mod_id].new_version ~= nil
     end
 
     -- If our mod has changed (whether version is different or the mod is new for existing game), new meta-tables may be needed. Initializes them if needed.
@@ -138,7 +138,7 @@ local function on_runtime_mod_setting_changed(event)
         creative_mode_defines.names.settings.creative_cargo_wagon_contains_hidden_items then
         -- Creative chest contains hidden items.
         creative_chest_util.update_item_lists_data()
-        game.print {"message.creative-mode_creative-chest-item-group-updated"}
+        game.print { "message.creative-mode_creative-chest-item-group-updated" }
     end
 end
 
@@ -159,7 +159,7 @@ function events.on_tick()
                 global.creative_mode.has_asked_for_enable = true
                 -- Check the default initial action in settings.
                 local default_initial_action = settings.global[creative_mode_defines.names.settings
-                                                   .default_initial_action].value
+                    .default_initial_action].value
                 if default_initial_action == creative_mode_defines.values.default_initial_actions.enable then
                     -- Enable CM.
                     cheats.enable_or_disable_creative_mode(player, true, false, false, true)
@@ -380,7 +380,8 @@ local function on_entity_settings_pasted(event)
     end
 
     -- If both the source and destination entities are Configurable Super Boilers...
-    if event.source.name == creative_mode_defines.names.entities.configurable_super_boiler and event.destination.name ==
+    if event.source.name == creative_mode_defines.names.entities.configurable_super_boiler and
+        event.destination.name ==
         event.source.name then
         configurable_super_boiler.on_entity_copied_pasted(event.source, event.destination)
         return
@@ -576,8 +577,9 @@ local function get_entity_param_message(log_prefix, param_name, param)
         end
         if entity_type == "item-entity" then
             local stack = param.stack
-            message = message .. ', stack = {type = "' .. stack.type .. '", name = "' .. stack.name .. '", count = ' ..
-                          stack.count .. "}"
+            message = message ..
+                ', stack = {type = "' .. stack.type .. '", name = "' .. stack.name .. '", count = ' ..
+                stack.count .. "}"
         end
         if param.backer_name then
             message = message .. ', backer_name = "' .. param.backer_name .. '"'
@@ -634,13 +636,13 @@ end
 -- Prints BoundingBox parameter.
 local function get_boundingbox_param_message(log_prefix, param_name, param)
     return (log_prefix .. '"' .. param_name .. '" :: BoundingBox: {left_top = (' .. param.left_top.x .. ", " ..
-               param.left_top.y .. "), right_bottom = (" .. param.right_bottom.x .. ", " .. param.right_bottom.y .. ")}")
+        param.left_top.y .. "), right_bottom = (" .. param.right_bottom.x .. ", " .. param.right_bottom.y .. ")}")
 end
 
 -- Prints Surface parameter.
 local function get_surface_param_message(log_prefix, param_name, param)
     local message = log_prefix .. '"' .. param_name .. '" :: LuaSurface: {name = "' .. param.name .. '", index = ' ..
-                        param.index .. '"'
+        param.index .. '"'
     if not param.valid then
         message = message .. ", valid = false"
     end
@@ -660,8 +662,9 @@ end
 
 -- Prints GuiElement parameter.
 local function get_guielement_param_message(log_prefix, param_name, param)
-    local message = log_prefix .. '"' .. param_name .. '" :: LuaGuiElement: {name = "' .. param.name .. '", type = "' ..
-                        param.type .. '"'
+    local message = log_prefix ..
+        '"' .. param_name .. '" :: LuaGuiElement: {name = "' .. param.name .. '", type = "' ..
+        param.type .. '"'
     if not param.valid then
         message = message .. ", valid = false"
     end
@@ -671,8 +674,11 @@ end
 
 -- Prints SimpleItemStack parameter.
 local function get_simpleitemstack_param_message(log_prefix, param_name, param)
-    return (log_prefix .. '"' .. param_name .. '" :: LuaItemStack: {name = "' .. param.name .. '", count = ' ..
-               param.count .. "}")
+    local message = log_prefix .. '"' .. param_name
+    if param.valid_for_read then
+        message = message .. '" :: LuaItemStack: {name = "' .. param.name .. '", count = ' .. param.count .. '}'
+    end
+    return message
 end
 
 -- Prints string parameter.
@@ -682,8 +688,9 @@ end
 
 -- Prints Equipment parameter.
 local function get_equipment_param_message(log_prefix, param_name, param)
-    local message = log_prefix .. '"' .. param_name .. '" :: LuaEquipment: {type = "' .. param.type .. '", name = "' ..
-                        param.name .. '"'
+    local message = log_prefix ..
+        '"' .. param_name .. '" :: LuaEquipment: {type = "' .. param.type .. '", name = "' ..
+        param.name .. '"'
     if param.valid then
         message = message .. ", position = {" .. param.position.x .. ", " .. param.position.y .. "}"
     else
@@ -696,7 +703,7 @@ end
 -- Prints EquipmentGrid parameter.
 local function get_equipmentgrid_param_message(log_prefix, param_name, param)
     local message = log_prefix .. '"' .. param_name .. '" :: LuaEquipmentGrid: {width = ' .. param.width ..
-                        ", height = " .. param.height
+        ", height = " .. param.height
     if not param.valid then
         message = message .. ", valid = false"
     end
@@ -759,6 +766,7 @@ local function get_train_backer_name(train)
     end
     return "(nil)"
 end
+
 -- Returns the train state string.
 local function get_train_state_string(train)
     for key, id in pairs(defines.train_state) do
@@ -768,13 +776,14 @@ local function get_train_state_string(train)
     end
     return "(Unknown train state)" -- Should not be possible.
 end
+
 -- Prints Train parameter.
 local function get_train_param_message(log_prefix, param_name, param)
     local valid = param.valid
     local message = log_prefix .. '"' .. param_name .. '" :: LuaTrain: {'
     if valid then
         message = message .. 'backer_name = "' .. get_train_backer_name(param) .. '", state = ' ..
-                      get_train_state_string(param)
+            get_train_state_string(param)
     end
     message = message .. ", manual_mode = " .. tostring(param.manual_mode) .. ", speed = " .. param.speed
     if not valid then
@@ -788,22 +797,27 @@ end
 local function get_string_tag_value(value)
     return tostring(value)
 end
+
 -- Prints function tag value.
 local function get_function_tag_value(value)
     return "(function)"
 end
+
 -- Prints table tag value.
 local function get_table_tag_value(value)
     return "(table)"
 end
+
 -- Prints userdata tag value.
 local function get_userdata_tag_value(value)
     return "(userdata)"
 end
+
 -- Prints thread tag value.
 local function get_thread_tag_value(value)
     return "(thread)"
 end
+
 -- Look up table for tag values according to their types.
 local get_tag_value_loop_up = {
     ["nil"] = get_string_tag_value,
@@ -940,7 +954,7 @@ local repeated_event_param_message_look_up = {
 -- Prints undocumented boolean parameter.
 local function get_undocumented_boolean_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-boolean", log_prefix, param_name, tostring(param)}
+        return { "gui.creative-mode_undocumented-boolean", log_prefix, param_name, tostring(param) }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: boolean: ' .. tostring(param))
 end
@@ -948,7 +962,7 @@ end
 -- Prints undocumented number parameter.
 local function get_undocumented_number_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-number", log_prefix, param_name, param}
+        return { "gui.creative-mode_undocumented-number", log_prefix, param_name, param }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: number: ' .. param)
 end
@@ -956,7 +970,7 @@ end
 -- Prints undocumented string parameter.
 local function get_undocumented_string_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-string", log_prefix, param_name, param}
+        return { "gui.creative-mode_undocumented-string", log_prefix, param_name, param }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: string: "' .. param .. '"')
 end
@@ -964,7 +978,7 @@ end
 -- Prints undocumented function parameter.
 local function get_undocumented_function_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-function", log_prefix, param_name}
+        return { "gui.creative-mode_undocumented-function", log_prefix, param_name }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: function')
 end
@@ -972,7 +986,7 @@ end
 -- Prints undocumented table parameter.
 local function get_undocumented_table_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-table", log_prefix, param_name}
+        return { "gui.creative-mode_undocumented-table", log_prefix, param_name }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: table')
 end
@@ -980,7 +994,7 @@ end
 -- Prints undocumented userdata parameter.
 local function get_undocumented_userdata_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-userdata", log_prefix, param_name}
+        return { "gui.creative-mode_undocumented-userdata", log_prefix, param_name }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: userdata')
 end
@@ -988,7 +1002,7 @@ end
 -- Prints undocumented thread parameter.
 local function get_undocumented_thread_param_message(log_prefix, param_name, param, allow_localised_string)
     if allow_localised_string then
-        return {"gui.creative-mode_undocumented-thread", log_prefix, param_name}
+        return { "gui.creative-mode_undocumented-thread", log_prefix, param_name }
     end
     return (log_prefix .. '"' .. param_name .. '" (undocumented) :: thread')
 end
@@ -1046,11 +1060,11 @@ local function get_event_param_message(message_prefix, event_id, param_name, par
             local param_type = type(param)
             if undocumented_event_param_message_loop_up[param_type] then
                 return undocumented_event_param_message_loop_up[param_type](message_prefix, param_name, param,
-                           allow_localised_string)
+                    allow_localised_string)
             end
             -- Unknown type.
             if allow_localised_string then
-                return {"gui.creative-mode_undocumented-unknown-type", message_prefix, param_name, param_type}
+                return { "gui.creative-mode_undocumented-unknown-type", message_prefix, param_name, param_type }
             else
                 return message_prefix .. '"' .. param_name .. '" (undocumented) = ' .. param_type .. " (unknown type)"
             end
@@ -1075,7 +1089,7 @@ end
 -- Writes or logs the given event according to the given data.
 -- Returns the tick_prefix, name_message, param_message_prefix and full_write_or_log_message so they can be reused.
 local function write_or_log_events(player, is_write, also_apply_to_params, event_id, event, tick_prefix, name_message,
-    param_message_prefix, full_write_or_log_message)
+                                   param_message_prefix, full_write_or_log_message)
     local final_message
     -- Log the tick followed by the event name.
     tick_prefix, name_message = create_event_name_message_if_not_exist(event, tick_prefix, name_message)
@@ -1142,7 +1156,7 @@ function events.on_event(event)
                         end
                         for param_name, param in pairs(event) do
                             local message = get_event_param_message(param_message_prefix, event_id, param_name, param,
-                                                true)
+                                true)
                             if message then
                                 player.print(message)
                             end
@@ -1153,17 +1167,17 @@ function events.on_event(event)
                 -- Write events.
                 if global.creative_mode.write_events[player.index] then
                     tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
-                        write_or_log_events(player, true,
-                            global.creative_mode.also_write_event_params[player.index] ~= false, event_id, event,
-                            tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
+                    write_or_log_events(player, true,
+                        global.creative_mode.also_write_event_params[player.index] ~= false, event_id, event,
+                        tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
                 end
 
                 -- Log events.
                 if global.creative_mode.log_events[player.index] then
                     tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
-                        write_or_log_events(player, false,
-                            global.creative_mode.also_log_event_params[player.index] ~= false, event_id, event,
-                            tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
+                    write_or_log_events(player, false,
+                        global.creative_mode.also_log_event_params[player.index] ~= false, event_id, event,
+                        tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
                 end
             end
         end
