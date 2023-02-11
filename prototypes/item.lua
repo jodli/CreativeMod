@@ -17,7 +17,7 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/creative-chest.png",
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "a",
+			order = "a1",
 			place_result = creative_mode_defines.names.entities.creative_chest,
 			stack_size = 50
 		},

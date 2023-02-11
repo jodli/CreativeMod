@@ -8,6 +8,16 @@ data:extend(
 			result = creative_mode_defines.names.items.creative_chest,
 			enabled = false
 		},
+        {
+			-- New Creative chest, just makes the vanilla infinity chest.
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.new_creative_chest,
+			ingredients = {},
+			result = "infinity-chest",
+			enabled = false,
+            order = "a",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
 		{
 			-- Creative provider chest
 			type = "recipe",
@@ -464,16 +474,6 @@ data:extend(
 			name = "infinity-chest",
 			ingredients = {},
 			result = "infinity-chest",
-			enabled = false
-		},
-		{
-			-- Belt immunity equipment (the item already exists, we just need to create the recipe)
-			type = "recipe",
-			name = creative_mode_defines.names.recipes.belt_immunity_equipment,
-			ingredients = {},
-			result = creative_mode_defines.names.items.belt_immunity_equipment,
-			subgroup = creative_mode_defines.names.item_subgroups.equipments,
-			order = "a",
 			enabled = false
 		},
 		{

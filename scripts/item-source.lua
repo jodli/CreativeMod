@@ -22,8 +22,6 @@ function item_source.tick()
 		if item_source.valid then
 			-- Check if it is active and also not marked for deconstruction.
 			if item_source.active and not item_source.to_be_deconstructed(item_source.force) then
-				-- Give the matter-source free energy.
-				item_source.energy = 100000 -- It seems not working?
 				-- Check if it is enabled according to its circuit network state and logistic network state.
 				if util.is_inserter_enabled(item_source) then
 					-- Get the item names in the 2 filter slots of the matter-source.

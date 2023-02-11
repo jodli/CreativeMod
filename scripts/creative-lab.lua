@@ -14,15 +14,12 @@ function creative_lab.tick()
 		return
 	end
 
-	-- Refill energy. This has to be done in every tick for every labs, or otherwise the no-energy icon will appear.
-	-- Also remove invalid labs from the array.
+	-- Remove invalid labs from the array.
 	local labs_updated = false
 	for i = lab_count, 1, -1 do
 		local lab = creative_labs[i]
 		if lab.valid then
-			if not lab.to_be_deconstructed(lab.force) then
-				lab.energy = 1000000000000000000000000000000
-			end
+			
 		else
 			table.remove(creative_labs, i)
 			labs_updated = true
