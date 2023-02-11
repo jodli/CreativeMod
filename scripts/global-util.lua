@@ -48,24 +48,6 @@ function global_util.initialize_or_update_global()
     if not global.creative_mode.duplicating_provider_chest_next_update_index then
         global.creative_mode.duplicating_provider_chest_next_update_index = 1
     end
-    if not global.creative_mode.void_requester_chest then
-        global.creative_mode.void_requester_chest = {}
-    end
-    if not global.creative_mode.void_requester_chest_next_update_index then
-        global.creative_mode.void_requester_chest_next_update_index = 1
-    end
-    if not global.creative_mode.void_chest then
-        global.creative_mode.void_chest = {}
-    end
-    if not global.creative_mode.void_chest_next_update_index then
-        global.creative_mode.void_chest_next_update_index = 1
-    end
-    if not global.creative_mode.void_storage_chest then
-        global.creative_mode.void_storage_chest = {}
-    end
-    if not global.creative_mode.void_storage_chest_next_update_index then
-        global.creative_mode.void_storage_chest_next_update_index = 1
-    end
     if not global.creative_mode.void_lab then
         global.creative_mode.void_lab = {}
     end
@@ -90,12 +72,6 @@ function global_util.initialize_or_update_global()
     if not global.creative_mode.void_cargo_wagon_next_update_index then
         global.creative_mode.void_cargo_wagon_next_update_index = 1
     end
-    if not global.creative_mode.super_roboport then
-        global.creative_mode.super_roboport = {}
-    end
-    if not global.creative_mode.fluid_source then
-        global.creative_mode.fluid_source = {}
-    end
     if not global.creative_mode.fluid_void then
         global.creative_mode.fluid_void = {}
     end
@@ -107,12 +83,6 @@ function global_util.initialize_or_update_global()
     end
     if not global.creative_mode.configurable_super_boiler_data then
         global.creative_mode.configurable_super_boiler_data = {}
-    end
-    if not global.creative_mode.heat_source then
-        global.creative_mode.heat_source = {}
-    end
-    if not global.creative_mode.heat_void then
-        global.creative_mode.heat_void = {}
     end
     if not global.creative_mode.item_source_data then
         global.creative_mode.item_source_data = {}
@@ -143,12 +113,6 @@ function global_util.initialize_or_update_global()
     end
     if not global.creative_mode.passive_energy_void then
         global.creative_mode.passive_energy_void = {}
-    end
-    if not global.creative_mode.super_radar then
-        global.creative_mode.super_radar = {}
-    end
-    if not global.creative_mode.super_beacon then
-        global.creative_mode.super_beacon = {}
     end
 
     -- Table for storing the equipments that need to be refilled with energy.
@@ -701,13 +665,13 @@ local register_entity_look_up_functions = {
         })
     end,
     [creative_mode_defines.names.entities.void_requester_chest] = function(entity)
-        table.insert(global.creative_mode.void_requester_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.void_chest] = function(entity)
-        table.insert(global.creative_mode.void_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.void_storage_chest] = function(entity)
-        table.insert(global.creative_mode.void_storage_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.creative_cargo_wagon] = function(entity)
         -- Creative Cargo Wagons are divided into groups.
@@ -742,12 +706,6 @@ local register_entity_look_up_functions = {
     [creative_mode_defines.names.entities.void_cargo_wagon] = function(entity)
         table.insert(global.creative_mode.void_cargo_wagon, entity)
     end,
-    [creative_mode_defines.names.entities.super_roboport] = function(entity)
-        table.insert(global.creative_mode.super_roboport, entity)
-    end,
-    [creative_mode_defines.names.entities.fluid_source] = function(entity)
-        table.insert(global.creative_mode.fluid_source, entity)
-    end,
     [creative_mode_defines.names.entities.fluid_void] = function(entity)
         table.insert(global.creative_mode.fluid_void, entity)
     end,
@@ -764,10 +722,10 @@ local register_entity_look_up_functions = {
         })
     end,
     [creative_mode_defines.names.entities.heat_source] = function(entity)
-        table.insert(global.creative_mode.heat_source, entity)
+        entity.set_heat_setting{temperature = 1000, mode = "exactly"}
     end,
     [creative_mode_defines.names.entities.heat_void] = function(entity)
-        table.insert(global.creative_mode.heat_void, entity)
+        entity.set_heat_setting{temperature = 0, mode = "exactly"}
     end,
     [creative_mode_defines.names.entities.item_source] = function(entity)
         table.insert(global.creative_mode.item_source_data, {
@@ -859,15 +817,6 @@ local register_entity_look_up_functions = {
     [creative_mode_defines.names.entities.passive_energy_void] = function(entity)
         table.insert(global.creative_mode.passive_energy_void, entity)
     end,
-    [creative_mode_defines.names.entities.super_radar] = function(entity)
-        table.insert(global.creative_mode.super_radar, entity)
-    end,
-    [creative_mode_defines.names.entities.super_radar_2] = function(entity)
-        table.insert(global.creative_mode.super_radar, entity)
-    end,
-    [creative_mode_defines.names.entities.super_beacon] = function(entity)
-        table.insert(global.creative_mode.super_beacon, entity)
-    end,
     [creative_mode_defines.names.entities.alien_attractor_proxy_small] = function(entity)
         entity.surface.build_enemy_base(entity.position, 5)
     end,
@@ -879,8 +828,9 @@ local register_entity_look_up_functions = {
     end
 }
 
--- Registers the given entity if needed.
+-- 
 function global_util.register_entity(entity)
+    -- Registers the given entity if needed.
     if register_entity_look_up_functions[entity.name] then
         register_entity_look_up_functions[entity.name](entity)
     end

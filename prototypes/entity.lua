@@ -178,6 +178,66 @@ local function container(entity_name, item_name, icon_name, picture_name, additi
     }
 end
 
+-- Generates data for infinity container according to the given data.
+local function infcontainer(entity_name, item_name, icon_name, picture_name, additional_pastable_entities, inventory_size, logistic_mode)
+    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create(universal_connector_template,
+                                                     {def_CC_table({0.1875, 0.15625}, nil, 18)})
+
+    return {
+        type = "infinity-container",
+        name = entity_name,
+        icon_size = 32,
+        icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name,
+        flags = {"placeable-player", "player-creation"},
+        minable = {
+            mining_time = 0.5,
+            result = item_name
+        },
+        max_health = 150,
+        corpse = "small-remnants",
+        fast_replaceable_group = "container",
+        additional_pastable_entities = additional_pastable_entities,
+        collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
+        selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+        vehicle_impact_sound = {
+            filename = "__base__/sound/car-metal-impact.ogg",
+            volume = 0.65
+        },
+        inventory_size = inventory_size,
+        erase_contents_when_mined = true,
+        gui_mode = "none",
+        logistic_mode = logistic_mode,
+        max_logistic_slots = (logistic_mode == "storage" and 1) or 12,
+        open_sound = {
+            filename = "__base__/sound/metallic-chest-open.ogg",
+            volume = 0.65
+        },
+        close_sound = {
+            filename = "__base__/sound/metallic-chest-close.ogg",
+            volume = 0.7
+        },
+        picture = {
+            filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. picture_name,
+            priority = "extra-high",
+            width = 38,
+            height = 32,
+            shift = {0, 0}
+        },
+        circuit_wire_connection_point = {
+            shadow = {
+                red = {0.734375, 0.453125},
+                green = {0.609375, 0.515625}
+            },
+            wire = {
+                red = {0.40625, 0.21875},
+                green = {0.40625, 0.375}
+            }
+        },
+        circuit_wire_max_distance = 1000,
+        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites
+    }
+end
+
 -- Generates data for logistic container according to the given data.
 local function logistic_container(entity_name, item_name, icon_name, picture_name, additional_pastable_entities,
     inventory_size, logistic_mode)
@@ -242,7 +302,7 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
     return {
         type = "cargo-wagon",
         name = entity_name,
-        icon_size = 32,
+        icon_size = 64,
         icons = {{
             icon = "__base__/graphics/icons/cargo-wagon.png",
             tint = tint
@@ -593,9 +653,9 @@ end
 
 -- Generates data for heat pipe according to the given data.
 local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_temperature)
-    local heat_pipe = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"])
+    local heat_pipe = table.deepcopy(data.raw["heat-interface"]["heat-interface"])
     heat_pipe.name = entity_name
-    heat_pipe.icon_size = 32
+    heat_pipe.icon_size = 64
     heat_pipe.icons = {{
         icon = heat_pipe.icon,
         tint = tint
@@ -607,33 +667,24 @@ local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_
         result = item_name
     }
     heat_pipe.heat_buffer.max_temperature = max_temperature
-    for _, pictures in pairs(heat_pipe.connection_sprites) do
-        for _, picture in ipairs(pictures) do
-            -- Replace the normal heat pipe pictures by the hidden heated pictures?
-            if use_heated_pictures then
-                local filename = picture.filename
-                -- There is no image for heated single pipe.
-                if not filename:find("heat%-pipe%-straight%-horizontal%-single.png") and
-                    not filename:find("heat%-pipe%-straight%-vertical%-single.png") then
-                    picture.filename = filename:gsub("heat%-pipe%-", "heated-")
-                end
-            end
-            picture.tint = table.deepcopy(tint) -- Deep copy is needed or else it is nullified.
-            local hr_version = picture.hr_version
-            if hr_version then
-                if use_heated_pictures then
-                    filename = hr_version.filename
-                    if not filename:find("hr%-heat%-pipe%-straight%-horizontal%-single.png") and
-                        not filename:find("hr%-heat%-pipe%-straight%-vertical%-single.png") then
-                        hr_version.filename = filename:gsub("hr%-heat%-pipe%-", "hr-heated-")
-                    end
-                end
-                hr_version.tint = table.deepcopy(tint)
-            end
+    heat_pipe.picture = {layers={}} -- We want a picture with an empty layers so we can add the pipe graphics instead of the bland heat interface one.
+    if use_heated_pictures then -- This is a heat source, use the hot pipe pictures.
+        heat_pipe.picture = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].heat_glow_sprites.cross[1])
+        for _, layer in ipairs(heat_pipe.picture.layers) do
+            layer.tint = table.deepcopy(tint)
+            layer.hr_version.tint = table.deepcopy(tint)
         end
     end
+    -- Always use the basic four way picture - tint it and insert it into the layers
+    regpipe = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].connection_sprites.cross[1])
+    regpipe.tint = table.deepcopy(tint)
+    regpipe.hr_version.tint = table.deepcopy(tint)
+    table.insert(heat_pipe.picture.layers, regpipe)
+    --log(serpent.block(heat_pipe.picture))
     heat_pipe.fast_replaceable_group = heat_pipe.fast_replaceable_group or
                                            creative_mode_defines.names.fast_replaceable_groups.heat_source_void
+    heat_pipe.gui_mode = "none"
+    heat_pipe.type = "heat-interface"
     return heat_pipe
 end
 
@@ -737,7 +788,8 @@ local function void_lab()
     local lab = table.deepcopy(data.raw["lab"]["lab"])
     lab.name = creative_mode_defines.names.entities.void_lab
     lab.icons = {{
-        icon = "__base__/graphics/entity/lab/lab.png",
+        icon = "__base__/graphics/icons/lab.png",
+        icon_size = 64,
         tint = {
             r = 50,
             g = 50,
@@ -879,11 +931,7 @@ local function radar(entity_name, item_name, icon_name, pictures_name, scan_dist
         max_distance_of_sector_revealed = scan_distance, -- Scan area
         max_distance_of_nearby_sector_revealed = scan_distance, -- Always revealed area
         energy_per_nearby_scan = "1kJ",
-        -- energy_source = creative_mode_defines.non_electric_energy_source, -- Burner energy won't work on radar, regardless of fuel_inventory_size.
-        energy_source = {
-            type = "electric",
-            usage_priority = "tertiary"
-        },
+        energy_source = creative_mode_defines.non_electric_energy_source,
         energy_usage = "1kW",
         pictures = {
             filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. pictures_name,
@@ -956,7 +1004,11 @@ circuit_connector_definitions[creative_mode_defines.names.entities.passive_energ
     circuit_connector_definitions.create(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
-data:extend({container(creative_mode_defines.names.entities.creative_chest,
+data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description." ..creative_mode_defines.names.entities.new_creative_chest}
+
+data:extend({
+-- Creative Chest    
+             container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
     {creative_mode_defines.names.entities.creative_provider_chest},
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1),
@@ -983,17 +1035,19 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
                                        creative_mode_defines.names.entities.duplicating_cargo_wagon},
     settings.startup[creative_mode_defines.names.settings.duplicating_chest_size].value, "passive-provider"),
 -- Void requester chest
-             logistic_container(creative_mode_defines.names.entities.void_requester_chest,
+             infcontainer(creative_mode_defines.names.entities.void_requester_chest,
     creative_mode_defines.names.items.void_requester_chest, "void-requester-chest.png", "void-requester-chest.png", nil,
     settings.startup[creative_mode_defines.names.settings.void_requester_chest_size].value, "requester"),
 -- Void chest
-             container(creative_mode_defines.names.entities.void_chest, creative_mode_defines.names.items.void_chest,
+             infcontainer(creative_mode_defines.names.entities.void_chest, creative_mode_defines.names.items.void_chest,
     "void-chest.png", "void-chest.png", nil,
     settings.startup[creative_mode_defines.names.settings.void_chest_size].value),
 -- Void storage chest
-             logistic_container(creative_mode_defines.names.entities.void_storage_chest,
+             infcontainer(creative_mode_defines.names.entities.void_storage_chest,
     creative_mode_defines.names.items.void_storage_chest, "void-storage-chest.png", "void-storage-chest.png", nil,
-    settings.startup[creative_mode_defines.names.settings.void_storage_chest_size].value, "storage"), {
+    settings.startup[creative_mode_defines.names.settings.void_storage_chest_size].value, "storage"), 
+-- Super loader
+    {
     type = "loader",
     name = creative_mode_defines.names.entities.super_loader,
     icon_size = 32,
@@ -1036,7 +1090,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         }
     },
     ending_patch = ending_patch_prototype
-}, cargo_wagon(creative_mode_defines.names.entities.creative_cargo_wagon,
+}, 
+-- Creative Cargo Wagon
+             cargo_wagon(creative_mode_defines.names.entities.creative_cargo_wagon,
     creative_mode_defines.names.items.creative_cargo_wagon, {
         r = 1,
         g = 0.3,
@@ -1058,10 +1114,12 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         r = 0.4,
         g = 0.4,
         b = 0.4
-    }, nil, settings.startup[creative_mode_defines.names.settings.void_cargo_wagon_size].value), {
+    }, nil, settings.startup[creative_mode_defines.names.settings.void_cargo_wagon_size].value), 
+-- Super Logistics Robot    
+    {
     type = "logistic-robot",
     name = creative_mode_defines.names.entities.super_logistic_robot,
-    icon_size = 32,
+    icon_size = 64,
     icons = {{
         icon = "__base__/graphics/icons/logistic-robot.png",
         tint = {
@@ -1200,10 +1258,12 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     },
     working_sound = flying_robot(0.48),
     cargo_centered = {0.0, 0.2}
-}, {
+}, 
+-- Super Construction Robot
+{
     type = "construction-robot",
     name = creative_mode_defines.names.entities.super_construction_robot,
-    icon_size = 32,
+    icon_size = 64,
     icons = {{
         icon = "__base__/graphics/icons/construction-robot.png",
         tint = {
@@ -1423,7 +1483,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     working_sound = construction_robot(0.47),
     cargo_centered = {0.0, 0.2},
     construction_vector = {0.30, 0.22}
-}, {
+}, 
+-- Super Roboport
+{
     type = "roboport",
     name = creative_mode_defines.names.entities.super_roboport,
     icon_size = 32,
@@ -1438,12 +1500,7 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     collision_box = {{-1.7, -1.7}, {1.7, 1.7}},
     selection_box = {{-2, -2}, {2, 2}},
     dying_explosion = "medium-explosion",
-    energy_source = {
-        type = "electric", -- Changing this to burner has no effect.
-        usage_priority = "secondary-input",
-        input_flow_limit = "0MW",
-        buffer_capacity = "100PJ"
-    },
+    energy_source = creative_mode_defines.non_electric_energy_source,
     recharge_minimum = "40MJ",
     energy_usage = "1W",
     -- per one charge slot
@@ -1595,7 +1652,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         type = "virtual",
         name = "signal-T"
     }
-}, {
+}, 
+-- Fluid source
+{
     type = "assembling-machine",
     name = creative_mode_defines.names.entities.fluid_source,
     icon_size = 32,
@@ -1667,7 +1726,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         module_slots = 0
     },
     allowed_effects = {"pollution"}
-}, {
+}, 
+-- Fluid void
+{
     type = "storage-tank",
     name = creative_mode_defines.names.entities.fluid_void,
     icon_size = 32,
@@ -1767,8 +1828,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     }},
     circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void].sprites,
     circuit_wire_max_distance = 1000
-}, super_boiler(creative_mode_defines.names.entities.super_boiler, creative_mode_defines.names.items.super_boiler,
-    "super-boiler.png", "super-boiler.png", nil),
+}, 
+-- Super boiler
+             super_boiler(creative_mode_defines.names.entities.super_boiler, 
+    creative_mode_defines.names.items.super_boiler, "super-boiler.png", "super-boiler.png", nil),
 -- Super cooler
              super_boiler(creative_mode_defines.names.entities.super_cooler,
     creative_mode_defines.names.items.super_cooler, "super-cooler.png", "super-cooler.png", nil),
@@ -1809,7 +1872,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.fast_replaceable_groups.item_source_void_duplicator, {0, 0.8}, {0, 1}, 0),
 -- Creative lab
              lab(creative_mode_defines.names.entities.creative_lab, creative_mode_defines.names.items.creative_lab,
-    "creative-lab.png", "creative-lab.png", "creative-lab.png"), void_lab(),
+    "creative-lab.png", "creative-lab.png", "creative-lab.png"),
+
+-- Void Lab
+             void_lab(),
 -----------------------------------------------------------------------------
 
 -- Active electric energy interface (output)
@@ -2334,7 +2400,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
 -- Alien attractor proxy - medium
              alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_medium, 0.25),
 -- Alien attractor proxy - large
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), {
+             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), 
+-- Super Beacon             
+             {
     type = "beacon",
     name = creative_mode_defines.names.entities.super_beacon,
     icon_size = 32,
@@ -2381,11 +2449,7 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         height = 10
     },
     supply_area_distance = 64,
-    -- energy_source = creative_mode_defines.non_electric_energy_source, -- Burner energy won't work on beacon.
-    energy_source = {
-        type = "electric",
-        usage_priority = "tertiary"
-    },
+    energy_source = creative_mode_defines.non_electric_energy_source,
     energy_usage = "1kW",
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
@@ -2397,4 +2461,5 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         module_info_icon_shift = {0, 0.5},
         module_info_multi_row_initial_height_modifier = -0.3
     }
-}})
+}
+})
