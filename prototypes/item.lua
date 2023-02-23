@@ -18,7 +18,7 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "a1",
-			place_result = creative_mode_defines.names.entities.creative_chest,
+			place_result = creative_mode_defines.names.entities.new_creative_chest,
 			stack_size = 50
 		},
 		{
@@ -30,7 +30,7 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "b",
-			place_result = creative_mode_defines.names.entities.creative_provider_chest,
+			place_result = creative_mode_defines.names.entities.new_creative_provider_chest,
 			stack_size = 50
 		},
 		{
@@ -42,7 +42,7 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "c",
-			place_result = creative_mode_defines.names.entities.autofill_requester_chest,
+			place_result = creative_mode_defines.names.entities.new_autofill_requester_chest,
 			stack_size = 50
 		},
 		{
@@ -245,6 +245,18 @@ data:extend(
 			subgroup = creative_mode_defines.names.item_subgroups.fluids,
 			order = "b",
 			place_result = creative_mode_defines.names.entities.fluid_void,
+			stack_size = 50
+		},
+		{
+			-- New Fluid void
+			type = "item",
+			name = creative_mode_defines.names.items.new_fluid_void,
+			icon_size = data.raw["item"]["infinity-pipe"].icon_size,
+			icons = data.raw["item"]["infinity-pipe"].icons,
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.fluids,
+			order = "b",
+			place_result = creative_mode_defines.names.entities.new_fluid_void,
 			stack_size = 50
 		},
 		{

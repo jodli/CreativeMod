@@ -271,6 +271,74 @@ function creative_chest_util.refill_chests(
 	return next_update_group, next_update_group_subindex
 end
 
+-- Returns true if the entity is one of the new style of creative chest, which are handled differently.
+function creative_chest_util.is_new_creative(entity)
+    if entity.name == creative_mode_defines.names.entities.new_creative_chest or
+        entity.name == creative_mode_defines.names.entities.new_creative_provider_chest then
+        return true
+    end
+    return false
+end
+
+-- Sets the infinity chest filters to the appropriate items based on the chests group.
+function creative_chest_util.set_chest_filter(data)
+    if data then
+        local chest = data.entity
+        if chest.valid then
+            if not chest.to_be_deconstructed(chest.force) then
+                local inventory = creative_chest_util.get_inventory_from_data(data)
+                local slot = 1
+                local displayed_slot = 1
+                local display_mode = data.inventory_display_mode
+                local inventory_size = #inventory
+                local filtered_slots = data.filtered_slots
+                local filtered_slots_count = #filtered_slots
+                local next_filtered_slot_to_check = 1
+                local contain_hidden_items = global.creative_mode.last_creative_provider_chest_contain_hidden_items
+                if filtered_slots_count <= 0 then
+                    next_filtered_slot_to_check = 0
+                end
+                local start_item_index, end_item_index =
+                        creative_chest_util.get_start_end_item_index_for_group(
+                        data.group,
+                        inventory_size - 1,
+                        contain_hidden_items
+                    )
+                -- Clear the current filters so we can set them
+                chest.infinity_container_filters = {}
+                for i = start_item_index, end_item_index, 1 do
+                    -- Fill the slot only if it is not filtered out.
+                    if next_filtered_slot_to_check <= 0 or filtered_slots[next_filtered_slot_to_check] ~= slot then
+                        local item = creative_chest_util.get_item_at(i, contain_hidden_items)
+                        -- Set the infinity container's filter slot to be the given item
+                        chest.set_infinity_container_filter(displayed_slot,{name = item.name, count = item.stack_size, mode = "exactly"})
+                        displayed_slot = displayed_slot + 1
+                    else
+                        -- Skip the filter slot if using original mode - leaves a hole in the filters to make it obvious an item was skipped.
+                        if display_mode == creative_chest_util.inventory_display_modes.original_mode then
+                            displayed_slot = displayed_slot + 1
+                        end
+                        -- Check for the next index of filtered slot if possible.
+                        if filtered_slots_count >= next_filtered_slot_to_check + 1 then
+                            next_filtered_slot_to_check = next_filtered_slot_to_check + 1
+                        else
+                            next_filtered_slot_to_check = 0
+                        end
+                    end
+                    -- Next slot.
+                    slot = slot + 1
+                    -- Though it is unlikely to happen... (caused by mod version change?) Break the loop if slot exceeds.
+                    if slot > inventory_size then
+                        break
+                    end
+                end
+            end
+        else
+            table.remove(chest_data_groups[next_update_group], next_update_group_subindex)
+        end
+    end
+end
+
 -- Returns the responsible creative chest data groups for the given entity.
 -- Also returns the number of chests for each item cycle (i.e. max group number) and whether the entity should contain hidden items.
 function creative_chest_util.get_creative_chest_data_groups(entity)
@@ -278,6 +346,10 @@ function creative_chest_util.get_creative_chest_data_groups(entity)
 		return global.creative_mode.creative_chest_data_groups, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.creative_provider_chest then
 		return global.creative_mode.creative_provider_chest_data_groups, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+	elseif entity.name == creative_mode_defines.names.entities.new_creative_chest then
+		return global.creative_mode.new_creative_chests, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+	elseif entity.name == creative_mode_defines.names.entities.new_creative_provider_chest then
+		return global.creative_mode.new_creative_provider_chests, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.creative_cargo_wagon then
 		return global.creative_mode.creative_cargo_wagon_data_groups, global.creative_mode.creative_cargo_wagon_num_in_cycle, global.creative_mode.last_creative_cargo_wagon_contain_hidden_items
 	end
@@ -287,6 +359,15 @@ end
 -- Returns the data and group number of the given Creative Chest. Also returns the index of the chest in that group as the second parameter.
 -- If the given entity is not found in any group (maybe caused by error), 0, 0 will be returned.
 function creative_chest_util.get_creative_chest_data_group_number(entity, chest_data_groups)
+    -- The new creative chests and new creative provider chests are stored differently.
+    if creative_chest_util.is_new_creative(entity) then
+        for chest_index_in_group, chest_data_in_group in ipairs(chest_data_groups) do
+            if chest_data_in_group.entity == entity then
+                return chest_data_in_group, chest_data_in_group.group, chest_index_in_group
+            end
+        end
+        return nil, 0, 0
+    end
 	if chest_data_groups then
 		for group_index = 1, #chest_data_groups, 1 do
 			local group = chest_data_groups[group_index]
@@ -310,6 +391,10 @@ function creative_chest_util.on_entity_copied_pasted(source_chest, destination_c
 
 	local source_chest_data, source_group_number =
 		creative_chest_util.get_creative_chest_data_group_number(source_chest, source_groups)
+    log(source_groups)
+    log(destination_groups)
+    log(source_chest_data)
+    log(source_group_number)
 	if source_chest_data == nil or source_group_number == 0 then
 		return
 	end
@@ -340,14 +425,22 @@ function creative_chest_util.change_creative_chest_group_number(
 	chest_groups,
 	old_group_number,
 	old_index_in_group,
-	new_group_number)
+	new_group_number,
+    entity)
 	if old_group_number ~= new_group_number then
-		table.remove(chest_groups[old_group_number], old_index_in_group)
-		if not chest_groups[new_group_number] then
-			chest_groups[new_group_number] = {}
-		end
-		table.insert(chest_groups[new_group_number], chest_data)
-		return true
+        -- Once again new providers are handled differently
+        if creative_chest_util.is_new_creative(entity) then
+            chest_data.group = new_group_number
+            creative_chest_util.set_chest_filter(chest_data)
+            return true
+        else
+            table.remove(chest_groups[old_group_number], old_index_in_group)
+            if not chest_groups[new_group_number] then
+                chest_groups[new_group_number] = {}
+            end
+            table.insert(chest_groups[new_group_number], chest_data)
+            return true
+        end
 	end
 	return false
 end
