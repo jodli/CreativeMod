@@ -2,7 +2,7 @@
 Version: 1.8.1
 Date: 2023-02-22
   Changes:
-    - Added a recipe for the vanilla infinity chest. It's use can replace creative chests, duplicating chests, and void chests with proper configuration and much lower UPS costs, as they'll be handled in engine rather than via LUA.
+    - Added a recipe for the vanilla infinity chest. It can be configured to void items by checking the box, or to provide an infinite amount of items by setting the appropriate filters. Several items now use this kind of chest to avoid needing any scripting.
     - Removed belt immunity equipment. This is a vanilla item now, no need for a recipe. We don't have one for all the other regular items.
     - Removed fluid-unknown from fluid source recipes. It's not a real fluid and there's no need for it.
   Bugfixes:
