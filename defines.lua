@@ -29,7 +29,7 @@ creative_mode_defines.empty_animation = {
     frame_count = 1
 }
 
--- Better data for energy source for creative tools that don't require electricity.
+-- Better data for energy source for creative tools that don't require electricity. 
 creative_mode_defines.non_electric_energy_source = {
     type = "void" -- Old one used burner, that is no longer necessary.
 }
@@ -88,7 +88,9 @@ creative_mode_defines.names.entities = {
     creative_chest = creative_mode_defines.name_prefix .. "creative-chest",
     new_creative_chest = creative_mode_defines.name_prefix .. "new-creative-chest",
     creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
+    new_creative_provider_chest = creative_mode_defines.name_prefix .. "new-creative-provider-chest",
     autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
+    new_autofill_requester_chest = creative_mode_defines.name_prefix .. "new-autofill-requester-chest",
     duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
     duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
     void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",

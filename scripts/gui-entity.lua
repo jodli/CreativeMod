@@ -145,7 +145,7 @@ end
 local function create_or_destroy_creative_chest_gui(player, entity, entity_gui_container)
 	-- Creative chest open button.
 	local chest_groups, max_group_number, contain_hidden_items = creative_chest_util.get_creative_chest_data_groups(entity)
-	local chest_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, chest_groups)
+    local chest_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, chest_groups)
 	if chest_data and group_number > 0 then
 		-- Frame.
 		local _, frame = create_or_destroy_entity_gui_frame(entity_gui_container, entity, false)
@@ -252,7 +252,8 @@ local function add_creative_chest_group_number_and_update_gui(creative_chest_ent
 				chest_groups,
 				group_number,
 				index_in_group,
-				new_group_number
+				new_group_number,
+                creative_chest_entity
 			)
 		 then
 			-- Update the GUI for all players who are checking the entity.
@@ -567,6 +568,16 @@ local function reset_last_entity_gui_action_by_player_index(player_index)
 	end
 end
 
+-- Fixes sprite names for the new creative chests
+local function get_sprite_name(entity_name)
+    if entity_name == creative_mode_defines.names.entities.new_creative_chest then
+        return creative_mode_defines.names.entities.creative_chest
+    elseif entity_name == creative_mode_defines.names.entities.new_creative_provider_chest then
+        return creative_mode_defines.names.entities.creative_provider_chest
+    end
+    return entity_name
+end
+
 -- Creates or destroys the GUI of given entity on the given player.
 -- Nothing will be created if there is no GUI for the entity.
 function gui_entity.create_or_destroy_gui_of_entity(player, entity, is_create)
@@ -589,8 +600,8 @@ function gui_entity.create_or_destroy_gui_of_entity(player, entity, is_create)
 		local button_name
 		local open_gui_function
 		if
-			entity_name == creative_mode_defines.names.entities.creative_chest or
-				entity_name == creative_mode_defines.names.entities.creative_provider_chest or
+			entity_name == creative_mode_defines.names.entities.new_creative_chest or
+				entity_name == creative_mode_defines.names.entities.new_creative_provider_chest or
 				entity_name == creative_mode_defines.names.entities.creative_cargo_wagon
 		 then
 			-- Button for the creative chest family.
@@ -642,7 +653,7 @@ function gui_entity.create_or_destroy_gui_of_entity(player, entity, is_create)
 			type = "sprite-button",
 			name = button_name,
 			style = creative_mode_defines.names.gui_styles.entity_open_button,
-			sprite = "item/" .. entity_name,
+			sprite = "item/" .. get_sprite_name(entity_name),
 			tooltip = {"gui.creative-mode_entity-button-tooltip", entity.localised_name}
 		}
 
@@ -756,6 +767,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 					inventory[i].clear()
 				end
 			end
+            
+            if creative_chest_util.is_new_creative(chest_data.entity) then
+                creative_chest_util.set_chest_filter(chest_data)
+            end
 
 			-- Update the GUI for all players who are checking the entity.
 			update_entity_gui_for_all_players_checking_the_entity(
@@ -1058,6 +1073,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 									end
 								end
 							)
+                            -- If this is a new creative chest, update the filters.
+                            if creative_chest_util.is_new_creative(entity) then
+                                creative_chest_util.set_chest_filter(chest_data)
+                            end
 							return
 						end
 					end
@@ -1065,6 +1084,11 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 					-- The slot was not filtered. Now filter it.
 					table.insert(chest_data.filtered_slots, slot)
 					table.sort(chest_data.filtered_slots)
+                    
+                    -- If this is a new creative chest, update the filters.
+                    if creative_chest_util.is_new_creative(entity) then
+                        creative_chest_util.set_chest_filter(chest_data)
+                    end
 
 					-- Record the action for the next shift-click.
 					global.last_entity_gui_actions_by_players[player.index].non_shift.is_filter = true

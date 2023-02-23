@@ -1004,10 +1004,10 @@ circuit_connector_definitions[creative_mode_defines.names.entities.passive_energ
     circuit_connector_definitions.create(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
-data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description." ..creative_mode_defines.names.entities.new_creative_chest}
+data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description.infinity-chest"}
 
 data:extend({
--- Creative Chest    
+-- Creative Chest
              container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
     {creative_mode_defines.names.entities.creative_provider_chest},
@@ -1019,6 +1019,21 @@ data:extend({
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
 -- Autofill requester chest
              logistic_container(creative_mode_defines.names.entities.autofill_requester_chest,
+    creative_mode_defines.names.items.autofill_requester_chest, "autofill-requester-chest.png",
+    "autofill-requester-chest.png", nil, settings.startup[creative_mode_defines.names.settings
+        .autofill_requester_chest_size].value, "requester"),
+-- New Creative Chest
+             infcontainer(creative_mode_defines.names.entities.new_creative_chest,
+    creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1),
+-- New Creative provider chest
+             infcontainer(creative_mode_defines.names.entities.new_creative_provider_chest,
+    creative_mode_defines.names.items.creative_provider_chest, "creative-provider-chest.png",
+    "creative-provider-chest.png", {creative_mode_defines.names.entities.creative_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
+-- New Autofill requester chest
+             infcontainer(creative_mode_defines.names.entities.new_autofill_requester_chest,
     creative_mode_defines.names.items.autofill_requester_chest, "autofill-requester-chest.png",
     "autofill-requester-chest.png", nil, settings.startup[creative_mode_defines.names.settings
         .autofill_requester_chest_size].value, "requester"),
@@ -1829,6 +1844,69 @@ data:extend({
     circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void].sprites,
     circuit_wire_max_distance = 1000
 }, 
+-- New Fluid void
+{
+    type = "infinity-pipe",
+    name = creative_mode_defines.names.entities.new_fluid_void,
+    icon_size = data.raw["infinity-pipe"]["infinity-pipe"].icon_size,
+    icons = data.raw["infinity-pipe"]["infinity-pipe"].icons,
+    flags = {"placeable-player", "player-creation"},
+    minable = {
+        mining_time = 0.5,
+        result = creative_mode_defines.names.items.new_fluid_void
+    },
+    max_health = 150,
+    corpse = "small-remnants",
+    resistances = {{
+        type = "fire",
+        percent = 80
+    }, {
+        type = "impact",
+        percent = 40
+    }},
+    fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.fluid_source_void,
+    collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+    vehicle_impact_sound = data.raw["infinity-pipe"]["infinity-pipe"].vehicle_impact_sound,
+    fluid_box = {
+        pipe_connections = {
+          {
+            position = {
+              0,
+              -1
+            }
+          },
+          {
+            position = {
+              1,
+              0
+            }
+          },
+          {
+            position = {
+              0,
+              1
+            }
+          },
+          {
+            position = {
+              -1,
+              0
+            }
+          }
+        },
+        base_area = 10000,
+        base_level = -1
+    },
+    working_sound = data.raw["infinity-pipe"]["infinity-pipe"].working_sound,
+    pictures = data.raw["infinity-pipe"]["infinity-pipe"].pictures,
+    horizontal_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].horizontal_window_bounding_box,
+    vertical_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].vertical_window_bounding_box,
+    flow_length_in_ticks = 10000,
+    --localised_name = {"entity-name." .. creative_mode_defines.names.entities.fluid_void},
+    --localised_description = {"entity-description." .. creative_mode_defines.names.entities.fluid_void},
+    gui_mode = "none"
+}, 
 -- Super boiler
              super_boiler(creative_mode_defines.names.entities.super_boiler, 
     creative_mode_defines.names.items.super_boiler, "super-boiler.png", "super-boiler.png", nil),
@@ -1899,7 +1977,9 @@ data:extend({
     creative_mode_defines.names.items.active_electric_energy_interface_input,
     "active-electric-energy-interface-input.png", "active-electric-energy-interface-input.png", "primary-input",
     "500GW", "0kW", "0kW", "500GW", {creative_mode_defines.names.entities.active_electric_energy_interface_output,
-                                     creative_mode_defines.names.entities.passive_electric_energy_interface}), {
+                                     creative_mode_defines.names.entities.passive_electric_energy_interface}),
+-- Energy Source
+{
     type = "generator",
     enable_gui = true,
     name = creative_mode_defines.names.entities.energy_source,
@@ -1966,8 +2046,10 @@ data:extend({
         },
         max_sounds_per_type = 5
     }
-}, {
-    type = "accumulator",
+},
+-- Passive energy source
+{
+    type = "electric-energy-interface",
     name = creative_mode_defines.names.entities.passive_energy_source,
     icon_size = 32,
     icon = creative_mode_defines.mod_directory .. "/graphics/icons/passive-energy-source.png",
@@ -1989,6 +2071,8 @@ data:extend({
         input_flow_limit = "0W",
         output_flow_limit = "5.4PW"
     },
+    energy_production = "5.4PW",
+    gui_mode = "none",
     picture = {
         filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-source.png",
         priority = "extra-high",
@@ -2056,7 +2140,9 @@ data:extend({
         type = "virtual",
         name = "signal-A"
     }
-}, {
+},
+-- Energy Void
+{
     type = "assembling-machine",
     name = creative_mode_defines.names.entities.energy_void,
     icon_size = 32,

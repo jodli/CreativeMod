@@ -324,11 +324,11 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.energy_absorption,
 			ingredients = {},
-			results = {
-				{name = creative_mode_defines.names.items.energy_absorption, amount = 0, probability = 0}
-			},
-			main_product = creative_mode_defines.names.items.energy_absorption,
+			results = {},
+            icon = creative_mode_defines.mod_directory .. "/graphics/icons/energy-void.png",
+            icon_size = 32,
 			category = creative_mode_defines.names.recipe_categories.energy_absorption,
+			subgroup = creative_mode_defines.names.item_subgroups.items,
 			hidden = true,
 			enabled = false
 		},
