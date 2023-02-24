@@ -1980,7 +1980,7 @@ data:extend({
                                      creative_mode_defines.names.entities.passive_electric_energy_interface}),
 -- Energy Source
 {
-    type = "generator",
+    type = "electric-energy-interface",
     enable_gui = true,
     name = creative_mode_defines.names.entities.energy_source,
     icon_size = 32,
@@ -1995,46 +1995,55 @@ data:extend({
     fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.energy_source_void,
     collision_box = {{-0.9, -0.9}, {0.9, 0.9}},
     selection_box = {{-1, -1}, {1, 1}},
+    energy_source = {
+        type = "electric",
+        buffer_capacity = "5.4PW",
+        usage_priority = "primary-output",
+        input_flow_limit = "0W",
+        output_flow_limit = "5.4PW"
+    },
+    energy_production = "5.4PW",
+    picture = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        priority = "extra-high",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125}
+    },
+    charge_animation = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125},
+        animation_speed = 0.5
+    },
+    charge_cooldown = 30,
+    charge_light = {
+        intensity = 0.3,
+        size = 7
+    },
+    discharge_animation = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125},
+        animation_speed = 0.5
+    },
+    discharge_cooldown = 60,
+    discharge_light = {
+        intensity = 0.7,
+        size = 7
+    },
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
         volume = 0.65
     },
-    effectivity = 1,
-    fluid_usage_per_tick = 1000000000, -- This value affects the maximum energy output. Currently it is 5.4PW (GUI shows 5.1PW)
-    maximum_temperature = 500,
-    fluid_box = {
-        base_area = 1,
-        filter = "water",
-        pipe_connections = {}
-    },
-    fluid_input = {
-        name = "water",
-        amount = 0.0,
-        minimum_temperature = 0
-    },
-    energy_source = {
-        type = "electric",
-        usage_priority = "primary-output"
-    },
-    min_perceived_performance = 1,
-    performance_to_sound_speedup = 0.5,
-    horizontal_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
-        width = 124,
-        height = 103,
-        frame_count = 1,
-        line_length = 1,
-        shift = {0.6875, -0.203125}
-    },
-    vertical_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
-        width = 124,
-        height = 103,
-        frame_count = 1,
-        line_length = 1,
-        shift = {0.6875, -0.203125}
-    },
-    smoke = {},
     working_sound = {
         sound = {
             filename = "__base__/sound/accumulator-working.ogg",
@@ -2123,25 +2132,8 @@ data:extend({
         },
         max_sounds_per_type = 5
     },
-    circuit_wire_connection_point = {
-        shadow = {
-            red = {0.984375, 1.10938},
-            green = {0.890625, 1.10938}
-        },
-        wire = {
-            red = {0.6875, 0.59375},
-            green = {0.6875, 0.71875}
-        }
-    },
-    circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_source]
-        .sprites,
-    circuit_wire_max_distance = 1000,
-    default_output_signal = {
-        type = "virtual",
-        name = "signal-A"
-    }
 },
--- Energy Void
+-- Energy void
 {
     type = "assembling-machine",
     name = creative_mode_defines.names.entities.energy_void,
@@ -2202,8 +2194,10 @@ data:extend({
     ingredient_count = 0,
     module_specification = {},
     allowed_effects = {"pollution"}
-}, {
-    type = "accumulator",
+}, 
+-- Passive energy void
+{
+    type = "assembling-machine",
     name = creative_mode_defines.names.entities.passive_energy_void,
     icon_size = 32,
     icon = creative_mode_defines.mod_directory .. "/graphics/icons/passive-energy-void.png",
@@ -2218,21 +2212,8 @@ data:extend({
     fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.energy_source_void,
     collision_box = {{-0.9, -0.9}, {0.9, 0.9}},
     selection_box = {{-1, -1}, {1, 1}},
-    energy_source = {
-        type = "electric",
-        buffer_capacity = "5.4PW",
-        usage_priority = "tertiary",
-        input_flow_limit = "5.4PW",
-        output_flow_limit = "0W"
-    },
-    picture = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void.png",
-        priority = "extra-high",
-        width = 124,
-        height = 103,
-        shift = {0.6875, -0.203125}
-    },
-    charge_animation = {
+    fluid_boxes = {},
+    animation = {
         filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void-working.png",
         width = 147,
         height = 128,
@@ -2240,29 +2221,18 @@ data:extend({
         frame_count = 24,
         shift = {0.390625, -0.53125},
         animation_speed = 0.5
-    },
-    charge_cooldown = 30,
-    charge_light = {
-        intensity = 0.3,
-        size = 7
-    },
-    discharge_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void-working.png",
-        width = 147,
-        height = 128,
-        line_length = 8,
-        frame_count = 24,
-        shift = {0.390625, -0.53125},
-        animation_speed = 0.5
-    },
-    discharge_cooldown = 60,
-    discharge_light = {
-        intensity = 0.7,
-        size = 7
     },
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
         volume = 0.65
+    },
+    open_sound = {
+        filename = "__base__/sound/machine-open.ogg",
+        volume = 0.85
+    },
+    close_sound = {
+        filename = "__base__/sound/machine-close.ogg",
+        volume = 0.75
     },
     working_sound = {
         sound = {
@@ -2273,26 +2243,23 @@ data:extend({
             filename = "__base__/sound/accumulator-idle.ogg",
             volume = 0.4
         },
-        max_sounds_per_type = 5
+        apparent_volume = 1.5
     },
-    circuit_wire_connection_point = {
-        shadow = {
-            red = {0.984375, 1.10938},
-            green = {0.890625, 1.10938}
-        },
-        wire = {
-            red = {0.6875, 0.59375},
-            green = {0.6875, 0.71875}
-        }
+    crafting_categories = {creative_mode_defines.names.recipe_categories.energy_absorption},
+    fixed_recipe = creative_mode_defines.names.recipes.energy_absorption,
+    crafting_speed = 0.01,
+    energy_source = {
+        type = "electric",
+        usage_priority = "tertiary",
+        emissions_per_minute = 0
     },
-    circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_void]
-        .sprites,
-    circuit_wire_max_distance = 1000,
-    default_output_signal = {
-        type = "virtual",
-        name = "signal-A"
-    }
-}, {
+    energy_usage = "5.4PW",
+    ingredient_count = 0,
+    module_specification = {},
+    allowed_effects = {"pollution"}
+},
+-- Super electric pole
+{
     type = "electric-pole",
     name = creative_mode_defines.names.entities.super_electric_pole,
     icon_size = 32,
@@ -2376,7 +2343,9 @@ data:extend({
         height = 12,
         priority = "extra-high-no-scale"
     }
-}, {
+},
+-- Super substation
+{
     type = "electric-pole",
     name = creative_mode_defines.names.entities.super_substation,
     icon_size = 32,
@@ -2476,7 +2445,9 @@ data:extend({
     g = 0,
     b = 1,
     a = 0.4
-}), radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
+}), 
+-- Super radar
+radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
     "super-radar.png", "super-radar.png", 14),
 -- Super radar MK2
              radar(creative_mode_defines.names.entities.super_radar_2, creative_mode_defines.names.items.super_radar_2,
@@ -2548,4 +2519,5 @@ data:extend({
         module_info_multi_row_initial_height_modifier = -0.3
     }
 }
+
 })

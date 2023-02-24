@@ -2,28 +2,28 @@
 Version: 1.8.1
 Date: 2023-02-22
   Changes:
-    - Added a recipe for the vanilla infinity chest. It can be configured to void items by checking the box, or to provide an infinite amount of items by setting the appropriate filters. Several items now use this kind of chest to avoid needing any scripting.
+    - Added a recipe for the vanilla infinity chest. It's use can replace creative chests, duplicating chests, and void chests with proper configuration and much lower UPS costs, as they'll be handled in engine rather than via LUA.
     - Removed belt immunity equipment. This is a vanilla item now, no need for a recipe. We don't have one for all the other regular items.
     - Removed fluid-unknown from fluid source recipes. It's not a real fluid and there's no need for it.
   Bugfixes:
     - Added script_raised_built and script_raised_destroy event handlers for creative mod items.
     - Updated the description for Heat Void to clarify it's always 0C, not room temp.
   Optimizations:
-    - Removed all scripting for fluid-source, fluid-void, super-radar, super-beacon, super-roboport, energy-void, passive-energy-source. They no longer require it. See details below.
+    - Removed all scripting for fluid-source, fluid-void, super-radar, super-beacon, super-roboport, energy-void, energy-source, passive-energy-void, passive-energy-source. They no longer require it. See details below.
     - Changed all creative entities requiring power to use a void energy source, rather than a burner source. Scripting is no longer required to keep these entities powered, and they're less apt to break if moved via script.
         - Removed fuel scripting for creative-lab, item-source, item-duplicator, item-void.
-    - Changed Heat Source and Heat void to use the Heat Interface prototype instead. 
+    - Changed Heat Source and Heat Void to use the Heat Interface prototype instead. 
         - Removed all on-tick scripting for Heat Source and Heat void. There is only a quick script ran on placement that sets the temperature.
         - These look different now due to the differences in how heat-interfaces work - they don't have separate connection sprites like heat pipes do, so they are locked into the 4 way sprite.
     - Changed creative-chest, creative-provider-chest, void chest, void storage chest, and void requester chest to use the vanilla infinity chest. No changes in usage should be present.
         - Removed all on-tick scripting for these entities. There is a quick script ran on placement that sets them up.
-        creative-chest and creative-provider-chest have two minor regressions: 
+        - creative-chest and creative-provider-chest have two minor regressions: 
             - Copy/paste no longer works since the base game considers them non-operable. As it appears this only set the group number, and not the filters, this is fairly minor.
             - The inventory display mode also doesn't do anything for them, since infinity chests sort their contents. Technically it DOES have a slight change in how the filters are set, but as those are only viewable in the editor this isn't particularly useful.
     - Energy void no longer produces an item. Removed scripting related to the item.
         - The scripting to remove it's energy was also removed as it did nothing - it'll always run constantly and drain power as long as there is a supply.
-    - Passive energy source is now an electric interface and requires no LUA scripting to function.
-        - It no longer has a circuit connection due to this change.
+    - Active and Passive Energy Sources and Passive Energy Void are now electric interfaces and require no LUA scripting to function.
+        - They no longer have a circuit connection due to this change.
 ---------------------------------------------------------------------------------------------------
 Version: 1.8.0
 Date: 2022-08-03

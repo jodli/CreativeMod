@@ -99,12 +99,6 @@ function global_util.initialize_or_update_global()
     if not global.creative_mode.creative_lab_next_update_index then
         global.creative_mode.creative_lab_next_update_index = 1
     end
-    if not global.creative_mode.energy_source then
-        global.creative_mode.energy_source = {}
-    end
-    if not global.creative_mode.passive_energy_void then
-        global.creative_mode.passive_energy_void = {}
-    end
 
     -- Table for storing the equipments that need to be refilled with energy.
     if not global.energy_refill_equipments then
@@ -791,12 +785,6 @@ local register_entity_look_up_functions = {
     end,
     [creative_mode_defines.names.entities.void_lab] = function(entity)
         table.insert(global.creative_mode.void_lab, entity)
-    end,
-    [creative_mode_defines.names.entities.energy_source] = function(entity)
-        table.insert(global.creative_mode.energy_source, entity)
-    end,
-    [creative_mode_defines.names.entities.passive_energy_void] = function(entity)
-        table.insert(global.creative_mode.passive_energy_void, entity)
     end,
     [creative_mode_defines.names.entities.alien_attractor_proxy_small] = function(entity)
         entity.surface.build_enemy_base(entity.position, 5)

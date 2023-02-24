@@ -119,7 +119,9 @@ function events.on_configuration_changed(data)
                 global.creative_mode.super_radar = nil
                 global.creative_mode.super_beacon = nil
                 global.creative_mode.energy_void = nil
+                global.creative_mode.passive_energy_void = nil
                 global.creative_mode.passive_energy_source = nil
+                global.creative_mode.energy_source = nil
                 -- Ensure the tables for the new creative/providers chests exist.
                 if not global.creative_mode.new_creative_chest then
                     global.creative_mode.new_creative_chests = {}
@@ -320,8 +322,6 @@ function events.on_tick()
     duplicator.tick()
     item_void.tick()
     random_item_source.tick()
-    --energy_source.tick()
-    --passive_energy_void.tick()
     equipments.tick()
 end
 
