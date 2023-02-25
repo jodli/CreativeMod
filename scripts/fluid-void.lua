@@ -1,4 +1,4 @@
--- This files contains variables and functions that are related to the Fluid Void in this mod.
+-- This files contains variables and functions that are related to the Fluid Void in this mod. No longer used for new fluid_voids.
 if not fluid_void then
 	fluid_void = {}
 end
