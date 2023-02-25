@@ -115,7 +115,6 @@ function events.on_configuration_changed(data)
                 global.creative_mode.void_storage_chest = nil
                 global.creative_mode.super_roboport = nil
                 global.creative_mode.fluid_source = nil
-                global.creative_mode.fluid_void = nil
                 global.creative_mode.super_radar = nil
                 global.creative_mode.super_beacon = nil
                 global.creative_mode.energy_void = nil
@@ -315,6 +314,7 @@ function events.on_tick()
     creative_cargo_wagon.tick()
     duplicating_cargo_wagon.tick()
     void_cargo_wagon.tick()
+    fluid_void.tick()
     super_boiler.tick()
     super_cooler.tick()
     configurable_super_boiler.tick()
@@ -404,7 +404,7 @@ end
 
 -- Returns whether the given entity is a member of the Void Chest Family (i.e. Void Requester Chest or Void Storage Chest).
 local function is_entity_void_chest_family(entity)
-    -- Void logistic/storage/regular chest are not longer in this list as they don't need any scripting.
+    -- Void logistic/storage/regular chest are no longer in this list as they don't need any scripting.
     -- Void cargo wagon.
     if entity.name == creative_mode_defines.names.entities.void_cargo_wagon then
         return true

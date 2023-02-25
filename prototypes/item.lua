@@ -244,18 +244,6 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.fluids,
 			order = "b",
-			place_result = creative_mode_defines.names.entities.fluid_void,
-			stack_size = 50
-		},
-		{
-			-- New Fluid void
-			type = "item",
-			name = creative_mode_defines.names.items.new_fluid_void,
-			icon_size = data.raw["item"]["infinity-pipe"].icon_size,
-			icons = data.raw["item"]["infinity-pipe"].icons,
-			flags = {flags_quickbar},
-			subgroup = creative_mode_defines.names.item_subgroups.fluids,
-			order = "b",
 			place_result = creative_mode_defines.names.entities.new_fluid_void,
 			stack_size = 50
 		},
