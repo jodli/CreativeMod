@@ -17,7 +17,7 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/creative-chest.png",
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "a1",
+			order = "a3",
 			place_result = creative_mode_defines.names.entities.new_creative_chest,
 			stack_size = 50
 		},
@@ -43,6 +43,42 @@ data:extend(
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "c",
 			place_result = creative_mode_defines.names.entities.new_autofill_requester_chest,
+			stack_size = 50
+		},
+		{
+			-- Infinity Requester Chest
+			type = "item",
+			name = creative_mode_defines.names.items.inf_requester_chest,
+			icons= {
+                {
+                    icon = "__base__/graphics/icons/infinity-chest.png",
+                    icon_mipmaps = 4,
+                    icon_size = 64,
+                    tint = {a=1,b=.9}
+                }
+            },
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a1",
+			place_result = creative_mode_defines.names.entities.inf_requester_chest,
+			stack_size = 50
+		},
+		{
+			-- Infinity Provider Chest
+			type = "item",
+			name = creative_mode_defines.names.items.inf_provider_chest,
+			icons= {
+                {
+                    icon = "__base__/graphics/icons/infinity-chest.png",
+                    icon_mipmaps = 4,
+                    icon_size = 64,
+                    tint = {a=1,r=0.7}
+                }
+            },
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a2",
+			place_result = creative_mode_defines.names.entities.inf_provider_chest,
 			stack_size = 50
 		},
 		{
@@ -115,6 +151,18 @@ data:extend(
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "i",
 			place_result = creative_mode_defines.names.entities.super_loader,
+			stack_size = 50
+		},
+		{
+			-- Super loader 2
+			type = "item",
+			name = creative_mode_defines.names.items.super_loader2,
+			icon_size = 32,
+			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "i",
+			place_result = creative_mode_defines.names.entities.super_loader2,
 			stack_size = 50
 		},
 		-----------------------------------------------------------------------------

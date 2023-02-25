@@ -334,7 +334,7 @@ function creative_chest_util.set_chest_filter(data)
                 end
             end
         else
-            table.remove(chest_data_groups[next_update_group], next_update_group_subindex)
+            -- This shouldn't happen anymore as this only fires when the chest is placed or the GUI is changed, neither of which should be able to happen on a chest that isn't valid.
         end
     end
 end

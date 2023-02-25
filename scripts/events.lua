@@ -138,18 +138,9 @@ function events.on_configuration_changed(data)
                         creative_mode_defines.names.entities.heat_source,
                         creative_mode_defines.names.entities.heat_void,
                         creative_mode_defines.names.entities.creative_chest,
-                        creative_mode_defines.names.entities.creative_provider_chest,
-                        --creative_mode_defines.names.entities.duplicating_chest,
-                        --creative_mode_defines.names.entities.duplicating_provider_chest,
-                        --creative_mode_defines.names.entities.autofill_requester_chest
+                        creative_mode_defines.names.entities.creative_provider_chest
                         }}) do
-                        if entity.name == creative_mode_defines.names.entities.duplicating_chest then
-                            
-                        elseif entity.name == creative_mode_defines.names.entities.duplicating_provider_chest then
-                            
-                        elseif entity.name == creative_mode_defines.names.entities.autofill_requester_chest then
-                        
-                        elseif entity.name == creative_mode_defines.names.entities.creative_chest then
+                        if entity.name == creative_mode_defines.names.entities.creative_chest then
                             -- We need to replace all the old creative chests with the new one
                             if entity.valid then
                                 -- First we need to find the data for this chest
@@ -183,7 +174,7 @@ function events.on_configuration_changed(data)
                                 entity.destroy() -- Destroy the old chest - it's useless.
                             end
                         elseif entity.name == creative_mode_defines.names.entities.creative_provider_chest then
-                            -- We need to replace all the old creative chests with the new one
+                            -- We need to replace all the old creative provider chests with the new one
                             if entity.valid then
                                 -- First we need to find the data for this chest
                                 local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, global.creative_mode.creative_provider_chest_data_groups)

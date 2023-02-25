@@ -180,62 +180,116 @@ end
 
 -- Generates data for infinity container according to the given data.
 local function infcontainer(entity_name, item_name, icon_name, picture_name, additional_pastable_entities, inventory_size, logistic_mode)
-    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create(universal_connector_template,
-                                                     {def_CC_table({0.1875, 0.15625}, nil, 18)})
+    local newchest = table.deepcopy(data.raw["infinity-container"]["infinity-chest"])
+    newchest.type = "infinity-container"
+    newchest.name = entity_name
+    newchest.icon_size = 32
+    newchest.icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
+        mining_time = 0.5,
+        result = item_name
+    }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "none"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    newchest.inventory_size = inventory_size
+    newchest.erase_contents_when_mined = true
+    newchest.logistic_mode = logistic_mode
+    newchest.max_logistic_slots = (logistic_mode == "storage" and 1) or 12
+    newchest.picture = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. picture_name,
+        priority = "extra-high",
+        width = 38,
+        height = 32,
+        shift = {0, 0}
+    }
+    newchest.circuit_wire_max_distance = 1000
+    newchest.localised_name = nil
+    newchest.localised_description = nil
+    return newchest
+end
 
-    return {
-        type = "infinity-container",
-        name = entity_name,
-        icon_size = 32,
-        icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name,
-        flags = {"placeable-player", "player-creation"},
-        minable = {
+-- Generates data for infinity container according to the given data.
+local function infchest(entity_name, item_name, tint, additional_pastable_entities, inventory_size, logistic_mode)
+    local newchest = table.deepcopy(data.raw["infinity-container"]["infinity-chest"])
+    newchest.type = "infinity-container"
+    newchest.name = entity_name
+    newchest.icons= {
+        {
+            icon = "__base__/graphics/icons/infinity-chest.png",
+            icon_mipmaps = 4,
+            icon_size = 64,
+            tint = tint
+        }
+    }
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
             mining_time = 0.5,
             result = item_name
-        },
-        max_health = 150,
-        corpse = "small-remnants",
-        fast_replaceable_group = "container",
-        additional_pastable_entities = additional_pastable_entities,
-        collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
-        selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-        vehicle_impact_sound = {
-            filename = "__base__/sound/car-metal-impact.ogg",
-            volume = 0.65
-        },
-        inventory_size = inventory_size,
-        erase_contents_when_mined = true,
-        gui_mode = "none",
-        logistic_mode = logistic_mode,
-        max_logistic_slots = (logistic_mode == "storage" and 1) or 12,
-        open_sound = {
-            filename = "__base__/sound/metallic-chest-open.ogg",
-            volume = 0.65
-        },
-        close_sound = {
-            filename = "__base__/sound/metallic-chest-close.ogg",
-            volume = 0.7
-        },
-        picture = {
-            filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. picture_name,
-            priority = "extra-high",
-            width = 38,
-            height = 32,
-            shift = {0, 0}
-        },
-        circuit_wire_connection_point = {
-            shadow = {
-                red = {0.734375, 0.453125},
-                green = {0.609375, 0.515625}
-            },
-            wire = {
-                red = {0.40625, 0.21875},
-                green = {0.40625, 0.375}
-            }
-        },
-        circuit_wire_max_distance = 1000,
-        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites
     }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "admins"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    newchest.inventory_size = inventory_size
+    newchest.erase_contents_when_mined = true
+    newchest.logistic_mode = logistic_mode
+    newchest.max_logistic_slots = (logistic_mode == "storage" and 1) or 12
+    newchest.picture = {
+        layers = {
+            {
+                filename = "__base__/graphics/entity/infinity-chest/infinity-chest.png",
+                height = 42,
+                hr_version = {
+                  filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest.png",
+                  height = 84,
+                  priority = "extra-high",
+                  scale = 0.5,
+                  shift = {
+                    0,
+                    -0.09375
+                  },
+                  tint = tint,
+                  width = 68
+                },
+                priority = "extra-high",
+                shift = {
+                  0,
+                  -0.09375
+                },
+                tint = tint,
+                width = 34
+            },
+            {
+                draw_as_shadow = true,
+                filename = "__base__/graphics/entity/infinity-chest/infinity-chest-shadow.png",
+                height = 24,
+                hr_version = {
+                  draw_as_shadow = true,
+                  filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest-shadow.png",
+                  height = 48,
+                  priority = "extra-high",
+                  scale = 0.5,
+                  shift = {
+                    0.375,
+                    0.1875
+                  },
+                  width = 116
+                },
+                priority = "extra-high",
+                shift = {
+                  0.375,
+                  0.1875
+                },
+                width = 58
+            }
+        }
+    }
+    newchest.circuit_wire_max_distance = 1000
+    
+    return newchest
 end
 
 -- Generates data for logistic container according to the given data.
@@ -1004,9 +1058,17 @@ circuit_connector_definitions[creative_mode_defines.names.entities.passive_energ
     circuit_connector_definitions.create(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
-data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description.infinity-chest"}
-
 data:extend({
+-- Infinity Requester Chest
+             infchest(creative_mode_defines.names.entities.inf_requester_chest,
+    creative_mode_defines.names.items.inf_requester_chest, {a=1,b=.9},
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "requester"),
+-- Infinity Provider Chest
+             infchest(creative_mode_defines.names.entities.inf_provider_chest,
+    creative_mode_defines.names.items.inf_provider_chest, {a=1,r=0.7},
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
 -- Creative Chest
              container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
@@ -1100,6 +1162,71 @@ data:extend({
                 priority = "extra-high",
                 width = 64,
                 height = 64,
+                y = 64
+            }
+        }
+    },
+    ending_patch = ending_patch_prototype
+}, 
+-- Super loader 2
+    {
+    type = "loader-1x1",
+    name = creative_mode_defines.names.entities.super_loader2,
+    icon_size = 32,
+    icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
+    flags = {"placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"},
+    minable = {
+        mining_time = 0.5,
+        result = creative_mode_defines.names.items.super_loader2
+    },
+    max_health = 70,
+    filter_count = 5,
+    corpse = "small-remnants",
+    container_distance = 1,
+    resistances = {{
+        type = "fire",
+        percent = 60
+    }},
+    collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
+    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+    animation_speed_coefficient = 32,
+    belt_animation_set = {
+        animation_set = {
+            direction_count = 20,
+            filename = "__base__/graphics/entity/transport-belt/transport-belt.png",
+            frame_count = 16,
+            height = 64,
+            hr_version = {
+                direction_count = 20,
+                filename = "__base__/graphics/entity/transport-belt/hr-transport-belt.png",
+                frame_count = 16,
+                height = 128,
+                priority = "extra-high",
+                scale = 0.5,
+                width = 128
+            },
+            priority = "extra-high",
+            width = 64
+        }
+    },
+    speed = 1,
+    structure = {
+        direction_in = {
+            sheet = {
+                filename = creative_mode_defines.mod_directory .. "/graphics/entity/super-loader-structure-1.png",
+                priority = "extra-high",
+                width = 64,
+                height = 64,
+                scale = 0.5
+            }
+        },
+        direction_out = {
+            sheet = {
+                filename = creative_mode_defines.mod_directory .. "/graphics/entity/super-loader-structure-1.png",
+                priority = "extra-high",
+                width = 64,
+                height = 64,
+                scale = 0.5,
                 y = 64
             }
         }
@@ -2453,19 +2580,19 @@ data:extend({
     a = 0.4
 }), 
 -- Super radar
-radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
+            radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
     "super-radar.png", "super-radar.png", 14),
 -- Super radar MK2
-             radar(creative_mode_defines.names.entities.super_radar_2, creative_mode_defines.names.items.super_radar_2,
+            radar(creative_mode_defines.names.entities.super_radar_2, creative_mode_defines.names.items.super_radar_2,
     "super-radar-2.png", "super-radar-2.png", 50),
 -- Alien attractor proxy - small
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_small, 0.1),
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_small, 0.1),
 -- Alien attractor proxy - medium
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_medium, 0.25),
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_medium, 0.25),
 -- Alien attractor proxy - large
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), 
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), 
 -- Super Beacon             
-             {
+{
     type = "beacon",
     name = creative_mode_defines.names.entities.super_beacon,
     icon_size = 32,
@@ -2527,3 +2654,7 @@ radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.na
 }
 
 })
+
+
+-- Vanilla infinity chest already exists but has no description, so we add one.
+data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description.infinity-chest"}
