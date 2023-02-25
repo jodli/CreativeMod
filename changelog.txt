@@ -1,13 +1,16 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.8.1
 Date: 2023-02-22
+  Features:
+    - Added a version of the Loader1x1 - same speed/usage as the other loader, but 1x1 in size, enabling smaller builds.
+    - Added a recipe for the vanilla infinity chest, as well as requester and provider variants. Setting the infinity filters will cause them to always maintain supplies of at most/at least/exactly the amount set, and a checkbox will void any contents that aren't in the infinity filters. Since they are vanilla entities, they'll be handled in engine rather than via LUA. They serve as excellent replacements to the duplicator chest and duplicator provider chest.
+        - Many of the chests were converted to use this prototype internally to drastically reduce UPS costs - details are below.
   Changes:
-    - Added a recipe for the vanilla infinity chest. It's use can replace creative chests, duplicating chests, and void chests with proper configuration and much lower UPS costs, as they'll be handled in engine rather than via LUA.
     - Removed belt immunity equipment. This is a vanilla item now, no need for a recipe. We don't have one for all the other regular items.
     - Removed fluid-unknown from fluid source recipes. It's not a real fluid and there's no need for it.
   Bugfixes:
     - Added script_raised_built and script_raised_destroy event handlers for creative mod items.
-    - Updated the description for Heat Void to clarify it's always 0C, not room temp.
+    - Updated the English description for Heat Void to clarify it's always 0C, not room temp.
   Optimizations:
     - Removed all scripting for fluid-source, fluid-void, super-radar, super-beacon, super-roboport, energy-void, energy-source, passive-energy-void, passive-energy-source. They no longer require it. See details below.
     - Changed all creative entities requiring power to use a void energy source, rather than a burner source. Scripting is no longer required to keep these entities powered, and they're less apt to break if moved via script.
@@ -22,7 +25,7 @@ Date: 2023-02-22
             - The inventory display mode also doesn't do anything for them, since infinity chests sort their contents. Technically it DOES have a slight change in how the filters are set, but as those are only viewable in the editor this isn't particularly useful.
     - Changed Fluid Void to use the vanilla infinity pipe.
         - Old fluid voids will NOT be automatically swapped to the new one - due to changing to a pipe, new fluid voids will connect in all four directions, which may cause issues with previous builds. They will remain scripted and thus use significantly more UPS until replaced. Any newly built fluid voids will be the new style and not use scripting.
-        - These are now a purple tinted pipe instead of the old graphics, due to the prototype change and need to connect in all four directions.
+        - These are now a purple tinted pipe instead of the old graphics, due to the prototype change and requirement to connect in all four directions.
     - Energy void no longer produces an item. Removed scripting related to the item.
         - The scripting to remove it's energy was also removed as it did nothing - it'll always run constantly and drain power as long as there is a supply.
     - Active and Passive Energy Sources and Passive Energy Void are now electric interfaces and require no LUA scripting to function.

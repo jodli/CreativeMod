@@ -9,13 +9,33 @@ data:extend(
 			enabled = false
 		},
         {
-			-- New Creative chest, just makes the vanilla infinity chest.
+			-- Vanilla infinity chest.
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.new_creative_chest,
 			ingredients = {},
 			result = "infinity-chest",
 			enabled = false,
             order = "a",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
+        {
+			-- Infinity Requester Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.inf_requester_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.recipes.inf_requester_chest,
+			enabled = false,
+            order = "a1",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
+        {
+			-- Infinity Provider Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.inf_provider_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.recipes.inf_provider_chest,
+			enabled = false,
+            order = "a2",
             subgroup = creative_mode_defines.names.item_subgroups.items
 		},
 		{
@@ -80,6 +100,14 @@ data:extend(
 			name = creative_mode_defines.names.recipes.super_loader,
 			ingredients = {},
 			result = creative_mode_defines.names.items.super_loader,
+			enabled = false
+		},
+		{
+			-- Super loader2
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.super_loader2,
+			ingredients = {},
+			result = creative_mode_defines.names.items.super_loader2,
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
