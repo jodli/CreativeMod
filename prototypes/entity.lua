@@ -1742,7 +1742,7 @@ data:extend({
     },
     allowed_effects = {"pollution"}
 }, 
--- Fluid void
+-- Fluid void - old version, uses scripting
 {
     type = "storage-tank",
     name = creative_mode_defines.names.entities.fluid_void,
@@ -1753,6 +1753,8 @@ data:extend({
         mining_time = 0.5,
         result = creative_mode_defines.names.items.fluid_void
     },
+    placeable_by = {item = creative_mode_defines.names.items.fluid_void,
+                    count = 1},
     max_health = 150,
     corpse = "small-remnants",
     resistances = {{
@@ -1853,7 +1855,7 @@ data:extend({
     flags = {"placeable-player", "player-creation"},
     minable = {
         mining_time = 0.5,
-        result = creative_mode_defines.names.items.new_fluid_void
+        result = creative_mode_defines.names.items.fluid_void
     },
     max_health = 150,
     corpse = "small-remnants",
@@ -1903,8 +1905,8 @@ data:extend({
     horizontal_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].horizontal_window_bounding_box,
     vertical_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].vertical_window_bounding_box,
     flow_length_in_ticks = 10000,
-    --localised_name = {"entity-name." .. creative_mode_defines.names.entities.fluid_void},
-    --localised_description = {"entity-description." .. creative_mode_defines.names.entities.fluid_void},
+    localised_name = {"entity-name." .. creative_mode_defines.names.entities.fluid_void},
+    localised_description = {"entity-description." .. creative_mode_defines.names.entities.fluid_void},
     gui_mode = "none"
 }, 
 -- Super boiler
@@ -2184,6 +2186,8 @@ data:extend({
     },
     crafting_categories = {creative_mode_defines.names.recipe_categories.energy_absorption},
     fixed_recipe = creative_mode_defines.names.recipes.energy_absorption,
+    show_recipe_icon = false,
+    show_recipe_icon_on_map = false,
     crafting_speed = 0.01,
     energy_source = {
         type = "electric",
@@ -2247,6 +2251,8 @@ data:extend({
     },
     crafting_categories = {creative_mode_defines.names.recipe_categories.energy_absorption},
     fixed_recipe = creative_mode_defines.names.recipes.energy_absorption,
+    show_recipe_icon = false,
+    show_recipe_icon_on_map = false,
     crafting_speed = 0.01,
     energy_source = {
         type = "electric",
