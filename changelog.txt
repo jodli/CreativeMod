@@ -20,6 +20,9 @@ Date: 2023-02-22
         - creative-chest and creative-provider-chest have two minor regressions: 
             - Copy/paste no longer works since the base game considers them non-operable. As it appears this only set the group number, and not the filters, this is fairly minor.
             - The inventory display mode also doesn't do anything for them, since infinity chests sort their contents. Technically it DOES have a slight change in how the filters are set, but as those are only viewable in the editor this isn't particularly useful.
+    - Changed Fluid Void to use the vanilla infinity pipe.
+        - Old fluid voids will NOT be automatically swapped to the new one - due to changing to a pipe, new fluid voids will connect in all four directions, which may cause issues with previous builds. They will remain scripted and thus use significantly more UPS until replaced. Any newly built fluid voids will be the new style and not use scripting.
+        - These are now a purple tinted pipe instead of the old graphics, due to the prototype change and need to connect in all four directions.
     - Energy void no longer produces an item. Removed scripting related to the item.
         - The scripting to remove it's energy was also removed as it did nothing - it'll always run constantly and drain power as long as there is a supply.
     - Active and Passive Energy Sources and Passive Energy Void are now electric interfaces and require no LUA scripting to function.
