@@ -351,6 +351,53 @@ local function logistic_container(entity_name, item_name, icon_name, picture_nam
     }
 end
 
+-- Makes a new linked chest
+local function linkedchest(entity_name, item_name, inventory_size)
+    --We make minimal changes to this, we just want it to be our own entity in case anything messes with the vanilla one.
+    local newchest = table.deepcopy(data.raw["linked-container"]["linked-chest"])
+    newchest.type = "linked-container"
+    newchest.name = entity_name
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
+            mining_time = 0.5,
+            result = item_name
+    }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "admins"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    if inventory_size then
+        newchest.inventory_size = inventory_size
+    end
+    newchest.erase_contents_when_mined = true
+    newchest.circuit_wire_max_distance = 1000
+    newchest.localised_name = {"entity-name.linked-chest"}
+    return newchest
+end
+
+-- Makes a new linked belt
+local function linkedbelt(entity_name, item_name)
+    local newbelt = table.deepcopy(data.raw["linked-belt"]["linked-belt"])
+    newbelt.type = "linked-belt"
+    newbelt.name = entity_name
+    newbelt.flags = {"placeable-player", "player-creation"}
+    newbelt.minable = {
+            mining_time = 0.5,
+            result = item_name
+    }
+    newbelt.max_health = 150
+    newbelt.fast_replaceable_group = "container"
+    newbelt.gui_mode = "admins"
+    newbelt.additional_pastable_entities = additional_pastable_entities
+    newbelt.circuit_wire_max_distance = 1000
+    newbelt.localised_name = {"entity-name.linked-belt"}
+    newbelt.allow_copy_paste = true
+    newbelt.additional_pastable_entities = {entity_name}
+    newbelt.speed = 1
+    
+    return newbelt
+end
+
 -- Generates data for cargo wagon according to the given data.
 local function cargo_wagon(entity_name, item_name, tint, additional_pastable_entities, inventory_size)
     return {
@@ -1233,6 +1280,10 @@ data:extend({
     },
     ending_patch = ending_patch_prototype
 }, 
+-- Linked Chest
+             linkedchest(creative_mode_defines.names.entities.linked_chest, creative_mode_defines.names.items.linked_chest),
+-- Linked Belt
+             linkedbelt(creative_mode_defines.names.entities.linked_belt, creative_mode_defines.names.items.linked_belt),
 -- Creative Cargo Wagon
              cargo_wagon(creative_mode_defines.names.entities.creative_cargo_wagon,
     creative_mode_defines.names.items.creative_cargo_wagon, {

@@ -2,9 +2,11 @@
 Version: 1.8.1
 Date: 2023-02-22
   Features:
-    - Added a version of the Loader1x1 - same speed/usage as the other loader, but 1x1 in size, enabling smaller builds.
     - Added a recipe for the vanilla infinity chest, as well as requester and provider variants. Setting the infinity filters will cause them to always maintain supplies of at most/at least/exactly the amount set, and a checkbox will void any contents that aren't in the infinity filters. Since they are vanilla entities, they'll be handled in engine rather than via LUA. They serve as excellent replacements to the duplicator chest and duplicator provider chest.
         - Many of the chests were converted to use this prototype internally to drastically reduce UPS costs - details are below.
+    - Added a version of the Loader1x1 - same speed/usage as the other loader, but 1x1 in size, enabling smaller builds.
+    - Added a version of the linked chest. Any two chests that are set to the same id, via the checkboxes seen when opening them, will share the inventory contents.
+    - Added a version of linked belts. Copying the settings of one and pasting it to another will set them as an input/output pair. Speed is the same as the loaders to maintain throughput.
   Changes:
     - Removed belt immunity equipment. This is a vanilla item now, no need for a recipe. We don't have one for all the other regular items.
     - Removed fluid-unknown from fluid source recipes. It's not a real fluid and there's no need for it.
