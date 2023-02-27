@@ -161,8 +161,32 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "i",
+			order = "i1",
 			place_result = creative_mode_defines.names.entities.super_loader2,
+			stack_size = 50
+		},
+		{
+			-- Linked Chest
+			type = "item",
+			name = creative_mode_defines.names.items.linked_chest,
+			icon_size = data.raw.item["linked-chest"].icon_size,
+			icon = data.raw.item["linked-chest"].icon,
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a5",
+			place_result = creative_mode_defines.names.entities.linked_chest,
+			stack_size = 50
+		},
+		{
+			-- Linked Belt
+			type = "item",
+			name = creative_mode_defines.names.items.linked_belt,
+			icon_size = data.raw.item["linked-belt"].icon_size,
+			icon = data.raw.item["linked-belt"].icon,
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "i2",
+			place_result = creative_mode_defines.names.entities.linked_belt,
 			stack_size = 50
 		},
 		-----------------------------------------------------------------------------

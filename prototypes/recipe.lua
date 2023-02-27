@@ -110,6 +110,22 @@ data:extend(
 			result = creative_mode_defines.names.items.super_loader2,
 			enabled = false
 		},
+		{
+			-- Linked Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.linked_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.items.linked_chest,
+			enabled = false
+		},
+		{
+			-- Linked Belt
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.linked_belt,
+			ingredients = {},
+			result = creative_mode_defines.names.items.linked_belt,
+			enabled = false
+		},
 		-----------------------------------------------------------------------------
 
 		{

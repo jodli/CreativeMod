@@ -509,6 +509,19 @@ local function on_entity_settings_pasted(event)
         item_void.on_entity_copied_pasted(event.source, event.destination)
         return
     end
+    
+    if event.source.name == creative_mode_defines.names.entities.linked_belt and
+        event.destination.name == creative_mode_defines.names.entities.linked_belt then
+        -- Remove their previous links, if any.
+        event.source.disconnect_linked_belts()
+        event.destination.disconnect_linked_belts()
+        -- Setup these belts as input and output, respectively.
+        event.source.linked_belt_type = "input"
+        event.destination.linked_belt_type = "output"
+        -- then connect them to each other. This overrides any previous settings.
+        event.source.connect_linked_belts(event.destination)
+        return
+    end
 end
 
 -- Callback of the on_player_created event, which is invoked after a player is created.
