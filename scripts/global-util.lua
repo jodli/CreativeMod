@@ -72,6 +72,9 @@ function global_util.initialize_or_update_global()
     if not global.creative_mode.void_cargo_wagon_next_update_index then
         global.creative_mode.void_cargo_wagon_next_update_index = 1
     end
+    if not global.creative_mode.fluid_void then
+        global.creative_mode.fluid_void = {}
+    end
     if not global.creative_mode.super_boiler then
         global.creative_mode.super_boiler = {}
     end
