@@ -253,7 +253,7 @@ local function add_creative_chest_group_number_and_update_gui(creative_chest_ent
 				group_number,
 				index_in_group,
 				new_group_number,
-                creative_chest_entity
+				creative_chest_entity
 			)
 		 then
 			-- Update the GUI for all players who are checking the entity.

@@ -391,10 +391,6 @@ function creative_chest_util.on_entity_copied_pasted(source_chest, destination_c
 
 	local source_chest_data, source_group_number =
 		creative_chest_util.get_creative_chest_data_group_number(source_chest, source_groups)
-    log(source_groups)
-    log(destination_groups)
-    log(source_chest_data)
-    log(source_group_number)
 	if source_chest_data == nil or source_group_number == 0 then
 		return
 	end
