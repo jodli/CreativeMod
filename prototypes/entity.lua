@@ -178,6 +178,120 @@ local function container(entity_name, item_name, icon_name, picture_name, additi
     }
 end
 
+-- Generates data for infinity container according to the given data.
+local function infcontainer(entity_name, item_name, icon_name, picture_name, additional_pastable_entities, inventory_size, logistic_mode)
+    local newchest = table.deepcopy(data.raw["infinity-container"]["infinity-chest"])
+    newchest.type = "infinity-container"
+    newchest.name = entity_name
+    newchest.icon_size = 32
+    newchest.icon = creative_mode_defines.mod_directory .. "/graphics/icons/" .. icon_name
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
+        mining_time = 0.5,
+        result = item_name
+    }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "none"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    newchest.inventory_size = inventory_size
+    newchest.erase_contents_when_mined = true
+    newchest.logistic_mode = logistic_mode
+    newchest.max_logistic_slots = (logistic_mode == "storage" and 1) or 12
+    newchest.picture = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. picture_name,
+        priority = "extra-high",
+        width = 38,
+        height = 32,
+        shift = {0, 0}
+    }
+    newchest.circuit_wire_max_distance = 1000
+    newchest.localised_name = nil
+    newchest.localised_description = nil
+    return newchest
+end
+
+-- Generates data for infinity container according to the given data.
+local function infchest(entity_name, item_name, tint, additional_pastable_entities, inventory_size, logistic_mode)
+    local newchest = table.deepcopy(data.raw["infinity-container"]["infinity-chest"])
+    newchest.type = "infinity-container"
+    newchest.name = entity_name
+    newchest.icons= {
+        {
+            icon = "__base__/graphics/icons/infinity-chest.png",
+            icon_mipmaps = 4,
+            icon_size = 64,
+            tint = tint
+        }
+    }
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
+            mining_time = 0.5,
+            result = item_name
+    }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "admins"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    newchest.inventory_size = inventory_size
+    newchest.erase_contents_when_mined = true
+    newchest.logistic_mode = logistic_mode
+    newchest.max_logistic_slots = (logistic_mode == "storage" and 1) or 12
+    newchest.picture = {
+        layers = {
+            {
+                filename = "__base__/graphics/entity/infinity-chest/infinity-chest.png",
+                height = 42,
+                hr_version = {
+                  filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest.png",
+                  height = 84,
+                  priority = "extra-high",
+                  scale = 0.5,
+                  shift = {
+                    0,
+                    -0.09375
+                  },
+                  tint = tint,
+                  width = 68
+                },
+                priority = "extra-high",
+                shift = {
+                  0,
+                  -0.09375
+                },
+                tint = tint,
+                width = 34
+            },
+            {
+                draw_as_shadow = true,
+                filename = "__base__/graphics/entity/infinity-chest/infinity-chest-shadow.png",
+                height = 24,
+                hr_version = {
+                  draw_as_shadow = true,
+                  filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest-shadow.png",
+                  height = 48,
+                  priority = "extra-high",
+                  scale = 0.5,
+                  shift = {
+                    0.375,
+                    0.1875
+                  },
+                  width = 116
+                },
+                priority = "extra-high",
+                shift = {
+                  0.375,
+                  0.1875
+                },
+                width = 58
+            }
+        }
+    }
+    newchest.circuit_wire_max_distance = 1000
+    
+    return newchest
+end
+
 -- Generates data for logistic container according to the given data.
 local function logistic_container(entity_name, item_name, icon_name, picture_name, additional_pastable_entities,
     inventory_size, logistic_mode)
@@ -237,12 +351,59 @@ local function logistic_container(entity_name, item_name, icon_name, picture_nam
     }
 end
 
+-- Makes a new linked chest
+local function linkedchest(entity_name, item_name, inventory_size)
+    --We make minimal changes to this, we just want it to be our own entity in case anything messes with the vanilla one.
+    local newchest = table.deepcopy(data.raw["linked-container"]["linked-chest"])
+    newchest.type = "linked-container"
+    newchest.name = entity_name
+    newchest.flags = {"placeable-player", "player-creation"}
+    newchest.minable = {
+            mining_time = 0.5,
+            result = item_name
+    }
+    newchest.max_health = 150
+    newchest.fast_replaceable_group = "container"
+    newchest.gui_mode = "admins"
+    newchest.additional_pastable_entities = additional_pastable_entities
+    if inventory_size then
+        newchest.inventory_size = inventory_size
+    end
+    newchest.erase_contents_when_mined = true
+    newchest.circuit_wire_max_distance = 1000
+    newchest.localised_name = {"entity-name.linked-chest"}
+    return newchest
+end
+
+-- Makes a new linked belt
+local function linkedbelt(entity_name, item_name)
+    local newbelt = table.deepcopy(data.raw["linked-belt"]["linked-belt"])
+    newbelt.type = "linked-belt"
+    newbelt.name = entity_name
+    newbelt.flags = {"placeable-player", "player-creation"}
+    newbelt.minable = {
+            mining_time = 0.5,
+            result = item_name
+    }
+    newbelt.max_health = 150
+    newbelt.fast_replaceable_group = "container"
+    newbelt.gui_mode = "admins"
+    newbelt.additional_pastable_entities = additional_pastable_entities
+    newbelt.circuit_wire_max_distance = 1000
+    newbelt.localised_name = {"entity-name.linked-belt"}
+    newbelt.allow_copy_paste = true
+    newbelt.additional_pastable_entities = {entity_name}
+    newbelt.speed = 1
+    
+    return newbelt
+end
+
 -- Generates data for cargo wagon according to the given data.
 local function cargo_wagon(entity_name, item_name, tint, additional_pastable_entities, inventory_size)
     return {
         type = "cargo-wagon",
         name = entity_name,
-        icon_size = 32,
+        icon_size = 64,
         icons = {{
             icon = "__base__/graphics/icons/cargo-wagon.png",
             tint = tint
@@ -593,9 +754,9 @@ end
 
 -- Generates data for heat pipe according to the given data.
 local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_temperature)
-    local heat_pipe = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"])
+    local heat_pipe = table.deepcopy(data.raw["heat-interface"]["heat-interface"])
     heat_pipe.name = entity_name
-    heat_pipe.icon_size = 32
+    heat_pipe.icon_size = 64
     heat_pipe.icons = {{
         icon = heat_pipe.icon,
         tint = tint
@@ -607,33 +768,24 @@ local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_
         result = item_name
     }
     heat_pipe.heat_buffer.max_temperature = max_temperature
-    for _, pictures in pairs(heat_pipe.connection_sprites) do
-        for _, picture in ipairs(pictures) do
-            -- Replace the normal heat pipe pictures by the hidden heated pictures?
-            if use_heated_pictures then
-                local filename = picture.filename
-                -- There is no image for heated single pipe.
-                if not filename:find("heat%-pipe%-straight%-horizontal%-single.png") and
-                    not filename:find("heat%-pipe%-straight%-vertical%-single.png") then
-                    picture.filename = filename:gsub("heat%-pipe%-", "heated-")
-                end
-            end
-            picture.tint = table.deepcopy(tint) -- Deep copy is needed or else it is nullified.
-            local hr_version = picture.hr_version
-            if hr_version then
-                if use_heated_pictures then
-                    filename = hr_version.filename
-                    if not filename:find("hr%-heat%-pipe%-straight%-horizontal%-single.png") and
-                        not filename:find("hr%-heat%-pipe%-straight%-vertical%-single.png") then
-                        hr_version.filename = filename:gsub("hr%-heat%-pipe%-", "hr-heated-")
-                    end
-                end
-                hr_version.tint = table.deepcopy(tint)
-            end
+    heat_pipe.picture = {layers={}} -- We want a picture with an empty layers so we can add the pipe graphics instead of the bland heat interface one.
+    if use_heated_pictures then -- This is a heat source, use the hot pipe pictures.
+        heat_pipe.picture = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].heat_glow_sprites.cross[1])
+        for _, layer in ipairs(heat_pipe.picture.layers) do
+            layer.tint = table.deepcopy(tint)
+            layer.hr_version.tint = table.deepcopy(tint)
         end
     end
+    -- Always use the basic four way picture - tint it and insert it into the layers
+    regpipe = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].connection_sprites.cross[1])
+    regpipe.tint = table.deepcopy(tint)
+    regpipe.hr_version.tint = table.deepcopy(tint)
+    table.insert(heat_pipe.picture.layers, regpipe)
+    --log(serpent.block(heat_pipe.picture))
     heat_pipe.fast_replaceable_group = heat_pipe.fast_replaceable_group or
                                            creative_mode_defines.names.fast_replaceable_groups.heat_source_void
+    heat_pipe.gui_mode = "none"
+    heat_pipe.type = "heat-interface"
     return heat_pipe
 end
 
@@ -737,7 +889,8 @@ local function void_lab()
     local lab = table.deepcopy(data.raw["lab"]["lab"])
     lab.name = creative_mode_defines.names.entities.void_lab
     lab.icons = {{
-        icon = "__base__/graphics/entity/lab/lab.png",
+        icon = "__base__/graphics/icons/lab.png",
+        icon_size = 64,
         tint = {
             r = 50,
             g = 50,
@@ -879,11 +1032,7 @@ local function radar(entity_name, item_name, icon_name, pictures_name, scan_dist
         max_distance_of_sector_revealed = scan_distance, -- Scan area
         max_distance_of_nearby_sector_revealed = scan_distance, -- Always revealed area
         energy_per_nearby_scan = "1kJ",
-        -- energy_source = creative_mode_defines.non_electric_energy_source, -- Burner energy won't work on radar, regardless of fuel_inventory_size.
-        energy_source = {
-            type = "electric",
-            usage_priority = "tertiary"
-        },
+        energy_source = creative_mode_defines.non_electric_energy_source,
         energy_usage = "1kW",
         pictures = {
             filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. pictures_name,
@@ -956,7 +1105,19 @@ circuit_connector_definitions[creative_mode_defines.names.entities.passive_energ
     circuit_connector_definitions.create(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
-data:extend({container(creative_mode_defines.names.entities.creative_chest,
+data:extend({
+-- Infinity Requester Chest
+             infchest(creative_mode_defines.names.entities.inf_requester_chest,
+    creative_mode_defines.names.items.inf_requester_chest, {a=1,b=.9},
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "requester"),
+-- Infinity Provider Chest
+             infchest(creative_mode_defines.names.entities.inf_provider_chest,
+    creative_mode_defines.names.items.inf_provider_chest, {a=1,r=0.7},
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
+-- Creative Chest
+             container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
     {creative_mode_defines.names.entities.creative_provider_chest},
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1),
@@ -967,6 +1128,21 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
 -- Autofill requester chest
              logistic_container(creative_mode_defines.names.entities.autofill_requester_chest,
+    creative_mode_defines.names.items.autofill_requester_chest, "autofill-requester-chest.png",
+    "autofill-requester-chest.png", nil, settings.startup[creative_mode_defines.names.settings
+        .autofill_requester_chest_size].value, "requester"),
+-- New Creative Chest
+             infcontainer(creative_mode_defines.names.entities.new_creative_chest,
+    creative_mode_defines.names.items.creative_chest, "creative-chest.png", "creative-chest.png",
+    {creative_mode_defines.names.entities.creative_provider_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1),
+-- New Creative provider chest
+             infcontainer(creative_mode_defines.names.entities.new_creative_provider_chest,
+    creative_mode_defines.names.items.creative_provider_chest, "creative-provider-chest.png",
+    "creative-provider-chest.png", {creative_mode_defines.names.entities.creative_chest},
+    settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1, "passive-provider"),
+-- New Autofill requester chest
+             infcontainer(creative_mode_defines.names.entities.new_autofill_requester_chest,
     creative_mode_defines.names.items.autofill_requester_chest, "autofill-requester-chest.png",
     "autofill-requester-chest.png", nil, settings.startup[creative_mode_defines.names.settings
         .autofill_requester_chest_size].value, "requester"),
@@ -983,17 +1159,19 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
                                        creative_mode_defines.names.entities.duplicating_cargo_wagon},
     settings.startup[creative_mode_defines.names.settings.duplicating_chest_size].value, "passive-provider"),
 -- Void requester chest
-             logistic_container(creative_mode_defines.names.entities.void_requester_chest,
+             infcontainer(creative_mode_defines.names.entities.void_requester_chest,
     creative_mode_defines.names.items.void_requester_chest, "void-requester-chest.png", "void-requester-chest.png", nil,
     settings.startup[creative_mode_defines.names.settings.void_requester_chest_size].value, "requester"),
 -- Void chest
-             container(creative_mode_defines.names.entities.void_chest, creative_mode_defines.names.items.void_chest,
+             infcontainer(creative_mode_defines.names.entities.void_chest, creative_mode_defines.names.items.void_chest,
     "void-chest.png", "void-chest.png", nil,
     settings.startup[creative_mode_defines.names.settings.void_chest_size].value),
 -- Void storage chest
-             logistic_container(creative_mode_defines.names.entities.void_storage_chest,
+             infcontainer(creative_mode_defines.names.entities.void_storage_chest,
     creative_mode_defines.names.items.void_storage_chest, "void-storage-chest.png", "void-storage-chest.png", nil,
-    settings.startup[creative_mode_defines.names.settings.void_storage_chest_size].value, "storage"), {
+    settings.startup[creative_mode_defines.names.settings.void_storage_chest_size].value, "storage"), 
+-- Super loader
+    {
     type = "loader",
     name = creative_mode_defines.names.entities.super_loader,
     icon_size = 32,
@@ -1036,7 +1214,78 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         }
     },
     ending_patch = ending_patch_prototype
-}, cargo_wagon(creative_mode_defines.names.entities.creative_cargo_wagon,
+}, 
+-- Super loader 2
+    {
+    type = "loader-1x1",
+    name = creative_mode_defines.names.entities.super_loader2,
+    icon_size = 32,
+    icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
+    flags = {"placeable-player", "player-creation", "fast-replaceable-no-build-while-moving"},
+    minable = {
+        mining_time = 0.5,
+        result = creative_mode_defines.names.items.super_loader2
+    },
+    max_health = 70,
+    filter_count = 5,
+    corpse = "small-remnants",
+    container_distance = 1,
+    resistances = {{
+        type = "fire",
+        percent = 60
+    }},
+    collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
+    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+    animation_speed_coefficient = 32,
+    belt_animation_set = {
+        animation_set = {
+            direction_count = 20,
+            filename = "__base__/graphics/entity/transport-belt/transport-belt.png",
+            frame_count = 16,
+            height = 64,
+            hr_version = {
+                direction_count = 20,
+                filename = "__base__/graphics/entity/transport-belt/hr-transport-belt.png",
+                frame_count = 16,
+                height = 128,
+                priority = "extra-high",
+                scale = 0.5,
+                width = 128
+            },
+            priority = "extra-high",
+            width = 64
+        }
+    },
+    speed = 1,
+    structure = {
+        direction_in = {
+            sheet = {
+                filename = creative_mode_defines.mod_directory .. "/graphics/entity/super-loader-structure-1.png",
+                priority = "extra-high",
+                width = 64,
+                height = 64,
+                scale = 0.5
+            }
+        },
+        direction_out = {
+            sheet = {
+                filename = creative_mode_defines.mod_directory .. "/graphics/entity/super-loader-structure-1.png",
+                priority = "extra-high",
+                width = 64,
+                height = 64,
+                scale = 0.5,
+                y = 64
+            }
+        }
+    },
+    ending_patch = ending_patch_prototype
+}, 
+-- Linked Chest
+             linkedchest(creative_mode_defines.names.entities.linked_chest, creative_mode_defines.names.items.linked_chest),
+-- Linked Belt
+             linkedbelt(creative_mode_defines.names.entities.linked_belt, creative_mode_defines.names.items.linked_belt),
+-- Creative Cargo Wagon
+             cargo_wagon(creative_mode_defines.names.entities.creative_cargo_wagon,
     creative_mode_defines.names.items.creative_cargo_wagon, {
         r = 1,
         g = 0.3,
@@ -1058,10 +1307,12 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         r = 0.4,
         g = 0.4,
         b = 0.4
-    }, nil, settings.startup[creative_mode_defines.names.settings.void_cargo_wagon_size].value), {
+    }, nil, settings.startup[creative_mode_defines.names.settings.void_cargo_wagon_size].value), 
+-- Super Logistics Robot    
+    {
     type = "logistic-robot",
     name = creative_mode_defines.names.entities.super_logistic_robot,
-    icon_size = 32,
+    icon_size = 64,
     icons = {{
         icon = "__base__/graphics/icons/logistic-robot.png",
         tint = {
@@ -1200,10 +1451,12 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     },
     working_sound = flying_robot(0.48),
     cargo_centered = {0.0, 0.2}
-}, {
+}, 
+-- Super Construction Robot
+{
     type = "construction-robot",
     name = creative_mode_defines.names.entities.super_construction_robot,
-    icon_size = 32,
+    icon_size = 64,
     icons = {{
         icon = "__base__/graphics/icons/construction-robot.png",
         tint = {
@@ -1423,7 +1676,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     working_sound = construction_robot(0.47),
     cargo_centered = {0.0, 0.2},
     construction_vector = {0.30, 0.22}
-}, {
+}, 
+-- Super Roboport
+{
     type = "roboport",
     name = creative_mode_defines.names.entities.super_roboport,
     icon_size = 32,
@@ -1438,12 +1693,7 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     collision_box = {{-1.7, -1.7}, {1.7, 1.7}},
     selection_box = {{-2, -2}, {2, 2}},
     dying_explosion = "medium-explosion",
-    energy_source = {
-        type = "electric", -- Changing this to burner has no effect.
-        usage_priority = "secondary-input",
-        input_flow_limit = "0MW",
-        buffer_capacity = "100PJ"
-    },
+    energy_source = creative_mode_defines.non_electric_energy_source,
     recharge_minimum = "40MJ",
     energy_usage = "1W",
     -- per one charge slot
@@ -1595,7 +1845,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         type = "virtual",
         name = "signal-T"
     }
-}, {
+}, 
+-- Fluid source
+{
     type = "assembling-machine",
     name = creative_mode_defines.names.entities.fluid_source,
     icon_size = 32,
@@ -1667,7 +1919,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         module_slots = 0
     },
     allowed_effects = {"pollution"}
-}, {
+}, 
+-- Fluid void - old version, uses scripting
+{
     type = "storage-tank",
     name = creative_mode_defines.names.entities.fluid_void,
     icon_size = 32,
@@ -1677,6 +1931,8 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         mining_time = 0.5,
         result = creative_mode_defines.names.items.fluid_void
     },
+    placeable_by = {item = creative_mode_defines.names.items.fluid_void,
+                    count = 1},
     max_health = 150,
     corpse = "small-remnants",
     resistances = {{
@@ -1767,8 +2023,73 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     }},
     circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void].sprites,
     circuit_wire_max_distance = 1000
-}, super_boiler(creative_mode_defines.names.entities.super_boiler, creative_mode_defines.names.items.super_boiler,
-    "super-boiler.png", "super-boiler.png", nil),
+}, 
+-- New Fluid void
+{
+    type = "infinity-pipe",
+    name = creative_mode_defines.names.entities.new_fluid_void,
+    icon_size = data.raw["infinity-pipe"]["infinity-pipe"].icon_size,
+    icons = data.raw["infinity-pipe"]["infinity-pipe"].icons,
+    flags = {"placeable-player", "player-creation"},
+    minable = {
+        mining_time = 0.5,
+        result = creative_mode_defines.names.items.fluid_void
+    },
+    max_health = 150,
+    corpse = "small-remnants",
+    resistances = {{
+        type = "fire",
+        percent = 80
+    }, {
+        type = "impact",
+        percent = 40
+    }},
+    fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.fluid_source_void,
+    collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+    vehicle_impact_sound = data.raw["infinity-pipe"]["infinity-pipe"].vehicle_impact_sound,
+    fluid_box = {
+        pipe_connections = {
+          {
+            position = {
+              0,
+              -1
+            }
+          },
+          {
+            position = {
+              1,
+              0
+            }
+          },
+          {
+            position = {
+              0,
+              1
+            }
+          },
+          {
+            position = {
+              -1,
+              0
+            }
+          }
+        },
+        base_area = 10000,
+        base_level = -1
+    },
+    working_sound = data.raw["infinity-pipe"]["infinity-pipe"].working_sound,
+    pictures = data.raw["infinity-pipe"]["infinity-pipe"].pictures,
+    horizontal_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].horizontal_window_bounding_box,
+    vertical_window_bounding_box = data.raw["infinity-pipe"]["infinity-pipe"].vertical_window_bounding_box,
+    flow_length_in_ticks = 10000,
+    localised_name = {"entity-name." .. creative_mode_defines.names.entities.fluid_void},
+    localised_description = {"entity-description." .. creative_mode_defines.names.entities.fluid_void},
+    gui_mode = "none"
+}, 
+-- Super boiler
+             super_boiler(creative_mode_defines.names.entities.super_boiler, 
+    creative_mode_defines.names.items.super_boiler, "super-boiler.png", "super-boiler.png", nil),
 -- Super cooler
              super_boiler(creative_mode_defines.names.entities.super_cooler,
     creative_mode_defines.names.items.super_cooler, "super-cooler.png", "super-cooler.png", nil),
@@ -1809,7 +2130,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.fast_replaceable_groups.item_source_void_duplicator, {0, 0.8}, {0, 1}, 0),
 -- Creative lab
              lab(creative_mode_defines.names.entities.creative_lab, creative_mode_defines.names.items.creative_lab,
-    "creative-lab.png", "creative-lab.png", "creative-lab.png"), void_lab(),
+    "creative-lab.png", "creative-lab.png", "creative-lab.png"),
+
+-- Void Lab
+             void_lab(),
 -----------------------------------------------------------------------------
 
 -- Active electric energy interface (output)
@@ -1833,8 +2157,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     creative_mode_defines.names.items.active_electric_energy_interface_input,
     "active-electric-energy-interface-input.png", "active-electric-energy-interface-input.png", "primary-input",
     "500GW", "0kW", "0kW", "500GW", {creative_mode_defines.names.entities.active_electric_energy_interface_output,
-                                     creative_mode_defines.names.entities.passive_electric_energy_interface}), {
-    type = "generator",
+                                     creative_mode_defines.names.entities.passive_electric_energy_interface}),
+-- Energy Source
+{
+    type = "electric-energy-interface",
     enable_gui = true,
     name = creative_mode_defines.names.entities.energy_source,
     icon_size = 32,
@@ -1849,46 +2175,55 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.energy_source_void,
     collision_box = {{-0.9, -0.9}, {0.9, 0.9}},
     selection_box = {{-1, -1}, {1, 1}},
+    energy_source = {
+        type = "electric",
+        buffer_capacity = "5.4PW",
+        usage_priority = "primary-output",
+        input_flow_limit = "0W",
+        output_flow_limit = "5.4PW"
+    },
+    energy_production = "5.4PW",
+    picture = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        priority = "extra-high",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125}
+    },
+    charge_animation = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125},
+        animation_speed = 0.5
+    },
+    charge_cooldown = 30,
+    charge_light = {
+        intensity = 0.3,
+        size = 7
+    },
+    discharge_animation = {
+        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
+        width = 124,
+        height = 103,
+        frame_count = 1,
+        line_length = 1,
+        shift = {0.6875, -0.203125},
+        animation_speed = 0.5
+    },
+    discharge_cooldown = 60,
+    discharge_light = {
+        intensity = 0.7,
+        size = 7
+    },
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
         volume = 0.65
     },
-    effectivity = 1,
-    fluid_usage_per_tick = 1000000000, -- This value affects the maximum energy output. Currently it is 5.4PW (GUI shows 5.1PW)
-    maximum_temperature = 500,
-    fluid_box = {
-        base_area = 1,
-        filter = "water",
-        pipe_connections = {}
-    },
-    fluid_input = {
-        name = "water",
-        amount = 0.0,
-        minimum_temperature = 0
-    },
-    energy_source = {
-        type = "electric",
-        usage_priority = "primary-output"
-    },
-    min_perceived_performance = 1,
-    performance_to_sound_speedup = 0.5,
-    horizontal_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
-        width = 124,
-        height = 103,
-        frame_count = 1,
-        line_length = 1,
-        shift = {0.6875, -0.203125}
-    },
-    vertical_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/energy-source.png",
-        width = 124,
-        height = 103,
-        frame_count = 1,
-        line_length = 1,
-        shift = {0.6875, -0.203125}
-    },
-    smoke = {},
     working_sound = {
         sound = {
             filename = "__base__/sound/accumulator-working.ogg",
@@ -1900,8 +2235,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         },
         max_sounds_per_type = 5
     }
-}, {
-    type = "accumulator",
+},
+-- Passive energy source
+{
+    type = "electric-energy-interface",
     name = creative_mode_defines.names.entities.passive_energy_source,
     icon_size = 32,
     icon = creative_mode_defines.mod_directory .. "/graphics/icons/passive-energy-source.png",
@@ -1923,6 +2260,8 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         input_flow_limit = "0W",
         output_flow_limit = "5.4PW"
     },
+    energy_production = "5.4PW",
+    gui_mode = "none",
     picture = {
         filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-source.png",
         priority = "extra-high",
@@ -1973,24 +2312,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         },
         max_sounds_per_type = 5
     },
-    circuit_wire_connection_point = {
-        shadow = {
-            red = {0.984375, 1.10938},
-            green = {0.890625, 1.10938}
-        },
-        wire = {
-            red = {0.6875, 0.59375},
-            green = {0.6875, 0.71875}
-        }
-    },
-    circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_source]
-        .sprites,
-    circuit_wire_max_distance = 1000,
-    default_output_signal = {
-        type = "virtual",
-        name = "signal-A"
-    }
-}, {
+},
+-- Energy void
+{
     type = "assembling-machine",
     name = creative_mode_defines.names.entities.energy_void,
     icon_size = 32,
@@ -2040,6 +2364,8 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     },
     crafting_categories = {creative_mode_defines.names.recipe_categories.energy_absorption},
     fixed_recipe = creative_mode_defines.names.recipes.energy_absorption,
+    show_recipe_icon = false,
+    show_recipe_icon_on_map = false,
     crafting_speed = 0.01,
     energy_source = {
         type = "electric",
@@ -2050,8 +2376,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     ingredient_count = 0,
     module_specification = {},
     allowed_effects = {"pollution"}
-}, {
-    type = "accumulator",
+}, 
+-- Passive energy void
+{
+    type = "assembling-machine",
     name = creative_mode_defines.names.entities.passive_energy_void,
     icon_size = 32,
     icon = creative_mode_defines.mod_directory .. "/graphics/icons/passive-energy-void.png",
@@ -2066,21 +2394,8 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.energy_source_void,
     collision_box = {{-0.9, -0.9}, {0.9, 0.9}},
     selection_box = {{-1, -1}, {1, 1}},
-    energy_source = {
-        type = "electric",
-        buffer_capacity = "5.4PW",
-        usage_priority = "tertiary",
-        input_flow_limit = "5.4PW",
-        output_flow_limit = "0W"
-    },
-    picture = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void.png",
-        priority = "extra-high",
-        width = 124,
-        height = 103,
-        shift = {0.6875, -0.203125}
-    },
-    charge_animation = {
+    fluid_boxes = {},
+    animation = {
         filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void-working.png",
         width = 147,
         height = 128,
@@ -2088,29 +2403,18 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         frame_count = 24,
         shift = {0.390625, -0.53125},
         animation_speed = 0.5
-    },
-    charge_cooldown = 30,
-    charge_light = {
-        intensity = 0.3,
-        size = 7
-    },
-    discharge_animation = {
-        filename = creative_mode_defines.mod_directory .. "/graphics/entity/passive-energy-void-working.png",
-        width = 147,
-        height = 128,
-        line_length = 8,
-        frame_count = 24,
-        shift = {0.390625, -0.53125},
-        animation_speed = 0.5
-    },
-    discharge_cooldown = 60,
-    discharge_light = {
-        intensity = 0.7,
-        size = 7
     },
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
         volume = 0.65
+    },
+    open_sound = {
+        filename = "__base__/sound/machine-open.ogg",
+        volume = 0.85
+    },
+    close_sound = {
+        filename = "__base__/sound/machine-close.ogg",
+        volume = 0.75
     },
     working_sound = {
         sound = {
@@ -2121,26 +2425,25 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
             filename = "__base__/sound/accumulator-idle.ogg",
             volume = 0.4
         },
-        max_sounds_per_type = 5
+        apparent_volume = 1.5
     },
-    circuit_wire_connection_point = {
-        shadow = {
-            red = {0.984375, 1.10938},
-            green = {0.890625, 1.10938}
-        },
-        wire = {
-            red = {0.6875, 0.59375},
-            green = {0.6875, 0.71875}
-        }
+    crafting_categories = {creative_mode_defines.names.recipe_categories.energy_absorption},
+    fixed_recipe = creative_mode_defines.names.recipes.energy_absorption,
+    show_recipe_icon = false,
+    show_recipe_icon_on_map = false,
+    crafting_speed = 0.01,
+    energy_source = {
+        type = "electric",
+        usage_priority = "tertiary",
+        emissions_per_minute = 0
     },
-    circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_void]
-        .sprites,
-    circuit_wire_max_distance = 1000,
-    default_output_signal = {
-        type = "virtual",
-        name = "signal-A"
-    }
-}, {
+    energy_usage = "5.4PW",
+    ingredient_count = 0,
+    module_specification = {},
+    allowed_effects = {"pollution"}
+},
+-- Super electric pole
+{
     type = "electric-pole",
     name = creative_mode_defines.names.entities.super_electric_pole,
     icon_size = 32,
@@ -2224,7 +2527,9 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         height = 12,
         priority = "extra-high-no-scale"
     }
-}, {
+},
+-- Super substation
+{
     type = "electric-pole",
     name = creative_mode_defines.names.entities.super_substation,
     icon_size = 32,
@@ -2324,17 +2629,21 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
     g = 0,
     b = 1,
     a = 0.4
-}), radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
+}), 
+-- Super radar
+            radar(creative_mode_defines.names.entities.super_radar, creative_mode_defines.names.items.super_radar,
     "super-radar.png", "super-radar.png", 14),
 -- Super radar MK2
-             radar(creative_mode_defines.names.entities.super_radar_2, creative_mode_defines.names.items.super_radar_2,
+            radar(creative_mode_defines.names.entities.super_radar_2, creative_mode_defines.names.items.super_radar_2,
     "super-radar-2.png", "super-radar-2.png", 50),
 -- Alien attractor proxy - small
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_small, 0.1),
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_small, 0.1),
 -- Alien attractor proxy - medium
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_medium, 0.25),
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_medium, 0.25),
 -- Alien attractor proxy - large
-             alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), {
+            alien_attractor_proxy(creative_mode_defines.names.entities.alien_attractor_proxy_large, 0.5), 
+-- Super Beacon             
+{
     type = "beacon",
     name = creative_mode_defines.names.entities.super_beacon,
     icon_size = 32,
@@ -2381,11 +2690,7 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         height = 10
     },
     supply_area_distance = 64,
-    -- energy_source = creative_mode_defines.non_electric_energy_source, -- Burner energy won't work on beacon.
-    energy_source = {
-        type = "electric",
-        usage_priority = "tertiary"
-    },
+    energy_source = creative_mode_defines.non_electric_energy_source,
     energy_usage = "1kW",
     vehicle_impact_sound = {
         filename = "__base__/sound/car-metal-impact.ogg",
@@ -2397,4 +2702,10 @@ data:extend({container(creative_mode_defines.names.entities.creative_chest,
         module_info_icon_shift = {0, 0.5},
         module_info_multi_row_initial_height_modifier = -0.3
     }
-}})
+}
+
+})
+
+
+-- Vanilla infinity chest already exists but has no description, so we add one.
+data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description.infinity-chest"}

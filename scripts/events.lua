@@ -106,6 +106,117 @@ function events.on_configuration_changed(data)
                 -- Create main menu button if Creative Mode is enabled.
                 gui_menu.create_or_destroy_main_menu_open_button_for_all_players()
             end
+            if our_mod_old_version <= "1.8.0" and our_mod_new_version >= "1.8.1" then
+                -- We can clear out some of these tables. It MAY be a lot of info if someone's built a lot.
+                global.creative_mode.heat_source = nil
+                global.creative_mode.heat_void = nil
+                global.creative_mode.void_requester_chest = nil
+                global.creative_mode.void_chest = nil
+                global.creative_mode.void_storage_chest = nil
+                global.creative_mode.super_roboport = nil
+                global.creative_mode.fluid_source = nil
+                global.creative_mode.super_radar = nil
+                global.creative_mode.super_beacon = nil
+                global.creative_mode.energy_void = nil
+                global.creative_mode.passive_energy_void = nil
+                global.creative_mode.passive_energy_source = nil
+                global.creative_mode.energy_source = nil
+                -- Ensure the tables for the new creative/providers chests exist.
+                if not global.creative_mode.new_creative_chest then
+                    global.creative_mode.new_creative_chests = {}
+                end
+                if not global.creative_mode.new_creative_provider_chest then
+                    global.creative_mode.new_creative_provider_chest = {}
+                end
+                for _, surface in pairs(game.surfaces) do
+                    -- Find all our entities so we can get them updated to the new methods.
+                    -- We could just iterate our tables before clearing them, but this guarantees we get everything, and some data won't be good due to the prototype changes making the old entity references invalid.
+                    for _, entity in ipairs(surface.find_entities_filtered{name={
+                        creative_mode_defines.names.entities.void_chest,
+                        creative_mode_defines.names.entities.void_storage_chest,
+                        creative_mode_defines.names.entities.void_requester_chest,
+                        creative_mode_defines.names.entities.heat_source,
+                        creative_mode_defines.names.entities.heat_void,
+                        creative_mode_defines.names.entities.creative_chest,
+                        creative_mode_defines.names.entities.creative_provider_chest
+                        }}) do
+                        if entity.name == creative_mode_defines.names.entities.creative_chest then
+                            -- We need to replace all the old creative chests with the new one
+                            if entity.valid then
+                                -- First we need to find the data for this chest
+                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, global.creative_mode.creative_chest_data_groups)
+                                -- Make the new chest over the old one
+                                local new_entity = entity.surface.create_entity{
+                                    name=creative_mode_defines.names.entities.new_creative_chest,
+                                    position=entity.position,
+                                    force=entity.force,
+                                    fast_replace=true,
+                                    spill=false,
+                                    raise_built=false,
+                                    create_build_effect_smoke=false
+                                }
+                                if old_data == nil or group_number == 0 then --No data found, or an invalid group number.
+                                    --Make a new chest and register it as if it were just built.
+                                    global_util.register_entity(new_entity)
+                                else -- We have good data, so copy it to our new chest
+                                    new_entity.remove_unfiltered_items = true -- We don't want anything except our filters in these
+                                    local chest_data = {
+                                        entity = new_entity, -- The new-creative-chest entity.
+                                        group = group_number, -- Same group as the old chest.
+                                        filtered_slots = old_data.filtered_slots, -- The slot indexes that are filtered out in this chest.
+                                        inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
+                                        is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
+                                    }
+                                    table.insert(global.creative_mode.new_creative_chests, chest_data)
+                                    -- Now that all our data is set, set the filters.
+                                    creative_chest_util.set_chest_filter(chest_data)
+                                end
+                                entity.destroy() -- Destroy the old chest - it's useless.
+                            end
+                        elseif entity.name == creative_mode_defines.names.entities.creative_provider_chest then
+                            -- We need to replace all the old creative provider chests with the new one
+                            if entity.valid then
+                                -- First we need to find the data for this chest
+                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, global.creative_mode.creative_provider_chest_data_groups)
+                                -- Make the new chest over the old one
+                                local new_entity = entity.surface.create_entity{
+                                    name=creative_mode_defines.names.entities.new_creative_provider_chest,
+                                    position=entity.position,
+                                    force=entity.force,
+                                    fast_replace=true,
+                                    spill=false,
+                                    raise_built=false,
+                                    create_build_effect_smoke=false
+                                }
+                                if old_data == nil or group_number == 0 then --No data found, or an invalid group number.
+                                    --Make a new chest and register it as if it were just built.
+                                    global_util.register_entity(new_entity)
+                                else -- We have good data, so copy it to our new chest
+                                    new_entity.remove_unfiltered_items = true -- We don't want anything except our filters in these
+                                    local chest_data = {
+                                        entity = new_entity, -- The new-creative-chest entity.
+                                        group = group_number, -- Same group as the old chest.
+                                        filtered_slots = old_data.filtered_slots, -- The slot indexes that are filtered out in this chest.
+                                        inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
+                                        is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
+                                    }
+                                    table.insert(global.creative_mode.new_creative_provider_chests, chest_data)
+                                    -- Now that all our data is set, set the filters.
+                                    creative_chest_util.set_chest_filter(chest_data)
+                                end
+                                entity.destroy() -- Destroy the old chest - it's useless.
+                            end
+                        else -- For the rest of the types we can just run their placement function again to set what we need
+                            --void_chest, void_storage_chest, void_requester_chest, heat_source, heat_void.
+                            --log("Fixing entity: " .. entity.name)
+                            global_util.register_entity(entity)
+                        end
+                    end
+                end
+                -- Remove the tables for creative chests/providers, as we don't need them anymore.
+                global.creative_mode.creative_chest_data_groups = nil
+                global.creative_mode.creative_provider_chest_data_groups = nil
+            end
         end
 
         -- Make sure the main menu and modifer popup is closed whenever our mod version has changed.
@@ -186,37 +297,22 @@ function events.on_tick()
     cheats.tick()
 
     creative_chest_util.tick()
-    creative_chest.tick()
     creative_lab.tick()
     void_lab.tick()
-    creative_provider_chest.tick()
     autofill_requester_chest.tick()
     duplicating_chest.tick()
     duplicating_provider_chest.tick()
-    void_requester_chest.tick()
-    void_chest.tick()
-    void_storage_chest.tick()
     creative_cargo_wagon.tick()
     duplicating_cargo_wagon.tick()
     void_cargo_wagon.tick()
-    super_roboport.tick()
-    fluid_source.tick()
     fluid_void.tick()
     super_boiler.tick()
     super_cooler.tick()
     configurable_super_boiler.tick()
-    heat_source.tick()
-    heat_void.tick()
     item_source.tick()
     duplicator.tick()
     item_void.tick()
     random_item_source.tick()
-    energy_source.tick()
-    passive_energy_source.tick()
-    energy_void.tick()
-    passive_energy_void.tick()
-    super_radar.tick()
-    super_beacon.tick()
     equipments.tick()
 end
 
@@ -244,8 +340,13 @@ local function on_built_entity(event)
     global_util.register_entity(entity)
 end
 
--- Callback of the script_raised_built event, which is invoked when an entity is revived by robot.
+-- Callback of the script_raised_revive event, which is invoked when an entity is revived by robot.
 local function script_raised_revive(event)
+    global_util.register_entity(event.entity)
+end
+
+-- Callback of the script_raised_built event, which is invoked when an entity is revived by robot.
+local function script_raised_built(event)
     global_util.register_entity(event.entity)
 end
 
@@ -259,11 +360,18 @@ local function is_entity_creative_chest_family(entity)
     if entity.name == creative_mode_defines.names.entities.creative_provider_chest then
         return true
     end
+    -- New Creative chest.
+    if entity.name == creative_mode_defines.names.entities.new_creative_chest then
+        return true
+    end
+    -- New Creative provider chest.
+    if entity.name == creative_mode_defines.names.entities.new_creative_provider_chest then
+        return true
+    end
     -- Creative cargo wagon.
     if entity.name == creative_mode_defines.names.entities.creative_cargo_wagon then
         return true
     end
-
     return false
 end
 
@@ -287,18 +395,7 @@ end
 
 -- Returns whether the given entity is a member of the Void Chest Family (i.e. Void Requester Chest or Void Storage Chest).
 local function is_entity_void_chest_family(entity)
-    -- Void requester chest.
-    if entity.name == creative_mode_defines.names.entities.void_requester_chest then
-        return true
-    end
-    -- Void chest.
-    if entity.name == creative_mode_defines.names.entities.void_chest then
-        return true
-    end
-    -- Void storage chest.
-    if entity.name == creative_mode_defines.names.entities.void_storage_chest then
-        return true
-    end
+    -- Void logistic/storage/regular chest are no longer in this list as they don't need any scripting.
     -- Void cargo wagon.
     if entity.name == creative_mode_defines.names.entities.void_cargo_wagon then
         return true
@@ -356,6 +453,12 @@ local function on_preplayer_mined_item(event)
     cheats.on_preplayer_mined_item(event.player_index, event.entity)
 end
 
+-- Callback of the script_raised_destroy event, which is invoked when a script destroys something.
+local function script_raised_destroy(event)
+    -- Clear inventory if needed.
+    clear_inventory_before_mined_if_needed(event.entity)
+end
+
 -- Callback of the on_marked_for_deconstruction event, which is invoked when an entity is marked for deconstruction.
 local function on_marked_for_deconstruction(event)
     -- Clear inventory if needed.
@@ -381,30 +484,42 @@ local function on_entity_settings_pasted(event)
 
     -- If both the source and destination entities are Configurable Super Boilers...
     if event.source.name == creative_mode_defines.names.entities.configurable_super_boiler and
-        event.destination.name ==
-        event.source.name then
+        event.destination.name == event.source.name then
         configurable_super_boiler.on_entity_copied_pasted(event.source, event.destination)
         return
     end
 
     -- If both the source and destination entities are Matter Sources...
-    if event.source.name == creative_mode_defines.names.entities.item_source and event.destination.name ==
-        event.source.name then
+    if event.source.name == creative_mode_defines.names.entities.item_source and
+        event.destination.name == event.source.name then
         item_source.on_entity_copied_pasted(event.source, event.destination)
         return
     end
 
     -- If both the source and destination entities are Matter Duplicators...
-    if event.source.name == creative_mode_defines.names.entities.duplicator and event.destination.name ==
-        event.source.name then
+    if event.source.name == creative_mode_defines.names.entities.duplicator and 
+        event.destination.name == event.source.name then
         duplicator.on_entity_copied_pasted(event.source, event.destination)
         return
     end
 
     -- If both the source and destination entities are Matter Voids...
-    if event.source.name == creative_mode_defines.names.entities.item_void and event.destination.name ==
-        event.source.name then
+    if event.source.name == creative_mode_defines.names.entities.item_void and
+        event.destination.name == event.source.name then
         item_void.on_entity_copied_pasted(event.source, event.destination)
+        return
+    end
+    
+    if event.source.name == creative_mode_defines.names.entities.linked_belt and
+        event.destination.name == creative_mode_defines.names.entities.linked_belt then
+        -- Remove their previous links, if any.
+        event.source.disconnect_linked_belts()
+        event.destination.disconnect_linked_belts()
+        -- Setup these belts as input and output, respectively.
+        event.source.linked_belt_type = "input"
+        event.destination.linked_belt_type = "output"
+        -- then connect them to each other. This overrides any previous settings.
+        event.source.connect_linked_belts(event.destination)
         return
     end
 end
@@ -530,12 +645,21 @@ local function on_gui_selection_state_changed(event)
     gui.on_gui_selection_state_changed(event)
 end
 
+-- Callback of the on_robot_built_entity event. Forward to register entity.
+local function on_robot_built_entity(event)
+    -- Register the built entity if it is one of the creative entities and it needs to be updated via script.
+    global_util.register_entity(event.created_entity)
+end
+
+
 -- The look up table for forwarding events to the corresponding handlers.
 local event_handlers_look_up = {
     [defines.events.on_pre_build] = on_pre_build,
     [defines.events.on_built_entity] = on_built_entity,
     [defines.events.script_raised_revive] = script_raised_revive,
+    [defines.events.script_raised_built] = script_raised_built,
     [defines.events.on_pre_player_mined_item] = on_preplayer_mined_item,
+    [defines.events.script_raised_destroy] = script_raised_destroy,
     [defines.events.on_marked_for_deconstruction] = on_marked_for_deconstruction,
     [defines.events.on_entity_settings_pasted] = on_entity_settings_pasted,
     [defines.events.on_player_created] = on_player_created,
@@ -548,6 +672,7 @@ local event_handlers_look_up = {
     [defines.events.on_player_cursor_stack_changed] = on_player_cursor_stack_changed,
     [defines.events.on_player_placed_equipment] = on_player_placed_equipment,
     [defines.events.on_research_started] = on_research_started,
+    [defines.events.on_robot_built_entity] = on_robot_built_entity,
     [defines.events.on_chunk_generated] = on_chunk_generated,
     [defines.events.on_gui_closed] = on_gui_closed,
     [defines.events.on_gui_click] = on_gui_click,

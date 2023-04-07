@@ -1,21 +1,23 @@
 -- Create free recipe for each fluid.
 for _, fluid in pairs(data.raw["fluid"]) do
-	data:extend(
-		{
-			{
-				type = "recipe",
-				name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
-				category = creative_mode_defines.names.recipe_categories.free_fluids,
-				ingredients = {},
-				results = {
-					{ type = "fluid", name = fluid.name, amount = 5000 }
-				},
-				main_product = fluid.name,
-				subgroup = creative_mode_defines.names.item_subgroups.free_fluids,
-				enabled = false
-			}
-		}
-	)
+    if fluid.name ~= "fluid-unknown" then
+        data:extend(
+            {
+                {
+                    type = "recipe",
+                    name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
+                    category = creative_mode_defines.names.recipe_categories.free_fluids,
+                    ingredients = {},
+                    results = {
+                        { type = "fluid", name = fluid.name, amount = 5000 }
+                    },
+                    main_product = fluid.name,
+                    subgroup = creative_mode_defines.names.item_subgroups.free_fluids,
+                    enabled = false
+                }
+            }
+        )
+    end
 end
 
 -- Some mods (e.g. Bob's Modules) add limitations to all productivity modules. But we want our super productivity module to be limitless.

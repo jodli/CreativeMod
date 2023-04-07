@@ -28,11 +28,10 @@ creative_mode_defines.empty_animation = {
     height = 1,
     frame_count = 1
 }
--- Data about the energy source for creative tools that doesn't require electricity.
+
+-- Better data for energy source for creative tools that don't require electricity. 
 creative_mode_defines.non_electric_energy_source = {
-    type = "burner",
-    effectivity = 1,
-    fuel_inventory_size = 0
+    type = "void" -- Old one used burner, that is no longer necessary.
 }
 
 -- Names and values
@@ -87,14 +86,22 @@ creative_mode_defines.values.default_technology_research_cheat_types =
 -- Entity names
 creative_mode_defines.names.entities = {
     creative_chest = creative_mode_defines.name_prefix .. "creative-chest",
+    new_creative_chest = creative_mode_defines.name_prefix .. "new-creative-chest",
     creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
+    inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
+    inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
+    new_creative_provider_chest = creative_mode_defines.name_prefix .. "new-creative-provider-chest",
     autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
+    new_autofill_requester_chest = creative_mode_defines.name_prefix .. "new-autofill-requester-chest",
     duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
     duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
     void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
     void_chest = creative_mode_defines.name_prefix .. "void-chest",
     void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
     super_loader = creative_mode_defines.name_prefix .. "super-loader",
+    super_loader2 = creative_mode_defines.name_prefix .. "super-loader2",
+    linked_chest = creative_mode_defines.name_prefix .. "linked-chest",
+    linked_belt = creative_mode_defines.name_prefix .. "linked-belt",
     creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
     duplicating_cargo_wagon = creative_mode_defines.name_prefix .. "duplicating-cargo-wagon",
     void_cargo_wagon = creative_mode_defines.name_prefix .. "void-cargo-wagon",
@@ -103,6 +110,7 @@ creative_mode_defines.names.entities = {
     super_roboport = creative_mode_defines.name_prefix .. "super-roboport",
     fluid_source = creative_mode_defines.name_prefix .. "fluid-source",
     fluid_void = creative_mode_defines.name_prefix .. "fluid-void",
+    new_fluid_void = creative_mode_defines.name_prefix .. "new-fluid-void",
     super_boiler = creative_mode_defines.name_prefix .. "super-boiler",
     super_cooler = creative_mode_defines.name_prefix .. "super-cooler",
     configurable_super_boiler = creative_mode_defines.name_prefix .. "configurable-super-boiler",
@@ -148,6 +156,8 @@ creative_mode_defines.names.equipments = {
 creative_mode_defines.names.items = {
     creative_chest = creative_mode_defines.name_prefix .. "creative-chest",
     creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
+    inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
+    inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
     autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
     duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
     duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
@@ -155,6 +165,9 @@ creative_mode_defines.names.items = {
     void_chest = creative_mode_defines.name_prefix .. "void-chest",
     void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
     super_loader = creative_mode_defines.name_prefix .. "super-loader",
+    super_loader2 = creative_mode_defines.name_prefix .. "super-loader2",
+    linked_chest = creative_mode_defines.name_prefix .. "linked-chest",
+    linked_belt = creative_mode_defines.name_prefix .. "linked-belt",
     creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
     duplicating_cargo_wagon = creative_mode_defines.name_prefix .. "duplicating-cargo-wagon",
     void_cargo_wagon = creative_mode_defines.name_prefix .. "void-cargo-wagon",
@@ -163,6 +176,7 @@ creative_mode_defines.names.items = {
     super_roboport = creative_mode_defines.name_prefix .. "super-roboport",
     fluid_source = creative_mode_defines.name_prefix .. "fluid-source",
     fluid_void = creative_mode_defines.name_prefix .. "fluid-void",
+    new_fluid_void = creative_mode_defines.name_prefix .. "new-fluid-void",
     super_boiler = creative_mode_defines.name_prefix .. "super-boiler",
     super_cooler = creative_mode_defines.name_prefix .. "super-cooler",
     configurable_super_boiler = creative_mode_defines.name_prefix .. "configurable-super-boiler",
@@ -226,7 +240,10 @@ creative_mode_defines.names.item_subgroups = {
 -- Recipe names
 creative_mode_defines.names.recipes = {
     creative_chest = creative_mode_defines.name_prefix .. "creative-chest",
+    new_creative_chest = creative_mode_defines.name_prefix .. "new-creative-chest",
     creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
+    inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
+    inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
     autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
     duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
     duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
@@ -234,6 +251,9 @@ creative_mode_defines.names.recipes = {
     void_chest = creative_mode_defines.name_prefix .. "void-chest",
     void_storage_chest = creative_mode_defines.name_prefix .. "void-storage-chest",
     super_loader = creative_mode_defines.name_prefix .. "super-loader",
+    super_loader2 = creative_mode_defines.name_prefix .. "super-loader2",
+    linked_chest = creative_mode_defines.name_prefix .. "linked-chest",
+    linked_belt = creative_mode_defines.name_prefix .. "linked-belt",
     creative_cargo_wagon = creative_mode_defines.name_prefix .. "creative-cargo-wagon",
     duplicating_cargo_wagon = creative_mode_defines.name_prefix .. "duplicating-cargo-wagon",
     void_cargo_wagon = creative_mode_defines.name_prefix .. "void-cargo-wagon",

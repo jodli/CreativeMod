@@ -17,8 +17,8 @@ data:extend(
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/creative-chest.png",
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
-			order = "a",
-			place_result = creative_mode_defines.names.entities.creative_chest,
+			order = "a3",
+			place_result = creative_mode_defines.names.entities.new_creative_chest,
 			stack_size = 50
 		},
 		{
@@ -30,7 +30,7 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "b",
-			place_result = creative_mode_defines.names.entities.creative_provider_chest,
+			place_result = creative_mode_defines.names.entities.new_creative_provider_chest,
 			stack_size = 50
 		},
 		{
@@ -42,7 +42,43 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "c",
-			place_result = creative_mode_defines.names.entities.autofill_requester_chest,
+			place_result = creative_mode_defines.names.entities.new_autofill_requester_chest,
+			stack_size = 50
+		},
+		{
+			-- Infinity Requester Chest
+			type = "item",
+			name = creative_mode_defines.names.items.inf_requester_chest,
+			icons= {
+                {
+                    icon = "__base__/graphics/icons/infinity-chest.png",
+                    icon_mipmaps = 4,
+                    icon_size = 64,
+                    tint = {a=1,b=.9}
+                }
+            },
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a1",
+			place_result = creative_mode_defines.names.entities.inf_requester_chest,
+			stack_size = 50
+		},
+		{
+			-- Infinity Provider Chest
+			type = "item",
+			name = creative_mode_defines.names.items.inf_provider_chest,
+			icons= {
+                {
+                    icon = "__base__/graphics/icons/infinity-chest.png",
+                    icon_mipmaps = 4,
+                    icon_size = 64,
+                    tint = {a=1,r=0.7}
+                }
+            },
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a2",
+			place_result = creative_mode_defines.names.entities.inf_provider_chest,
 			stack_size = 50
 		},
 		{
@@ -115,6 +151,42 @@ data:extend(
 			subgroup = creative_mode_defines.names.item_subgroups.items,
 			order = "i",
 			place_result = creative_mode_defines.names.entities.super_loader,
+			stack_size = 50
+		},
+		{
+			-- Super loader 2
+			type = "item",
+			name = creative_mode_defines.names.items.super_loader2,
+			icon_size = 32,
+			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "i1",
+			place_result = creative_mode_defines.names.entities.super_loader2,
+			stack_size = 50
+		},
+		{
+			-- Linked Chest
+			type = "item",
+			name = creative_mode_defines.names.items.linked_chest,
+			icon_size = data.raw.item["linked-chest"].icon_size,
+			icon = data.raw.item["linked-chest"].icon,
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "a5",
+			place_result = creative_mode_defines.names.entities.linked_chest,
+			stack_size = 50
+		},
+		{
+			-- Linked Belt
+			type = "item",
+			name = creative_mode_defines.names.items.linked_belt,
+			icon_size = data.raw.item["linked-belt"].icon_size,
+			icon = data.raw.item["linked-belt"].icon,
+			flags = {flags_quickbar},
+			subgroup = creative_mode_defines.names.item_subgroups.items,
+			order = "i2",
+			place_result = creative_mode_defines.names.entities.linked_belt,
 			stack_size = 50
 		},
 		-----------------------------------------------------------------------------
@@ -244,7 +316,7 @@ data:extend(
 			flags = {flags_quickbar},
 			subgroup = creative_mode_defines.names.item_subgroups.fluids,
 			order = "b",
-			place_result = creative_mode_defines.names.entities.fluid_void,
+			place_result = creative_mode_defines.names.entities.new_fluid_void,
 			stack_size = 50
 		},
 		{

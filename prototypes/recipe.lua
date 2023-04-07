@@ -8,6 +8,36 @@ data:extend(
 			result = creative_mode_defines.names.items.creative_chest,
 			enabled = false
 		},
+        {
+			-- Vanilla infinity chest.
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.new_creative_chest,
+			ingredients = {},
+			result = "infinity-chest",
+			enabled = false,
+            order = "a",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
+        {
+			-- Infinity Requester Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.inf_requester_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.recipes.inf_requester_chest,
+			enabled = false,
+            order = "a1",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
+        {
+			-- Infinity Provider Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.inf_provider_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.recipes.inf_provider_chest,
+			enabled = false,
+            order = "a2",
+            subgroup = creative_mode_defines.names.item_subgroups.items
+		},
 		{
 			-- Creative provider chest
 			type = "recipe",
@@ -70,6 +100,30 @@ data:extend(
 			name = creative_mode_defines.names.recipes.super_loader,
 			ingredients = {},
 			result = creative_mode_defines.names.items.super_loader,
+			enabled = false
+		},
+		{
+			-- Super loader2
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.super_loader2,
+			ingredients = {},
+			result = creative_mode_defines.names.items.super_loader2,
+			enabled = false
+		},
+		{
+			-- Linked Chest
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.linked_chest,
+			ingredients = {},
+			result = creative_mode_defines.names.items.linked_chest,
+			enabled = false
+		},
+		{
+			-- Linked Belt
+			type = "recipe",
+			name = creative_mode_defines.names.recipes.linked_belt,
+			ingredients = {},
+			result = creative_mode_defines.names.items.linked_belt,
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -314,11 +368,11 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.energy_absorption,
 			ingredients = {},
-			results = {
-				{name = creative_mode_defines.names.items.energy_absorption, amount = 0, probability = 0}
-			},
-			main_product = creative_mode_defines.names.items.energy_absorption,
+			results = {},
+            icon = creative_mode_defines.mod_directory .. "/graphics/icons/energy-void.png",
+            icon_size = 32,
 			category = creative_mode_defines.names.recipe_categories.energy_absorption,
+			subgroup = creative_mode_defines.names.item_subgroups.items,
 			hidden = true,
 			enabled = false
 		},
@@ -464,16 +518,6 @@ data:extend(
 			name = "infinity-chest",
 			ingredients = {},
 			result = "infinity-chest",
-			enabled = false
-		},
-		{
-			-- Belt immunity equipment (the item already exists, we just need to create the recipe)
-			type = "recipe",
-			name = creative_mode_defines.names.recipes.belt_immunity_equipment,
-			ingredients = {},
-			result = creative_mode_defines.names.items.belt_immunity_equipment,
-			subgroup = creative_mode_defines.names.item_subgroups.equipments,
-			order = "a",
 			enabled = false
 		},
 		{

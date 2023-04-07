@@ -18,14 +18,14 @@ function global_util.initialize_or_update_global()
         end
     end
     -- Also generate the sub-tables to store our entities.
-    if not global.creative_mode.creative_chest_data_groups then
-        global.creative_mode.creative_chest_data_groups = {}
+    if not global.creative_mode.new_creative_chests then
+        global.creative_mode.new_creative_chests = {}
     end
     if not global.creative_mode.creative_chest_next_group then
         global.creative_mode.creative_chest_next_group = 1
     end -- The group number for the next placed creative chest. (Number of items in each group <= Chest inventory size)
-    if not global.creative_mode.creative_provider_chest_data_groups then
-        global.creative_mode.creative_provider_chest_data_groups = {}
+    if not global.creative_mode.new_creative_provider_chests then
+        global.creative_mode.new_creative_provider_chests = {}
     end
     if not global.creative_mode.creative_provider_chest_next_group then
         global.creative_mode.creative_provider_chest_next_group = 1
@@ -47,24 +47,6 @@ function global_util.initialize_or_update_global()
     end
     if not global.creative_mode.duplicating_provider_chest_next_update_index then
         global.creative_mode.duplicating_provider_chest_next_update_index = 1
-    end
-    if not global.creative_mode.void_requester_chest then
-        global.creative_mode.void_requester_chest = {}
-    end
-    if not global.creative_mode.void_requester_chest_next_update_index then
-        global.creative_mode.void_requester_chest_next_update_index = 1
-    end
-    if not global.creative_mode.void_chest then
-        global.creative_mode.void_chest = {}
-    end
-    if not global.creative_mode.void_chest_next_update_index then
-        global.creative_mode.void_chest_next_update_index = 1
-    end
-    if not global.creative_mode.void_storage_chest then
-        global.creative_mode.void_storage_chest = {}
-    end
-    if not global.creative_mode.void_storage_chest_next_update_index then
-        global.creative_mode.void_storage_chest_next_update_index = 1
     end
     if not global.creative_mode.void_lab then
         global.creative_mode.void_lab = {}
@@ -90,12 +72,6 @@ function global_util.initialize_or_update_global()
     if not global.creative_mode.void_cargo_wagon_next_update_index then
         global.creative_mode.void_cargo_wagon_next_update_index = 1
     end
-    if not global.creative_mode.super_roboport then
-        global.creative_mode.super_roboport = {}
-    end
-    if not global.creative_mode.fluid_source then
-        global.creative_mode.fluid_source = {}
-    end
     if not global.creative_mode.fluid_void then
         global.creative_mode.fluid_void = {}
     end
@@ -107,12 +83,6 @@ function global_util.initialize_or_update_global()
     end
     if not global.creative_mode.configurable_super_boiler_data then
         global.creative_mode.configurable_super_boiler_data = {}
-    end
-    if not global.creative_mode.heat_source then
-        global.creative_mode.heat_source = {}
-    end
-    if not global.creative_mode.heat_void then
-        global.creative_mode.heat_void = {}
     end
     if not global.creative_mode.item_source_data then
         global.creative_mode.item_source_data = {}
@@ -131,24 +101,6 @@ function global_util.initialize_or_update_global()
     end
     if not global.creative_mode.creative_lab_next_update_index then
         global.creative_mode.creative_lab_next_update_index = 1
-    end
-    if not global.creative_mode.energy_source then
-        global.creative_mode.energy_source = {}
-    end
-    if not global.creative_mode.passive_energy_source then
-        global.creative_mode.passive_energy_source = {}
-    end
-    if not global.creative_mode.energy_void then
-        global.creative_mode.energy_void = {}
-    end
-    if not global.creative_mode.passive_energy_void then
-        global.creative_mode.passive_energy_void = {}
-    end
-    if not global.creative_mode.super_radar then
-        global.creative_mode.super_radar = {}
-    end
-    if not global.creative_mode.super_beacon then
-        global.creative_mode.super_beacon = {}
     end
 
     -- Table for storing the equipments that need to be refilled with energy.
@@ -639,18 +591,20 @@ end
 
 -- Look up table for matching entity-register functions according to the entity name.
 local register_entity_look_up_functions = {
-    [creative_mode_defines.names.entities.creative_chest] = function(entity)
-        -- Creative Chests are added after Creative Provider Chests with the same logic.
-        if not global.creative_mode.creative_chest_data_groups[global.creative_mode.creative_chest_next_place_group] then
-            global.creative_mode.creative_chest_data_groups[global.creative_mode.creative_chest_next_place_group] = {}
-        end
-        table.insert(global.creative_mode.creative_chest_data_groups[global.creative_mode
-                         .creative_chest_next_place_group], {
+    [creative_mode_defines.names.entities.autofill_requester_chest] = function(entity)
+        table.insert(global.creative_mode.autofill_requester_chest, entity)
+    end,
+    [creative_mode_defines.names.entities.new_creative_chest] = function(entity)
+        entity.remove_unfiltered_items = true -- We don't want anything except our set items in these
+        chest_data = {
             entity = entity, -- The creative-chest entity.
+            group = global.creative_mode.creative_chest_next_place_group, -- Group is now a number stored in the data
             filtered_slots = {}, -- The slot indexes that are filtered out in this chest.
             inventory_display_mode = creative_chest_util.inventory_display_modes.original_mode, -- The inventory display mode.
             is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
-        })
+        }
+        table.insert(global.creative_mode.new_creative_chests, chest_data)
+        creative_chest_util.set_chest_filter(chest_data)
         -- Increase the group number for the next chest.
         if global.creative_mode.creative_chest_next_place_group <
             global.creative_mode.creative_provider_chest_num_in_cycle then
@@ -660,20 +614,17 @@ local register_entity_look_up_functions = {
             global.creative_mode.creative_chest_next_place_group = 1
         end
     end,
-    [creative_mode_defines.names.entities.creative_provider_chest] = function(entity)
-        -- Creative Provider Chests are divided into groups.
-        if not global.creative_mode.creative_provider_chest_data_groups[global.creative_mode
-            .creative_provider_chest_next_place_group] then
-            global.creative_mode.creative_provider_chest_data_groups[global.creative_mode
-                .creative_provider_chest_next_place_group] = {}
-        end
-        table.insert(global.creative_mode.creative_provider_chest_data_groups[global.creative_mode
-                         .creative_provider_chest_next_place_group], {
+    [creative_mode_defines.names.entities.new_creative_provider_chest] = function(entity)
+        entity.remove_unfiltered_items = true -- We don't want anything except our filters in these
+        local chest_data = {
             entity = entity, -- The creative-chest entity.
+            group = global.creative_mode.creative_provider_chest_next_place_group, -- Group is now a number stored in the data
             filtered_slots = {}, -- The slot indexes that are filtered out in this chest.
             inventory_display_mode = creative_chest_util.inventory_display_modes.original_mode, -- The inventory display mode.
             is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
-        })
+        }
+        table.insert(global.creative_mode.new_creative_provider_chests, chest_data)
+        creative_chest_util.set_chest_filter(chest_data)
         -- Increase the group number for the next chest.
         if global.creative_mode.creative_provider_chest_next_place_group <
             global.creative_mode.creative_provider_chest_num_in_cycle then
@@ -683,7 +634,7 @@ local register_entity_look_up_functions = {
             global.creative_mode.creative_provider_chest_next_place_group = 1
         end
     end,
-    [creative_mode_defines.names.entities.autofill_requester_chest] = function(entity)
+    [creative_mode_defines.names.entities.new_autofill_requester_chest] = function(entity)
         table.insert(global.creative_mode.autofill_requester_chest, entity)
     end,
     [creative_mode_defines.names.entities.duplicating_chest] = function(entity)
@@ -701,13 +652,13 @@ local register_entity_look_up_functions = {
         })
     end,
     [creative_mode_defines.names.entities.void_requester_chest] = function(entity)
-        table.insert(global.creative_mode.void_requester_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.void_chest] = function(entity)
-        table.insert(global.creative_mode.void_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.void_storage_chest] = function(entity)
-        table.insert(global.creative_mode.void_storage_chest, entity)
+        entity.remove_unfiltered_items = true
     end,
     [creative_mode_defines.names.entities.creative_cargo_wagon] = function(entity)
         -- Creative Cargo Wagons are divided into groups.
@@ -742,15 +693,6 @@ local register_entity_look_up_functions = {
     [creative_mode_defines.names.entities.void_cargo_wagon] = function(entity)
         table.insert(global.creative_mode.void_cargo_wagon, entity)
     end,
-    [creative_mode_defines.names.entities.super_roboport] = function(entity)
-        table.insert(global.creative_mode.super_roboport, entity)
-    end,
-    [creative_mode_defines.names.entities.fluid_source] = function(entity)
-        table.insert(global.creative_mode.fluid_source, entity)
-    end,
-    [creative_mode_defines.names.entities.fluid_void] = function(entity)
-        table.insert(global.creative_mode.fluid_void, entity)
-    end,
     [creative_mode_defines.names.entities.super_boiler] = function(entity)
         table.insert(global.creative_mode.super_boiler, entity)
     end,
@@ -764,10 +706,10 @@ local register_entity_look_up_functions = {
         })
     end,
     [creative_mode_defines.names.entities.heat_source] = function(entity)
-        table.insert(global.creative_mode.heat_source, entity)
+        entity.set_heat_setting{temperature = 1000, mode = "exactly"}
     end,
     [creative_mode_defines.names.entities.heat_void] = function(entity)
-        table.insert(global.creative_mode.heat_void, entity)
+        entity.set_heat_setting{temperature = 0, mode = "exactly"}
     end,
     [creative_mode_defines.names.entities.item_source] = function(entity)
         table.insert(global.creative_mode.item_source_data, {
@@ -846,27 +788,6 @@ local register_entity_look_up_functions = {
     end,
     [creative_mode_defines.names.entities.void_lab] = function(entity)
         table.insert(global.creative_mode.void_lab, entity)
-    end,
-    [creative_mode_defines.names.entities.energy_source] = function(entity)
-        table.insert(global.creative_mode.energy_source, entity)
-    end,
-    [creative_mode_defines.names.entities.passive_energy_source] = function(entity)
-        table.insert(global.creative_mode.passive_energy_source, entity)
-    end,
-    [creative_mode_defines.names.entities.energy_void] = function(entity)
-        table.insert(global.creative_mode.energy_void, entity)
-    end,
-    [creative_mode_defines.names.entities.passive_energy_void] = function(entity)
-        table.insert(global.creative_mode.passive_energy_void, entity)
-    end,
-    [creative_mode_defines.names.entities.super_radar] = function(entity)
-        table.insert(global.creative_mode.super_radar, entity)
-    end,
-    [creative_mode_defines.names.entities.super_radar_2] = function(entity)
-        table.insert(global.creative_mode.super_radar, entity)
-    end,
-    [creative_mode_defines.names.entities.super_beacon] = function(entity)
-        table.insert(global.creative_mode.super_beacon, entity)
     end,
     [creative_mode_defines.names.entities.alien_attractor_proxy_small] = function(entity)
         entity.surface.build_enemy_base(entity.position, 5)
