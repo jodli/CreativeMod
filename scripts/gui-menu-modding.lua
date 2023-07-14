@@ -70,7 +70,9 @@ local event_categories = {
 		show_button_name = creative_mode_defines.names.gui.event_category_technology_show_button,
 		hide_button_name = creative_mode_defines.names.gui.event_category_technology_hide_button,
 		events = {
+			defines.events.on_research_cancelled,
 			defines.events.on_research_finished,
+			defines.events.on_research_reversed,
 			defines.events.on_research_started
 		}
 	},
@@ -82,6 +84,10 @@ local event_categories = {
 		show_button_name = creative_mode_defines.names.gui.event_category_item_show_button,
 		hide_button_name = creative_mode_defines.names.gui.event_category_item_hide_button,
 		events = {
+            defines.events.on_equipment_inserted,
+            defines.events.on_equipment_removed,
+            defines.events.on_mod_item_opened,
+            defines.events.on_picked_up_item,
 			defines.events.on_picked_up_item,
 			defines.events.on_player_alt_selected_area,
 			defines.events.on_player_crafted_item,
@@ -104,22 +110,30 @@ local event_categories = {
 		events = {
 			defines.events.on_biter_base_built,
 			defines.events.on_built_entity,
-			defines.events.on_canceled_deconstruction,
-			defines.events.script_raised_destroy,
+			defines.events.on_cancelled_deconstruction,
+            defines.events.on_cancelled_upgrade,
+            defines.events.on_combat_robot_expired,
+            defines.events.on_entity_cloned,
+            defines.events.on_entity_color_changed,
+            defines.events.on_entity_damaged,
+            defines.events.on_entity_destroyed,
+            defines.events.on_entity_died,
 			defines.events.on_entity_renamed,
 			defines.events.on_entity_settings_pasted,
+			defines.events.on_entity_spawned,
+            defines.events.on_land_mine_armed,
 			defines.events.on_marked_for_deconstruction,
+			defines.events.on_marked_for_upgrade,
 			defines.events.on_market_item_purchased,
 			defines.events.on_player_alt_selected_area,
 			defines.events.on_player_dropped_item,
 			defines.events.on_player_mined_entity,
 			defines.events.on_player_rotated_entity,
 			defines.events.on_player_selected_area,
+            defines.events.on_post_entity_died,
 			defines.events.on_pre_entity_settings_pasted,
 			defines.events.on_preplayer_mined_item,
 			defines.events.on_resource_depleted,
-			defines.events.script_raised_built,
-			defines.events.script_raised_revive,
 			defines.events.on_robot_mined,
 			defines.events.on_robot_mined_entity,
 			defines.events.on_rocket_launched,
@@ -127,7 +141,12 @@ local event_categories = {
 			defines.events.on_selected_entity_changed,
 			defines.events.on_train_changed_state,
 			defines.events.on_train_created,
-			defines.events.on_trigger_created_entity
+			defines.events.on_trigger_created_entity,
+            defines.events.on_worker_robot_expired,
+			defines.events.script_raised_built,
+			defines.events.script_raised_destroy,
+			defines.events.script_raised_revive,
+            defines.events.script_raised_teleported
 		}
 	},
 	tile_related_events = {
@@ -139,12 +158,12 @@ local event_categories = {
 		hide_button_name = creative_mode_defines.names.gui.event_category_tile_hide_button,
 		events = {
 			defines.events.on_player_alt_selected_area,
-			defines.events.script_raised_set_tiles,
 			defines.events.on_player_mined_tile,
 			defines.events.on_player_selected_area,
 			defines.events.script_raised_built,
 			defines.events.script_raised_destroy,
-			defines.events.script_raised_revive
+			defines.events.script_raised_revive,
+			defines.events.script_raised_set_tiles
 		}
 	},
 	player_related_events = {
@@ -170,8 +189,10 @@ local event_categories = {
 			defines.events.on_player_alt_selected_area,
 			defines.events.on_player_ammo_inventory_changed,
 			defines.events.on_player_armor_inventory_changed,
-			defines.events.script_raised_set_tiles,
+			defines.events.on_player_built_tile,
+			defines.events.on_player_cancelled_crafting,
 			defines.events.on_player_changed_force,
+			defines.events.on_player_changed_position,
 			defines.events.on_player_changed_surface,
 			defines.events.on_player_configured_blueprint,
 			defines.events.on_player_crafted_item,
@@ -182,6 +203,7 @@ local event_categories = {
 			defines.events.on_player_driving_changed_state,
 			defines.events.on_player_dropped_item,
 			defines.events.on_player_gun_inventory_changed,
+            defines.events.on_player_input_method_changed,
 			defines.events.on_player_joined_game,
 			defines.events.on_player_left_game,
 			defines.events.on_player_main_inventory_changed,
@@ -201,7 +223,8 @@ local event_categories = {
 			defines.events.on_pre_player_died,
 			defines.events.on_pre_player_mined_item,
 			defines.events.on_pre_build,
-			defines.events.on_selected_entity_changed
+			defines.events.on_selected_entity_changed,
+			defines.events.script_raised_set_tiles
 		}
 	},
 	force_related_events = {
@@ -212,10 +235,15 @@ local event_categories = {
 		show_button_name = creative_mode_defines.names.gui.event_category_force_show_button,
 		hide_button_name = creative_mode_defines.names.gui.event_category_force_hide_button,
 		events = {
-			defines.events.script_raised_destroy,
+            defines.events.on_chunk_charted,
+            defines.events.on_force_cease_fire_changed,
 			defines.events.on_force_created,
+            defines.events.on_force_friends_changed,
+            defines.events.on_force_reset,
+			defines.events.on_forces_merged,
 			defines.events.on_forces_merging,
-			defines.events.on_player_changed_force
+			defines.events.on_player_changed_force,
+			defines.events.script_raised_destroy
 		}
 	},
 	surface_related_events = {
@@ -226,11 +254,15 @@ local event_categories = {
 		show_button_name = creative_mode_defines.names.gui.event_category_surface_show_button,
 		hide_button_name = creative_mode_defines.names.gui.event_category_surface_hide_button,
 		events = {
+            defines.events.on_chunk_deleted,
 			defines.events.on_chunk_generated,
 			defines.events.on_player_changed_surface,
 			defines.events.on_pre_surface_deleted,
+			defines.events.on_surface_cleared,
 			defines.events.on_surface_created,
-			defines.events.on_surface_deleted
+			defines.events.on_surface_deleted,
+			defines.events.on_surface_imported,
+			defines.events.on_surface_renamed
 		}
 	},
 	position_related_events = {
@@ -263,10 +295,16 @@ local event_categories = {
 		hide_button_name = creative_mode_defines.names.gui.event_category_gui_hide_button,
 		events = {
 			defines.events.on_gui_checked_state_changed,
-			defines.events.on_gui_click,
+			defines.events.on_gui_closed,
+			defines.events.on_gui_confirmed,
+			defines.events.on_gui_location_changed,
 			defines.events.on_gui_elem_changed,
+			defines.events.on_gui_opened,
+			defines.events.on_gui_selected_tab_changed,
 			defines.events.on_gui_selection_state_changed,
-			defines.events.on_gui_text_changed
+			defines.events.on_gui_switch_state_changed,
+			defines.events.on_gui_text_changed,
+			defines.events.on_gui_value_changed
 		}
 	},
 	settings_related_events = {
