@@ -619,9 +619,9 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
         vehicle_impact_sound = {
             filename = "__base__/sound/car-wood-impact.ogg",
             volume = 1.0
-        }
-    },
-    se_allow_in_space = true
+        },
+        se_allow_in_space = true
+    }
 end
 
 -- Returns the charging offsets for the super roboport.
