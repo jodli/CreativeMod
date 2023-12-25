@@ -174,7 +174,8 @@ local function container(entity_name, item_name, icon_name, picture_name, additi
             }
         },
         circuit_wire_max_distance = 1000,
-        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites
+        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites,
+        se_allow_in_space = true
     }
 end
 
@@ -208,6 +209,7 @@ local function infcontainer(entity_name, item_name, icon_name, picture_name, add
     newchest.circuit_wire_max_distance = 1000
     newchest.localised_name = nil
     newchest.localised_description = nil
+    newchest.se_allow_in_space = true
     return newchest
 end
 
@@ -288,6 +290,7 @@ local function infchest(entity_name, item_name, tint, additional_pastable_entiti
         }
     }
     newchest.circuit_wire_max_distance = 1000
+    newchest.se_allow_in_space = true
     
     return newchest
 end
@@ -347,7 +350,8 @@ local function logistic_container(entity_name, item_name, icon_name, picture_nam
             }
         },
         circuit_wire_max_distance = 1000,
-        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites
+        circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites,
+        se_allow_in_space = true
     }
 end
 
@@ -372,6 +376,7 @@ local function linkedchest(entity_name, item_name, inventory_size)
     newchest.erase_contents_when_mined = true
     newchest.circuit_wire_max_distance = 1000
     newchest.localised_name = {"entity-name.linked-chest"}
+    newchest.se_allow_in_space = true
     return newchest
 end
 
@@ -394,6 +399,7 @@ local function linkedbelt(entity_name, item_name)
     newbelt.allow_copy_paste = true
     newbelt.additional_pastable_entities = {entity_name}
     newbelt.speed = 1
+    newbelt.se_allow_in_space = true
     
     return newbelt
 end
@@ -614,7 +620,8 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
             filename = "__base__/sound/car-wood-impact.ogg",
             volume = 1.0
         }
-    }
+    },
+    se_allow_in_space = true
 end
 
 -- Returns the charging offsets for the super roboport.
@@ -748,7 +755,8 @@ local function super_boiler(entity_name, item_name, icon_name, picture_name, add
             }
         }},
         circuit_connector_sprites = circuit_connector_definitions[entity_name].sprites,
-        circuit_wire_max_distance = 1000
+        circuit_wire_max_distance = 1000,
+        se_allow_in_space = true
     }
 end
 
@@ -786,6 +794,7 @@ local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_
                                            creative_mode_defines.names.fast_replaceable_groups.heat_source_void
     heat_pipe.gui_mode = "none"
     heat_pipe.type = "heat-interface"
+    heat_pipe.se_allow_in_space = true
     return heat_pipe
 end
 
@@ -862,7 +871,8 @@ local function inserter(entity_name, item_name, icon_name, platform_sheet_name, 
             }
         },
         circuit_connector_sprites = circuit_connector_definitions["inserter"].sprites,
-        circuit_wire_max_distance = 1000
+        circuit_wire_max_distance = 1000,
+        se_allow_in_space = true
     }
 end
 
@@ -882,6 +892,7 @@ local function lab(entity_name, item_name, icon_name, on_animation_filename, off
     lab.off_animation.filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. off_animation_filename
     lab.energy_source = creative_mode_defines.non_electric_energy_source
     lab.module_specification.module_slots = 7
+    lab.se_allow_in_space = true
     return lab
 end
 
@@ -917,6 +928,7 @@ local function void_lab()
         g = 50,
         b = 50
     }
+    lab.se_allow_in_space = true
     return lab
 end
 
@@ -973,7 +985,8 @@ local function electric_energy_interface(entity_name, item_name, icon_name, anim
             max_sounds_per_type = 5
         },
         additional_pastable_entities = additional_pastable_entities,
-        fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.electric_energy_interface
+        fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.electric_energy_interface,
+        se_allow_in_space = true
     }
 end
 
@@ -1053,7 +1066,8 @@ local function radar(entity_name, item_name, icon_name, pictures_name, scan_dist
                 filename = "__base__/sound/radar.ogg"
             }},
             apparent_volume = 2
-        }
+        },
+        se_allow_in_space = true
     }
 end
 
@@ -1213,7 +1227,8 @@ data:extend({
             }
         }
     },
-    ending_patch = ending_patch_prototype
+    ending_patch = ending_patch_prototype,
+    se_allow_in_space = true
 }, 
 -- Super loader 2
     {
@@ -1278,7 +1293,8 @@ data:extend({
             }
         }
     },
-    ending_patch = ending_patch_prototype
+    ending_patch = ending_patch_prototype,
+    se_allow_in_space = true
 }, 
 -- Linked Chest
              linkedchest(creative_mode_defines.names.entities.linked_chest, creative_mode_defines.names.items.linked_chest),
@@ -1844,7 +1860,8 @@ data:extend({
     default_total_construction_output_signal = {
         type = "virtual",
         name = "signal-T"
-    }
+    },
+    se_allow_in_space = true
 }, 
 -- Fluid source
 {
@@ -1918,7 +1935,8 @@ data:extend({
     module_specification = {
         module_slots = 0
     },
-    allowed_effects = {"pollution"}
+    allowed_effects = {"pollution"},
+    se_allow_in_space = true
 }, 
 -- Fluid void - old version, uses scripting
 {
@@ -2022,7 +2040,8 @@ data:extend({
         }
     }},
     circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void].sprites,
-    circuit_wire_max_distance = 1000
+    circuit_wire_max_distance = 1000,
+    se_allow_in_space = true
 }, 
 -- New Fluid void
 {
@@ -2085,7 +2104,8 @@ data:extend({
     flow_length_in_ticks = 10000,
     localised_name = {"entity-name." .. creative_mode_defines.names.entities.fluid_void},
     localised_description = {"entity-description." .. creative_mode_defines.names.entities.fluid_void},
-    gui_mode = "none"
+    gui_mode = "none",
+    se_allow_in_space = true
 }, 
 -- Super boiler
              super_boiler(creative_mode_defines.names.entities.super_boiler, 
@@ -2234,7 +2254,8 @@ data:extend({
             volume = 0.4
         },
         max_sounds_per_type = 5
-    }
+    },
+    se_allow_in_space = true
 },
 -- Passive energy source
 {
@@ -2312,6 +2333,7 @@ data:extend({
         },
         max_sounds_per_type = 5
     },
+    se_allow_in_space = true
 },
 -- Energy void
 {
@@ -2375,7 +2397,8 @@ data:extend({
     energy_usage = "5.4PW",
     ingredient_count = 0,
     module_specification = {},
-    allowed_effects = {"pollution"}
+    allowed_effects = {"pollution"},
+    se_allow_in_space = true
 }, 
 -- Passive energy void
 {
@@ -2440,7 +2463,8 @@ data:extend({
     energy_usage = "5.4PW",
     ingredient_count = 0,
     module_specification = {},
-    allowed_effects = {"pollution"}
+    allowed_effects = {"pollution"},
+    se_allow_in_space = true
 },
 -- Super electric pole
 {
@@ -2526,7 +2550,8 @@ data:extend({
         width = 12,
         height = 12,
         priority = "extra-high-no-scale"
-    }
+    },
+    se_allow_in_space = true
 },
 -- Super substation
 {
@@ -2613,7 +2638,8 @@ data:extend({
         width = 12,
         height = 12,
         priority = "extra-high-no-scale"
-    }
+    },
+    se_allow_in_space = true
 }, magic_wand_smoke(creative_mode_defines.names.entities.magic_wand_smoke_creator, {
     r = 1,
     g = 0,
@@ -2701,7 +2727,8 @@ data:extend({
         module_slots = 7,
         module_info_icon_shift = {0, 0.5},
         module_info_multi_row_initial_height_modifier = -0.3
-    }
+    },
+    se_allow_in_space = true
 }
 
 })
