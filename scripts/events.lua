@@ -497,7 +497,7 @@ local function on_entity_settings_pasted(event)
     end
 
     -- If both the source and destination entities are Matter Duplicators...
-    if event.source.name == creative_mode_defines.names.entities.duplicator and 
+    if event.source.name == creative_mode_defines.names.entities.duplicator and
         event.destination.name == event.source.name then
         duplicator.on_entity_copied_pasted(event.source, event.destination)
         return
@@ -509,7 +509,7 @@ local function on_entity_settings_pasted(event)
         item_void.on_entity_copied_pasted(event.source, event.destination)
         return
     end
-    
+
     if event.source.name == creative_mode_defines.names.entities.linked_belt and
         event.destination.name == creative_mode_defines.names.entities.linked_belt then
         -- Remove their previous links, if any.

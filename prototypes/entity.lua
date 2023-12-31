@@ -233,7 +233,7 @@ local function infchest(entity_name, item_name, tint, additional_pastable_entiti
     }
     newchest.max_health = 150
     newchest.fast_replaceable_group = "container"
-    newchest.gui_mode = "admins"
+    newchest.gui_mode = settings.startup[creative_mode_defines.names.settings.infinity_chest_control].value
     newchest.additional_pastable_entities = additional_pastable_entities
     newchest.inventory_size = inventory_size
     newchest.erase_contents_when_mined = true
@@ -2736,3 +2736,5 @@ data:extend({
 
 -- Vanilla infinity chest already exists but has no description, so we add one.
 data.raw["infinity-container"]["infinity-chest"].localised_description = {"entity-description.infinity-chest"}
+-- It also needs it's gui mode set to match our setting.
+data.raw["infinity-container"]["infinity-chest"].gui_mode = settings.startup[creative_mode_defines.names.settings.infinity_chest_control].value
