@@ -702,14 +702,9 @@ local function get_entity_param_message(log_prefix, param_name, param)
         end
         if entity_type == "item-entity" then
             local stack = param.stack
-            if stack.valid_for_read then
-                message = message ..
-                    ', stack = {type = "' .. stack.type .. '", name = "' .. stack.name .. '", count = ' ..
-                    stack.count .. "}"
-            else
-                message = message ..
-                    ', stack.valid_for_read = false'
-            end
+            message = message ..
+                ', stack = {type = "' .. stack.type .. '", name = "' .. stack.name .. '", count = ' ..
+                stack.count .. "}"
         end
         if param.backer_name then
             message = message .. ', backer_name = "' .. param.backer_name .. '"'
