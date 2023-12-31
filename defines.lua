@@ -56,6 +56,7 @@ creative_mode_defines.names.settings = {
     duplicating_cargo_wagon_size = creative_mode_defines.name_prefix .. "duplicating-cargo-wagon-size",
     void_cargo_wagon_size = creative_mode_defines.name_prefix .. "void-cargo-wagon-size",
     enemy_structures_add_name_suffix = creative_mode_defines.name_prefix .. "enemy-structures-add-name-suffix",
+    infinity_chest_control = creative_mode_defines.name_prefix .. "infinity-chest-control",
     enable_invincible_player_by_default = creative_mode_defines.name_prefix .. "enable-invincible-player-by-default",
     enable_instant_blueprint_by_default = creative_mode_defines.name_prefix .. "enable-instant-blueprint-by-default",
     enable_instant_deconstruction_by_default = creative_mode_defines.name_prefix ..

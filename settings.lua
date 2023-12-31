@@ -127,6 +127,14 @@ data:extend{{
     default_value = true,
     order = "k"
 }, {
+    -- Change who can set infinity chest settings.
+    type = "string-setting",
+    name = creative_mode_defines.names.settings.infinity_chest_control,
+    setting_type = "startup",
+    default_value = "admins",
+    order = "l",
+    allowed_values = {"admins","all"}
+}, {
     -- Enable invincible player by default.
     type = "bool-setting",
     name = creative_mode_defines.names.settings.enable_invincible_player_by_default,
