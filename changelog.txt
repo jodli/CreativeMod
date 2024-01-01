@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.8.2
+Date: 2024-01-01
+  Changes:
+    - Thanks to Silari for these wonderful fixes! <3
+    - Adds Space Exploration support to allow building on space platforms
+    - Adds a setting to change who can set Infinity Chest filters
+    - Updated the event menus to include new events and categorize some old ones that weren't
+  Bugfixes:
+    - Fixed a bug logging parameters when mining an item on the ground
+---------------------------------------------------------------------------------------------------
 Version: 1.8.1
 Date: 2023-02-22
   Features:
@@ -17,12 +27,12 @@ Date: 2023-02-22
     - Removed all scripting for fluid-source, fluid-void, super-radar, super-beacon, super-roboport, energy-void, energy-source, passive-energy-void, passive-energy-source. They no longer require it. See details below.
     - Changed all creative entities requiring power to use a void energy source, rather than a burner source. Scripting is no longer required to keep these entities powered, and they're less apt to break if moved via script.
         - Removed fuel scripting for creative-lab, item-source, item-duplicator, item-void.
-    - Changed Heat Source and Heat Void to use the Heat Interface prototype instead. 
+    - Changed Heat Source and Heat Void to use the Heat Interface prototype instead.
         - Removed all on-tick scripting for Heat Source and Heat void. There is only a quick script ran on placement that sets the temperature.
         - These look different now due to the differences in how heat-interfaces work - they don't have separate connection sprites like heat pipes do, so they are locked into the 4 way sprite.
     - Changed creative-chest, creative-provider-chest, void chest, void storage chest, and void requester chest to use the vanilla infinity chest. No changes in usage should be present.
         - Removed all on-tick scripting for these entities. There is a quick script ran on placement that sets them up.
-        - creative-chest and creative-provider-chest have two minor regressions: 
+        - creative-chest and creative-provider-chest have two minor regressions:
             - Copy/paste no longer works since the base game considers them non-operable. As it appears this only set the group number, and not the filters, this is fairly minor.
             - The inventory display mode also doesn't do anything for them, since infinity chests sort their contents. Technically it DOES have a slight change in how the filters are set, but as those are only viewable in the editor this isn't particularly useful.
     - Changed Fluid Void to use the vanilla infinity pipe.
