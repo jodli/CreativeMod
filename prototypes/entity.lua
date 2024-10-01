@@ -124,7 +124,7 @@ end
 
 -- Generates data for container according to the given data.
 local function container(entity_name, item_name, icon_name, picture_name, additional_pastable_entities, inventory_size)
-    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create_vector(universal_connector_template,
                                                      {def_CC_table({0.1875, 0.15625}, nil, 18)})
 
     return {
@@ -298,7 +298,7 @@ end
 -- Generates data for logistic container according to the given data.
 local function logistic_container(entity_name, item_name, icon_name, picture_name, additional_pastable_entities,
     inventory_size, logistic_mode)
-    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create_vector(universal_connector_template,
                                                      {def_CC_table({0.1875, 0.15625}, nil, 18)})
 
     return {
@@ -644,7 +644,7 @@ end
 
 -- Generates data for super boiler according to the given data.
 local function super_boiler(entity_name, item_name, icon_name, picture_name, additional_pastable_entities)
-    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions[entity_name] = circuit_connector_definitions.create_vector(universal_connector_template,
                                                      {def_CC_table({-0.1875, -0.375}, nil, 7),
                                                       def_CC_table({0.375, -0.53125}, nil, 1),
                                                       def_CC_table({-0.1875, -0.375}, nil, 7),
@@ -801,7 +801,7 @@ end
 -- Generates data for inserter according to the given data.
 local function inserter(entity_name, item_name, icon_name, platform_sheet_name, additional_pastable_entities,
     fast_replaceable_group, pickup_position, insert_position, filter_count)
-    -- circuit_connector_definitions[entity_name] = circuit_connector_definitions.create
+    -- circuit_connector_definitions[entity_name] = circuit_connector_definitions.create_vector
     -- (
     --  universal_connector_template,
     --  {
@@ -1104,19 +1104,19 @@ local function alien_attractor_proxy(entity_name, mark_scale)
 end
 
 circuit_connector_definitions[creative_mode_defines.names.entities.super_roboport] =
-    circuit_connector_definitions.create(universal_connector_template, {def_CC_table({0.59375, 1.3125}, nil, 18)})
+    circuit_connector_definitions.create_vector(universal_connector_template, {def_CC_table({0.59375, 1.3125}, nil, 18)})
 
 circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void] =
-    circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions.create_vector(universal_connector_template,
         {def_CC_table({-0.1875, -0.375}, nil, 7), def_CC_table({0.375, -0.53125}, nil, 1),
          def_CC_table({-0.1875, -0.375}, nil, 7), def_CC_table({0.375, -0.53125}, nil, 1)})
 
 circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_source] =
-    circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions.create_vector(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
 circuit_connector_definitions[creative_mode_defines.names.entities.passive_energy_void] =
-    circuit_connector_definitions.create(universal_connector_template,
+    circuit_connector_definitions.create_vector(universal_connector_template,
         {def_CC_table({0.46875, 0.5}, {0.46875, 0.8125}, 26)})
 
 data:extend({
