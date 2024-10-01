@@ -112,12 +112,10 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 			new_entity.minable = { hardness = 0.2, mining_time = 0.5, result = item_name }
 			-- No autoplace.
 			new_entity.autoplace = nil
-			table.insert(new_data, new_entity)
-			-- Flags.
-			local flags = {}
 			if not settings.startup[creative_mode_defines.names.settings.unhide_items].value then
-				table.insert(flags, "hidden")
+				new_entity.hidden = true
 			end
+			table.insert(new_data, new_entity)
 			-- Support for composed icons.
 			local icons = entity.icons
 			if icons then
@@ -137,7 +135,6 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 					icon_size = entity.icon_size,
 					icon_mipmaps = entity.icon_mipmaps,
 					icons = fixed_icons,
-					flags = flags,
 					subgroup = creative_mode_defines.names.item_subgroups.enemies,
 					--order = entity.order,
 					place_result = entity_name,
