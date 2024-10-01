@@ -149,7 +149,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
 					name = recipe_name,
 					category = creative_mode_defines.names.recipe_categories.enemies,
 					ingredients = {},
-					result = item_name,
+					results = {{ type="item", name=item_name, amount=1 }},
 					enabled = false
 				}
 			)

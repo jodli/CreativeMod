@@ -5,7 +5,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.creative_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.creative_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.creative_chest, amount = 1}},
 			enabled = false
 		},
         {
@@ -13,7 +13,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.new_creative_chest,
 			ingredients = {},
-			result = "infinity-chest",
+			results = {{ type="item", name= "infinity-chest", amount = 1}},
 			enabled = false,
             order = "a",
             subgroup = creative_mode_defines.names.item_subgroups.items
@@ -23,7 +23,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.inf_requester_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.recipes.inf_requester_chest,
+			results = {{ type="item", name= creative_mode_defines.names.recipes.inf_requester_chest, amount = 1}},
 			enabled = false,
             order = "a1",
             subgroup = creative_mode_defines.names.item_subgroups.items
@@ -33,7 +33,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.inf_provider_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.recipes.inf_provider_chest,
+			results = {{ type="item", name= creative_mode_defines.names.recipes.inf_provider_chest, amount = 1}},
 			enabled = false,
             order = "a2",
             subgroup = creative_mode_defines.names.item_subgroups.items
@@ -43,7 +43,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.creative_provider_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.creative_provider_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.creative_provider_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -51,7 +51,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.autofill_requester_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.autofill_requester_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.autofill_requester_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -59,7 +59,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.duplicating_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.duplicating_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.duplicating_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -67,7 +67,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.duplicating_provider_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.duplicating_provider_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.duplicating_provider_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -75,7 +75,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_requester_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.void_requester_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.void_requester_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -83,7 +83,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.void_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.void_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -91,7 +91,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_storage_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.void_storage_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.void_storage_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -99,7 +99,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_loader,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_loader,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_loader, amount = 1}},
 			enabled = false
 		},
 		{
@@ -107,7 +107,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_loader2,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_loader2,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_loader2, amount = 1}},
 			enabled = false
 		},
 		{
@@ -115,7 +115,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.linked_chest,
 			ingredients = {},
-			result = creative_mode_defines.names.items.linked_chest,
+			results = {{ type="item", name= creative_mode_defines.names.items.linked_chest, amount = 1}},
 			enabled = false
 		},
 		{
@@ -123,7 +123,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.linked_belt,
 			ingredients = {},
-			result = creative_mode_defines.names.items.linked_belt,
+			results = {{ type="item", name= creative_mode_defines.names.items.linked_belt, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.creative_cargo_wagon,
 			ingredients = {},
-			result = creative_mode_defines.names.items.creative_cargo_wagon,
+			results = {{ type="item", name= creative_mode_defines.names.items.creative_cargo_wagon, amount = 1}},
 			enabled = false
 		},
 		{
@@ -141,7 +141,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.duplicating_cargo_wagon,
 			ingredients = {},
-			result = creative_mode_defines.names.items.duplicating_cargo_wagon,
+			results = {{ type="item", name= creative_mode_defines.names.items.duplicating_cargo_wagon, amount = 1}},
 			enabled = false
 		},
 		{
@@ -149,7 +149,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_cargo_wagon,
 			ingredients = {},
-			result = creative_mode_defines.names.items.void_cargo_wagon,
+			results = {{ type="item", name= creative_mode_defines.names.items.void_cargo_wagon, amount = 1}},
 			enabled = false
 		},
 		{
@@ -157,7 +157,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_logistic_robot,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_logistic_robot,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_logistic_robot, amount = 1}},
 			enabled = false
 		},
 		{
@@ -165,7 +165,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_construction_robot,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_construction_robot,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_construction_robot, amount = 1}},
 			enabled = false
 		},
 		{
@@ -173,7 +173,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_roboport,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_roboport,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_roboport, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -183,7 +183,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.fluid_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.fluid_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.fluid_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -191,7 +191,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.fluid_void,
 			ingredients = {},
-			result = creative_mode_defines.names.items.fluid_void,
+			results = {{ type="item", name= creative_mode_defines.names.items.fluid_void, amount = 1}},
 			enabled = false
 		},
 		{
@@ -199,7 +199,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_boiler,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_boiler,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_boiler, amount = 1}},
 			enabled = false
 		},
 		{
@@ -207,7 +207,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_cooler,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_cooler,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_cooler, amount = 1}},
 			enabled = false
 		},
 		{
@@ -215,7 +215,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.configurable_super_boiler,
 			ingredients = {},
-			result = creative_mode_defines.names.items.configurable_super_boiler,
+			results = {{ type="item", name= creative_mode_defines.names.items.configurable_super_boiler, amount = 1}},
 			enabled = false
 		},
 		{
@@ -223,7 +223,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.heat_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.heat_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.heat_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -231,7 +231,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.heat_void,
 			ingredients = {},
-			result = creative_mode_defines.names.items.heat_void,
+			results = {{ type="item", name= creative_mode_defines.names.items.heat_void, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -241,7 +241,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.item_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.item_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.item_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -249,7 +249,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.duplicator,
 			ingredients = {},
-			result = creative_mode_defines.names.items.duplicator,
+			results = {{ type="item", name= creative_mode_defines.names.items.duplicator, amount = 1}},
 			enabled = false
 		},
 		{
@@ -257,7 +257,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.item_void,
 			ingredients = {},
-			result = creative_mode_defines.names.items.item_void,
+			results = {{ type="item", name= creative_mode_defines.names.items.item_void, amount = 1}},
 			enabled = false
 		},
 		{
@@ -265,7 +265,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.random_item_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.random_item_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.random_item_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -273,15 +273,15 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.creative_lab,
 			ingredients = {},
-			result = creative_mode_defines.names.items.creative_lab,
+			results = {{ type="item", name= creative_mode_defines.names.items.creative_lab, amount = 1}},
 			enabled = false
 		},
 		{
-			-- Creative lab
+			-- Void lab
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.void_lab,
 			ingredients = {},
-			result = creative_mode_defines.names.items.void_lab,
+			results = {{ type="item", name= creative_mode_defines.names.items.void_lab, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -290,27 +290,27 @@ data:extend(
 			-- Active electric energy interface (output)
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.active_electric_energy_interface_output,
-			hidden = "true",
+			hidden = true,
 			ingredients = {},
-			result = creative_mode_defines.names.items.active_electric_energy_interface_output,
+			results = {{ type="item", name= creative_mode_defines.names.items.active_electric_energy_interface_output, amount = 1}},
 			enabled = false
 		},
 		{
 			-- Passive electric energy interface
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.passive_electric_energy_interface,
-			hidden = "true",
+			hidden = true,
 			ingredients = {},
-			result = creative_mode_defines.names.items.passive_electric_energy_interface,
+			results = {{ type="item", name= creative_mode_defines.names.items.passive_electric_energy_interface, amount = 1}},
 			enabled = false
 		},
 		{
 			-- Active electric energy interface (input)
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.active_electric_energy_interface_input,
-			hidden = "true",
+			hidden = true,
 			ingredients = {},
-			result = creative_mode_defines.names.items.active_electric_energy_interface_input,
+			results = {{ type="item", name= creative_mode_defines.names.items.active_electric_energy_interface_input, amount = 1}},
 			enabled = false
 		},
 		{
@@ -318,7 +318,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.energy_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.energy_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.energy_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -326,7 +326,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.passive_energy_source,
 			ingredients = {},
-			result = creative_mode_defines.names.items.passive_energy_source,
+			results = {{ type="item", name= creative_mode_defines.names.items.passive_energy_source, amount = 1}},
 			enabled = false
 		},
 		{
@@ -334,7 +334,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.energy_void,
 			ingredients = {},
-			result = creative_mode_defines.names.items.energy_void,
+			results = {{ type="item", name= creative_mode_defines.names.items.energy_void, amount = 1}},
 			enabled = false
 		},
 		{
@@ -342,7 +342,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.passive_energy_void,
 			ingredients = {},
-			result = creative_mode_defines.names.items.passive_energy_void,
+			results = {{ type="item", name= creative_mode_defines.names.items.passive_energy_void, amount = 1}},
 			enabled = false
 		},
 		{
@@ -350,7 +350,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_electric_pole,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_electric_pole,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_electric_pole, amount = 1}},
 			enabled = false
 		},
 		{
@@ -358,7 +358,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_substation,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_substation,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_substation, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -383,7 +383,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.magic_wand_creator,
 			ingredients = {},
-			result = creative_mode_defines.names.items.magic_wand_creator,
+			results = {{ type="item", name= creative_mode_defines.names.items.magic_wand_creator, amount = 1}},
 			enabled = false
 		},
 		{
@@ -391,7 +391,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.magic_wand_healer,
 			ingredients = {},
-			result = creative_mode_defines.names.items.magic_wand_healer,
+			results = {{ type="item", name= creative_mode_defines.names.items.magic_wand_healer, amount = 1}},
 			enabled = false
 		},
 		{
@@ -399,7 +399,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.magic_wand_modifier,
 			ingredients = {},
-			result = creative_mode_defines.names.items.magic_wand_modifier,
+			results = {{ type="item", name= creative_mode_defines.names.items.magic_wand_modifier, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -409,7 +409,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_radar,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_radar,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_radar, amount = 1}},
 			enabled = false
 		},
 		{
@@ -417,7 +417,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_radar_2,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_radar_2,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_radar_2, amount = 1}},
 			enabled = false
 		},
 		{
@@ -425,7 +425,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.alien_attractor_small,
 			ingredients = {},
-			result = creative_mode_defines.names.items.alien_attractor_small,
+			results = {{ type="item", name= creative_mode_defines.names.items.alien_attractor_small, amount = 1}},
 			enabled = false
 		},
 		{
@@ -433,7 +433,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.alien_attractor_medium,
 			ingredients = {},
-			result = creative_mode_defines.names.items.alien_attractor_medium,
+			results = {{ type="item", name= creative_mode_defines.names.items.alien_attractor_medium, amount = 1}},
 			enabled = false
 		},
 		{
@@ -441,7 +441,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.alien_attractor_large,
 			ingredients = {},
-			result = creative_mode_defines.names.items.alien_attractor_large,
+			results = {{ type="item", name= creative_mode_defines.names.items.alien_attractor_large, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -451,7 +451,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_beacon,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_beacon,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_beacon, amount = 1}},
 			enabled = false
 		},
 		{
@@ -459,7 +459,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_speed_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_speed_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_speed_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -467,7 +467,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_effectivity_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_effectivity_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_effectivity_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -475,7 +475,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_productivity_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_productivity_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_productivity_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -483,7 +483,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_clean_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_clean_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_clean_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -491,7 +491,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_slow_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_slow_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_slow_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -499,7 +499,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_consumption_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_consumption_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_consumption_module, amount = 1}},
 			enabled = false
 		},
 		{
@@ -507,7 +507,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_pollution_module,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_pollution_module,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_pollution_module, amount = 1}},
 			enabled = false
 		},
 		-----------------------------------------------------------------------------
@@ -517,7 +517,7 @@ data:extend(
 			type = "recipe",
 			name = "infinity-chest",
 			ingredients = {},
-			result = "infinity-chest",
+			results = {{ type="item", name= "infinity-chest", amount = 1}},
 			enabled = false
 		},
 		{
@@ -525,7 +525,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_fusion_reactor_equipment,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_fusion_reactor_equipment,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_fusion_reactor_equipment, amount = 1}},
 			enabled = false
 		},
 		{
@@ -533,7 +533,7 @@ data:extend(
 			type = "recipe",
 			name = creative_mode_defines.names.recipes.super_personal_roboport_equipment,
 			ingredients = {},
-			result = creative_mode_defines.names.items.super_personal_roboport_equipment,
+			results = {{ type="item", name= creative_mode_defines.names.items.super_personal_roboport_equipment, amount = 1}},
 			enabled = false
 		}
 	}
