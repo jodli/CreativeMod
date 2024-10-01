@@ -93,7 +93,7 @@ default_style[creative_mode_defines.names.gui_styles.small_default_bold_button] 
 -- The style for the search textfield besides the frame title.
 default_style[creative_mode_defines.names.gui_styles.frame_search_textfield] = {
 	type = "textbox_style",
-	parent = "search_textfield_with_fixed_width",
+	parent = "textbox",
 	width = search_textfield_width,
 	scalable = false
 }
@@ -158,7 +158,7 @@ default_style[creative_mode_defines.names.gui_styles.main_menu_button] = {
 -- Frame style without graphic set and with a small, orange title.
 default_style[creative_mode_defines.names.gui_styles.naked_small_orange_title_frame] = {
 	type = "frame_style",
-	parent = "inner_frame",
+	parent = "frame",
 	font = "default-bold",
 	font_color = default_orange_color
 }
@@ -639,7 +639,7 @@ default_style[creative_mode_defines.names.gui_styles.creative_chest_filter_slot_
 -- The tile slot selected button style.
 default_style[creative_mode_defines.names.gui_styles.tile_slot_selected] = {
 	type = "button_style",
-	parent = "logistic_slot_button",
+	parent = "button",
 	left_click_sound = {
 		{
 			filename = "__core__/sound/list-box-click.ogg",
