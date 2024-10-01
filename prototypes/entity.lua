@@ -838,13 +838,11 @@ local function heat_pipe(entity_name, item_name, tint, use_heated_pictures, max_
         heat_pipe.picture = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].heat_glow_sprites.cross[1])
         for _, layer in ipairs(heat_pipe.picture.layers) do
             layer.tint = table.deepcopy(tint)
-            layer.hr_version.tint = table.deepcopy(tint)
         end
     end
     -- Always use the basic four way picture - tint it and insert it into the layers
     regpipe = table.deepcopy(data.raw["heat-pipe"]["heat-pipe"].connection_sprites.cross[1])
     regpipe.tint = table.deepcopy(tint)
-    regpipe.hr_version.tint = table.deepcopy(tint)
     table.insert(heat_pipe.picture.layers, regpipe)
     --log(serpent.block(heat_pipe.picture))
     heat_pipe.fast_replaceable_group = heat_pipe.fast_replaceable_group or
@@ -948,7 +946,7 @@ local function lab(entity_name, item_name, icon_name, on_animation_filename, off
     lab.on_animation.filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. on_animation_filename
     lab.off_animation.filename = creative_mode_defines.mod_directory .. "/graphics/entity/" .. off_animation_filename
     lab.energy_source = creative_mode_defines.non_electric_energy_source
-    lab.module_specification.module_slots = 7
+    lab.module_slots = 7
     lab.se_allow_in_space = true
     return lab
 end
@@ -975,16 +973,7 @@ local function void_lab()
         g = 50,
         b = 50
     }
-    lab.on_animation.layers[1].hr_version.tint = {
-        r = 50,
-        g = 50,
-        b = 50
-    }
-    lab.off_animation.layers[1].hr_version.tint = {
-        r = 50,
-        g = 50,
-        b = 50
-    }
+
     lab.se_allow_in_space = true
     return lab
 end
