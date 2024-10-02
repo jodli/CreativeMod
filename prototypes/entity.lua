@@ -2779,11 +2779,9 @@ data:extend({
             volume = 0.65
         },
         distribution_effectivity = 0.5,
-        module_specification = {
-            module_slots = 7,
-            module_info_icon_shift = { 0, 0.5 },
-            module_info_multi_row_initial_height_modifier = -0.3
-        },
+        module_slots = 7,
+        module_info_icon_shift = { 0, 0.5 },
+        module_info_multi_row_initial_height_modifier = -0.3,
         se_allow_in_space = true
     }
 
