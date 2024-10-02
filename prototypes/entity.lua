@@ -738,14 +738,17 @@ local function super_boiler(entity_name, item_name, icon_name, picture_name, add
         collision_box = { { -0.29, -0.29 }, { 0.29, 0.29 } },
         selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },
         fluid_box = {
+            volume = 200,
             base_area = 1,
             pipe_covers = pipecoverspictures(),
             pipe_connections = { {
-                type = "input",
-                position = { 0, 1 }
+                flow_direction = "input",
+                direction = defines.direction.south,
+                position = { 0, 0.289 }
             }, {
-                type = "output",
-                position = { 0, -1 }
+                flow_direction = "output",
+                direction = defines.direction.north,
+                position = { 0, -0.289 }
             } },
             production_type = "input-output"
         },
@@ -1921,13 +1924,15 @@ data:extend({
             volume = 0.65
         },
         fluid_boxes = { {
+            volume = 200,
             production_type = "output",
             pipe_covers = pipecoverspictures(),
             base_area = 10,
             base_level = 1,
             pipe_connections = { {
-                type = "output",
-                position = { 0, -1 }
+                flow_direction = "output",
+                direction = defines.direction.north,
+                position = { 0, -0.289 }
             } }
         } },
         animation = {
@@ -2007,12 +2012,14 @@ data:extend({
             volume = 0.65
         },
         fluid_box = {
+            volume = 200,
             base_area = 10000,
             base_level = -1,
             pipe_covers = pipecoverspictures(),
             pipe_connections = { {
-                type = "input",
-                position = { 0, 1 }
+                flow_direction = "input",
+                direction = defines.direction.south,
+                position = { 0, 0.289 }
             } },
             production_type = "input"
         },
@@ -2108,28 +2115,37 @@ data:extend({
         selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },
         vehicle_impact_sound = data.raw["infinity-pipe"]["infinity-pipe"].vehicle_impact_sound,
         fluid_box = {
+            volume = 200,
             pipe_connections = {
                 {
+                    flow_direction = "input-output",
+                    direction = defines.direction.north,
                     position = {
                         0,
-                        -1
+                        -0.289
                     }
                 },
                 {
+                    flow_direction = "input-output",
+                    direction = defines.direction.east,
                     position = {
-                        1,
+                        0.289,
                         0
                     }
                 },
                 {
+                    flow_direction = "input-output",
+                    direction = defines.direction.south,
                     position = {
                         0,
-                        1
+                        0.289
                     }
                 },
                 {
+                    flow_direction = "input-output",
+                    direction = defines.direction.west,
                     position = {
-                        -1,
+                        -0.289,
                         0
                     }
                 }
