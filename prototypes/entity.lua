@@ -2448,7 +2448,7 @@ data:extend({
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
-            emissions_per_minute = 0
+            emissions_per_minute = { pollution = 0 }
         },
         energy_usage = "5.4PW",
         ingredient_count = 0,
@@ -2514,7 +2514,7 @@ data:extend({
         energy_source = {
             type = "electric",
             usage_priority = "tertiary",
-            emissions_per_minute = 0
+            emissions_per_minute = { pollution = 0 }
         },
         energy_usage = "5.4PW",
         ingredient_count = 0,
