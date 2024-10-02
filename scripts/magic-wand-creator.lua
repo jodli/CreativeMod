@@ -49,11 +49,11 @@ function magic_wand_creator.get_selected_tile_prototype(player)
 	if storage.creative_mode.magic_wand_settings.creator[player.index] then
 		local tile_name = storage.creative_mode.magic_wand_settings.creator[player.index].tile_name
 		if tile_name then
-			return game.tile_prototypes[tile_name]
+			return prototypes.tile[tile_name]
 		end
 	end
 	-- Default to concrete. It can be nil if not existed.
-	return game.tile_prototypes["concrete"]
+	return prototypes.tile["concrete"]
 end
 
 -- Sets the given tile prototype as the selected tile by the given player. It can be nil.
@@ -77,7 +77,7 @@ function magic_wand_creator.get_selected_resource_prototype(player)
 	if storage.creative_mode.magic_wand_settings.creator[player.index] then
 		local resource_name = storage.creative_mode.magic_wand_settings.creator[player.index].resource_name
 		if resource_name then
-			return game.entity_prototypes[resource_name]
+			return prototypes.entity[resource_name]
 		end
 	end
 	return nil
@@ -145,11 +145,11 @@ function magic_wand_creator.get_selected_tile_prototype_2(player)
 	if storage.creative_mode.magic_wand_settings.creator[player.index] then
 		local tile_name_2 = storage.creative_mode.magic_wand_settings.creator[player.index].tile_name_2
 		if tile_name_2 then
-			return game.tile_prototypes[tile_name_2]
+			return prototypes.tile[tile_name_2]
 		end
 	end
 	-- Default to lab-dark-1. It can be nil if not existed.
-	return game.tile_prototypes["lab-dark-1"]
+	return prototypes.tile["lab-dark-1"]
 end
 
 -- Sets the given tile prototype as the second selected tile by the given player. It can be nil.
@@ -173,7 +173,7 @@ function magic_wand_creator.get_selected_resource_prototype_2(player)
 	if storage.creative_mode.magic_wand_settings.creator[player.index] then
 		local resource_name_2 = storage.creative_mode.magic_wand_settings.creator[player.index].resource_name_2
 		if resource_name_2 then
-			return game.entity_prototypes[resource_name_2]
+			return prototypes.entity[resource_name_2]
 		end
 	end
 	return nil
@@ -581,7 +581,7 @@ function magic_wand_creator.on_player_alt_selected_area(player, area, item_name,
 				local y = position.y
 				-- Remove the tile if it is hidding a tile behind it.
 				local hidden_tile_name = surface.get_hidden_tile(position)
-				local hidden_tile = game.tile_prototypes[hidden_tile_name]
+				local hidden_tile = prototypes.tile[hidden_tile_name]
 				if hidden_tile then
 					local remove_this_tile = true
 					if hidden_tile.collision_mask["player-layer"] and dont_kill_players_by_removing_tiles then

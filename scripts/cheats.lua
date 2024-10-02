@@ -894,14 +894,14 @@ cheats.team_cheats_data = {
                     end
                 end
                 -- Free fluid recipes. Get the recipe names by looping through the fluid prototypes in game.
-                for _, fluid in pairs(game.fluid_prototypes) do
+                for _, fluid in pairs(prototypes.fluid) do
                     local recipe = force.recipes[creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name]
                     if recipe then
                         recipe.enabled = enable
                     end
                 end
                 -- Enemy recipes.
-                for _, entity in pairs(game.entity_prototypes) do
+                for _, entity in pairs(prototypes.entity) do
                     local recipe = force.recipes[creative_mode_defines.names.enemy_recipe_prefix .. entity.name]
                     if recipe then
                         recipe.enabled = enable
@@ -2332,11 +2332,11 @@ function cheats.enable_or_disable_creative_mode(source_player, enable, is_perman
     -- Also unhide/hide the items so they can be selected as filter.
     -- Unfortunately, LuaItemPrototype doesn't have flags property. This cannot be done at this moment.
     --		for _, item in pairs(creative_mode_defines.names.items) do
-    --			if game.item_prototypes[item] ~= nil then
+    --			if prototypes.item[item] ~= nil then
     --				if enable then
-    --					table.remove(game.item_prototypes[item].flags, 2) -- The hidden flag is the second one.
+    --					table.remove(prototypes.item[item].flags, 2) -- The hidden flag is the second one.
     --				else
-    --					table.insert(game.item_prototypes[item].flags, "hidden")
+    --					table.insert(prototypes.item[item].flags, "hidden")
     --				end
     --			end
     --		end

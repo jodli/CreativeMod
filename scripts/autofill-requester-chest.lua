@@ -8,7 +8,7 @@ local function refill_chest(chest)
 	local inventory = chest.get_output_inventory()
 	local inventory_size = #inventory
 	local slot = 1
-	local item_prototypes = game.item_prototypes
+	local item_prototypes = prototypes.item
 	local math_ceil = math.ceil
 
 	local request_slot_count = chest.request_slot_count

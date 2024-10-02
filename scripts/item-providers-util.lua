@@ -200,7 +200,7 @@ local function output_item_stack_according_to_inventory_slot_filters(inventory)
             if filter then
                 inventory[i].set_stack {
                     name = filter,
-                    count = game.item_prototypes[filter].stack_size
+                    count = prototypes.item[filter].stack_size
                 }
             end
         end
@@ -1122,7 +1122,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
                     -- Change the item count if needed.
                     if entity_data.insert_only_once_to_player then
                         if entity_data.insert_to_player_by_stack then
-                            output_stack.count = game.item_prototypes[output_stack.name].stack_size *
+                            output_stack.count = prototypes.item[output_stack.name].stack_size *
                                                      entity_data.insert_to_player_amount
                         else
                             output_stack.count = entity_data.insert_to_player_amount

@@ -287,7 +287,7 @@ local function create_tile_or_resource_selection_for_creator(player, container, 
         column_count = column_count
     }
     -- Tile slots.
-    for _, tile in pairs(game.tile_prototypes) do
+    for _, tile in pairs(prototypes.tile) do
         local style
         if selected_tile == tile then
             style = creative_mode_defines.names.gui_styles.tile_slot_selected
@@ -313,7 +313,7 @@ local function create_tile_or_resource_selection_for_creator(player, container, 
         column_count = column_count
     }
     -- Resource slots.
-    for _, resource in pairs(game.entity_prototypes) do
+    for _, resource in pairs(prototypes.entity) do
         if resource.resource_category then
             local style
             if selected_resource == resource then
@@ -1271,7 +1271,7 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
                 local label_name
                 if item_name then
                     -- item-on-ground
-                    local item_prototype = game.item_prototypes[item_name]
+                    local item_prototype = prototypes.item[item_name]
                     local stack_counts = data.stack_counts
                     button_name = creative_mode_defines.names.gui
                                       .magic_wand_modifier_popup_item_on_ground_name_slot_prefix .. item_name
@@ -1285,7 +1285,7 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
                                      .magic_wand_modifier_popup_item_on_ground_count_label_prefix .. item_name
                 elseif ghosted_entity_name then
                     -- entity-ghost
-                    local entity_prototype = game.entity_prototypes[ghosted_entity_name]
+                    local entity_prototype = prototypes.entity[ghosted_entity_name]
                     local unit_numbers = data.unit_numbers
                     button_name = creative_mode_defines.names.gui
                                       .magic_wand_modifier_popup_ghost_entity_name_slot_prefix .. ghosted_entity_name
@@ -1299,7 +1299,7 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
                                      .magic_wand_modifier_popup_ghost_entity_count_label_prefix .. ghosted_entity_name
                 elseif ghosted_tile_name then
                     -- tile-ghost
-                    local tile_prototype = game.tile_prototypes[ghosted_tile_name]
+                    local tile_prototype = prototypes.tile[ghosted_tile_name]
                     local unit_numbers = data.unit_numbers
                     button_name =
                         creative_mode_defines.names.gui.magic_wand_modifier_popup_ghost_tile_name_slot_prefix ..
@@ -1314,7 +1314,7 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
                             ghosted_tile_name
                 else
                     -- common entity
-                    local entity_prototype = game.entity_prototypes[entity_name]
+                    local entity_prototype = prototypes.entity[entity_name]
                     local unit_numbers = data.unit_numbers
                     button_name = creative_mode_defines.names.gui.magic_wand_modifier_popup_entity_name_slot_prefix ..
                                       entity_name
@@ -1490,7 +1490,7 @@ local function on_gui_click_in_tiles_table(element, element_name, player, tiles_
             local tile_name = string.match(element.name, tile_name_button_pattern)
             if tile_name ~= nil then
                 -- Select the tile.
-                local tile = game.tile_prototypes[tile_name]
+                local tile = prototypes.tile[tile_name]
                 if tile then
                     element.style = creative_mode_defines.names.gui_styles.tile_slot_selected
                     set_selected_tile_prototype_function(player, tile)
@@ -1523,7 +1523,7 @@ local function on_gui_click_in_resources_table(element, element_name, player, re
             local resource_name = string.match(element.name, resource_name_button_pattern)
             if resource_name ~= nil then
                 -- Select the resource.
-                local resource = game.entity_prototypes[resource_name]
+                local resource = prototypes.entity[resource_name]
                 if resource then
                     element.style = creative_mode_defines.names.gui_styles.tile_slot_selected
                     set_selected_resource_prototype_function(player, resource)

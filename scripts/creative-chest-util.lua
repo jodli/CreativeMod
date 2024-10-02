@@ -36,7 +36,7 @@ function creative_chest_util.get_item_at(item_index, contain_hidden_items)
 	end
 	local creative_item_count = #creative_mode_defines.values.creative_provider_chest_additional_content_names
 	if item_index <= creative_item_count then
-		return game.item_prototypes[creative_mode_defines.values.creative_provider_chest_additional_content_names[item_index]]
+		return prototypes.item[creative_mode_defines.values.creative_provider_chest_additional_content_names[item_index]]
 	end
 	item_index = item_index - creative_item_count
 	return storage.hidden_creative_enemy_item_list[item_index]
@@ -48,7 +48,7 @@ end
 
 -- Returns the usable inventory size (except the extra slot for voiding items) for creative chest and creative provider chest.
 function creative_chest_util.get_creative_provider_chest_usable_inventory_size()
-	return game.entity_prototypes[creative_mode_defines.names.entities.creative_chest].get_inventory_size(1) - 1
+	return prototypes.entity[creative_mode_defines.names.entities.creative_chest].get_inventory_size(1) - 1
 end
 
 -- Returns the total number of items to be container by each creative chest or creative provider chest.
@@ -62,7 +62,7 @@ end
 
 -- Returns the usable inventory size (except the extra slot for voiding items) for creative cargo wagon.
 function creative_chest_util.get_creative_cargo_wagon_usable_inventory_size()
-	return game.entity_prototypes[creative_mode_defines.names.entities.creative_cargo_wagon].get_inventory_size(1) - 1
+	return prototypes.entity[creative_mode_defines.names.entities.creative_cargo_wagon].get_inventory_size(1) - 1
 end
 
 -- Returns the total number of items to be container by each creative cargo wagon.

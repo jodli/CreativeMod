@@ -39,7 +39,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 				-- Get the item to be duplicated.
 				local item_to_be_duplicated = nil
 				if lock_item and locked_item_name then
-					item_to_be_duplicated = game.item_prototypes[locked_item_name]
+					item_to_be_duplicated = prototypes.item[locked_item_name]
 				end
 				if item_to_be_duplicated then
 					-- The locked item is valid. Fill the chest with such item.

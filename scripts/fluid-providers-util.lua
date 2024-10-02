@@ -28,7 +28,7 @@ function fluid_providers_util.heat_all_fluids_up_to_max_temperature(entity)
 	for i = 1, #entity.fluidbox, 1 do
 		local fluid = entity.fluidbox[i]
 		if fluid then
-			local fluid_prototype = game.fluid_prototypes[fluid.name]
+			local fluid_prototype = prototypes.fluid[fluid.name]
 			fluid.temperature = fluid_prototype.max_temperature
 			entity.fluidbox[i] = fluid
 		end
@@ -40,7 +40,7 @@ function fluid_providers_util.cool_all_fluids_down_to_default_temperature(entity
 	for i = 1, #entity.fluidbox, 1 do
 		local fluid = entity.fluidbox[i]
 		if fluid then
-			local fluid_prototype = game.fluid_prototypes[fluid.name]
+			local fluid_prototype = prototypes.fluid[fluid.name]
 			fluid.temperature = fluid_prototype.default_temperature
 			entity.fluidbox[i] = fluid
 		end

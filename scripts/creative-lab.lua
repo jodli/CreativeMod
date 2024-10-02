@@ -39,7 +39,7 @@ function creative_lab.tick()
 			-- Update the lab.
 			if not creative_lab.to_be_deconstructed(creative_lab.force) then
 				for _, item in ipairs(storage.tool_item_list) do
-					creative_lab.insert {name = item.name, count = game.item_prototypes[item.name].stack_size}
+					creative_lab.insert {name = item.name, count = prototypes.item[item.name].stack_size}
 				end
 			end
 			-- Prepare for the next lab.

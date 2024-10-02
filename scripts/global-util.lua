@@ -530,8 +530,8 @@ function global_util.renew_item_lists()
     -- List of items with type equals to "tool"
     storage.tool_item_list = {}
 
-    for _, item in pairs(game.item_prototypes) do
-        if item.has_flag("hidden") then
+    for _, item in pairs(prototypes.item) do
+        if item.hidden then
             local is_our_enemy_item = util.string_starts_with(item.name, creative_mode_defines.names.enemy_item_prefix)
             if is_our_enemy_item then
                 -- Our enemy item.
