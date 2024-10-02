@@ -39,7 +39,6 @@ data:extend {
 		energy_source = {
 			type = "electric",
 			buffer_capacity = "100PJ",
-			input_flow_limit = "0KW",
 			usage_priority = "secondary-input"
 		},
 		charging_energy = "40MJ",
