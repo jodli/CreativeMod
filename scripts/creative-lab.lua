@@ -3,10 +3,10 @@ if not creative_lab then
 	creative_lab = {}
 end
 
--- Processes the table of creative_lab in global.
+-- Processes the table of creative_lab in storage.
 function creative_lab.tick()
-	local next_update_index = global.creative_mode.creative_lab_next_update_index
-	local creative_labs = global.creative_mode.creative_lab
+	local next_update_index = storage.creative_mode.creative_lab_next_update_index
+	local creative_labs = storage.creative_mode.creative_lab
 	local lab_count = #creative_labs
 
 	if lab_count <= 0 then
@@ -38,7 +38,7 @@ function creative_lab.tick()
 			local creative_lab = creative_labs[next_update_index]
 			-- Update the lab.
 			if not creative_lab.to_be_deconstructed(creative_lab.force) then
-				for _, item in ipairs(global.tool_item_list) do
+				for _, item in ipairs(storage.tool_item_list) do
 					creative_lab.insert {name = item.name, count = game.item_prototypes[item.name].stack_size}
 				end
 			end
@@ -55,7 +55,7 @@ function creative_lab.tick()
 	end
 
 	if labs_updated then
-		global.creative_mode.creative_lab = creative_labs
+		storage.creative_mode.creative_lab = creative_labs
 	end
-	global.creative_mode.creative_lab_next_update_index = next_update_index
+	storage.creative_mode.creative_lab_next_update_index = next_update_index
 end

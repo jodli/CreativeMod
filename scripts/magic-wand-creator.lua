@@ -5,9 +5,9 @@ end
 
 -- Returns whether tile correction should be performed for the given player.
 function magic_wand_creator.get_tile_correction(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].tile_correction ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].tile_correction
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].tile_correction ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].tile_correction
 		end
 	end
 	return true
@@ -15,19 +15,19 @@ end
 
 -- Sets whether tile correction should be performed for the given player.
 function magic_wand_creator.set_tile_correction(player, tile_correction)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].tile_correction = tile_correction
+	storage.creative_mode.magic_wand_settings.creator[player.index].tile_correction = tile_correction
 end
 
 ----
 
 -- Returns whether the don't-kill-players-by-tiles option is turned on for the given player.
 function magic_wand_creator.get_dont_kill_players_by_tiles(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles
 		end
 	end
 	return true
@@ -35,10 +35,10 @@ end
 
 -- Sets whether the don't-kill-players-by-tiles option is turned on for the given player.
 function magic_wand_creator.set_dont_kill_players_by_tiles(player, dont_kill_players_by_tiles)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles = dont_kill_players_by_tiles
+	storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_tiles = dont_kill_players_by_tiles
 end
 
 ----
@@ -46,8 +46,8 @@ end
 -- Returns the tile prototype selected by the given player.
 -- If no tile is selected, nil will be returned.
 function magic_wand_creator.get_selected_tile_prototype(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local tile_name = global.creative_mode.magic_wand_settings.creator[player.index].tile_name
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local tile_name = storage.creative_mode.magic_wand_settings.creator[player.index].tile_name
 		if tile_name then
 			return game.tile_prototypes[tile_name]
 		end
@@ -58,15 +58,15 @@ end
 
 -- Sets the given tile prototype as the selected tile by the given player. It can be nil.
 function magic_wand_creator.set_selected_tile_prototype(player, tile_prototype)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
 	if tile_prototype then
-		global.creative_mode.magic_wand_settings.creator[player.index].tile_name = tile_prototype.name
+		storage.creative_mode.magic_wand_settings.creator[player.index].tile_name = tile_prototype.name
 	else
-		global.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
+		storage.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_name = ""
+	storage.creative_mode.magic_wand_settings.creator[player.index].resource_name = ""
 end
 
 ----
@@ -74,8 +74,8 @@ end
 -- Returns the resource entity prototype selected by the given player.
 -- If no resource is selected, nil will be returned.
 function magic_wand_creator.get_selected_resource_prototype(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local resource_name = global.creative_mode.magic_wand_settings.creator[player.index].resource_name
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local resource_name = storage.creative_mode.magic_wand_settings.creator[player.index].resource_name
 		if resource_name then
 			return game.entity_prototypes[resource_name]
 		end
@@ -85,14 +85,14 @@ end
 
 -- Sets the given resource entity prototype as the selected resource by the given player. It can be nil.
 function magic_wand_creator.set_selected_resource_prototype(player, resource_prototype)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
+	storage.creative_mode.magic_wand_settings.creator[player.index].tile_name = ""
 	if resource_prototype then
-		global.creative_mode.magic_wand_settings.creator[player.index].resource_name = resource_prototype.name
+		storage.creative_mode.magic_wand_settings.creator[player.index].resource_name = resource_prototype.name
 	else
-		global.creative_mode.magic_wand_settings.creator[player.index].resource_name = ""
+		storage.creative_mode.magic_wand_settings.creator[player.index].resource_name = ""
 	end
 end
 
@@ -100,8 +100,8 @@ end
 
 -- Returns the resource amount when creating resources for the given player.
 function magic_wand_creator.get_resource_amount(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local resource_amount = global.creative_mode.magic_wand_settings.creator[player.index].resource_amount
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local resource_amount = storage.creative_mode.magic_wand_settings.creator[player.index].resource_amount
 		if resource_amount then
 			return resource_amount
 		end
@@ -111,19 +111,19 @@ end
 
 -- Sets the resource amount when creating resources for the given player.
 function magic_wand_creator.set_resource_amount(player, resource_amount)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_amount = resource_amount
+	storage.creative_mode.magic_wand_settings.creator[player.index].resource_amount = resource_amount
 end
 
 ----
 
 -- Returns the index of used pattern for the given player.
 function magic_wand_creator.get_use_pattern(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index then
-			return global.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index
 		end
 	end
 	return 1
@@ -131,10 +131,10 @@ end
 
 -- Sets the index of the used pattern for the given player.
 function magic_wand_creator.set_use_pattern(player, used_pattern_index)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index = used_pattern_index
+	storage.creative_mode.magic_wand_settings.creator[player.index].used_pattern_index = used_pattern_index
 end
 
 ----
@@ -142,8 +142,8 @@ end
 -- Returns the second tile prototype selected by the given player.
 -- If no tile is selected, nil will be returned.
 function magic_wand_creator.get_selected_tile_prototype_2(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local tile_name_2 = global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local tile_name_2 = storage.creative_mode.magic_wand_settings.creator[player.index].tile_name_2
 		if tile_name_2 then
 			return game.tile_prototypes[tile_name_2]
 		end
@@ -154,15 +154,15 @@ end
 
 -- Sets the given tile prototype as the second selected tile by the given player. It can be nil.
 function magic_wand_creator.set_selected_tile_prototype_2(player, tile_prototype_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
 	if tile_prototype_2 then
-		global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = tile_prototype_2.name
+		storage.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = tile_prototype_2.name
 	else
-		global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
+		storage.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = ""
+	storage.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = ""
 end
 
 ----
@@ -170,8 +170,8 @@ end
 -- Returns the second resource entity prototype selected by the given player.
 -- If no resource is selected, nil will be returned.
 function magic_wand_creator.get_selected_resource_prototype_2(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local resource_name_2 = global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local resource_name_2 = storage.creative_mode.magic_wand_settings.creator[player.index].resource_name_2
 		if resource_name_2 then
 			return game.entity_prototypes[resource_name_2]
 		end
@@ -181,14 +181,14 @@ end
 
 -- Sets the given resource entity prototype as the second selected resource by the given player. It can be nil.
 function magic_wand_creator.set_selected_resource_prototype_2(player, resource_prototype_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
+	storage.creative_mode.magic_wand_settings.creator[player.index].tile_name_2 = ""
 	if resource_prototype_2 then
-		global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = resource_prototype_2.name
+		storage.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = resource_prototype_2.name
 	else
-		global.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = ""
+		storage.creative_mode.magic_wand_settings.creator[player.index].resource_name_2 = ""
 	end
 end
 
@@ -196,8 +196,8 @@ end
 
 -- Returns the resource amount when creating resources based on the second selected resource for the given player.
 function magic_wand_creator.get_resource_amount_2(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		local resource_amount_2 = global.creative_mode.magic_wand_settings.creator[player.index].resource_amount_2
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		local resource_amount_2 = storage.creative_mode.magic_wand_settings.creator[player.index].resource_amount_2
 		if resource_amount_2 then
 			return resource_amount_2
 		end
@@ -207,19 +207,19 @@ end
 
 -- Sets the resource amount when creating resources based on the second selected resource for the given player.
 function magic_wand_creator.set_resource_amount_2(player, resource_amount_2)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].resource_amount_2 = resource_amount_2
+	storage.creative_mode.magic_wand_settings.creator[player.index].resource_amount_2 = resource_amount_2
 end
 
 ----
 
 -- Returns whether the also-remove-decoratives option is turned on for the given player.
 function magic_wand_creator.get_also_remove_decoratives(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives
 		end
 	end
 	return true
@@ -227,19 +227,19 @@ end
 
 -- Sets whether the also-remove-decoratives option is turned on for the given player.
 function magic_wand_creator.set_also_remove_decoratives(player, also_remove_decoratives)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives = also_remove_decoratives
+	storage.creative_mode.magic_wand_settings.creator[player.index].also_remove_decoratives = also_remove_decoratives
 end
 
 ----
 
 -- Returns whether the don't-remove-player-characters option is turned on for the given player.
 function magic_wand_creator.get_dont_remove_player_characters(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters
 		end
 	end
 	return true
@@ -247,10 +247,10 @@ end
 
 -- Sets whether the don't-remove-player-characters option is turned on for the given player.
 function magic_wand_creator.set_dont_remove_player_characters(player, dont_remove_player_characters)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters =
+	storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_player_characters =
 		dont_remove_player_characters
 end
 
@@ -258,9 +258,9 @@ end
 
 -- Returns whether tile removal should not be performed when there is any entity being selected for the given player.
 function magic_wand_creator.get_dont_remove_tiles_if_any_entity_is_selected(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected
 		end
 	end
 	return true
@@ -270,10 +270,10 @@ end
 function magic_wand_creator.set_dont_remove_tiles_if_any_entity_is_selected(
 	player,
 	dont_remove_tiles_if_any_entity_is_selected)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected =
+	storage.creative_mode.magic_wand_settings.creator[player.index].dont_remove_tiles_if_any_entity_is_selected =
 		dont_remove_tiles_if_any_entity_is_selected
 end
 
@@ -281,9 +281,9 @@ end
 
 -- Returns whether the don't-kill-players-by-removing-tiles option is turned on for the given player.
 function magic_wand_creator.get_dont_kill_players_by_removing_tiles(player)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles
 		end
 	end
 	return true
@@ -291,10 +291,10 @@ end
 
 -- Sets whether the don't-kill-players-by-removing-tiles option is turned on for the given player.
 function magic_wand_creator.set_dont_kill_players_by_removing_tiles(player, dont_kill_players_by_removing_tiles)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles =
+	storage.creative_mode.magic_wand_settings.creator[player.index].dont_kill_players_by_removing_tiles =
 		dont_kill_players_by_removing_tiles
 end
 
@@ -302,9 +302,9 @@ end
 
 -- Returns whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_creator.get_alt_mode_apply_on_force(player, force)
-	if global.creative_mode.magic_wand_settings.creator[player.index] then
-		if global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces ~= nil then
-			return global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces[force.name] ~= false
+	if storage.creative_mode.magic_wand_settings.creator[player.index] then
+		if storage.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces ~= nil then
+			return storage.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces[force.name] ~= false
 		end
 	end
 	return true
@@ -312,13 +312,13 @@ end
 
 -- Sets whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_creator.set_alt_mode_apply_on_force(player, force, apply)
-	if not global.creative_mode.magic_wand_settings.creator[player.index] then
-		global.creative_mode.magic_wand_settings.creator[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index] then
+		storage.creative_mode.magic_wand_settings.creator[player.index] = {}
 	end
-	if not global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces then
-		global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces = {}
+	if not storage.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces then
+		storage.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces = {}
 	end
-	global.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces[force.name] = apply
+	storage.creative_mode.magic_wand_settings.creator[player.index].alt_mode_forces[force.name] = apply
 end
 
 ------------------------------------------------------

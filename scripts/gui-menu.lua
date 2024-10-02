@@ -9,7 +9,7 @@ end
 -- Returns whether the button exists. If false is returned, it means the whole Creative Menu is removed for such player.
 function gui_menu.create_or_destroy_main_menu_open_button_for_player(player)
 	local top = mod_gui.get_button_flow(player)
-	if global.creative_mode.enabled and rights.can_player_access_creative_mode_menu(player) then
+	if storage.creative_mode.enabled and rights.can_player_access_creative_mode_menu(player) then
 		if not top[creative_mode_defines.names.gui.main_menu_open_button] then
 			top.add {
 				type = "button",

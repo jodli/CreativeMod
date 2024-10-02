@@ -12,25 +12,25 @@ creative_chest_util.inventory_display_modes = {
 -- Returns the total number of items to be contained according to whether the container should also contain hidden items.
 local function get_total_item_count(contain_hidden_items)
 	local count =
-		#global.non_hidden_item_list + #creative_mode_defines.values.creative_provider_chest_additional_content_names +
-		#global.hidden_creative_enemy_item_list
+		#storage.non_hidden_item_list + #creative_mode_defines.values.creative_provider_chest_additional_content_names +
+		#storage.hidden_creative_enemy_item_list
 	if contain_hidden_items then
-		count = count + #global.non_creative_hidden_item_list
+		count = count + #storage.non_creative_hidden_item_list
 	end
 	return count
 end
 
 -- Returns the item prototype at given index according to whether the container should contain hidden items.
 function creative_chest_util.get_item_at(item_index, contain_hidden_items)
-	local current_item_count = #global.non_hidden_item_list
+	local current_item_count = #storage.non_hidden_item_list
 	if item_index <= current_item_count then
-		return global.non_hidden_item_list[item_index]
+		return storage.non_hidden_item_list[item_index]
 	end
 	item_index = item_index - current_item_count
 	if contain_hidden_items then
-		current_item_count = #global.non_creative_hidden_item_list
+		current_item_count = #storage.non_creative_hidden_item_list
 		if item_index <= current_item_count then
-			return global.non_creative_hidden_item_list[item_index]
+			return storage.non_creative_hidden_item_list[item_index]
 		end
 		item_index = item_index - current_item_count
 	end
@@ -39,7 +39,7 @@ function creative_chest_util.get_item_at(item_index, contain_hidden_items)
 		return game.item_prototypes[creative_mode_defines.values.creative_provider_chest_additional_content_names[item_index]]
 	end
 	item_index = item_index - creative_item_count
-	return global.hidden_creative_enemy_item_list[item_index]
+	return storage.hidden_creative_enemy_item_list[item_index]
 end
 
 -------------------------------------------------------------------------
@@ -74,39 +74,39 @@ end
 
 -------------------------------------------------------------------------
 
--- Updates the data used by the Creative Chest family according to the in-game item list in global.
+-- Updates the data used by the Creative Chest family according to the in-game item list in storage.
 function creative_chest_util.update_item_lists_data()
 	-- Creative chest and creative provider chest:
 	-- There may be more items than the usable inventory size of each creative chest. We need to find out how many chests are needed for one cycle first.
 	-- It is also the total number of item groups.
 	local usable_inventory_size = creative_chest_util.get_creative_provider_chest_usable_inventory_size()
-	global.creative_mode.creative_provider_chest_num_in_cycle =
+	storage.creative_mode.creative_provider_chest_num_in_cycle =
 		math.ceil(creative_chest_util.get_creative_provider_chest_total_item_count() / usable_inventory_size)
 	-- Chests in the same cycle are divided into groups. Let's say we have 251 items, so the first group will contain the first 250 items, and the last group will contain the last item.
-	global.creative_mode.creative_provider_chest_next_place_group = 1
-	global.creative_mode.creative_chest_next_place_group = 1
+	storage.creative_mode.creative_provider_chest_next_place_group = 1
+	storage.creative_mode.creative_chest_next_place_group = 1
 	-- For performance reason, we don't update all groups in the same tick.
-	global.creative_mode.creative_provider_chest_next_update_group = 1
-	global.creative_mode.creative_chest_next_update_group = 1
+	storage.creative_mode.creative_provider_chest_next_update_group = 1
+	storage.creative_mode.creative_chest_next_update_group = 1
 	-- And we don't update all chests in the same group.
-	global.creative_mode.creative_provider_chest_next_update_group_subindex = 1
-	global.creative_mode.creative_chest_next_update_group_subindex = 1
+	storage.creative_mode.creative_provider_chest_next_update_group_subindex = 1
+	storage.creative_mode.creative_chest_next_update_group_subindex = 1
 
 	-- Store the settings that can affect the number of chests per item cycle when we have calculated the above maths, so that we know we will need to calculate again if change is detected.
-	global.creative_mode.last_creative_provider_chest_size = usable_inventory_size
-	global.creative_mode.last_creative_provider_chest_contain_hidden_items =
+	storage.creative_mode.last_creative_provider_chest_size = usable_inventory_size
+	storage.creative_mode.last_creative_provider_chest_contain_hidden_items =
 		settings.global[creative_mode_defines.names.settings.creative_chest_contains_hidden_items].value
 
 	-- Creative cargo wagon:
 	-- Do the same as above.
 	usable_inventory_size = creative_chest_util.get_creative_cargo_wagon_usable_inventory_size()
-	global.creative_mode.creative_cargo_wagon_num_in_cycle =
+	storage.creative_mode.creative_cargo_wagon_num_in_cycle =
 		math.ceil(creative_chest_util.get_creative_cargo_wagon_total_item_count() / usable_inventory_size)
-	global.creative_mode.creative_cargo_wagon_next_place_group = 1
-	global.creative_mode.creative_cargo_wagon_next_update_group = 1
-	global.creative_mode.creative_cargo_wagon_next_update_group_subindex = 1
-	global.creative_mode.last_creative_cargo_wagon_size = usable_inventory_size
-	global.creative_mode.last_creative_cargo_wagon_contain_hidden_items =
+	storage.creative_mode.creative_cargo_wagon_next_place_group = 1
+	storage.creative_mode.creative_cargo_wagon_next_update_group = 1
+	storage.creative_mode.creative_cargo_wagon_next_update_group_subindex = 1
+	storage.creative_mode.last_creative_cargo_wagon_size = usable_inventory_size
+	storage.creative_mode.last_creative_cargo_wagon_contain_hidden_items =
 		settings.global[creative_mode_defines.names.settings.creative_cargo_wagon_contains_hidden_items].value
 end
 
@@ -114,17 +114,17 @@ end
 -- Returns whether the data is updated.
 local function validate_or_update_data()
 	if
-		(global.creative_mode.last_creative_provider_chest_size == nil or
-			global.creative_mode.last_creative_provider_chest_size ~=
+		(storage.creative_mode.last_creative_provider_chest_size == nil or
+			storage.creative_mode.last_creative_provider_chest_size ~=
 				creative_chest_util.get_creative_provider_chest_usable_inventory_size() or
-			global.creative_mode.last_creative_provider_chest_contain_hidden_items == nil or
-			global.creative_mode.last_creative_provider_chest_contain_hidden_items ~=
+			storage.creative_mode.last_creative_provider_chest_contain_hidden_items == nil or
+			storage.creative_mode.last_creative_provider_chest_contain_hidden_items ~=
 				settings.global[creative_mode_defines.names.settings.creative_chest_contains_hidden_items].value or
-			global.creative_mode.last_creative_cargo_wagon_size == nil or
-			global.creative_mode.last_creative_cargo_wagon_size ~=
+			storage.creative_mode.last_creative_cargo_wagon_size == nil or
+			storage.creative_mode.last_creative_cargo_wagon_size ~=
 				creative_chest_util.get_creative_cargo_wagon_usable_inventory_size() or
-			global.creative_mode.last_creative_cargo_wagon_contain_hidden_items == nil or
-			global.creative_mode.last_creative_cargo_wagon_contain_hidden_items ~=
+			storage.creative_mode.last_creative_cargo_wagon_contain_hidden_items == nil or
+			storage.creative_mode.last_creative_cargo_wagon_contain_hidden_items ~=
 				settings.global[creative_mode_defines.names.settings.creative_cargo_wagon_contains_hidden_items].value)
 	 then
 		creative_chest_util.update_item_lists_data()
@@ -135,7 +135,7 @@ end
 
 -- Whether data validation has been done.
 local has_validated_data = false
--- Processes the tables related to the Creative Chest family in global.
+-- Processes the tables related to the Creative Chest family in storage.
 function creative_chest_util.tick()
 	-- Check whether the user has changed the settings that can affect the number of chests per item cycle. If so, update the item list and regroup the items.
 	if not has_validated_data and game.tick >= 1 then
@@ -294,7 +294,7 @@ function creative_chest_util.set_chest_filter(data)
                 local filtered_slots = data.filtered_slots
                 local filtered_slots_count = #filtered_slots
                 local next_filtered_slot_to_check = 1
-                local contain_hidden_items = global.creative_mode.last_creative_provider_chest_contain_hidden_items
+                local contain_hidden_items = storage.creative_mode.last_creative_provider_chest_contain_hidden_items
                 if filtered_slots_count <= 0 then
                     next_filtered_slot_to_check = 0
                 end
@@ -343,15 +343,15 @@ end
 -- Also returns the number of chests for each item cycle (i.e. max group number) and whether the entity should contain hidden items.
 function creative_chest_util.get_creative_chest_data_groups(entity)
 	if entity.name == creative_mode_defines.names.entities.creative_chest then
-		return global.creative_mode.creative_chest_data_groups, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+		return storage.creative_mode.creative_chest_data_groups, storage.creative_mode.creative_provider_chest_num_in_cycle, storage.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.creative_provider_chest then
-		return global.creative_mode.creative_provider_chest_data_groups, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+		return storage.creative_mode.creative_provider_chest_data_groups, storage.creative_mode.creative_provider_chest_num_in_cycle, storage.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.new_creative_chest then
-		return global.creative_mode.new_creative_chests, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+		return storage.creative_mode.new_creative_chests, storage.creative_mode.creative_provider_chest_num_in_cycle, storage.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.new_creative_provider_chest then
-		return global.creative_mode.new_creative_provider_chests, global.creative_mode.creative_provider_chest_num_in_cycle, global.creative_mode.last_creative_provider_chest_contain_hidden_items
+		return storage.creative_mode.new_creative_provider_chests, storage.creative_mode.creative_provider_chest_num_in_cycle, storage.creative_mode.last_creative_provider_chest_contain_hidden_items
 	elseif entity.name == creative_mode_defines.names.entities.creative_cargo_wagon then
-		return global.creative_mode.creative_cargo_wagon_data_groups, global.creative_mode.creative_cargo_wagon_num_in_cycle, global.creative_mode.last_creative_cargo_wagon_contain_hidden_items
+		return storage.creative_mode.creative_cargo_wagon_data_groups, storage.creative_mode.creative_cargo_wagon_num_in_cycle, storage.creative_mode.last_creative_cargo_wagon_contain_hidden_items
 	end
 	return nil, 0, false
 end

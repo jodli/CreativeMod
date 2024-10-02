@@ -62,7 +62,7 @@ remote.add_interface(creative_mode_defines.names.interface, remote_interface.rem
 -- For demo usage of the remote interface, please see call_remote_functions() in scripts/events.lua.
 
 --[[commands.add_command("creative-mode.reload", "Reload, in case something broke", function(event)
-    if global.creative_mode.enabled then
+    if storage.creative_mode.enabled then
         local player = game.players[event.player_index]
         --events.on_configuration_changed({mod_changes={}}) --this doesn't work, because it checks if the recipes are disabled(which they are), and will skip re-enabling if so
         cheats.enable_or_disable_creative_mode(player, false, false, false, false)

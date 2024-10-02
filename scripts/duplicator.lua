@@ -11,10 +11,10 @@ local duplicator_shift = {
 	[defines.direction.west] = {x = 1, y = 0}
 }
 
--- Processes the table of duplicator_data in global.
+-- Processes the table of duplicator_data in storage.
 function duplicator.tick()
 	-- Loop through the table of duplicator data to duplicate items.
-	for index, duplicator_data in ipairs(global.creative_mode.duplicator_data) do
+	for index, duplicator_data in ipairs(storage.creative_mode.duplicator_data) do
 		local duplicator = duplicator_data.entity
 		-- Work only if the entity is valid.
 		if duplicator.valid then
@@ -46,14 +46,14 @@ function duplicator.tick()
 			end
 		else
 			-- Remove invalid entity.
-			table.remove(global.creative_mode.duplicator_data, index)
+			table.remove(storage.creative_mode.duplicator_data, index)
 		end
 	end
 end
 
 -- Returns the entity data for the given matter duplicator entity.
 function duplicator.get_data_for_entity(entity)
-	for _, data in ipairs(global.creative_mode.duplicator_data) do
+	for _, data in ipairs(storage.creative_mode.duplicator_data) do
 		if data.entity == entity then
 			return data
 		end

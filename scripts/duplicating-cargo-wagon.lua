@@ -3,11 +3,11 @@ if not duplicating_cargo_wagon then
 	duplicating_cargo_wagon = {}
 end
 
--- Processes the tables related to Duplicating Provider Chest in global.
+-- Processes the tables related to Duplicating Provider Chest in storage.
 function duplicating_cargo_wagon.tick()
-	global.creative_mode.duplicating_cargo_wagon_next_update_index =
+	storage.creative_mode.duplicating_cargo_wagon_next_update_index =
 		duplicating_chest_util.duplicate_contents(
-		global.creative_mode.duplicating_cargo_wagon_data,
-		global.creative_mode.duplicating_cargo_wagon_next_update_index
+		storage.creative_mode.duplicating_cargo_wagon_data,
+		storage.creative_mode.duplicating_cargo_wagon_next_update_index
 	)
 end

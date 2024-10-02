@@ -83,13 +83,13 @@ end
 -- Look up table for mapping the entity name to duplicating chest data list.
 local entity_name_to_data_list_look_up = {
 	[creative_mode_defines.names.entities.duplicating_chest] = function()
-		return global.creative_mode.duplicating_chest_data
+		return storage.creative_mode.duplicating_chest_data
 	end,
 	[creative_mode_defines.names.entities.duplicating_provider_chest] = function()
-		return global.creative_mode.duplicating_provider_chest_data
+		return storage.creative_mode.duplicating_provider_chest_data
 	end,
 	[creative_mode_defines.names.entities.duplicating_cargo_wagon] = function()
-		return global.creative_mode.duplicating_cargo_wagon_data
+		return storage.creative_mode.duplicating_cargo_wagon_data
 	end
 }
 

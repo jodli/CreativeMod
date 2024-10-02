@@ -11,10 +11,10 @@ local item_void_shift = {
 	[defines.direction.west] = {x = -0.9, y = 0}
 }
 
--- Processes the item_void table in global.
+-- Processes the item_void table in storage.
 function item_void.tick()
 	-- Loop through the table of matter-void to nullify items.
-	for index, item_void_data in ipairs(global.creative_mode.item_void_data) do
+	for index, item_void_data in ipairs(storage.creative_mode.item_void_data) do
 		-- Get the actual matter-void entity.
 		local item_void = item_void_data.entity
 		if item_void.valid then
@@ -45,14 +45,14 @@ function item_void.tick()
 				end
 			end
 		else
-			table.remove(global.creative_mode.item_void_data, index)
+			table.remove(storage.creative_mode.item_void_data, index)
 		end
 	end
 end
 
 -- Returns the entity data for the given matter void entity.
 function item_void.get_data_for_entity(entity)
-	for _, data in ipairs(global.creative_mode.item_void_data) do
+	for _, data in ipairs(storage.creative_mode.item_void_data) do
 		if data.entity == entity then
 			return data
 		end

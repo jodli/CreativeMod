@@ -98,7 +98,7 @@ end
 function gui.show_main_popup(player, main_popup_content_type)
     if main_popup_content_type == gui.main_popup_content_type.enable_creative_mode then
         -- Enable Creative Mode?
-        global.creative_mode.has_asked_for_enable = true
+        storage.creative_mode.has_asked_for_enable = true
 
         local center = player.gui.center
         local popup = center.add {
@@ -224,7 +224,7 @@ function gui.tick()
     for _, player in pairs(game.players) do
         if player.connected then
             local current_opened_entity = player.opened
-            local last_opened_entity = global.creative_mode.player_opened_entities[player.index]
+            local last_opened_entity = storage.creative_mode.player_opened_entities[player.index]
             -- Different entities.
             if current_opened_entity ~= last_opened_entity then
                 -- Destroy the opened GUI for the last entity.
@@ -235,7 +235,7 @@ function gui.tick()
                 end
             end
         else
-            global.creative_mode.player_opened_entities[player.index] = nil
+            storage.creative_mode.player_opened_entities[player.index] = nil
         end
     end
 end

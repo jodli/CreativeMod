@@ -108,25 +108,25 @@ function events.on_configuration_changed(data)
             end
             if our_mod_old_version <= "1.8.0" and our_mod_new_version >= "1.8.1" then
                 -- We can clear out some of these tables. It MAY be a lot of info if someone's built a lot.
-                global.creative_mode.heat_source = nil
-                global.creative_mode.heat_void = nil
-                global.creative_mode.void_requester_chest = nil
-                global.creative_mode.void_chest = nil
-                global.creative_mode.void_storage_chest = nil
-                global.creative_mode.super_roboport = nil
-                global.creative_mode.fluid_source = nil
-                global.creative_mode.super_radar = nil
-                global.creative_mode.super_beacon = nil
-                global.creative_mode.energy_void = nil
-                global.creative_mode.passive_energy_void = nil
-                global.creative_mode.passive_energy_source = nil
-                global.creative_mode.energy_source = nil
+                storage.creative_mode.heat_source = nil
+                storage.creative_mode.heat_void = nil
+                storage.creative_mode.void_requester_chest = nil
+                storage.creative_mode.void_chest = nil
+                storage.creative_mode.void_storage_chest = nil
+                storage.creative_mode.super_roboport = nil
+                storage.creative_mode.fluid_source = nil
+                storage.creative_mode.super_radar = nil
+                storage.creative_mode.super_beacon = nil
+                storage.creative_mode.energy_void = nil
+                storage.creative_mode.passive_energy_void = nil
+                storage.creative_mode.passive_energy_source = nil
+                storage.creative_mode.energy_source = nil
                 -- Ensure the tables for the new creative/providers chests exist.
-                if not global.creative_mode.new_creative_chest then
-                    global.creative_mode.new_creative_chests = {}
+                if not storage.creative_mode.new_creative_chest then
+                    storage.creative_mode.new_creative_chests = {}
                 end
-                if not global.creative_mode.new_creative_provider_chest then
-                    global.creative_mode.new_creative_provider_chest = {}
+                if not storage.creative_mode.new_creative_provider_chest then
+                    storage.creative_mode.new_creative_provider_chest = {}
                 end
                 for _, surface in pairs(game.surfaces) do
                     -- Find all our entities so we can get them updated to the new methods.
@@ -144,7 +144,7 @@ function events.on_configuration_changed(data)
                             -- We need to replace all the old creative chests with the new one
                             if entity.valid then
                                 -- First we need to find the data for this chest
-                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, global.creative_mode.creative_chest_data_groups)
+                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, storage.creative_mode.creative_chest_data_groups)
                                 -- Make the new chest over the old one
                                 local new_entity = entity.surface.create_entity{
                                     name=creative_mode_defines.names.entities.new_creative_chest,
@@ -167,7 +167,7 @@ function events.on_configuration_changed(data)
                                         inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
                                         is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
                                     }
-                                    table.insert(global.creative_mode.new_creative_chests, chest_data)
+                                    table.insert(storage.creative_mode.new_creative_chests, chest_data)
                                     -- Now that all our data is set, set the filters.
                                     creative_chest_util.set_chest_filter(chest_data)
                                 end
@@ -177,7 +177,7 @@ function events.on_configuration_changed(data)
                             -- We need to replace all the old creative provider chests with the new one
                             if entity.valid then
                                 -- First we need to find the data for this chest
-                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, global.creative_mode.creative_provider_chest_data_groups)
+                                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(entity, storage.creative_mode.creative_provider_chest_data_groups)
                                 -- Make the new chest over the old one
                                 local new_entity = entity.surface.create_entity{
                                     name=creative_mode_defines.names.entities.new_creative_provider_chest,
@@ -200,7 +200,7 @@ function events.on_configuration_changed(data)
                                         inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
                                         is_cargo_wagon = false -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
                                     }
-                                    table.insert(global.creative_mode.new_creative_provider_chests, chest_data)
+                                    table.insert(storage.creative_mode.new_creative_provider_chests, chest_data)
                                     -- Now that all our data is set, set the filters.
                                     creative_chest_util.set_chest_filter(chest_data)
                                 end
@@ -214,8 +214,8 @@ function events.on_configuration_changed(data)
                     end
                 end
                 -- Remove the tables for creative chests/providers, as we don't need them anymore.
-                global.creative_mode.creative_chest_data_groups = nil
-                global.creative_mode.creative_provider_chest_data_groups = nil
+                storage.creative_mode.creative_chest_data_groups = nil
+                storage.creative_mode.creative_provider_chest_data_groups = nil
             end
         end
 
@@ -259,7 +259,7 @@ end
 function events.on_tick()
     -- Auto enable Creative Mode or ask for enabling it if not asked before.
     -- It is not shown in the 0th tick so the message box has to be closed before the popup is shown.
-    if not global.creative_mode.has_asked_for_enable and not global.creative_mode.enabled then
+    if not storage.creative_mode.has_asked_for_enable and not storage.creative_mode.enabled then
         if game.tick >= 1 then
             -- Wait until the initial cutscene is over.
             -- We wait until there's at least one connected player not currently
@@ -267,7 +267,7 @@ function events.on_tick()
             -- checks, but it works perfect for Factorio 1.0's scenarios.
             local player = game.players[1]
             if player ~= nil and player.controller_type ~= defines.controllers.cutscene then
-                global.creative_mode.has_asked_for_enable = true
+                storage.creative_mode.has_asked_for_enable = true
                 -- Check the default initial action in settings.
                 local default_initial_action = settings.global[creative_mode_defines.names.settings
                     .default_initial_action].value
@@ -606,7 +606,7 @@ local function on_player_placed_equipment(event)
 
     -- Register the equipments that need to be refilled with energy.
     if equipment.name == creative_mode_defines.names.equipments.super_personal_roboport_equipment then
-        table.insert(global.energy_refill_equipments, equipment)
+        table.insert(storage.energy_refill_equipments, equipment)
     end
 end
 
@@ -1269,18 +1269,18 @@ function events.on_event(event)
     local name_message = nil
     local param_message_prefix = nil
     local full_write_or_log_message = nil
-    if global.creative_mode and global.creative_mode.selected_events and game.players then
+    if storage.creative_mode and storage.creative_mode.selected_events and game.players then
         for _, player in pairs(game.connected_players) do
-            local selected_events = global.creative_mode.selected_events[player.index]
+            local selected_events = storage.creative_mode.selected_events[player.index]
             if selected_events and selected_events[event_id] then
                 -- Print event.
-                if global.creative_mode.print_events[player.index] ~= false then
+                if storage.creative_mode.print_events[player.index] ~= false then
                     -- Print the tick followed by the event name.
                     tick_prefix, name_message = create_event_name_message_if_not_exist(event, tick_prefix, name_message)
                     player.print(name_message)
 
                     -- Print parameters.
-                    if global.creative_mode.also_print_event_params[player.index] ~= false then
+                    if storage.creative_mode.also_print_event_params[player.index] ~= false then
                         if not param_message_prefix then
                             param_message_prefix = tick_prefix .. "(ID " .. event_id .. ")\t"
                         end
@@ -1295,18 +1295,18 @@ function events.on_event(event)
                 end
 
                 -- Write events.
-                if global.creative_mode.write_events[player.index] then
+                if storage.creative_mode.write_events[player.index] then
                     tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
                     write_or_log_events(player, true,
-                        global.creative_mode.also_write_event_params[player.index] ~= false, event_id, event,
+                        storage.creative_mode.also_write_event_params[player.index] ~= false, event_id, event,
                         tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
                 end
 
                 -- Log events.
-                if global.creative_mode.log_events[player.index] then
+                if storage.creative_mode.log_events[player.index] then
                     tick_prefix, name_message, param_message_prefix, full_write_or_log_message =
                     write_or_log_events(player, false,
-                        global.creative_mode.also_log_event_params[player.index] ~= false, event_id, event,
+                        storage.creative_mode.also_log_event_params[player.index] ~= false, event_id, event,
                         tick_prefix, name_message, param_message_prefix, full_write_or_log_message)
                 end
             end

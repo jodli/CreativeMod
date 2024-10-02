@@ -3,9 +3,9 @@ if not void_lab then
     void_lab = {}
 end
 
--- Processes the table of void_lab in global.
+-- Processes the table of void_lab in storage.
 function void_lab.tick()
-    global.creative_mode.void_lab_next_update_index =
-        void_chest_util.remove_contents(global.creative_mode.void_lab,
-                                        global.creative_mode.void_lab_next_update_index)
+    storage.creative_mode.void_lab_next_update_index =
+        void_chest_util.remove_contents(storage.creative_mode.void_lab,
+                                        storage.creative_mode.void_lab_next_update_index)
 end

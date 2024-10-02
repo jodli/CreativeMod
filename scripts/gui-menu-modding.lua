@@ -463,8 +463,8 @@ local function create_or_destroy_events_menu_for_player(player)
 							type = "checkbox",
 							name = creative_mode_defines.names.gui.event_toggle_checkbox_prefix .. event_id,
 							caption = event_name,
-							state = (global.creative_mode.selected_events[player.index] and
-								global.creative_mode.selected_events[player.index][event_id]) or
+							state = (storage.creative_mode.selected_events[player.index] and
+								storage.creative_mode.selected_events[player.index][event_id]) or
 								false
 						}
 					end
@@ -569,8 +569,8 @@ local function create_or_destroy_events_menu_for_player(player)
 				}
 				-- Print events checkbox.
 				local state = true
-				if global.creative_mode.print_events[player.index] ~= nil then
-					state = global.creative_mode.print_events[player.index]
+				if storage.creative_mode.print_events[player.index] ~= nil then
+					state = storage.creative_mode.print_events[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -581,8 +581,8 @@ local function create_or_destroy_events_menu_for_player(player)
 				}
 				-- Also print event parameters checkbox.
 				state = true
-				if global.creative_mode.also_print_event_params[player.index] ~= nil then
-					state = global.creative_mode.also_print_event_params[player.index]
+				if storage.creative_mode.also_print_event_params[player.index] ~= nil then
+					state = storage.creative_mode.also_print_event_params[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -593,8 +593,8 @@ local function create_or_destroy_events_menu_for_player(player)
 
 				-- Write events checkbox.
 				state = false
-				if global.creative_mode.write_events[player.index] ~= nil then
-					state = global.creative_mode.write_events[player.index]
+				if storage.creative_mode.write_events[player.index] ~= nil then
+					state = storage.creative_mode.write_events[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -605,8 +605,8 @@ local function create_or_destroy_events_menu_for_player(player)
 				}
 				-- Also write event parameters checkbox.
 				state = true
-				if global.creative_mode.also_write_event_params[player.index] ~= nil then
-					state = global.creative_mode.also_write_event_params[player.index]
+				if storage.creative_mode.also_write_event_params[player.index] ~= nil then
+					state = storage.creative_mode.also_write_event_params[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -617,8 +617,8 @@ local function create_or_destroy_events_menu_for_player(player)
 
 				-- Log events checkbox.
 				state = false
-				if global.creative_mode.log_events[player.index] ~= nil then
-					state = global.creative_mode.log_events[player.index]
+				if storage.creative_mode.log_events[player.index] ~= nil then
+					state = storage.creative_mode.log_events[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -629,8 +629,8 @@ local function create_or_destroy_events_menu_for_player(player)
 				}
 				-- Also log event parameters checkbox.
 				state = true
-				if global.creative_mode.also_log_event_params[player.index] ~= nil then
-					state = global.creative_mode.also_log_event_params[player.index]
+				if storage.creative_mode.also_log_event_params[player.index] ~= nil then
+					state = storage.creative_mode.also_log_event_params[player.index]
 				end
 				event_options_container.add {
 					type = "checkbox",
@@ -659,15 +659,15 @@ local function enable_or_disable_all_visible_events_for_player(player, is_enable
 					-- Container
 					local event_container = inner_container[creative_mode_defines.names.gui.event_container_prefix .. event_id]
 					if event_container and (event_container.visible == nil or event_container.visible == true) then
-						if not global.creative_mode.selected_events[player.index] then
-							global.creative_mode.selected_events[player.index] = {}
+						if not storage.creative_mode.selected_events[player.index] then
+							storage.creative_mode.selected_events[player.index] = {}
 						end
 						if is_enable then
-							global.creative_mode.selected_events[player.index][event_id] = true
+							storage.creative_mode.selected_events[player.index][event_id] = true
 							-- Checkbox.
 							event_container[creative_mode_defines.names.gui.event_toggle_checkbox_prefix .. event_id].state = true
 						else
-							global.creative_mode.selected_events[player.index][event_id] = nil
+							storage.creative_mode.selected_events[player.index][event_id] = nil
 							-- Checkbox.
 							event_container[creative_mode_defines.names.gui.event_toggle_checkbox_prefix .. event_id].state = false
 						end
@@ -1191,28 +1191,28 @@ end
 function gui_menu_modding.on_gui_checked_state_changed(element, element_name, player)
 	if element_name == creative_mode_defines.names.gui.event_option_print_events_checkbox then
 		-- Event options - print events.
-		global.creative_mode.print_events[player.index] = element.state
+		storage.creative_mode.print_events[player.index] = element.state
 		return true
 	elseif element_name == creative_mode_defines.names.gui.event_option_print_parameters_checkbox then
 		-- Event options - also print event parameters.
-		global.creative_mode.also_print_event_params[player.index] = element.state
+		storage.creative_mode.also_print_event_params[player.index] = element.state
 		return true
 	elseif element_name == creative_mode_defines.names.gui.event_option_write_events_checkbox then
 		-- Event options - write events.
-		global.creative_mode.write_events[player.index] = element.state
+		storage.creative_mode.write_events[player.index] = element.state
 		return true
 	elseif element_name == creative_mode_defines.names.gui.event_option_write_parameters_checkbox then
 		-- Event options - also write event parameters.
-		global.creative_mode.also_write_event_params[player.index] = element.state
+		storage.creative_mode.also_write_event_params[player.index] = element.state
 		return true
 	elseif element_name == creative_mode_defines.names.gui.event_option_log_events_checkbox then
 		-- Event options - log events.
-		global.creative_mode.log_events[player.index] = element.state
+		storage.creative_mode.log_events[player.index] = element.state
 		return true
 	elseif element_name == creative_mode_defines.names.gui.event_option_log_parameters_checkbox then
 		---------------------------------------------------------------------------------------------------
 		-- Event options - also log event parameters.
-		global.creative_mode.also_log_event_params[player.index] = element.state
+		storage.creative_mode.also_log_event_params[player.index] = element.state
 		return true
 	elseif
 		element.parent and element.parent.parent and
@@ -1222,13 +1222,13 @@ function gui_menu_modding.on_gui_checked_state_changed(element, element_name, pl
 		if event_id ~= nil then
 			-- Event toggle.
 			event_id = tonumber(event_id)
-			if not global.creative_mode.selected_events[player.index] then
-				global.creative_mode.selected_events[player.index] = {}
+			if not storage.creative_mode.selected_events[player.index] then
+				storage.creative_mode.selected_events[player.index] = {}
 			end
 			if element.state then
-				global.creative_mode.selected_events[player.index][event_id] = true
+				storage.creative_mode.selected_events[player.index][event_id] = true
 			else
-				global.creative_mode.selected_events[player.index][event_id] = nil
+				storage.creative_mode.selected_events[player.index][event_id] = nil
 			end
 		end
 		return true

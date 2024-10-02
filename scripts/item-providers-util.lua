@@ -994,7 +994,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
                     local input_inventory = inventories[1]
                     if input_inventory then
                         -- Insert all tools (science packs) into it.
-                        for _, item in ipairs(global.tool_item_list) do
+                        for _, item in ipairs(storage.tool_item_list) do
                             input_inventory.insert {
                                 name = item.name,
                                 count = 1

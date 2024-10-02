@@ -5,9 +5,9 @@ end
 
 -- Gets whether the selected ghost entities can be revived for the given player.
 function magic_wand_healer.get_revive_ghosts(player)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts
 		end
 	end
 	return true
@@ -15,19 +15,19 @@ end
 
 -- Sets whether the selected ghost entities can be revived for the given player.
 function magic_wand_healer.set_revive_ghosts(player, revive_ghosts)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts = revive_ghosts
+	storage.creative_mode.magic_wand_settings.healer[player.index].revive_ghosts = revive_ghosts
 end
 
 ----
 
 -- Gets whether the selected entities belonging the given force can be healed for the given player.
 function magic_wand_healer.get_heal_entities_on_force(player, force)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].heal_forces ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].heal_forces[force.name] ~= false
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].heal_forces ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].heal_forces[force.name] ~= false
 		end
 	end
 	return true
@@ -35,13 +35,13 @@ end
 
 -- Sets whether the selected entities belonging the given force can be healed for the given player.
 function magic_wand_healer.set_heal_entities_on_force(player, force, heal)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	if not global.creative_mode.magic_wand_settings.healer[player.index].heal_forces then
-		global.creative_mode.magic_wand_settings.healer[player.index].heal_forces = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index].heal_forces then
+		storage.creative_mode.magic_wand_settings.healer[player.index].heal_forces = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].heal_forces[force.name] = heal
+	storage.creative_mode.magic_wand_settings.healer[player.index].heal_forces[force.name] = heal
 end
 
 ----
@@ -54,9 +54,9 @@ magic_wand_healer.alt_mode_action = {
 
 -- Returns the alt-mode action of the magic wand for the given player.
 function magic_wand_healer.get_alt_mode_action(player)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action
 		end
 	end
 	return magic_wand_healer.alt_mode_action.set_hp_to_one
@@ -64,19 +64,19 @@ end
 
 -- Sets the alt-mode action of the magic wand for the given player.
 function magic_wand_healer.set_alt_mode_action(player, alt_mode_action)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action = alt_mode_action
+	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_action = alt_mode_action
 end
 
 ----
 
 -- Returns whether the alt-mode action of the magic wand can affect player characters for the given player.
 function magic_wand_healer.get_alt_mode_dont_affect_player_characters(player)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters
 		end
 	end
 	return true
@@ -84,10 +84,10 @@ end
 
 -- Sets whether the alt-mode action of the magic wand can affect player characters for the given player.
 function magic_wand_healer.set_alt_mode_dont_affect_player_characters(player, alt_mode_dont_affect_player_characters)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters =
+	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters =
 	alt_mode_dont_affect_player_characters
 end
 
@@ -95,9 +95,9 @@ end
 
 -- Returns whether the alt-mode action of the magic wand can affect indestructible entities for the given player.
 function magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities
 		end
 	end
 	return true
@@ -107,10 +107,10 @@ end
 function magic_wand_healer.set_alt_mode_dont_affect_indestructible_entities(
     player,
     alt_mode_dont_affect_indestructible_entities)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities =
+	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities =
 	alt_mode_dont_affect_indestructible_entities
 end
 
@@ -118,9 +118,9 @@ end
 
 -- Returns whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_healer.get_alt_mode_apply_on_force(player, force)
-	if global.creative_mode.magic_wand_settings.healer[player.index] then
-		if global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces ~= nil then
-			return global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces[force.name] ~= false
+	if storage.creative_mode.magic_wand_settings.healer[player.index] then
+		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces ~= nil then
+			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces[force.name] ~= false
 		end
 	end
 	return true
@@ -128,13 +128,13 @@ end
 
 -- Sets whether the alt-mode of the magic wand can apply on the given force for the given player.
 function magic_wand_healer.set_alt_mode_apply_on_force(player, force, apply)
-	if not global.creative_mode.magic_wand_settings.healer[player.index] then
-		global.creative_mode.magic_wand_settings.healer[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
+		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
-	if not global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces then
-		global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces = {}
+	if not storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces then
+		storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces = {}
 	end
-	global.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces[force.name] = apply
+	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_forces[force.name] = apply
 end
 
 ------------------------------------------------------

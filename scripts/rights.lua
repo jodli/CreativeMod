@@ -67,7 +67,7 @@ function rights.can_player_access_personal_cheats_menu(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_personal_cheats == rights.access_personal_cheats_level.free then
+	if storage.creative_mode.player_rights.access_personal_cheats == rights.access_personal_cheats_level.free then
 		return true
 	end
 
@@ -81,7 +81,7 @@ function rights.can_player_access_other_teams_cheats(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.free then
+	if storage.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.free then
 		return true
 	end
 
@@ -95,7 +95,7 @@ function rights.can_player_access_team_cheats_menu(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.admin_only then
+	if storage.creative_mode.player_rights.access_team_cheats == rights.access_team_cheats_level.admin_only then
 		return false
 	end
 
@@ -109,7 +109,7 @@ function rights.can_player_access_other_surfaces_cheats(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.free then
+	if storage.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.free then
 		return true
 	end
 
@@ -123,7 +123,7 @@ function rights.can_player_access_surface_cheats_menu(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.admin_only then
+	if storage.creative_mode.player_rights.access_surface_cheats == rights.access_surface_cheats_level.admin_only then
 		return false
 	end
 
@@ -137,7 +137,7 @@ function rights.can_player_access_global_cheats_menu(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_global_cheats == rights.access_global_cheats_level.admin_only then
+	if storage.creative_mode.player_rights.access_global_cheats == rights.access_global_cheats_level.admin_only then
 		return false
 	end
 
@@ -179,7 +179,7 @@ function rights.can_player_access_build_team_options(player)
 		return true
 	end
 
-	if global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free then
+	if storage.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free then
 		return true
 	end
 
@@ -194,8 +194,8 @@ function rights.can_player_access_build_options_menu(player)
 	end
 
 	if
-		global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.no_team_options or
-			global.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free
+		storage.creative_mode.player_rights.access_build_options == rights.access_build_options_level.no_team_options or
+			storage.creative_mode.player_rights.access_build_options == rights.access_build_options_level.free
 	 then
 		return true
 	end
@@ -222,7 +222,7 @@ function rights.can_player_use_creator_magic_wand(player)
 		return true
 	end
 
-	return global.creative_mode.player_rights.use_creator_magic_wand
+	return storage.creative_mode.player_rights.use_creator_magic_wand
 end
 
 -- Returns whether the given player can use the healer magic wand.
@@ -232,7 +232,7 @@ function rights.can_player_use_healer_magic_wand(player)
 		return true
 	end
 
-	return global.creative_mode.player_rights.use_healer_magic_wand
+	return storage.creative_mode.player_rights.use_healer_magic_wand
 end
 
 -- Returns whether the given player can use the modifier magic wand.
@@ -242,7 +242,7 @@ function rights.can_player_use_modifier_magic_wand(player)
 		return true
 	end
 
-	return global.creative_mode.player_rights.use_modifier_magic_wand
+	return storage.creative_mode.player_rights.use_modifier_magic_wand
 end
 
 -- Returns whether the given player can access the magic wand menu.
@@ -265,7 +265,7 @@ function rights.can_player_access_modding_menu(player)
 		return true
 	end
 
-	return global.creative_mode.player_rights.access_modding_menu
+	return storage.creative_mode.player_rights.access_modding_menu
 end
 
 --------------------------------------------------------------------
@@ -286,43 +286,43 @@ end
 -- Sets all the rights to be admin-only.
 function rights.set_overall_admin_only()
 	-- Personal cheats.
-	global.creative_mode.player_rights.access_personal_cheats = rights.access_personal_cheats_level.admin_only
+	storage.creative_mode.player_rights.access_personal_cheats = rights.access_personal_cheats_level.admin_only
 	-- Team cheats.
-	global.creative_mode.player_rights.access_team_cheats = rights.access_team_cheats_level.admin_only
+	storage.creative_mode.player_rights.access_team_cheats = rights.access_team_cheats_level.admin_only
 	-- Surface cheats.
-	global.creative_mode.player_rights.access_surface_cheats = rights.access_surface_cheats_level.admin_only
+	storage.creative_mode.player_rights.access_surface_cheats = rights.access_surface_cheats_level.admin_only
 	-- Global cheats.
-	global.creative_mode.player_rights.access_global_cheats = rights.access_global_cheats_level.admin_only
+	storage.creative_mode.player_rights.access_global_cheats = rights.access_global_cheats_level.admin_only
 	-- Build options.
-	global.creative_mode.player_rights.access_build_options = rights.access_build_options_level.admin_only
+	storage.creative_mode.player_rights.access_build_options = rights.access_build_options_level.admin_only
 	-- Magic wand - creator.
-	global.creative_mode.player_rights.use_creator_magic_wand = false
+	storage.creative_mode.player_rights.use_creator_magic_wand = false
 	-- Magic wand - healer.
-	global.creative_mode.player_rights.use_healer_magic_wand = false
+	storage.creative_mode.player_rights.use_healer_magic_wand = false
 	-- Magic wand - modifier.
-	global.creative_mode.player_rights.use_modifier_magic_wand = false
+	storage.creative_mode.player_rights.use_modifier_magic_wand = false
 	-- Modding menu.
-	global.creative_mode.player_rights.access_modding_menu = false
+	storage.creative_mode.player_rights.access_modding_menu = false
 end
 
 -- Resets all the rights to be default.
 function rights.set_overall_default()
 	-- Personal cheats.
-	global.creative_mode.player_rights.access_personal_cheats = rights.default_access_personal_cheats_level
+	storage.creative_mode.player_rights.access_personal_cheats = rights.default_access_personal_cheats_level
 	-- Team cheats.
-	global.creative_mode.player_rights.access_team_cheats = rights.default_access_team_cheats_level
+	storage.creative_mode.player_rights.access_team_cheats = rights.default_access_team_cheats_level
 	-- Surface cheats.
-	global.creative_mode.player_rights.access_surface_cheats = rights.default_access_surface_cheats_level
+	storage.creative_mode.player_rights.access_surface_cheats = rights.default_access_surface_cheats_level
 	-- Global cheats.
-	global.creative_mode.player_rights.access_global_cheats = rights.default_access_global_cheats_level
+	storage.creative_mode.player_rights.access_global_cheats = rights.default_access_global_cheats_level
 	-- Build options.
-	global.creative_mode.player_rights.access_build_options = rights.default_access_build_options_level
+	storage.creative_mode.player_rights.access_build_options = rights.default_access_build_options_level
 	-- Magic wand - creator.
-	global.creative_mode.player_rights.use_creator_magic_wand = rights.default_use_creator_magic_wand
+	storage.creative_mode.player_rights.use_creator_magic_wand = rights.default_use_creator_magic_wand
 	-- Magic wand - healer.
-	global.creative_mode.player_rights.use_healer_magic_wand = rights.default_use_healer_magic_wand
+	storage.creative_mode.player_rights.use_healer_magic_wand = rights.default_use_healer_magic_wand
 	-- Magic wand - modifier.
-	global.creative_mode.player_rights.use_modifier_magic_wand = rights.default_use_modifier_magic_wand
+	storage.creative_mode.player_rights.use_modifier_magic_wand = rights.default_use_modifier_magic_wand
 	-- Modding menu.
-	global.creative_mode.player_rights.access_modding_menu = rights.default_access_modding_menu
+	storage.creative_mode.player_rights.access_modding_menu = rights.default_access_modding_menu
 end

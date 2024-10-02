@@ -218,7 +218,7 @@ gui_menu_magicwand.modification_popup_cheats_gui_data = {
     },
     has_targets_selection = true,
     get_all_selected_targets_function = function(player)
-        return global.creative_mode.modifier_magic_wand_selection[player.index]
+        return storage.creative_mode.modifier_magic_wand_selection[player.index]
     end,
     get_cheats_container_function = function(player)
         local center = player.gui.center
@@ -539,9 +539,9 @@ end
 
 -- Creates the GUI elements for all recorded actions of modifier for the given player.
 local function create_elements_for_recorded_actions_of_modifier(player, actions_container, container)
-    if global.creative_mode.modifier_magic_wand_quick_actions[player.index] and
-        global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions then
-        for _, action in ipairs(global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions) do
+    if storage.creative_mode.modifier_magic_wand_quick_actions[player.index] and
+        storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions then
+        for _, action in ipairs(storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions) do
             create_elements_for_recorded_action_of_modifier(actions_container, action)
         end
     end
@@ -1196,9 +1196,9 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
         -- Group entities by their names. At the same time, remove invalid entities.
         local sorted_entities = {}
         local i = 1
-        local i_max = #global.creative_mode.modifier_magic_wand_selection[player.index]
+        local i_max = #storage.creative_mode.modifier_magic_wand_selection[player.index]
         while i <= i_max do
-            local entity = global.creative_mode.modifier_magic_wand_selection[player.index][i]
+            local entity = storage.creative_mode.modifier_magic_wand_selection[player.index][i]
             if entity.valid then
                 local final_entity_name
                 local stack = nil
@@ -1251,7 +1251,7 @@ function gui_menu_magicwand.create_or_destroy_modification_popup_for_player(play
                 end
                 i = i + 1
             else
-                table.remove(global.creative_mode.modifier_magic_wand_selection[player.index], i)
+                table.remove(storage.creative_mode.modifier_magic_wand_selection[player.index], i)
                 i_max = i_max - 1
             end
         end
@@ -1633,10 +1633,10 @@ local function check_and_remove_modifier_popup_slot_by_rules(element, element_na
                 element.destroy()
 
                 -- Also remove from the selection.
-                for i = #global.creative_mode.modifier_magic_wand_selection[player.index], 1, -1 do
-                    local entity = global.creative_mode.modifier_magic_wand_selection[player.index][i]
+                for i = #storage.creative_mode.modifier_magic_wand_selection[player.index], 1, -1 do
+                    local entity = storage.creative_mode.modifier_magic_wand_selection[player.index][i]
                     if not entity.valid or rule.check_entity_is_target_function(entity, target_name) then
-                        table.remove(global.creative_mode.modifier_magic_wand_selection[player.index], i)
+                        table.remove(storage.creative_mode.modifier_magic_wand_selection[player.index], i)
                     end
                 end
 
@@ -1797,7 +1797,7 @@ function gui_menu_magicwand.on_gui_click(element, element_name, player, button, 
         if action_index then
             action_index = tonumber(action_index)
             -- Remove action.
-            table.remove(global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions, action_index)
+            table.remove(storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions, action_index)
             -- Refresh GUI.
             refresh_elements_for_recorded_actions_of_modifier(player, actions_container, container)
         end
@@ -1810,7 +1810,7 @@ function gui_menu_magicwand.on_gui_click(element, element_name, player, button, 
         local container = element.parent
         local actions_container = container[creative_mode_defines.names.gui.magic_wand_modifier_quick_actions_container]
         -- Remove all actions.
-        global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions = nil
+        storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions = nil
         -- Refresh GUI.
         refresh_elements_for_recorded_actions_of_modifier(player, actions_container, container)
         return true
@@ -1917,10 +1917,10 @@ function gui_menu_magicwand.on_gui_click(element, element_name, player, button, 
             end
 
             -- A cheat data is activated, record it.
-            if global.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received then
+            if storage.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received then
                 -- Reset the stored actions.
-                global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions = {}
-                global.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received =
+                storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions = {}
+                storage.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received =
                     false
                 -- Update GUI.
                 if actions_container then
@@ -1933,7 +1933,7 @@ function gui_menu_magicwand.on_gui_click(element, element_name, player, button, 
                 code = cheat_gui_data.action_code,
                 value = applied_value
             }
-            table.insert(global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions, new_action)
+            table.insert(storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions, new_action)
             -- Update GUI.
             if actions_container then
                 create_elements_for_recorded_action_of_modifier(actions_container, new_action)

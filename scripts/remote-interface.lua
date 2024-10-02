@@ -83,7 +83,7 @@ remote_interface.remote_functions = {
 	--	Returns:
 	--		True if Creative Mode has been enabled. Otherwise, false will be returned.
 	is_enabled = function()
-		return global.creative_mode.enabled
+		return storage.creative_mode.enabled
 	end,
 	------
 

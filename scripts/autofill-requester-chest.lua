@@ -83,12 +83,12 @@ local function refill_chests(chests, next_chest_to_update)
 	return chest_index
 end
 
--- Processes the tables related to Autofill Requester Chests in global.
+-- Processes the tables related to Autofill Requester Chests in storage.
 function autofill_requester_chest.tick()
 	-- Refill the chests.
-	global.creative_mode.autofill_requester_chest_next_update_index =
+	storage.creative_mode.autofill_requester_chest_next_update_index =
 		refill_chests(
-		global.creative_mode.autofill_requester_chest,
-		global.creative_mode.autofill_requester_chest_next_update_index
+		storage.creative_mode.autofill_requester_chest,
+		storage.creative_mode.autofill_requester_chest_next_update_index
 	)
 end

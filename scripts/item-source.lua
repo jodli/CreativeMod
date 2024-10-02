@@ -12,10 +12,10 @@ local item_source_shift = {
 	[defines.direction.west] = {x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0}
 }
 
--- Processes the item_source_data table in global.
+-- Processes the item_source_data table in storage.
 function item_source.tick()
 	-- Loop through the table of matter-source data to output items.
-	for index, item_source_data in ipairs(global.creative_mode.item_source_data) do
+	for index, item_source_data in ipairs(storage.creative_mode.item_source_data) do
 		-- Get the actual matter-source entity.
 		local item_source = item_source_data.entity
 		-- Work only if the entity is valid.
@@ -85,14 +85,14 @@ function item_source.tick()
 			end
 		else
 			-- Remove invalid entity.
-			table.remove(global.creative_mode.item_source_data, index)
+			table.remove(storage.creative_mode.item_source_data, index)
 		end
 	end
 end
 
 -- Returns the entity data for the given matter source entity.
 function item_source.get_data_for_entity(entity)
-	for _, data in ipairs(global.creative_mode.item_source_data) do
+	for _, data in ipairs(storage.creative_mode.item_source_data) do
 		if data.entity == entity then
 			return data
 		end

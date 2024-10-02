@@ -45,10 +45,10 @@ local function pick_item_from_signals(signals)
 	end
 end
 
--- Processes the random_item_source_data table in global.
+-- Processes the random_item_source_data table in storage.
 function random_item_source.tick()
 	-- Loop through the table of matter-source data to output items.
-	for index, random_item_source_data in ipairs(global.creative_mode.random_item_source_data) do
+	for index, random_item_source_data in ipairs(storage.creative_mode.random_item_source_data) do
 		-- Get the actual random-item-source entity.
 		local random_item_source = random_item_source_data.entity
 		-- Work only if the entity is valid.
@@ -119,14 +119,14 @@ function random_item_source.tick()
 			end
 		else
 			-- Remove invalid entity.
-			table.remove(global.creative_mode.random_item_source_data, index)
+			table.remove(storage.creative_mode.random_item_source_data, index)
 		end
 	end
 end
 
 -- Returns the entity data for the given random item source entity.
 function random_item_source.get_data_for_entity(entity)
-	for _, data in ipairs(global.creative_mode.random_item_source_data) do
+	for _, data in ipairs(storage.creative_mode.random_item_source_data) do
 		if data.entity == entity then
 			return data
 		end

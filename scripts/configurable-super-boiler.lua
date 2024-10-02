@@ -3,10 +3,10 @@ if not configurable_super_boiler then
 	configurable_super_boiler = {}
 end
 
--- Processes the table of configurable_super_boiler_data in global.
+-- Processes the table of configurable_super_boiler_data in storage.
 function configurable_super_boiler.tick()
 	-- Loop through the table of super-boiler to give free energy and heat up fluid inside.
-	for index, configurable_super_boiler_data in ipairs(global.creative_mode.configurable_super_boiler_data) do
+	for index, configurable_super_boiler_data in ipairs(storage.creative_mode.configurable_super_boiler_data) do
 		local configurable_super_boiler = configurable_super_boiler_data.entity
 		local temperature = configurable_super_boiler_data.temperature
 		if configurable_super_boiler.valid then
@@ -15,7 +15,7 @@ function configurable_super_boiler.tick()
 				fluid_providers_util.set_all_fluids_to_temperature(configurable_super_boiler, temperature)
 			end
 		else
-			table.remove(global.creative_mode.configurable_super_boiler_data, index)
+			table.remove(storage.creative_mode.configurable_super_boiler_data, index)
 		end
 	end
 end
@@ -38,7 +38,7 @@ end
 -- Returns the configurable super boiler data according to the given entity.
 -- If no data is found, nil will be returned.
 function configurable_super_boiler.get_data_for_entity(entity)
-	for _, configurable_super_boiler_data in ipairs(global.creative_mode.configurable_super_boiler_data) do
+	for _, configurable_super_boiler_data in ipairs(storage.creative_mode.configurable_super_boiler_data) do
 		if configurable_super_boiler_data.entity == entity then
 			return configurable_super_boiler_data
 		end

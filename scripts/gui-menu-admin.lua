@@ -40,10 +40,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_personal_cheats
+            return storage.creative_mode.player_rights.access_personal_cheats
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_personal_cheats = value
+            storage.creative_mode.player_rights.access_personal_cheats = value
         end
     },
     team_cheat = {
@@ -77,10 +77,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_team_cheats
+            return storage.creative_mode.player_rights.access_team_cheats
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_team_cheats = value
+            storage.creative_mode.player_rights.access_team_cheats = value
         end
     },
     surface_cheat = {
@@ -114,10 +114,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_surface_cheats
+            return storage.creative_mode.player_rights.access_surface_cheats
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_surface_cheats = value
+            storage.creative_mode.player_rights.access_surface_cheats = value
         end
     },
     global_cheat = {
@@ -144,10 +144,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_global_cheats
+            return storage.creative_mode.player_rights.access_global_cheats
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_global_cheats = value
+            storage.creative_mode.player_rights.access_global_cheats = value
         end
     },
     build_options = {
@@ -181,10 +181,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_build_options
+            return storage.creative_mode.player_rights.access_build_options
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_build_options = value
+            storage.creative_mode.player_rights.access_build_options = value
         end
     },
     creator_magic_wand = {
@@ -211,10 +211,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.use_creator_magic_wand
+            return storage.creative_mode.player_rights.use_creator_magic_wand
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.use_creator_magic_wand = value
+            storage.creative_mode.player_rights.use_creator_magic_wand = value
         end
     },
     healer_magic_wand = {
@@ -241,10 +241,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.use_healer_magic_wand
+            return storage.creative_mode.player_rights.use_healer_magic_wand
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.use_healer_magic_wand = value
+            storage.creative_mode.player_rights.use_healer_magic_wand = value
         end
     },
     modifier_magic_wand = {
@@ -271,10 +271,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.use_modifier_magic_wand
+            return storage.creative_mode.player_rights.use_modifier_magic_wand
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.use_modifier_magic_wand = value
+            storage.creative_mode.player_rights.use_modifier_magic_wand = value
         end
     },
     modding_menu = {
@@ -301,10 +301,10 @@ local access_rights_gui_data = {
             }
         },
         get_value_function = function()
-            return global.creative_mode.player_rights.access_modding_menu
+            return storage.creative_mode.player_rights.access_modding_menu
         end,
         set_value_function = function(value)
-            global.creative_mode.player_rights.access_modding_menu = value
+            storage.creative_mode.player_rights.access_modding_menu = value
         end
     },
     overall_access_rights = {

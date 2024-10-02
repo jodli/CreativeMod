@@ -3,11 +3,11 @@ if not duplicating_chest then
 	duplicating_chest = {}
 end
 
--- Processes the tables related to Duplicating Chest in global.
+-- Processes the tables related to Duplicating Chest in storage.
 function duplicating_chest.tick()
-	global.creative_mode.duplicating_chest_next_update_index =
+	storage.creative_mode.duplicating_chest_next_update_index =
 		duplicating_chest_util.duplicate_contents(
-		global.creative_mode.duplicating_chest_data,
-		global.creative_mode.duplicating_chest_next_update_index
+		storage.creative_mode.duplicating_chest_data,
+		storage.creative_mode.duplicating_chest_next_update_index
 	)
 end

@@ -2299,8 +2299,8 @@ end
 
 -- Resets the last action applied on the cheats menu GUI by the player of given index.
 local function reset_last_cheats_menu_gui_action_by_player_index(player_index)
-    if global.last_cheats_menu_gui_actions_by_players then
-        global.last_cheats_menu_gui_actions_by_players[player_index] = nil
+    if storage.last_cheats_menu_gui_actions_by_players then
+        storage.last_cheats_menu_gui_actions_by_players[player_index] = nil
     end
 end
 
@@ -3207,9 +3207,9 @@ local function on_gui_click_in_cheats_menu_target_buttons(element, element_name,
                     update_all_cheats_status_in_cheats_menu_for_player(player, cheats_menu_gui_data)
 
                     -- Record the slot for the next shift-click.
-                    global.last_cheats_menu_gui_actions_by_players =
-                        global.last_cheats_menu_gui_actions_by_players or {}
-                    global.last_cheats_menu_gui_actions_by_players[player.index] =
+                    storage.last_cheats_menu_gui_actions_by_players =
+                        storage.last_cheats_menu_gui_actions_by_players or {}
+                    storage.last_cheats_menu_gui_actions_by_players[player.index] =
                         {
                             non_shift = {
                                 slot = slot
@@ -3222,10 +3222,10 @@ local function on_gui_click_in_cheats_menu_target_buttons(element, element_name,
                 if shift then
                     -- Select multiple targets and deselect the others.
                     local non_shift_slot
-                    if global.last_cheats_menu_gui_actions_by_players and
-                        global.last_cheats_menu_gui_actions_by_players[player.index] and
-                        global.last_cheats_menu_gui_actions_by_players[player.index].non_shift then
-                        non_shift_slot = global.last_cheats_menu_gui_actions_by_players[player.index].non_shift.slot
+                    if storage.last_cheats_menu_gui_actions_by_players and
+                        storage.last_cheats_menu_gui_actions_by_players[player.index] and
+                        storage.last_cheats_menu_gui_actions_by_players[player.index].non_shift then
+                        non_shift_slot = storage.last_cheats_menu_gui_actions_by_players[player.index].non_shift.slot
                     else
                         -- In case there is no recorded non-shift-clicked slot, we make one.
                         -- Find the first slot that has been selected. But assume we have the first slot first.
@@ -3238,9 +3238,9 @@ local function on_gui_click_in_cheats_menu_target_buttons(element, element_name,
                                 break
                             end
                         end
-                        global.last_cheats_menu_gui_actions_by_players =
-                            global.last_cheats_menu_gui_actions_by_players or {}
-                        global.last_cheats_menu_gui_actions_by_players[player.index] =
+                        storage.last_cheats_menu_gui_actions_by_players =
+                            storage.last_cheats_menu_gui_actions_by_players or {}
+                        storage.last_cheats_menu_gui_actions_by_players[player.index] =
                             {
                                 non_shift = {
                                     slot = non_shift_slot
@@ -3317,8 +3317,8 @@ local function on_gui_click_in_cheats_menu_target_buttons(element, element_name,
                     {target})
 
                 -- Record the slot for the next shift-click.
-                global.last_cheats_menu_gui_actions_by_players = global.last_cheats_menu_gui_actions_by_players or {}
-                global.last_cheats_menu_gui_actions_by_players[player.index] =
+                storage.last_cheats_menu_gui_actions_by_players = storage.last_cheats_menu_gui_actions_by_players or {}
+                storage.last_cheats_menu_gui_actions_by_players[player.index] =
                     {
                         non_shift = {
                             slot = slot

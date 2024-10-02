@@ -5,9 +5,9 @@ end
 
 -- Gets whether player characters should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.get_std_ignore_player_characters(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters
 		end
 	end
 	return true
@@ -15,10 +15,10 @@ end
 
 -- Sets whether player characters should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.set_std_ignore_player_characters(player, ignore_player_characters)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_player_characters =
 		ignore_player_characters
 end
 
@@ -26,9 +26,9 @@ end
 
 -- Gets whether healthless entities should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.get_std_ignore_healthess_entities(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities
 		end
 	end
 	return true
@@ -36,10 +36,10 @@ end
 
 -- Sets whether healthless entities should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.set_std_ignore_healthess_entities(player, ignore_healthless_entities)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_healthess_entities =
 		ignore_healthless_entities
 end
 
@@ -47,9 +47,9 @@ end
 
 -- Gets whether indestructible entities should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.get_std_ignore_indestructible_entities(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities
 		end
 	end
 	return true
@@ -57,10 +57,10 @@ end
 
 -- Sets whether indestructible entities should be ignored by the standard selection mode for the given player.
 function magic_wand_modifier.set_std_ignore_indestructible_entities(player, standard_ignore_indestructible_entities)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].standard_ignore_indestructible_entities =
 		standard_ignore_indestructible_entities
 end
 
@@ -68,9 +68,9 @@ end
 
 -- Gets whether the entities belonging the given force can be selected by standard selection mode for the given player.
 function magic_wand_modifier.get_std_select_entities_on_force(player, force)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].standard_forces ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].standard_forces[force.name] ~= false
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].standard_forces ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].standard_forces[force.name] ~= false
 		end
 	end
 	return true
@@ -78,22 +78,22 @@ end
 
 -- Sets whether the entities belonging the given force can be selected by standard selection mode for the given player.
 function magic_wand_modifier.set_std_select_entities_on_force(player, force, can_select)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	if not global.creative_mode.magic_wand_settings.modifier[player.index].standard_forces then
-		global.creative_mode.magic_wand_settings.modifier[player.index].standard_forces = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index].standard_forces then
+		storage.creative_mode.magic_wand_settings.modifier[player.index].standard_forces = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].standard_forces[force.name] = can_select
+	storage.creative_mode.magic_wand_settings.modifier[player.index].standard_forces[force.name] = can_select
 end
 
 ----
 
 -- Gets whether player characters should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.get_alt_ignore_player_characters(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters
 		end
 	end
 	return true
@@ -101,10 +101,10 @@ end
 
 -- Sets whether player characters should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.set_alt_ignore_player_characters(player, ignore_player_characters)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_player_characters =
 		ignore_player_characters
 end
 
@@ -112,9 +112,9 @@ end
 
 -- Gets whether healthless entities should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.get_alt_ignore_healthess_entities(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities
 		end
 	end
 	return false
@@ -122,10 +122,10 @@ end
 
 -- Sets whether healthless entities should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.set_alt_ignore_healthess_entities(player, ignore_healthless_entities)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_healthess_entities =
 		ignore_healthless_entities
 end
 
@@ -133,9 +133,9 @@ end
 
 -- Gets whether indestructible entities should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.get_alt_ignore_indestructible_entities(player)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities
 		end
 	end
 	return false
@@ -143,10 +143,10 @@ end
 
 -- Sets whether indestructible entities should be ignored by the alternate selection mode for the given player.
 function magic_wand_modifier.set_alt_ignore_indestructible_entities(player, alternate_ignore_indestructible_entities)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities =
+	storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_ignore_indestructible_entities =
 		alternate_ignore_indestructible_entities
 end
 
@@ -154,9 +154,9 @@ end
 
 -- Gets whether the entities belonging the given force can be selected by alternate selection mode for the given player.
 function magic_wand_modifier.get_alt_select_entities_on_force(player, force)
-	if global.creative_mode.magic_wand_settings.modifier[player.index] then
-		if global.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces ~= nil then
-			return global.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces[force.name] ~= false
+	if storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		if storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces ~= nil then
+			return storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces[force.name] ~= false
 		end
 	end
 	return true
@@ -164,13 +164,13 @@ end
 
 -- Sets whether the entities belonging the given force can be selected by alternate selection mode for the given player.
 function magic_wand_modifier.set_alt_select_entities_on_force(player, force, can_select)
-	if not global.creative_mode.magic_wand_settings.modifier[player.index] then
-		global.creative_mode.magic_wand_settings.modifier[player.index] = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index] then
+		storage.creative_mode.magic_wand_settings.modifier[player.index] = {}
 	end
-	if not global.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces then
-		global.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces = {}
+	if not storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces then
+		storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces = {}
 	end
-	global.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces[force.name] = can_select
+	storage.creative_mode.magic_wand_settings.modifier[player.index].alternate_forces[force.name] = can_select
 end
 
 ------------------------------------------------------
@@ -224,7 +224,7 @@ function magic_wand_modifier.on_player_selected_area(player, area, item_name, en
 			gui_menu_magicwand.create_or_destroy_modification_popup_for_player(player, false)
 
 			-- Filter out the unwanted entities and record the remaining ones.
-			global.creative_mode.modifier_magic_wand_selection[player.index] = {}
+			storage.creative_mode.modifier_magic_wand_selection[player.index] = {}
 			local ignore_player_characters = magic_wand_modifier.get_std_ignore_player_characters(player)
 			local ignore_healthless_entities = magic_wand_modifier.get_std_ignore_healthess_entities(player)
 			local ignore_indestructible_entities = magic_wand_modifier.get_std_ignore_indestructible_entities(player)
@@ -239,19 +239,19 @@ function magic_wand_modifier.on_player_selected_area(player, area, item_name, en
 						magic_wand_modifier.get_std_select_entities_on_force
 					)
 				 then
-					table.insert(global.creative_mode.modifier_magic_wand_selection[player.index], entity)
+					table.insert(storage.creative_mode.modifier_magic_wand_selection[player.index], entity)
 				end
 			end
 
 			-- Show popup.
-			if #global.creative_mode.modifier_magic_wand_selection[player.index] > 0 then
+			if #storage.creative_mode.modifier_magic_wand_selection[player.index] > 0 then
 				gui_menu_magicwand.create_or_destroy_modification_popup_for_player(player, true)
 
 				-- Mark the quick actions to be cleared once a new modification is received.
-				if not global.creative_mode.modifier_magic_wand_quick_actions[player.index] then
-					global.creative_mode.modifier_magic_wand_quick_actions[player.index] = {}
+				if not storage.creative_mode.modifier_magic_wand_quick_actions[player.index] then
+					storage.creative_mode.modifier_magic_wand_quick_actions[player.index] = {}
 				end
-				global.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received = true
+				storage.creative_mode.modifier_magic_wand_quick_actions[player.index].reset_when_new_action_received = true
 			end
 		else
 			-- No right to use.
@@ -272,10 +272,10 @@ function magic_wand_modifier.on_player_alt_selected_area(player, area, item_name
 			-- Apply the recorded actions to the selected entities.
 
 			-- Do nothing if no action has been recorded.
-			if not global.creative_mode.modifier_magic_wand_quick_actions[player.index] then
+			if not storage.creative_mode.modifier_magic_wand_quick_actions[player.index] then
 				return true
 			end
-			local actions = global.creative_mode.modifier_magic_wand_quick_actions[player.index].actions
+			local actions = storage.creative_mode.modifier_magic_wand_quick_actions[player.index].actions
 			if not actions or #actions <= 0 then
 				return true
 			end

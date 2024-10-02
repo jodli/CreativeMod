@@ -3,11 +3,11 @@ if not void_cargo_wagon then
 	void_cargo_wagon = {}
 end
 
--- Processes the tables related to Void Cargo Wagon in global.
+-- Processes the tables related to Void Cargo Wagon in storage.
 function void_cargo_wagon.tick()
-	global.creative_mode.void_cargo_wagon_next_update_index =
+	storage.creative_mode.void_cargo_wagon_next_update_index =
 		void_chest_util.remove_contents(
-		global.creative_mode.void_cargo_wagon,
-		global.creative_mode.void_cargo_wagon_next_update_index
+		storage.creative_mode.void_cargo_wagon,
+		storage.creative_mode.void_cargo_wagon_next_update_index
 	)
 end

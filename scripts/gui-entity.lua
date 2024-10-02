@@ -69,7 +69,7 @@ end
 -- @param use_frame_container	Whether an additional container was used outside the entity GUI frame when creating the entity GUI.
 local function update_entity_gui_for_all_players_checking_the_entity(entity, use_frame_container, update_delegate)
 	for _, player in pairs(game.players) do
-		if global.creative_mode.player_opened_entities[player.index] == entity then
+		if storage.creative_mode.player_opened_entities[player.index] == entity then
 			local frame_container, frame = get_frame_and_frame_container_for_entity_gui(player, entity, use_frame_container)
 			update_delegate(player, frame_container, frame)
 		end
@@ -563,8 +563,8 @@ end
 
 -- Resets the last action applied on the entity GUI by the player of given index.
 local function reset_last_entity_gui_action_by_player_index(player_index)
-	if global.last_entity_gui_actions_by_players then
-		global.last_entity_gui_actions_by_players[player_index] = nil
+	if storage.last_entity_gui_actions_by_players then
+		storage.last_entity_gui_actions_by_players[player_index] = nil
 	end
 end
 
@@ -585,9 +585,9 @@ function gui_entity.create_or_destroy_gui_of_entity(player, entity, is_create)
 	local top = mod_gui.get_button_flow(player)
 	-- Register or deregister the entity.
 	if is_create then
-		global.creative_mode.player_opened_entities[player.index] = entity
+		storage.creative_mode.player_opened_entities[player.index] = entity
 	else
-		global.creative_mode.player_opened_entities[player.index] = nil
+		storage.creative_mode.player_opened_entities[player.index] = nil
 	end
 
 	-- Reset action.
@@ -659,14 +659,14 @@ function gui_entity.create_or_destroy_gui_of_entity(player, entity, is_create)
 
 		-- Open the detailed GUI if necessary.
 		if
-			global.creative_mode.player_opened_entity_gui[player.index] == nil or
-				global.creative_mode.player_opened_entity_gui[player.index]
+			storage.creative_mode.player_opened_entity_gui[player.index] == nil or
+				storage.creative_mode.player_opened_entity_gui[player.index]
 		 then
 			open_gui_function(player, entity, container)
 		end
 	else
 		-- Destroy GUI.
-		global.creative_mode.player_opened_entities[player.index] = nil
+		storage.creative_mode.player_opened_entities[player.index] = nil
 		local container = left[creative_mode_defines.names.gui.entity_gui_container]
 		if container then
 			container.destroy()
@@ -684,17 +684,17 @@ end
 -- Returns whether the event is consumed.
 function gui_entity.on_gui_click(element, element_name, player, button, alt, control, shift)
 	local left = mod_gui.get_frame_flow(player)
-	local entity = global.creative_mode.player_opened_entities[player.index]
+	local entity = storage.creative_mode.player_opened_entities[player.index]
 	local entity_gui_container = left[creative_mode_defines.names.gui.entity_gui_container]
 
 	if element_name == creative_mode_defines.names.gui.creative_chest_open_button then
 		-- Creative chest open button.
 		if create_or_destroy_creative_chest_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	elseif element_name == creative_mode_defines.names.gui.creative_chest_item_group_left_button then
@@ -795,20 +795,20 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 		-- Duplicating chest open button.
 		if create_or_destroy_duplicating_chest_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	elseif element_name == creative_mode_defines.names.gui.configurable_super_boiler_open_button then
 		-- Configurable super boiler open button.
 		if create_or_destroy_configurable_super_boiler_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	elseif element_name == creative_mode_defines.names.gui.configurable_super_boiler_set_temp_button then
@@ -849,10 +849,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 		-- Matter source open button.
 		if create_or_destroy_item_source_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	elseif element_name == creative_mode_defines.names.gui.duplicator_open_button then
@@ -860,10 +860,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 		-- Matter duplicator open button.
 		if create_or_destroy_duplicator_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	elseif element_name == creative_mode_defines.names.gui.item_void_open_button then
@@ -871,10 +871,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 		-- Matter void open button.
 		if create_or_destroy_item_void_gui(player, entity, entity_gui_container) then
 			-- UI is opened.
-			global.creative_mode.player_opened_entity_gui[player.index] = true
+			storage.creative_mode.player_opened_entity_gui[player.index] = true
 		else
 			-- UI is closed.
-			global.creative_mode.player_opened_entity_gui[player.index] = false
+			storage.creative_mode.player_opened_entity_gui[player.index] = false
 		end
 		return true
 	else
@@ -898,8 +898,8 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						player.cursor_stack.set_stack {name = item.name, count = item.stack_size}
 
 						-- Record the slot for the next shift-click.
-						global.last_entity_gui_actions_by_players = global.last_entity_gui_actions_by_players or {}
-						global.last_entity_gui_actions_by_players[player.index] = {
+						storage.last_entity_gui_actions_by_players = storage.last_entity_gui_actions_by_players or {}
+						storage.last_entity_gui_actions_by_players[player.index] = {
 							non_shift = {
 								slot = slot,
 								is_filter = element.style.name == creative_mode_defines.names.gui_styles.creative_chest_filter_slot_off
@@ -915,10 +915,10 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						local is_filter
 						local has_recorded_action
 						if
-							global.last_entity_gui_actions_by_players and global.last_entity_gui_actions_by_players[player.index] and
-								global.last_entity_gui_actions_by_players[player.index].non_shift
+							storage.last_entity_gui_actions_by_players and storage.last_entity_gui_actions_by_players[player.index] and
+								storage.last_entity_gui_actions_by_players[player.index].non_shift
 						 then
-							local non_shift = global.last_entity_gui_actions_by_players[player.index].non_shift
+							local non_shift = storage.last_entity_gui_actions_by_players[player.index].non_shift
 							non_shift_slot = non_shift.slot
 							is_filter = non_shift.is_filter
 							has_recorded_action = true
@@ -928,8 +928,8 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 							-- Set action according to the current state of the current slot.
 							-- If it is not filtered, filter the slots.
 							is_filter = element.style.name == creative_mode_defines.names.gui_styles.creative_chest_filter_slot_on
-							global.last_entity_gui_actions_by_players = global.last_entity_gui_actions_by_players or {}
-							global.last_entity_gui_actions_by_players[player.index] = {
+							storage.last_entity_gui_actions_by_players = storage.last_entity_gui_actions_by_players or {}
+							storage.last_entity_gui_actions_by_players[player.index] = {
 								non_shift = {
 									slot = non_shift_slot,
 									is_filter = is_filter
@@ -943,7 +943,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 
 						-- In case the player has filtered multiple slots before (i.e. previous shift-clicked slot), they should be restored.
 						if has_recorded_action then
-							local shift_data = global.last_entity_gui_actions_by_players[player.index].shift
+							local shift_data = storage.last_entity_gui_actions_by_players[player.index].shift
 							if shift_data then
 								local shift_slot = shift_data.slot
 								-- If the current shift-clicked slot is the same as the last shift-clicked slot, nothing to do.
@@ -1021,7 +1021,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						end
 
 						-- Record the current shift-clicked slot for the next shift-click.
-						global.last_entity_gui_actions_by_players[player.index].shift = {slot = slot}
+						storage.last_entity_gui_actions_by_players[player.index].shift = {slot = slot}
 
 						-- Update the GUI for all players who are checking the entity.
 						update_entity_gui_for_all_players_checking_the_entity(
@@ -1049,8 +1049,8 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 						return true
 					end
 					-- Record the slot for the next shift-click.
-					global.last_entity_gui_actions_by_players = global.last_entity_gui_actions_by_players or {}
-					global.last_entity_gui_actions_by_players[player.index] = {non_shift = {slot = slot}}
+					storage.last_entity_gui_actions_by_players = storage.last_entity_gui_actions_by_players or {}
+					storage.last_entity_gui_actions_by_players[player.index] = {non_shift = {slot = slot}}
 
 					for index, filtered_slot in ipairs(chest_data.filtered_slots) do
 						if slot == filtered_slot then
@@ -1058,7 +1058,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
 							table.remove(chest_data.filtered_slots, index)
 
 							-- Record the action for the next shift-click.
-							global.last_entity_gui_actions_by_players[player.index].non_shift.is_filter = false
+							storage.last_entity_gui_actions_by_players[player.index].non_shift.is_filter = false
 
 							-- Update the GUI for all players who are checking the entity.
 							update_entity_gui_for_all_players_checking_the_entity(
@@ -1091,7 +1091,7 @@ function gui_entity.on_gui_click(element, element_name, player, button, alt, con
                     end
 
 					-- Record the action for the next shift-click.
-					global.last_entity_gui_actions_by_players[player.index].non_shift.is_filter = true
+					storage.last_entity_gui_actions_by_players[player.index].non_shift.is_filter = true
 
 					-- Clear the slot.
 					local inventory = creative_chest_util.get_inventory_from_data(chest_data)
@@ -1121,7 +1121,7 @@ end
 -- Callback of the on_gui_text_changed event, extended from gui.lua.
 -- Returns whether the event is consumed.
 function gui_entity.on_gui_text_changed(element, element_name, player)
-	local entity = global.creative_mode.player_opened_entities[player.index]
+	local entity = storage.creative_mode.player_opened_entities[player.index]
 
 	if element_name == creative_mode_defines.names.gui.item_source_insert_once_to_player_amount_field then
 		-- Matter source or Random item source - insert to player amount.
@@ -1171,7 +1171,7 @@ end
 -- Callback of the on_gui_checked_state_changed event, extended from gui.lua.
 -- Returns whether the event is consumed.
 function gui_entity.on_gui_checked_state_changed(element, element_name, player)
-	local entity = global.creative_mode.player_opened_entities[player.index]
+	local entity = storage.creative_mode.player_opened_entities[player.index]
 
 	if element_name == creative_mode_defines.names.gui.duplicating_chest_lock_item_checkbox then
 		---------------------------------------------------------------------------------------------------
