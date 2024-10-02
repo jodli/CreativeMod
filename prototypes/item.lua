@@ -747,7 +747,7 @@ data:extend(
 			tier = 50,
 			order = "b",
 			stack_size = 50,
-			effect = {speed = {bonus = 2.5}}
+			effect = {speed = 2.5}
 		},
 		{
 			-- Super effectivity module.
@@ -761,7 +761,7 @@ data:extend(
 			tier = 50,
 			order = "c",
 			stack_size = 50,
-			effect = {consumption = {bonus = -2.5}} -- 80% limit
+			effect = {consumption =  -2.5} -- 80% limit
 		},
 		{
 			-- Super productivity module
@@ -775,7 +775,7 @@ data:extend(
 			tier = 50,
 			order = "d",
 			stack_size = 50,
-			effect = {productivity = {bonus = 2.5}}
+			effect = {productivity = 2.5}
 		},
 		{
 			-- Super clean module
@@ -789,7 +789,7 @@ data:extend(
 			tier = 50,
 			order = "e",
 			stack_size = 50,
-			effect = {pollution = {bonus = -2.5}} -- 80% limit
+			effect = {pollution = -2.5} -- 80% limit
 		},
 		{
 			-- Super slow module.
@@ -803,7 +803,7 @@ data:extend(
 			tier = 50,
 			order = "f",
 			stack_size = 50,
-			effect = {speed = {bonus = -2.5}} -- 80% limit
+			effect = {speed = -2.5} -- 80% limit
 		},
 		{
 			-- Super consumption module.
@@ -817,7 +817,7 @@ data:extend(
 			tier = 50,
 			order = "g",
 			stack_size = 50,
-			effect = {consumption = {bonus = 2.5}}
+			effect = {consumption = 2.5}
 		},
 		{
 			-- Super pollution module
@@ -831,7 +831,7 @@ data:extend(
 			tier = 50,
 			order = "h",
 			stack_size = 50,
-			effect = {pollution = {bonus = 2.5}}
+			effect = {pollution = 2.5}
 		},
 		-----------------------------------------------------------------------------
 
