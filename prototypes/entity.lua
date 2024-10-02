@@ -1241,7 +1241,7 @@ data:extend({
         name = creative_mode_defines.names.entities.super_loader,
         icon_size = 32,
         icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
-        flags = { "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving" },
+        flags = { "placeable-player", "player-creation" },
         minable = {
             mining_time = 0.5,
             result = creative_mode_defines.names.items.super_loader
@@ -1287,7 +1287,7 @@ data:extend({
         name = creative_mode_defines.names.entities.super_loader2,
         icon_size = 32,
         icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-loader.png",
-        flags = { "placeable-player", "player-creation", "fast-replaceable-no-build-while-moving" },
+        flags = { "placeable-player", "player-creation" },
         minable = {
             mining_time = 0.5,
             result = creative_mode_defines.names.items.super_loader2
