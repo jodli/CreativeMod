@@ -2,8 +2,7 @@ local function create_void_technology_ingredients()
     local research_items = {}
     for _, tool in pairs(data.raw.tool) do
         table.insert(research_items, {
-            name = tool.name,
-            amount = 1
+            tool.name, 1
         })
     end
 
