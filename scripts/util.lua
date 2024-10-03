@@ -296,7 +296,7 @@ function util.kill_entity_and_raise_event(entity, killer_player)
     if entity.health ~= nil then
         if killer_player then
             -- Record to kill count statistics.
-            local kill_count_statistics = killer_player.force.kill_count_statistics
+            local kill_count_statistics = killer_player.force.get_kill_count_statistics(killer_player.physical_surface_index)
             local count = kill_count_statistics.get_input_count(entity.name)
             kill_count_statistics.set_input_count(entity.name, count + 1)
         end

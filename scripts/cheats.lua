@@ -1323,7 +1323,7 @@ cheats.team_cheats_data = {
             default_disable_value = 0,
             get_value_function = function(force)
                 if force then
-                    return force.evolution_factor
+                    return force.get_evolution_factor()
                 end
                 return nil
             end,
@@ -1331,7 +1331,7 @@ cheats.team_cheats_data = {
                 return util.clamp(value, 0, 1)
             end,
             apply_to_target_function = function(force, value, source_player)
-                force.evolution_factor = value
+                force.set_evolution_factor(value)
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
