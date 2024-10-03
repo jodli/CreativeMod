@@ -690,16 +690,16 @@ local team_cheats_menu_gui_data = {
             apply_button_name = creative_mode_defines.names.gui.inserter_capacity_bonus_apply_button,
             apply_button_caption = creative_mode_defines.names.gui_captions.ok
         },
-        stack_inserter_capacity_bonus = {
+        bulk_inserter_capacity_bonus = {
             type = gui_menu_cheats.cheat_gui_type.numeric_apply,
-            cheat_data = cheats.team_cheats_data.cheats.stack_inserter_capacity_bonus,
-            container_name = creative_mode_defines.names.gui.stack_inserter_capacity_bonus_container,
-            label_name = creative_mode_defines.names.gui.stack_inserter_capacity_bonus_label,
-            label_caption = {"gui.creative-mode_stack-inserter-capacity-bonus"},
-            label_tooltip = {"gui.creative-mode_stack-inserter-capacity-bonus-tooltip"},
-            textfield_name = creative_mode_defines.names.gui.stack_inserter_capacity_bonus_textfield,
-            separator_name = creative_mode_defines.names.gui.stack_inserter_capacity_bonus_separator,
-            apply_button_name = creative_mode_defines.names.gui.stack_inserter_capacity_bonus_apply_button,
+            cheat_data = cheats.team_cheats_data.cheats.bulk_inserter_capacity_bonus,
+            container_name = creative_mode_defines.names.gui.bulk_inserter_capacity_bonus_container,
+            label_name = creative_mode_defines.names.gui.bulk_inserter_capacity_bonus_label,
+            label_caption = {"gui.creative-mode_bulk-inserter-capacity-bonus"},
+            label_tooltip = {"gui.creative-mode_bulk-inserter-capacity-bonus-tooltip"},
+            textfield_name = creative_mode_defines.names.gui.bulk_inserter_capacity_bonus_textfield,
+            separator_name = creative_mode_defines.names.gui.bulk_inserter_capacity_bonus_separator,
+            apply_button_name = creative_mode_defines.names.gui.bulk_inserter_capacity_bonus_apply_button,
             apply_button_caption = creative_mode_defines.names.gui_captions.ok
         },
         evolution_factor = {

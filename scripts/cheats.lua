@@ -1290,23 +1290,23 @@ cheats.team_cheats_data = {
             end,
             get_player_can_access_function = nil
         },
-        stack_inserter_capacity_bonus = {
+        bulk_inserter_capacity_bonus = {
             is_default = false,
             default_enable_value = 0,
             default_disable_value = 0,
             get_value_function = function(force)
                 if force then
-                    return force.stack_inserter_capacity_bonus
+                    return force.bulk_inserter_capacity_bonus
                 end
                 return nil
             end,
             limit_value_before_apply_function = uint32_limit_value_before_apply_function,
             apply_to_target_function = function(force, value, source_player)
-                force.stack_inserter_capacity_bonus = value
+                force.bulk_inserter_capacity_bonus = value
                 return nil
             end,
             print_applied_by_admin_message_function = function(source_player, force, value)
-                force.print { "message.creative-mode_stack-inserter-capacity-bonus", source_player.name, value }
+                force.print { "message.creative-mode_bulk-inserter-capacity-bonus", source_player.name, value }
             end,
             get_player_can_access_function = nil
         },

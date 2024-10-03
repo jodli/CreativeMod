@@ -558,15 +558,15 @@ creative_mode_defines.names.gui = {
     inserter_capacity_bonus_textfield = creative_mode_defines.name_prefix .. "inserter-capacity-bonus-textfield",
     inserter_capacity_bonus_separator = creative_mode_defines.name_prefix .. "inserter-capacity-bonus-separator",
     inserter_capacity_bonus_apply_button = creative_mode_defines.name_prefix .. "inserter-capacity-bonus-apply-button",
-    stack_inserter_capacity_bonus_container = creative_mode_defines.name_prefix ..
-        "stack-inserter-capacity-bonus-container",
-    stack_inserter_capacity_bonus_label = creative_mode_defines.name_prefix .. "stack-inserter-capacity-bonus-label",
-    stack_inserter_capacity_bonus_textfield = creative_mode_defines.name_prefix ..
-        "stack-inserter-capacity-bonus-textfield",
-    stack_inserter_capacity_bonus_separator = creative_mode_defines.name_prefix ..
-        "stack-inserter-capacity-bonus-separator",
-    stack_inserter_capacity_bonus_apply_button = creative_mode_defines.name_prefix ..
-        "stack-inserter-capacity-bonus-apply-button",
+    bulk_inserter_capacity_bonus_container = creative_mode_defines.name_prefix ..
+        "bulk-inserter-capacity-bonus-container",
+    bulk_inserter_capacity_bonus_label = creative_mode_defines.name_prefix .. "bulk-inserter-capacity-bonus-label",
+    bulk_inserter_capacity_bonus_textfield = creative_mode_defines.name_prefix ..
+        "bulk-inserter-capacity-bonus-textfield",
+    bulk_inserter_capacity_bonus_separator = creative_mode_defines.name_prefix ..
+        "bulk-inserter-capacity-bonus-separator",
+    bulk_inserter_capacity_bonus_apply_button = creative_mode_defines.name_prefix ..
+        "bulk-inserter-capacity-bonus-apply-button",
     evolution_factor_container = creative_mode_defines.name_prefix .. "evolution-factor-container",
     evolution_factor_label = creative_mode_defines.name_prefix .. "evolution-factor-label",
     evolution_factor_textfield = creative_mode_defines.name_prefix .. "evolution-factor-textfield",
