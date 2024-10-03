@@ -11,36 +11,42 @@ local function refill_chest(chest)
 	local item_prototypes = prototypes.item
 	local math_ceil = math.ceil
 
-	local request_slot_count = chest.request_slot_count
-	for request_slot = 1, request_slot_count, 1 do
+	-- local request_slot_count = chest.request_slot_count
+	local request_slot_count = get_character_request_slot_count(chest)
+	for slot_index = 1, request_slot_count, 1 do
 		-- Get the request in the iterated request slot.
-		local request = chest.get_request_slot(request_slot)
-		if request then
-			-- Get the requested item name and count.
-			local item_name = request.name
-			local item_count = request.count
-			-- How many slots are required?
-			if item_count > 0 then
-				local stack_size = item_prototypes[item_name].stack_size
-				local required_slot_count = math_ceil(item_count / stack_size)
-				-- Set items until it fulfills the requested amount.
-				local is_last_stack = false
-				repeat
-					local set_count
-					if item_count <= stack_size then
-						set_count = item_count
-						is_last_stack = true
-					else
-						set_count = stack_size
+		local points = chest.get_logistic_point()
+		for index, point in ipairs(points) do
+			if point ~= nil and point.enabled and point.filters ~= nil then
+				local requested_item_stack = point.filters[slot_index]
+			-- local request = chest.get_request_slot(request_slot)
+				if requested_item_stack then
+					-- Get the requested item name and count.
+					local item_name = requested_item_stack.name
+					local item_count = requested_item_stack.count
+					-- How many slots are required?
+					if item_count > 0 then
+						local stack_size = item_prototypes[item_name].stack_size
+						-- Set items until it fulfills the requested amount.
+						local is_last_stack = false
+						repeat
+							local set_count
+							if item_count <= stack_size then
+								set_count = item_count
+								is_last_stack = true
+							else
+								set_count = stack_size
+							end
+							inventory[slot].set_stack {name = item_name, count = set_count}
+							item_count = item_count - set_count
+							slot = slot + 1
+							if slot > inventory_size then
+								-- No more slot.
+								return
+							end
+						until is_last_stack
 					end
-					inventory[slot].set_stack {name = item_name, count = set_count}
-					item_count = item_count - set_count
-					slot = slot + 1
-					if slot > inventory_size then
-						-- No more slot.
-						return
-					end
-				until is_last_stack
+				end
 			end
 		end
 	end

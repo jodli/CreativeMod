@@ -2415,14 +2415,22 @@ local function is_player_valid_for_instant_request(player)
 end
 
 -- Returns the number of logistic request slot on the given character.
-local function get_character_request_slot_count(character)
-    return character.request_slot_count
+function get_character_request_slot_count(entity)
+    local slot_count = 0
+    for _, point in ipairs(entity.get_logistic_point()) do
+        if point ~= nil and point.enabled and point.filters ~= nil then
+            slot_count = slot_count + #point.filters
+        end
+    end
+    return slot_count
 end
 
 -- Applies instant request on the player's character with the given slot index.
 local function apply_instant_request_on_player_character_slot(player, character, slot_index)
-    local requested_item_stack = character.get_request_slot(slot_index)
-    if requested_item_stack then
+    local points = character.get_logistic_point()
+    for _, point in ipairs(points) do
+        if point ~= nil and point.enabled and point.filters ~= nil then
+            local requested_item_stack = point.filters[slot_index]
         local item_count_diff = requested_item_stack.count - player.get_item_count(requested_item_stack.name)
         if item_count_diff > 0 then
             -- Insert the wanted item.
@@ -2430,6 +2438,7 @@ local function apply_instant_request_on_player_character_slot(player, character,
                 name = requested_item_stack.name,
                 count = item_count_diff
             }
+            end
         end
     end
 end
