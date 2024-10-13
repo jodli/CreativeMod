@@ -29,7 +29,13 @@ function duplicator.tick()
 					local pos = duplicator.position
 					local dir = duplicator.direction
 					local shift = duplicator_shift[dir]
-					local filter = duplicator.get_filter(1)
+					local filter = nil
+					if duplicator.use_filters then
+						filter = duplicator.get_filter(1)
+					end
+					if filter then
+						filter = filter.name
+					end
 					-- Duplicate the items in front of it.
 					item_providers_util.output_or_remove_item(
 						surf,

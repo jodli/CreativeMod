@@ -29,7 +29,13 @@ function item_void.tick()
 					local pos = item_void.position
 					local dir = item_void.direction
 					local shift = item_void_shift[dir]
-					local filter = item_void.get_filter(1)
+					local filter = nil
+					if item_void.use_filters then
+						filter = item_void.get_filter(1)
+					end
+					if filter then
+						filter = filter.name
+					end
 					-- Remove the items in front of it.
 					item_providers_util.output_or_remove_item(
 						surf,

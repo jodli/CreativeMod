@@ -85,9 +85,15 @@ local function duplicate_first_item_in_inventory(inventory, filter_item_name)
             item_name = filter_item_name
         end
     else
-        item_name = next(inventory.get_contents())
-    end
+        k, item_name = next(inventory.get_contents())
+            if k ~= nil then
+                if item_name then
+                    item_name = item_name.name
+                end
+            end
+        end
     if item_name then
+        print(item_name)
         local stack = {
             name = item_name,
             count = 1
@@ -329,29 +335,36 @@ local function output_or_remove_item_on_transport_line(transport_line, belt_spee
         return nil
     else
         -- matter-duplicator
-        local item
+        local item_name = nil
         if filter_item_name then
             if transport_line.get_item_count(filter_item_name) > 0 then
-                item = filter_item_name
+                item_name = filter_item_name
             end
         else
-            item = next(transport_line.get_contents())
+            k, item_name = next(transport_line.get_contents())
+            if k ~= nil then
+                if item_name then
+                    item_name = item_name.name
+                end
+            end
         end
-        if item == nil then
-            return nil
-        else
-            local stack = {
-                name = item,
+
+        local stack
+        if item_name then
+            stack = {
+                name = item_name,
                 count = 1
             }
-            if should_use_insert_at_back then
-                -- If only insert_at_back can be used, simply use it!
-                transport_line.insert_at_back(stack)
-                return nil
-            else
-                return insert_itemstack_on_transport_line_compressed(transport_line, stack, belt_speed,
-                           output_last_item_position_on_belt)
-            end
+        else
+            return nil
+        end
+        if should_use_insert_at_back then
+            -- If only insert_at_back can be used, simply use it!
+            transport_line.insert_at_back(stack)
+            return nil
+        else
+            return insert_itemstack_on_transport_line_compressed(transport_line, stack, belt_speed,
+                        output_last_item_position_on_belt)
         end
     end
 end
@@ -428,6 +441,7 @@ function item_providers_util.output_or_remove_item(surface, position, shift_x, s
     operation_mode, output_item_slot, entity_data)
     -- Create a simple item stack according to the given item name of we are going to output it.
     local output_stack = nil
+
     if operation_mode == output_or_remove_item_operation_mode.output_mode and filter_item_name then
         output_stack = {
             name = filter_item_name,
