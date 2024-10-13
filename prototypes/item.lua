@@ -838,7 +838,7 @@ data:extend(
 		{
 			-- Super fusion reactor equipment
 			type = "item",
-			name = creative_mode_defines.names.items.super_fusion_reactor_equipment,
+			name = creative_mode_defines.names.equipments.super_fusion_reactor_equipment,
 			icon_size = 32,
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-fusion-reactor-equipment.png",
 			hidden = hidden,
@@ -850,7 +850,7 @@ data:extend(
 		{
 			-- Super personal roboport
 			type = "item",
-			name = creative_mode_defines.names.items.super_personal_roboport_equipment,
+			name = creative_mode_defines.names.equipments.super_personal_roboport_equipment,
 			icon_size = 32,
 			icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-personal-roboport-equipment.png",
 			hidden = hidden,
