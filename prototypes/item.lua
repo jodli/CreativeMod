@@ -844,7 +844,7 @@ data:extend(
 			hidden = hidden,
 			subgroup = creative_mode_defines.names.item_subgroups.equipments,
 			order = "b",
-			placed_as_equipment_result = creative_mode_defines.names.equipments.super_fusion_reactor_equipment,
+			place_as_equipment_result = creative_mode_defines.names.equipments.super_fusion_reactor_equipment,
 			stack_size = 50
 		},
 		{
@@ -856,7 +856,7 @@ data:extend(
 			hidden = hidden,
 			subgroup = creative_mode_defines.names.item_subgroups.equipments,
 			order = "c",
-			placed_as_equipment_result = creative_mode_defines.names.equipments.super_personal_roboport_equipment,
+			place_as_equipment_result = creative_mode_defines.names.equipments.super_personal_roboport_equipment,
 			stack_size = 50
 		}
 	}
