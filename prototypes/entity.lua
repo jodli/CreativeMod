@@ -245,49 +245,21 @@ local function infchest(entity_name, item_name, tint, additional_pastable_entiti
         layers = {
             {
                 filename = "__base__/graphics/entity/infinity-chest/infinity-chest.png",
-                height = 42,
-                hr_version = {
-                    filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest.png",
-                    height = 84,
-                    priority = "extra-high",
-                    scale = 0.5,
-                    shift = {
-                        0,
-                        -0.09375
-                    },
-                    tint = tint,
-                    width = 68
-                },
                 priority = "extra-high",
-                shift = {
-                    0,
-                    -0.09375
-                },
+                shift = util.by_pixel(0, -3),
                 tint = tint,
-                width = 34
+                scale = 0.5,
+                height = 84,
+                width = 68
             },
             {
                 draw_as_shadow = true,
                 filename = "__base__/graphics/entity/infinity-chest/infinity-chest-shadow.png",
-                height = 24,
-                hr_version = {
-                    draw_as_shadow = true,
-                    filename = "__base__/graphics/entity/infinity-chest/hr-infinity-chest-shadow.png",
-                    height = 48,
-                    priority = "extra-high",
-                    scale = 0.5,
-                    shift = {
-                        0.375,
-                        0.1875
-                    },
-                    width = 116
-                },
+                scale = 0.5,
                 priority = "extra-high",
-                shift = {
-                    0.375,
-                    0.1875
-                },
-                width = 58
+                shift = util.by_pixel(12, 6),
+                height = 48,
+                width = 116
             }
         }
     }
@@ -1215,6 +1187,7 @@ data:extend({
         belt_animation_set = basic_belt_animation_set,
         fast_replaceable_group = "loader",
         speed = 1,
+        structure_render_layer = "lower-object",
         structure = {
             direction_in = {
                 sheet = {
@@ -1264,18 +1237,9 @@ data:extend({
                 direction_count = 20,
                 filename = "__base__/graphics/entity/transport-belt/transport-belt.png",
                 frame_count = 16,
-                height = 64,
-                hr_version = {
-                    direction_count = 20,
-                    filename = "__base__/graphics/entity/transport-belt/hr-transport-belt.png",
-                    frame_count = 16,
-                    height = 128,
-                    priority = "extra-high",
-                    scale = 0.5,
-                    width = 128
-                },
+                size = 128,
+                scale = 0.5,
                 priority = "extra-high",
-                width = 64
             }
         },
         speed = 1,
@@ -1367,12 +1331,12 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
             priority = "high",
             line_length = 16,
-            width = 41,
-            height = 42,
-            frame_count = 1,
+            width = 80,
+            height = 84,
             shift = util.by_pixel(0, -3),
             direction_count = 16,
-            y = 42,
+            y = 84,
+            scale = 0.5,
             tint = {
                 r = 1,
                 g = 0.3,
@@ -1383,11 +1347,11 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
             priority = "high",
             line_length = 16,
-            width = 41,
-            height = 42,
-            frame_count = 1,
+            width = 80,
+            height = 84,
             shift = util.by_pixel(0, -3),
             direction_count = 16,
+            scale = 0.5,
             tint = {
                 r = 1,
                 g = 0.3,
@@ -1398,12 +1362,12 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
             priority = "high",
             line_length = 16,
-            width = 41,
-            height = 42,
-            frame_count = 1,
+            width = 80,
+            height = 84,
+            scale = 0.5,
+            y = 252,
             shift = util.by_pixel(0, -3),
             direction_count = 16,
-            y = 126,
             tint = {
                 r = 1,
                 g = 0.3,
@@ -1414,12 +1378,12 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
             priority = "high",
             line_length = 16,
-            width = 41,
-            height = 42,
-            frame_count = 1,
+            width = 80,
+            height = 84,
+            scale = 0.5,
+            y = 168,
             shift = util.by_pixel(0, -3),
             direction_count = 16,
-            y = 84,
             tint = {
                 r = 1,
                 g = 0.3,
@@ -1430,22 +1394,22 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 58,
-            height = 29,
-            frame_count = 1,
-            shift = util.by_pixel(32, 19.5),
+            width = 115,
+            height = 57,
+            scale = 0.5,
+            y = 57,
+            shift = util.by_pixel(31.75, 19,75),
             direction_count = 16,
-            y = 29,
             draw_as_shadow = true
         },
         shadow_idle_with_cargo = {
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 58,
-            height = 29,
-            frame_count = 1,
-            shift = util.by_pixel(32, 19.5),
+            width = 115,
+            height = 57,
+            scale = 0.5,
+            shift = util.by_pixel(31.75, 19,75),
             direction_count = 16,
             draw_as_shadow = true
         },
@@ -1453,22 +1417,23 @@ data:extend({
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 58,
-            height = 29,
-            frame_count = 1,
-            shift = util.by_pixel(32, 19.5),
+            width = 115,
+            height = 57,
+            scale = 0.5,
+            y = 57*3,
+            shift = util.by_pixel(31.75, 19,75),
             direction_count = 16,
-            y = 29,
             draw_as_shadow = true
         },
         shadow_in_motion_with_cargo = {
             filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 58,
-            height = 29,
-            frame_count = 1,
-            shift = util.by_pixel(32, 19.5),
+            width = 115,
+            height = 57,
+            scale = 0.5,
+            y = 114,
+            shift = util.by_pixel(31.75, 19,75),
             direction_count = 16,
             draw_as_shadow = true
         },
@@ -1511,85 +1476,93 @@ data:extend({
             intensity = 0.8,
             size = 3
         },
-        idle = {
+        idle =
+        {
             filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
             priority = "high",
             line_length = 16,
-            width = 32,
-            height = 36,
-            frame_count = 1,
-            shift = { 0, -0.15625 },
+            width = 66,
+            height = 76,
+            shift = util.by_pixel(0,-4.5),
             direction_count = 16,
-            tint = {
+                        tint = {
                 r = 0.3,
                 g = 0.3,
                 b = 1
-            }
+            },
+            scale = 0.5
         },
-        in_motion = {
+        in_motion =
+        {
             filename = "__base__/graphics/entity/construction-robot/construction-robot.png",
             priority = "high",
             line_length = 16,
-            width = 32,
-            height = 36,
-            frame_count = 1,
-            shift = { 0, -0.15625 },
+            width = 66,
+            height = 76,
+            shift = util.by_pixel(0, -4.5),
             direction_count = 16,
-            y = 36,
-            tint = {
+                        tint = {
                 r = 0.3,
                 g = 0.3,
                 b = 1
-            }
+            },
+            y = 76,
+            scale = 0.5
         },
-        shadow_idle = {
+        shadow_idle =
+        {
             filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 50,
-            height = 24,
-            frame_count = 1,
-            shift = { 1.09375, 0.59375 },
-            direction_count = 16
+            width = 104,
+            height = 49,
+            shift = util.by_pixel(33.5, 18.75),
+            direction_count = 16,
+            scale = 0.5,
+            draw_as_shadow = true
         },
-        shadow_in_motion = {
+        shadow_in_motion =
+        {
             filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
             priority = "high",
             line_length = 16,
-            width = 50,
-            height = 24,
-            frame_count = 1,
-            shift = { 1.09375, 0.59375 },
-            direction_count = 16
+            width = 104,
+            height = 49,
+            shift = util.by_pixel(33.5, 18.75),
+            direction_count = 16,
+            scale = 0.5,
+            draw_as_shadow = true
         },
-        working = {
+        working =
+        {
             filename = "__base__/graphics/entity/construction-robot/construction-robot-working.png",
             priority = "high",
             line_length = 2,
-            width = 28,
-            height = 36,
+            width = 57,
+            height = 74,
             frame_count = 2,
-            shift = { 0, -0.15625 },
+            shift = util.by_pixel(-0.25, -5),
             direction_count = 16,
             animation_speed = 0.3,
-            tint = {
+                        tint = {
                 r = 0.3,
                 g = 0.3,
                 b = 1
-            }
+            },
+            scale = 0.5
         },
-        shadow_working = {
-            stripes = util.multiplystripes(2, { {
-                filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
-                width_in_frames = 16,
-                height_in_frames = 1
-            } }),
+        shadow_working =
+        {
+            filename = "__base__/graphics/entity/construction-robot/construction-robot-shadow.png",
             priority = "high",
-            width = 50,
-            height = 24,
-            frame_count = 2,
-            shift = { 1.09375, 0.59375 },
-            direction_count = 16
+            line_length = 16,
+            width = 104,
+            height = 49,
+            repeat_count = 2,
+            shift = util.by_pixel(33.5, 18.75),
+            direction_count = 16,
+            scale = 0.5,
+            draw_as_shadow = true
         },
         smoke = {
             filename = "__base__/graphics/entity/smoke-construction/smoke-01.png",
@@ -1600,7 +1573,7 @@ data:extend({
             shift = { 0.078125, -0.15625 },
             animation_speed = 0.3
         },
-        sparks = { {
+        sparks = {
             filename = "__base__/graphics/entity/sparks/sparks-01.png",
             width = 39,
             height = 34,
@@ -1684,7 +1657,7 @@ data:extend({
                 a = 1.0
             },
             animation_speed = 0.3
-        } },
+        },
         repairing_sound = { {
             filename = "__base__/sound/robot-repair-1.ogg"
         }, {
@@ -1728,69 +1701,91 @@ data:extend({
         material_slots_count = 7,
         stationing_offset = { 0, 0 },
         charging_offsets = get_super_roboport_charging_offsets(),
-        base = {
+        base =
+        {
+        layers =
+        {
+            {
             filename = "__base__/graphics/entity/roboport/roboport-base.png",
-            width = 143,
-            height = 135,
-            shift = { 0.5, 0.25 },
-            tint = {
+            width = 228,
+            height = 277,
+            shift = util.by_pixel(2, -2.25),
+                tint = {
                 r = 0.7,
                 g = 0.3,
                 b = 1
+            },
+            scale = 0.5
+            },
+            {
+            filename = "__base__/graphics/entity/roboport/roboport-shadow.png",
+            width = 294,
+            height = 201,
+            draw_as_shadow = true,
+            shift = util.by_pixel(28.5, 9.25),
+            scale = 0.5
             }
+        }
         },
-        base_patch = {
-            filename = "__base__/graphics/entity/roboport/roboport-base-patch.png",
-            priority = "medium",
-            width = 69,
-            height = 50,
-            frame_count = 1,
-            shift = { 0.03125, 0.203125 },
+        base_patch =
+        {
+        filename = "__base__/graphics/entity/roboport/roboport-base-patch.png",
+        priority = "medium",
+        width = 138,
+        height = 100,
+        shift = util.by_pixel(1.5, -5),
             tint = {
                 r = 0.7,
                 g = 0.3,
                 b = 1
-            }
+            },
+        scale = 0.5
         },
-        base_animation = {
-            filename = "__base__/graphics/entity/roboport/roboport-base-animation.png",
-            priority = "medium",
-            width = 42,
-            height = 31,
-            frame_count = 8,
-            animation_speed = 0.5,
-            shift = { -0.5315, -1.9375 },
+        base_animation =
+        {
+        filename = "__base__/graphics/entity/roboport/roboport-base-animation.png",
+        priority = "medium",
+        width = 83,
+        height = 59,
+        frame_count = 8,
+        animation_speed = 0.5,
+        shift = util.by_pixel(-17.75, -71.25),
             tint = {
                 r = 0.7,
                 g = 0.3,
                 b = 1
-            }
+            },
+        scale = 0.5
         },
-        door_animation_up = {
-            filename = "__base__/graphics/entity/roboport/roboport-door-up.png",
-            priority = "medium",
-            width = 52,
-            height = 20,
-            frame_count = 16,
-            shift = { 0.015625, -0.890625 },
+        door_animation_up =
+        {
+        filename = "__base__/graphics/entity/roboport/roboport-door-up.png",
+        priority = "medium",
+        width = 97,
+        height = 38,
+        frame_count = 16,
+        shift = util.by_pixel(-0.25, -39.5),
             tint = {
                 r = 0.7,
                 g = 0.3,
                 b = 1
-            }
+            },
+        scale = 0.5
         },
-        door_animation_down = {
-            filename = "__base__/graphics/entity/roboport/roboport-door-down.png",
-            priority = "medium",
-            width = 52,
-            height = 22,
-            frame_count = 16,
-            shift = { 0.015625, -0.234375 },
+        door_animation_down =
+        {
+        filename = "__base__/graphics/entity/roboport/roboport-door-down.png",
+        priority = "medium",
+        width = 97,
+        height = 41,
+        frame_count = 16,
+        shift = util.by_pixel(-0.25, -19.75),
             tint = {
                 r = 0.7,
                 g = 0.3,
                 b = 1
-            }
+            },
+        scale = 0.5
         },
         recharging_animation = {
             filename = "__base__/graphics/entity/roboport/roboport-recharging.png",
@@ -1891,6 +1886,8 @@ data:extend({
                 position = { 0, -0.289 }
             } }
         } },
+        graphics_set =
+        {
         animation = {
             north = {
                 filename = creative_mode_defines.mod_directory .. "/graphics/entity/fluid-source-up.png",
@@ -1924,7 +1921,7 @@ data:extend({
                 shift = { 0.3125, 0.0625 },
                 animation_speed = 0.5
             }
-        },
+        }},
         energy_source = creative_mode_defines.non_electric_energy_source,
         energy_usage = "1W", -- Need to be at least 1W or the no energy signal will keep blinking
         crafting_speed = 1,
