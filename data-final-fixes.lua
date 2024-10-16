@@ -1,11 +1,19 @@
 -- Create free recipe for each fluid.
 for _, fluid in pairs(data.raw["fluid"]) do
     if fluid.name ~= "fluid-unknown" then
+		local entity_localised_name
+		-- Use their original name.
+		if fluid.localised_name then
+			entity_localised_name = fluid.localised_name
+		else
+			entity_localised_name = { "fluid-name." .. fluid.name }
+		end
         data:extend(
             {
                 {
                     type = "recipe",
                     name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
+					localised_name = entity_localised_name,
                     category = creative_mode_defines.names.recipe_categories.free_fluids,
                     ingredients = {},
                     results = {
