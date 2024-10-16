@@ -16,7 +16,7 @@ end
 local function fill_chest_with_item(chest, item_prototype)
 	local inventory = duplicating_chest_util.get_inventory(chest)
 	for i = 1, #inventory, 1 do
-		inventory[i].set_stack {name = item_prototype.name, count = item_prototype.stack_size}
+		inventory[i].set_stack(item_prototype.name)
 	end
 end
 
@@ -39,6 +39,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 				-- Get the item to be duplicated.
 				local item_to_be_duplicated = nil
 				if lock_item and locked_item_name then
+					-- this is funny - locking the item, resets the spoilage to 100%
 					item_to_be_duplicated = prototypes.item[locked_item_name]
 				end
 				if item_to_be_duplicated then
@@ -51,7 +52,9 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
 					-- We have to use valid_for_read instead.
 					if item ~= nil and item.valid_for_read then
 						-- Fill the whole chest immediately.
-						inventory.insert {name = item.name, count = item.prototype.stack_size * #inventory}
+						-- we can either insert the real item (including spoilage progress and quality) or fill the inventory completely
+						-- inventory.insert {name = item.name, count = item.prototype.stack_size * #inventory, quality = item.quality}
+						inventory.insert(item)
 
 						-- Lock the item if it should be locked.
 						if lock_item then
