@@ -670,11 +670,9 @@ local function super_boiler(entity_name, item_name, icon_name, picture_name, add
             base_area = 1,
             pipe_covers = pipecoverspictures(),
             pipe_connections = { {
-                flow_direction = "input",
                 direction = defines.direction.south,
                 position = { 0, 0.289 }
             }, {
-                flow_direction = "output",
                 direction = defines.direction.north,
                 position = { 0, -0.289 }
             } },
@@ -1931,116 +1929,6 @@ data:extend({
             module_slots = 0
         },
         allowed_effects = { "pollution" },
-        se_allow_in_space = true
-    },
-    -- Fluid void - old version, uses scripting
-    {
-        type = "storage-tank",
-        name = creative_mode_defines.names.entities.fluid_void,
-        icon_size = 32,
-        icon = creative_mode_defines.mod_directory .. "/graphics/icons/fluid-void.png",
-        flags = { "placeable-player", "player-creation" },
-        minable = {
-            mining_time = 0.5,
-            result = creative_mode_defines.names.items.fluid_void
-        },
-        placeable_by = {
-            item = creative_mode_defines.names.items.fluid_void,
-            count = 1
-        },
-        max_health = 150,
-        corpse = "small-remnants",
-        resistances = { {
-            type = "fire",
-            percent = 80
-        }, {
-            type = "impact",
-            percent = 40
-        } },
-        fast_replaceable_group = creative_mode_defines.names.fast_replaceable_groups.fluid_source_void,
-        collision_box = { { -0.29, -0.29 }, { 0.29, 0.29 } },
-        selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },
-        vehicle_impact_sound = {
-            filename = "__base__/sound/car-metal-impact.ogg",
-            volume = 0.65
-        },
-        fluid_box = {
-            volume = 200,
-            base_area = 10000,
-            base_level = -1,
-            pipe_covers = pipecoverspictures(),
-            pipe_connections = { {
-                flow_direction = "input",
-                direction = defines.direction.south,
-                position = { 0, 0.289 }
-            } },
-            production_type = "input"
-        },
-        two_direction_only = false,
-        window_bounding_box = { { 0, 0 }, { 0, 0 } },
-        working_sound = {
-            sound = {
-                filename = "__base__/sound/boiler.ogg",
-                volume = 0
-            },
-            max_sounds_per_type = 3
-        },
-        pictures = {
-            picture = {
-                sheet = {
-                    filename = creative_mode_defines.mod_directory .. "/graphics/entity/fluid-void.png",
-                    priority = "extra-high",
-                    frames = 4,
-                    width = 76,
-                    height = 70
-                }
-            },
-            fluid_background = creative_mode_defines.empty_png.data,
-            window_background = creative_mode_defines.empty_png.data,
-            flow_sprite = creative_mode_defines.empty_png.data,
-            gas_flow = creative_mode_defines.empty_animation
-        },
-        flow_length_in_ticks = 10000,
-        circuit_wire_connection_points = { {
-            shadow = {
-                red = { 2.35938, 0.890625 },
-                green = { 2.29688, 0.953125 }
-            },
-            wire = {
-                red = { -0.40625, -0.375 },
-                green = { -0.53125, -0.46875 }
-            }
-        }, {
-            shadow = {
-                red = { 2.35938, 0.890625 },
-                green = { 2.29688, 0.953125 }
-            },
-            wire = {
-                red = { 0.46875, -0.53125 },
-                green = { 0.375, -0.4375 }
-            }
-        }, {
-            shadow = {
-                red = { 2.35938, 0.890625 },
-                green = { 2.29688, 0.953125 }
-            },
-            wire = {
-                red = { -0.40625, -0.375 },
-                green = { -0.53125, -0.46875 }
-            }
-        }, {
-            shadow = {
-                red = { 2.35938, 0.890625 },
-                green = { 2.29688, 0.953125 }
-            },
-            wire = {
-                red = { 0.46875, -0.53125 },
-                green = { 0.375, -0.4375 }
-            }
-        } },
-        circuit_connector_sprites = circuit_connector_definitions[creative_mode_defines.names.entities.fluid_void]
-        .sprites,
-        circuit_wire_max_distance = 1000,
         se_allow_in_space = true
     },
     -- New Fluid void
