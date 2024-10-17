@@ -3014,7 +3014,7 @@ function cheats.on_preplayer_mined_item(player_index, entity)
     -- Repair mined item.
     if storage.creative_mode.personal_cheats.repair_mined_item[player_index] then
         if entity.health ~= nil then
-            entity.health = entity.prototype.max_health
+            entity.health = entity.prototype.get_max_health()
         end
     end
 end
