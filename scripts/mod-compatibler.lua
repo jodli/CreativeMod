@@ -8,7 +8,7 @@ end
 
 -- Returns whether the instant blueprint mod has been installed.
 function mod_compatibler.is_instant_blueprint_installed()
-	return game.active_mods["instant-blueprints"]
+	return script.active_mods["instant-blueprints"]
 end
 
 -- Returns whether the instant blueprint mod has been installed and is activated for the given player.
