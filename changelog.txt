@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.0
+Date: 2024-10-17
+  Features:
+    - Duplicator chest will now duplicate the item with all attributes (including quality and spoilage)
+    - Locking the item in a Duplicator chest will always keep the spoilage at 100%
+  Changes:
+    - Update all the things to target the new Factorio v2.0
+  Bugfixes:
+    - Add tints to cargo-wagons
+    - Add the localised_text to fluids
+---------------------------------------------------------------------------------------------------
 Version: 1.8.2
 Date: 2024-01-01
   Changes:
