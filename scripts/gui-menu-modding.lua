@@ -115,7 +115,7 @@ local event_categories = {
 			defines.events.on_entity_cloned,
 			defines.events.on_entity_color_changed,
 			defines.events.on_entity_damaged,
-			defines.events.on_entity_destroyed,
+			defines.events.on_object_destroyed,
 			defines.events.on_entity_died,
 			defines.events.on_entity_renamed,
 			defines.events.on_entity_settings_pasted,
