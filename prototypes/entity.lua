@@ -507,6 +507,7 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
                 allow_low_quality_rotation = true,
                 back_equals_front = true,
                 direction_count = 128,
+                tint = tint,
                 scale = 0.5
                 }
             ),
@@ -544,6 +545,7 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
             util.sprite_load("__base__/graphics/entity/cargo-wagon/cargo-wagon-door-horizontal",
             {
                 frame_count = 8,
+                tint = tint,
                 scale = 0.5
             }
             ),
@@ -565,6 +567,7 @@ local function cargo_wagon(entity_name, item_name, tint, additional_pastable_ent
             util.sprite_load("__base__/graphics/entity/cargo-wagon/cargo-wagon-door-vertical",
             {
                 frame_count = 8,
+                tint = tint,
                 scale = 0.5
             }
             ),
