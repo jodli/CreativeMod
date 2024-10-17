@@ -327,7 +327,7 @@ end
 -- Callback of the on_built_entity event, which is invoked when an entity is built by player.
 local function on_built_entity(event)
     local player = game.players[event.player_index]
-    local entity = event.created_entity
+    local entity = event.entity
     local is_entity_ghost = entity.name == "entity-ghost"
     local is_tile_ghost = entity.name == "tile-ghost"
     local is_ghost = is_entity_ghost or is_tile_ghost
