@@ -648,7 +648,7 @@ end
 -- Callback of the on_robot_built_entity event. Forward to register entity.
 local function on_robot_built_entity(event)
     -- Register the built entity if it is one of the creative entities and it needs to be updated via script.
-    global_util.register_entity(event.created_entity)
+    global_util.register_entity(event.entity)
 end
 
 
@@ -1010,7 +1010,6 @@ local event_param_message_look_up = {
     -- Don't print for "name" and "tick"
     ["name"] = get_empty_message,
     ["tick"] = get_empty_message,
-    ["created_entity"] = get_entity_param_message,
     ["player_index"] = get_uint_param_message,
     ["entity"] = get_entity_param_message,
     ["mapping"] = get_table_param_message,
