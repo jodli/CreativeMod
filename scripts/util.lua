@@ -196,22 +196,22 @@ function util.fulfill_item_requests(target_entity, item_requests)
     -- Try to insert into the module inventory first.
     local module_inventory = target_entity.get_module_inventory()
     if module_inventory then
-        for item_name, count in pairs(item_requests) do
-            if count > 0 then
+        for _, item_request in ipairs(item_requests) do
+            if item_request.count > 0 then
                 -- Reduce the number of items being inserted.
-                item_requests[item_name] = count - module_inventory.insert {
-                    name = item_name,
-                    count = count
+                item_requests[item_request.name] = item_request.count - module_inventory.insert {
+                    name = item_request.name,
+                    count = item_request.count
                 }
             end
         end
     end
     -- In case there are items other than modules left (special items?), here is the last chance to insert them to the entity.
-    for item_name, count in pairs(item_requests) do
-        if count > 0 then
-            item_requests[item_name] = count - target_entity.insert {
-                name = item_name,
-                count = count
+    for _, item_request in ipairs(item_requests) do
+        if item_request.count > 0 then
+            item_requests[item_request.name] = item_request.count - target_entity.insert {
+                name = item_request.name,
+                count = item_request.count
             }
         end
     end

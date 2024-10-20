@@ -2648,8 +2648,8 @@ function cheats.tick()
                 entity.item_requests = util.fulfill_item_requests(entity.proxy_target, entity.item_requests)
                 -- Check if all items have be inserted so we can destroy the proxy.
                 local is_fulfilled = true
-                for item_name, item_count in pairs(entity.item_requests) do
-                    if item_count > 0 then
+                for _, item_request in ipairs(entity.item_requests) do
+                    if item_request.count > 0 then
                         is_fulfilled = false
                         break
                     end
