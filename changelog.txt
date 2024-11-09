@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.3
+Date: 2024-11-09
+  Changes:
+    - Remove spoilable items from creative chests. For the time being, if you want to have these items in an unspoiling version, please use the duplicator chest with the "Lock item" box ticked.
+    - Items in creative chests now contain the same quality items as the chest itself.
+    - Modules in blueprints will retain their quality when using the instant blueprints feature.
+---------------------------------------------------------------------------------------------------
 Version: 2.0.2
 Date: 2024-10-20
   Bugfixes:
