@@ -314,7 +314,12 @@ function creative_chest_util.set_chest_filter(data)
 							-- Set the infinity container's filter slot to be the given item
 							chest.set_infinity_container_filter(
 								displayed_slot,
-								{ name = item.name, count = item.stack_size, mode = "exactly" }
+								{
+									name = item.name,
+									quality = chest.quality.name,
+									count = item.stack_size,
+									mode = "exactly",
+								}
 							)
 							displayed_slot = displayed_slot + 1
 						end
