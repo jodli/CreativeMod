@@ -49,7 +49,7 @@ end
 -- Possible alt-mode actions for the Healer magic wand.
 magic_wand_healer.alt_mode_action = {
 	set_hp_to_one = 1,
-	kill = 2
+	kill = 2,
 }
 
 -- Returns the alt-mode action of the magic wand for the given player.
@@ -75,7 +75,9 @@ end
 -- Returns whether the alt-mode action of the magic wand can affect player characters for the given player.
 function magic_wand_healer.get_alt_mode_dont_affect_player_characters(player)
 	if storage.creative_mode.magic_wand_settings.healer[player.index] then
-		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters ~= nil then
+		if
+			storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters ~= nil
+		then
 			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters
 		end
 	end
@@ -88,7 +90,7 @@ function magic_wand_healer.set_alt_mode_dont_affect_player_characters(player, al
 		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
 	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_player_characters =
-	alt_mode_dont_affect_player_characters
+		alt_mode_dont_affect_player_characters
 end
 
 ----
@@ -96,7 +98,10 @@ end
 -- Returns whether the alt-mode action of the magic wand can affect indestructible entities for the given player.
 function magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
 	if storage.creative_mode.magic_wand_settings.healer[player.index] then
-		if storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities ~= nil then
+		if
+			storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities
+			~= nil
+		then
 			return storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities
 		end
 	end
@@ -105,13 +110,14 @@ end
 
 -- Sets whether the alt-mode action of the magic wand can affect indestructible entities for the given player.
 function magic_wand_healer.set_alt_mode_dont_affect_indestructible_entities(
-    player,
-    alt_mode_dont_affect_indestructible_entities)
+	player,
+	alt_mode_dont_affect_indestructible_entities
+)
 	if not storage.creative_mode.magic_wand_settings.healer[player.index] then
 		storage.creative_mode.magic_wand_settings.healer[player.index] = {}
 	end
 	storage.creative_mode.magic_wand_settings.healer[player.index].alt_mode_dont_affect_indestructible_entities =
-	alt_mode_dont_affect_indestructible_entities
+		alt_mode_dont_affect_indestructible_entities
 end
 
 ----
@@ -141,7 +147,10 @@ end
 
 -- Creates smoke effect at the given position in the given surface.
 local function create_smoke_at(surface, position)
-	surface.create_trivial_smoke { name = creative_mode_defines.names.entities.magic_wand_smoke_healer, position = position }
+	surface.create_trivial_smoke({
+		name = creative_mode_defines.names.entities.magic_wand_smoke_healer,
+		position = position,
+	})
 end
 
 -- Creates smoke effect at the entity's position.
@@ -166,7 +175,7 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
 					if health ~= nil then
 						-- The entity has health. It can be healed.
 						if entity.force and magic_wand_healer.get_heal_entities_on_force(player, entity.force) then
-							local max_health = entity.prototype.max_health -- For all entities in general
+							local max_health = entity.prototype.get_max_health() -- For all entities in general
 							if entity.type == "character" then -- But players have individual and force bonuses to max health
 								local p = entity.player
 								max_health = max_health + p.force.character_health_bonus + p.character_health_bonus
@@ -205,7 +214,7 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
 			end
 		else
 			-- No right to use.
-			player.print { "message.creative-mode_no-right-to-use-magic-wand" }
+			player.print({ "message.creative-mode_no-right-to-use-magic-wand" })
 		end
 
 		return true
@@ -223,7 +232,7 @@ function magic_wand_healer.on_player_alt_selected_area(player, area, item_name, 
 			local action = magic_wand_healer.get_alt_mode_action(player)
 			local dont_affect_player_characters = magic_wand_healer.get_alt_mode_dont_affect_player_characters(player)
 			local dont_affect_indestructible_entities =
-			magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
+				magic_wand_healer.get_alt_mode_dont_affect_indestructible_entities(player)
 			for _, entity in ipairs(entities) do
 				if entity.valid then -- It is possible that the entity becomes invalid.
 					-- Make sure the entity can be killed.
@@ -250,7 +259,7 @@ function magic_wand_healer.on_player_alt_selected_area(player, area, item_name, 
 			end
 		else
 			-- No right to use.
-			player.print { "message.creative-mode_no-right-to-use-magic-wand" }
+			player.print({ "message.creative-mode_no-right-to-use-magic-wand" })
 		end
 
 		return true

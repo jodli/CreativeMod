@@ -2101,7 +2101,7 @@ cheats.magic_wand_modifications = {
 			get_value_function = function(entity)
 				if entity and entity.valid then
 					if entity.health then
-						return entity.health >= entity.prototype.max_health
+						return entity.health >= entity.prototype.get_max_health()
 					end
 				end
 				return nil
@@ -2110,7 +2110,7 @@ cheats.magic_wand_modifications = {
 			apply_to_target_function = function(entity, enable, source_player)
 				if entity.health then
 					if enable then
-						entity.health = entity.prototype.max_health
+						entity.health = entity.prototype.get_max_health()
 					else
 						entity.health = 1
 					end
