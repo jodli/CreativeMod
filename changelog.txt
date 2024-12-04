@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.4
+Date: 2024-12-04
+  Changes:
+    - Add quality support to instant requests.
+    - Added compatibility for icons with smaller size.
+  Bugfixes:
+    - Fixed support for file writing of events.
+    - Fixed healer and modifier wands on entities.
+---------------------------------------------------------------------------------------------------
 Version: 2.0.3
 Date: 2024-11-09
   Changes:
