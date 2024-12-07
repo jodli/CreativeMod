@@ -1615,6 +1615,57 @@ cheats.surface_cheats_data = {
 			end,
 			get_player_can_access_function = nil,
 		},
+		pressure = {
+			is_default = false,
+			default_enable_value = 1000,
+			default_disable_value = 0,
+			get_value_function = function(surface)
+				return surface.get_property("pressure")
+			end,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
+			apply_to_target_function = function(surface, value, source_player)
+				surface.set_property("pressure", value)
+				return nil
+			end,
+			print_applied_by_admin_message_function = function(source_player, surface, value)
+				surface.print({ "message.creative-mode_surface-pressure-updated", source_player.name, value })
+			end,
+			get_player_can_access_function = nil,
+		},
+		magnetic_field = {
+			is_default = false,
+			default_enable_value = 1000,
+			default_disable_value = 0,
+			get_value_function = function(surface)
+				return surface.get_property("magnetic-field")
+			end,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
+			apply_to_target_function = function(surface, value, source_player)
+				surface.set_property("magnetic-field", value)
+				return nil
+			end,
+			print_applied_by_admin_message_function = function(source_player, surface, value)
+				surface.print({ "message.creative-mode_surface-magnetic-field-updated", source_player.name, value })
+			end,
+			get_player_can_access_function = nil,
+		},
+		gravity = {
+			is_default = false,
+			default_enable_value = 1000,
+			default_disable_value = 0,
+			get_value_function = function(surface)
+				return surface.get_property("gravity")
+			end,
+			limit_value_before_apply_function = uint32_limit_value_before_apply_function,
+			apply_to_target_function = function(surface, value, source_player)
+				surface.set_property("gravity", value)
+				return nil
+			end,
+			print_applied_by_admin_message_function = function(source_player, surface, value)
+				surface.print({ "message.creative-mode_surface-gravity-updated", source_player.name, value })
+			end,
+			get_player_can_access_function = nil,
+		},
 	},
 }
 
