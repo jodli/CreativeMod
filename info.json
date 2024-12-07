@@ -1,6 +1,6 @@
 {
   "name": "creative-mod",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "title": "Creative Mod",
   "author": "Y.Petremann, rk84, Mooncat, Chrisgbk, jodli",
   "homepage": "https://forums.factorio.com/viewtopic.php?f=97&t=28005",
@@ -8,4 +8,3 @@
   "factorio_version": "2.0",
   "dependencies": ["base >= 2.0.0"]
 }
-

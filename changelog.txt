@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.0
+Date: 2024-12-07
+  Features:
+    - Add cheat commands to edit surface properties. This enables you to edit the properties of your surfaces to fulfil crafting surface conditions for gated recipes, like Space science pack or the Foundry.
+  Bugfixes:
+    - Take quality into account when counting instant requested items.
+---------------------------------------------------------------------------------------------------
 Version: 2.0.4
 Date: 2024-12-04
   Changes:
