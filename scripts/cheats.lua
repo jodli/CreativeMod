@@ -2530,7 +2530,8 @@ local function apply_instant_request_on_player_character_slot(player, character,
 	for _, point in ipairs(points) do
 		if point ~= nil and point.enabled and point.filters ~= nil then
 			local requested_item_stack = point.filters[slot_index]
-			local item_count_diff = requested_item_stack.count - player.get_item_count(requested_item_stack.name)
+			local item_count_diff = requested_item_stack.count
+				- player.get_item_count({ name = requested_item_stack.name, quality = requested_item_stack.quality })
 			if item_count_diff > 0 then
 				-- Insert the wanted item.
 				player.insert({
