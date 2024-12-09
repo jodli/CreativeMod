@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.1
+Date: 2024-12-09
+  Optimizations:
+    - Refactor instant requests to run event-driven. This will help with performance, as the instant requests are not executed on every tick, but just when something relevant changes, e.g. a logistic request is added or an item from the main inventory is used.
+---------------------------------------------------------------------------------------------------
 Version: 2.1.0
 Date: 2024-12-07
   Features:
