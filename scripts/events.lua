@@ -1421,3 +1421,15 @@ function events.on_event(event)
 		event_handlers_look_up[event_id](event)
 	end
 end
+
+function events.on_entity_logistic_slot_changed(data)
+handle_entity_logistic_slot_changed(data)
+end
+
+function events.on_player_main_inventory_changed(data)
+	handle_player_main_inventory_changed(data)
+end
+
+function events.on_player_trash_inventory_changed(data)
+	handle_player_trash_inventory_changed(data)
+end

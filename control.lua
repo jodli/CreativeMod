@@ -48,10 +48,18 @@ script.on_configuration_changed(events.on_configuration_changed)
 
 -- The on_tick event is called very frequently, it is better to NOT do a name check in the generic event handler.
 script.on_event(defines.events.on_tick, events.on_tick)
+
+script.on_event(defines.events.on_player_main_inventory_changed, events.on_player_main_inventory_changed)
+script.on_event(defines.events.on_entity_logistic_slot_changed, events.on_entity_logistic_slot_changed)
+script.on_event(defines.events.on_player_trash_inventory_changed, events.on_player_trash_inventory_changed)
+
 -- Other events.
 local events_except_on_tick = {}
 for _, event in pairs(defines.events) do
-    if event ~= defines.events.on_tick then
+    if event ~= defines.events.on_tick
+        and event ~= defines.events.on_player_main_inventory_changed
+        and event ~= defines.events.on_entity_logistic_slot_changed
+        and event ~= defines.events.on_player_trash_inventory_changed then
         table.insert(events_except_on_tick, event)
     end
 end
