@@ -30,7 +30,9 @@ end
 
 local function handle_instant_request(entity, filter)
     if filter and next(filter) then
-        refill_inventory(entity, filter)
+        if filter.value.type == "item" then
+            refill_inventory(entity, filter)
+        end
     end
 end
 
