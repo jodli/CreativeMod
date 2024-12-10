@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.3
+Date: 2024-12-10
+  Bugfixes:
+    - Only handle "item" request for instant refilling of inventories. This prevents crashes when setting fluid, virtual or entity requests in e.g. the constant combinator.
+    - Limit logistic slot functionality only to the character for now. This prevents requester chests to also instantly request items. Problem with this functionality is, that you can't disable the refilling in the settings. Also had to disable Autofill Requester Chests as they rely on the old way of refilling the inventory.
+---------------------------------------------------------------------------------------------------
 Version: 2.1.2
 Date: 2024-12-10
   Bugfixes:
