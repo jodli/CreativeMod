@@ -37,7 +37,7 @@ local function handle_instant_request(entity, filter)
 end
 
 function handle_entity_logistic_slot_changed(data)
-    if not data.entity.is_player() or is_player_valid_for_instant_request(data.entity.player) then
+    if data.entity.type == "character" and is_player_valid_for_instant_request(data.entity.player) then
         if data.section and data.section.active then
             local filter = data.section.get_slot(data.slot_index)
             handle_instant_request(data.entity, filter)
