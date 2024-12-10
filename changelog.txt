@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.2
+Date: 2024-12-10
+  Bugfixes:
+    - Entity can also be non-character, e.g. a requester chest, when handling instant requests.
+---------------------------------------------------------------------------------------------------
 Version: 2.1.1
 Date: 2024-12-09
   Optimizations:
