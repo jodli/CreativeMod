@@ -1,17 +1,118 @@
-name: Check and Release as .zip
-on: push
+name: Release Mod
+
+on:
+  push:
+    branches:
+      - '*'
+
 jobs:
-  release-github:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: Create Factorio mod package
-        uses: Roang-zero1/factorio-mod-package@master
-      - name: Create Github Release and upload artifacts
-        uses: fnkr/github-action-ghr@v1
-        if: startsWith(github.ref, 'refs/tags/')
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install conventional-changelog-cli
+        run: npm install -g conventional-changelog-cli
+
+      - name: Determine next version
+        id: determine_version
+        run: |
+          NEW_VERSION=$(conventional-changelog -p angular --dry-run | grep "New version:" | awk '{print $3}')
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "NEXT_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Generate changelog entry
+        id: generate_changelog
+        run: |
+          CHANGELOG=$(conventional-changelog -p angular -i changelog.txt -s)
+          
+          # Format the changelog to match Factorio's format
+          FORMATTED_CHANGELOG="---------------------------------------------------------------------------------------------------\nVersion: $NEXT_VERSION\nDate: $(date +%Y-%m-%d)\n"
+          
+          # Initialize categories
+          FEATURES=""
+          BUGFIXES=""
+          CHANGES=""
+          OPTIMIZATIONS=""
+          INFO=""
+
+          # Map conventional commit types to Factorio changelog categories
+          while IFS= read -r line; do
+            if [[ "$line" =~ ^feat\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^feat([^)]*\): //')
+              FEATURES+="    - $MESSAGE\n"
+            elif [[ "$line" =~ ^fix\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^fix([^)]*\): //')
+              BUGFIXES+="    - $MESSAGE\n"
+            elif [[ "$line" =~ ^chore\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^chore([^)]*\): //')
+              CHANGES+="    - $MESSAGE\n"
+            elif [[ "$line" =~ ^perf\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^perf([^)]*\): //')
+              OPTIMIZATIONS+="    - $MESSAGE\n"
+            elif [[ "$line" =~ ^docs\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^docs([^)]*\): //')
+              INFO+="    - $MESSAGE\n"
+            elif [[ "$line" =~ ^refactor\(.*?\): ]]; then
+              MESSAGE=$(echo "$line" | sed 's/^refactor([^)]*\): //')
+              CHANGES+="    - $MESSAGE\n"
+            fi
+          done <<< "$CHANGELOG"
+
+          # Add categories to the formatted changelog if they have entries
+          if [[ -n "$FEATURES" ]]; then
+            FORMATTED_CHANGELOG+="\n  Features:\n$FEATURES"
+          fi
+          if [[ -n "$BUGFIXES" ]]; then
+            FORMATTED_CHANGELOG+="\n  Bugfixes:\n$BUGFIXES"
+          fi
+          if [[ -n "$CHANGES" ]]; then
+            FORMATTED_CHANGELOG+="\n  Changes:\n$CHANGES"
+          fi
+          if [[ -n "$OPTIMIZATIONS" ]]; then
+            FORMATTED_CHANGELOG+="\n  Optimizations:\n$OPTIMIZATIONS"
+          fi
+           if [[ -n "$INFO" ]]; then
+            FORMATTED_CHANGELOG+="\n  Info:\n$INFO"
+          fi
+          
+          echo "formatted_changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$FORMATTED_CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update info.json
+        run: |
+          jq ".version = \"$NEXT_VERSION\"" info.json > info.json.tmp && mv info.json.tmp info.json
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add info.json changelog.txt
+          git commit -m "Release v$NEXT_VERSION"
+          git push
+
+      - name: Package mod
+        run: |
+          MOD_NAME=$(jq -r .name info.json)
+          MOD_VERSION=$(jq -r .version info.json)
+          zip -r "$MOD_NAME-$MOD_VERSION.zip" . -x "*.git*" -x "*.github*"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHR_PATH: dist/
-          GHR_REPLACE: true
+        with:
+          tag_name: v${{ env.NEXT_VERSION }}
+          release_name: v${{ env.NEXT_VERSION }}
+          body: ${{ steps.generate_changelog.outputs.formatted_changelog }}
+          draft: ${{ github.ref != 'refs/heads/master' }}
+          prerelease: false
+          artifacts: |
+            *.zip
