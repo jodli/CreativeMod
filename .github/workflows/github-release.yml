@@ -1,17 +1,55 @@
-name: Check and Release as .zip
-on: push
+name: Release Mod
+
+on:
+  push:
+    branches:
+      - '*'
+
 jobs:
-  release-github:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: Create Factorio mod package
-        uses: Roang-zero1/factorio-mod-package@master
-      - name: Create Github Release and upload artifacts
-        uses: fnkr/github-action-ghr@v1
-        if: startsWith(github.ref, 'refs/tags/')
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install -g commit-and-tag-version
+
+      - name: Commit and Tag Version
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          commit-and-tag-version
+          chmod +x ./conventional_to_factorio_changelog.sh
+          cat CHANGELOG.md | ./conventional_to_factorio_changelog.sh > changelog.txt.new
+          echo "$(cat changelog.txt.new)"
+          cat changelog.txt >> changelog.txt.new
+          mv changelog.txt.new changelog.txt
+
+      - name: Package mod
+        run: |
+          MOD_NAME=$(jq -r .name info.json)
+          MOD_VERSION=$(jq -r .version info.json)
+          echo "Mod name: $MOD_NAME"
+          echo "Mod version: $MOD_VERSION"
+          zip -r "$MOD_NAME-$MOD_VERSION.zip" . -x "*.git*" -x "*.github*"
+          echo "MOD_FILE=$MOD_NAME-$MOD_VERSION.zip" >> $GITHUB_ENV
+          echo "Mod file: $MOD_FILE"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHR_PATH: dist/
-          GHR_REPLACE: true
+        with:
+          tag_name: v${{ env.NEXT_VERSION }}
+          release_name: v${{ env.NEXT_VERSION }}
+          body: ${{ steps.generate_changelog.outputs.formatted_changelog }}
+          draft: ${{ github.ref != 'refs/heads/master' }}
+          prerelease: false
+          artifacts: |
+            *.zip
