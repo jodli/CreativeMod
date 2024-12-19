@@ -1,64 +1,93 @@
-name: Release Mod
+name: Release
 
 on:
   push:
     branches:
-      - '*'
+      - main
+      - master
+  workflow_dispatch:
 
 jobs:
   release:
+    name: Create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release_version: ${{ steps.versioning.outputs.new_version }}
+      zip_path: ${{ steps.create_zip.outputs.zip_path }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@v3
         with:
-          node-version: '20.x'
+          fetch-depth: 0 
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
       - name: Install dependencies
-        run: npm install -g commit-and-tag-version
+        run: npm ci
 
-      - name: Commit and Tag Version
-        run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
-          commit-and-tag-version
-          chmod +x ./conventional_to_factorio_changelog.sh
-          cat CHANGELOG.md | ./conventional_to_factorio_changelog.sh > changelog.txt.new
-          echo "$(cat changelog.txt.new)"
-          cat changelog.txt >> changelog.txt.new
-          mv changelog.txt.new changelog.txt
+      - name: Determine next version
+        id: versioning
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            config-path: .github/release-drafter.yml
 
-      - name: Package mod
+      - name: Create ZIP archive
+        id: create_zip
         run: |
-          MOD_NAME=$(jq -r .name info.json)
-          MOD_VERSION=$(jq -r .version info.json)
-          echo "Mod name: $MOD_NAME"
-          echo "Mod version: $MOD_VERSION"
-          zip -r "$MOD_NAME-$MOD_VERSION.zip" . -x "*.git*" -x "*.github*"
-          echo "MOD_FILE=$MOD_NAME-$MOD_VERSION.zip" >> $GITHUB_ENV
-          echo "Mod file: $MOD_FILE"
+          ZIP_FILE="creative-mod_${{ steps.versioning.outputs.new_version }}.zip"
+          zip -r "$ZIP_FILE" . \
+            -x ".git/*" ".github/*" ".gitignore"
+          echo "::set-output name=zip_path::$ZIP_FILE"
+        shell: bash
+
+      - name: Create Git tag
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        run: |
+          git tag ${{ steps.versioning.outputs.new_version }}
+          git push origin ${{ steps.versioning.outputs.new_version }}
+
+      - name: Generate changelog
+        id: changelog
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        uses: metcalfc/changelog-generator@v1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .github/changelog_config.json
 
       - name: Create GitHub Release
         id: create_release
+        if: ${{ steps.versioning.outputs.new_version != '' }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.NEXT_VERSION }}
-          release_name: v${{ env.NEXT_VERSION }}
-          body: ${{ steps.generate_changelog.outputs.formatted_changelog }}
-          draft: ${{ github.ref != 'refs/heads/master' }}
+          tag_name: ${{ steps.versioning.outputs.new_version }}
+          release_name: Release ${{ steps.versioning.outputs.new_version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
           prerelease: false
 
       - name: Upload Release Asset
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.MOD_FILE }}
-          asset_name: ${{ env.MOD_FILE }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./${{ steps.create_zip.outputs.zip_path }}
+          asset_name: ${{ steps.create_zip.outputs.zip_path }}
           asset_content_type: application/zip
+
+      - name: Output release information
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        run: |
+          echo "Release Version: ${{ steps.versioning.outputs.new_version }}"
+          echo "ZIP Path: ${{ steps.create_zip.outputs.zip_path }}"
