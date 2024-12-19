@@ -1,17 +1,94 @@
-name: Check and Release as .zip
-on: push
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - update-actions
+  workflow_dispatch:
+
 jobs:
-  release-github:
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release_version: ${{ steps.versioning.outputs.new_version }}
+      zip_path: ${{ steps.create_zip.outputs.zip_path }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Create Factorio mod package
-        uses: Roang-zero1/factorio-mod-package@master
-      - name: Create Github Release and upload artifacts
-        uses: fnkr/github-action-ghr@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine next version
+        id: versioning
+        uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHR_PATH: dist/
-          GHR_REPLACE: true
+        with:
+            config-path: .github/release-drafter.yml
+
+      - name: Create ZIP archive
+        id: create_zip
+        run: |
+          ZIP_FILE="creative-mod_${{ steps.versioning.outputs.new_version }}.zip"
+          zip -r "$ZIP_FILE" . \
+            -x ".git/*" ".github/*" ".gitignore"
+          echo "::set-output name=zip_path::$ZIP_FILE"
+        shell: bash
+
+      - name: Create Git tag
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        run: |
+          git tag ${{ steps.versioning.outputs.new_version }}
+          git push origin ${{ steps.versioning.outputs.new_version }}
+
+      - name: Generate changelog
+        id: changelog
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        uses: metcalfc/changelog-generator@v1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .github/changelog_config.json
+
+      - name: Create GitHub Release
+        id: create_release
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.versioning.outputs.new_version }}
+          release_name: Release ${{ steps.versioning.outputs.new_version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./${{ steps.create_zip.outputs.zip_path }}
+          asset_name: ${{ steps.create_zip.outputs.zip_path }}
+          asset_content_type: application/zip
+
+      - name: Output release information
+        if: ${{ steps.versioning.outputs.new_version != '' }}
+        run: |
+          echo "Release Version: ${{ steps.versioning.outputs.new_version }}"
+          echo "ZIP Path: ${{ steps.create_zip.outputs.zip_path }}"

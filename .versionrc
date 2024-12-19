@@ -1,0 +1,48 @@
+{
+    "packageFiles": [
+        {
+            "filename": "info.json",
+            "type": "json"
+        }
+    ],
+    "conventionalChangelog": {
+        "types": [
+            {
+                "type": "feat",
+                "section": "Features"
+            },
+            {
+                "type": "fix",
+                "section": "Bugfixes"
+            },
+            {
+                "type": "perf",
+                "section": "Optimizations"
+            },
+            {
+                "type": "chore",
+                "hidden": true
+            },
+            {
+                "type": "docs",
+                "hidden": true
+            },
+            {
+                "type": "style",
+                "hidden": true
+            },
+            {
+                "type": "refactor",
+                "hidden": true
+            },
+            {
+                "type": "perf",
+                "hidden": true
+            },
+            {
+                "type": "test",
+                "hidden": true
+            }
+        ]
+    }
+}
