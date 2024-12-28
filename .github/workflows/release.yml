@@ -12,6 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Verify version
+        run: |
+          VERSION=$(jq -r .version info.json)
+          if [[ "${{ github.ref_name }}" != "$VERSION" ]]; then
+            echo "Tag name ${{ github.ref_name }} does not match version in info.json: $VERSION"
+            exit 1
+          fi
+
+      - name: Verify changelog
+        run: |
+          if ! grep -q "Version: ${{ github.ref_name }}" changelog.txt; then
+            echo "Changelog does not contain an entry for version ${{ github.ref_name }}"
+            exit 1
+          fi
+
       - name: Create zip archive
         run: zip -r creative-mod-${{ github.ref_name }}.zip . -x "*.git*" -x ".github*"
 
