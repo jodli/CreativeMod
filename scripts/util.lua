@@ -124,6 +124,10 @@ end
 
 -- Transfers the contents of the source inventory to the destination inventory.
 function util.transfer_inventory_contents(source_inventory, destination_inventory)
+	-- Check for nil inventories to prevent crashes
+	if not source_inventory or not destination_inventory then
+		return
+	end
 	for i = 1, math_min(#source_inventory, #destination_inventory), 1 do
 		local source_slot = source_inventory[i]
 		if source_slot.valid_for_read then

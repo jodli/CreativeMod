@@ -864,7 +864,9 @@ cheats.personal_cheats_data = {
 						-- Transfer items.
 						local character_main = character.get_inventory(defines.inventory.character_main)
 						local god_main = player.get_inventory(defines.inventory.god_main)
-						util.transfer_inventory_contents(god_main, character_main)
+						if god_main and character_main then
+							util.transfer_inventory_contents(god_main, character_main)
+						end
 						-- Transfer cursor stack.
 						local cursor_stack = player.cursor_stack
 						if cursor_stack and cursor_stack.valid_for_read then
