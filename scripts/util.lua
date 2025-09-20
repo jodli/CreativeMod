@@ -199,7 +199,7 @@ function util.fulfill_item_requests(target_entity, item_requests)
 		for _, item_request in ipairs(item_requests) do
 			if item_request.count > 0 then
 				-- Reduce the number of items being inserted.
-				item_requests[item_request.name] = item_request.count
+				item_request.count = item_request.count
 					- module_inventory.insert({
 						name = item_request.name,
 						quality = item_request.quality,
@@ -211,7 +211,7 @@ function util.fulfill_item_requests(target_entity, item_requests)
 	-- In case there are items other than modules left (special items?), here is the last chance to insert them to the entity.
 	for _, item_request in ipairs(item_requests) do
 		if item_request.count > 0 then
-			item_requests[item_request.name] = item_request.count
+			item_request.count = item_request.count
 				- target_entity.insert({
 					name = item_request.name,
 					quality = item_request.quality,
