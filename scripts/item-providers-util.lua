@@ -85,6 +85,7 @@ local function duplicate_first_item_in_inventory(inventory, filter_item_name)
 			item_name = filter_item_name
 		end
 	else
+		local k
 		k, item_name = next(inventory.get_contents())
 		if k ~= nil then
 			if item_name then
@@ -360,6 +361,7 @@ local function output_or_remove_item_on_transport_line(
 				item_name = filter_item_name
 			end
 		else
+			local k
 			k, item_name = next(transport_line.get_contents())
 			if k ~= nil then
 				if item_name then
