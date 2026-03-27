@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreativeMod vs EditorExtensions - Comprehensive Analysis</title>
+<style>
+  :root {
+    --bg: #1a1b26;
+    --bg-surface: #24283b;
+    --bg-surface2: #2f3349;
+    --text: #c0caf5;
+    --text-muted: #565f89;
+    --text-bright: #e0e6ff;
+    --accent-blue: #7aa2f7;
+    --accent-cyan: #7dcfff;
+    --accent-green: #9ece6a;
+    --accent-red: #f7768e;
+    --accent-orange: #ff9e64;
+    --accent-yellow: #e0af68;
+    --accent-purple: #bb9af7;
+    --border: #3b4261;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    padding: 2rem;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  h1 {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-blue);
+    padding-bottom: 0.75rem;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    color: var(--accent-cyan);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    color: var(--accent-purple);
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+    color: var(--accent-orange);
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  p { margin-bottom: 0.8rem; }
+
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-cm { background: var(--accent-orange); color: var(--bg); }
+  .badge-ee { background: var(--accent-cyan); color: var(--bg); }
+  .badge-both { background: var(--accent-green); color: var(--bg); }
+  .badge-perf { background: var(--accent-red); color: var(--bg); }
+  .badge-idea { background: var(--accent-purple); color: var(--bg); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  th {
+    background: var(--bg-surface2);
+    color: var(--accent-blue);
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    font-weight: 600;
+  }
+
+  td {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: rgba(36, 40, 59, 0.5); }
+
+  .win-cm { color: var(--accent-orange); font-weight: 600; }
+  .win-ee { color: var(--accent-cyan); font-weight: 600; }
+  .win-tie { color: var(--accent-green); }
+  .bad { color: var(--accent-red); }
+  .good { color: var(--accent-green); }
+  .muted { color: var(--text-muted); }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .comparison-grid .card { margin-bottom: 0; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(59, 66, 97, 0.5);
+  }
+
+  .stat-label { color: var(--text-muted); }
+  .stat-value { font-weight: 600; }
+
+  ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  li { margin-bottom: 0.3rem; }
+
+  code {
+    background: var(--bg-surface2);
+    color: var(--accent-yellow);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  pre {
+    background: var(--bg-surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+  }
+
+  .perf-meter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.3rem 0;
+  }
+
+  .perf-bar {
+    height: 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .perf-terrible { background: var(--accent-red); width: 200px; }
+  .perf-bad { background: var(--accent-orange); width: 150px; }
+  .perf-ok { background: var(--accent-yellow); width: 100px; }
+  .perf-good { background: var(--accent-green); width: 50px; }
+  .perf-great { background: var(--accent-cyan); width: 25px; }
+
+  .toc {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .toc a {
+    color: var(--accent-blue);
+    text-decoration: none;
+  }
+
+  .toc a:hover { text-decoration: underline; }
+
+  .toc ol { counter-reset: toc; list-style: none; margin-left: 0; }
+  .toc > ol > li { counter-increment: toc; margin-bottom: 0.3rem; }
+  .toc > ol > li::before {
+    content: counter(toc) ". ";
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .verdict {
+    background: linear-gradient(135deg, rgba(122, 162, 247, 0.1), rgba(187, 154, 247, 0.1));
+    border: 1px solid var(--accent-purple);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .verdict h3 { color: var(--accent-purple); margin-top: 0; }
+
+  .roadmap-item {
+    background: var(--bg-surface);
+    border-left: 3px solid var(--accent-green);
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .roadmap-item.high { border-left-color: var(--accent-red); }
+  .roadmap-item.medium { border-left-color: var(--accent-orange); }
+  .roadmap-item.low { border-left-color: var(--accent-blue); }
+
+  .priority {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .priority-high { color: var(--accent-red); }
+  .priority-medium { color: var(--accent-orange); }
+  .priority-low { color: var(--accent-blue); }
+
+  @media (max-width: 768px) {
+    .comparison-grid { grid-template-columns: 1fr; }
+    body { padding: 1rem; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>CreativeMod vs EditorExtensions</h1>
+<p class="subtitle">Comprehensive analysis of two Factorio creative/testing mods &mdash; features, performance, architecture, and a roadmap for CreativeMod's future. Generated March 2026.</p>
+
+<div class="toc">
+  <strong>Table of Contents</strong>
+  <ol>
+    <li><a href="#overview">Overview &amp; Identity</a></li>
+    <li><a href="#features">Feature Comparison Matrix</a></li>
+    <li><a href="#architecture">Architecture &amp; Code Quality</a></li>
+    <li><a href="#performance">Performance Deep Dive</a></li>
+    <li><a href="#ee-wins">Where EditorExtensions Wins</a></li>
+    <li><a href="#cm-wins">Where CreativeMod Wins</a></li>
+    <li><a href="#gaps">Feature Gaps Analysis</a></li>
+    <li><a href="#roadmap">Roadmap: CreativeMod Next Gen</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="overview">1. Overview &amp; Identity</h2>
+
+<div class="comparison-grid">
+  <div class="card">
+    <div class="card-header">
+      <span class="badge badge-cm">CreativeMod</span>
+      <strong>v2.1.5</strong>
+    </div>
+    <div class="stat-row"><span class="stat-label">Authors</span><span class="stat-value">Y.Petremann, rk84, Mooncat, Chrisgbk, jodli</span></div>
+    <div class="stat-row"><span class="stat-label">Factorio version</span><span class="stat-value">2.0</span></div>
+    <div class="stat-row"><span class="stat-label">Dependencies</span><span class="stat-value">base >= 2.0.0</span></div>
+    <div class="stat-row"><span class="stat-label">Lua files</span><span class="stat-value">~35</span></div>
+    <div class="stat-row"><span class="stat-label">Philosophy</span><span class="stat-value">Full cheat suite with normal gameplay</span></div>
+    <div class="stat-row"><span class="stat-label">Core mechanic</span><span class="stat-value">Toggle-able cheats with access rights</span></div>
+    <div class="stat-row"><span class="stat-label">Editor mode</span><span class="stat-value">Not used &mdash; stays in character mode</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="badge badge-ee">EditorExtensions</span>
+      <strong>v2.5.3</strong>
+    </div>
+    <div class="stat-row"><span class="stat-label">Author</span><span class="stat-value">raiguard</span></div>
+    <div class="stat-row"><span class="stat-label">Factorio version</span><span class="stat-value">2.0</span></div>
+    <div class="stat-row"><span class="stat-label">Dependencies</span><span class="stat-value">base >= 2.0.42, flib >= 0.16.2</span></div>
+    <div class="stat-row"><span class="stat-label">Lua files</span><span class="stat-value">~25</span></div>
+    <div class="stat-row"><span class="stat-label">Philosophy</span><span class="stat-value">Enhanced testing tools + editor toggle</span></div>
+    <div class="stat-row"><span class="stat-label">Core mechanic</span><span class="stat-value">Map editor toggle with inventory sync</span></div>
+    <div class="stat-row"><span class="stat-label">Editor mode</span><span class="stat-value">Central &mdash; quick toggle with Ctrl+Alt+E</span></div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h3>Fundamental Difference</h3>
+  <p><strong>CreativeMod</strong> gives you god-powers <em>while playing normally</em> with your character. You walk around, pick up items, ride trains &mdash; but you're invincible, run fast, build instantly, and have infinite resources. It's a cheat-enhanced normal game.</p>
+  <p><strong>EditorExtensions</strong> gives you powerful testing tools and makes the map editor pleasant to use. You toggle between editor and character mode. When in editor, you have instant build/deconstruct natively. When in character, you're mostly normal (with some reach/speed bonuses from <code>/cheat</code>).</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="features">2. Feature Comparison Matrix</h2>
+
+<h3>Player Cheats</h3>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Cheat mode (free crafting)</td>
+    <td class="good">Per-player toggle</td>
+    <td class="good"><code>/cheat</code> command</td>
+  </tr>
+  <tr>
+    <td>Invincible player</td>
+    <td class="win-cm">Toggle per-player, <code>destructible = false</code></td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Running speed boost</td>
+    <td class="win-cm">Configurable modifier (default 2x)</td>
+    <td>Super exoskeleton equipment (2x per)</td>
+  </tr>
+  <tr>
+    <td>Mining speed boost</td>
+    <td class="win-cm">Configurable modifier (default 1000x)</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Crafting speed boost</td>
+    <td class="win-cm">Configurable modifier</td>
+    <td class="muted">Cheat mode = instant</td>
+  </tr>
+  <tr>
+    <td>Long reach</td>
+    <td class="good">Personal + team level</td>
+    <td class="good">1,000,000 bonus via <code>/cheat</code></td>
+  </tr>
+  <tr>
+    <td>Instant blueprint</td>
+    <td class="win-cm">Scripted: revive ghosts next tick</td>
+    <td>Native editor feature (when in editor)</td>
+  </tr>
+  <tr>
+    <td>Instant deconstruction</td>
+    <td class="win-cm">Scripted: destroy next tick</td>
+    <td>Native editor feature (when in editor)</td>
+  </tr>
+  <tr>
+    <td>Instant request (logistics)</td>
+    <td class="win-cm">Auto-fills logistic requests</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Instant trash clear</td>
+    <td class="win-cm">Auto-clears trash inventory</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Keep last item in hand</td>
+    <td class="win-cm">Restores cursor after placing</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Repair mined items</td>
+    <td class="win-cm">Full health on mine</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>God mode (no character)</td>
+    <td class="good">Toggle, transfers items</td>
+    <td class="good">Editor mode = god mode</td>
+  </tr>
+  <tr>
+    <td>Inventory bonus slots</td>
+    <td class="win-cm">Configurable</td>
+    <td class="muted">Not provided (editor has inf. inventory)</td>
+  </tr>
+  <tr>
+    <td>Health bonus</td>
+    <td class="win-cm">Configurable</td>
+    <td class="muted">Not provided</td>
+  </tr>
+</table>
+
+<h3>Team / Force Cheats</h3>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Research all technologies</td>
+    <td class="good">One-click</td>
+    <td class="good"><code>/cheat</code> or debug world</td>
+  </tr>
+  <tr>
+    <td>Instant research</td>
+    <td class="win-cm">Ongoing: complete on start</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Team-wide reach/speed/etc.</td>
+    <td class="win-cm">Full force-level modifiers</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Inserter capacity bonus</td>
+    <td class="win-cm">Configurable</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Evolution factor control</td>
+    <td class="win-cm">Set exact value per-force</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Chart all map</td>
+    <td class="win-cm">One-click</td>
+    <td class="muted">Not provided (editor reveals map)</td>
+  </tr>
+  <tr>
+    <td>Kill all units</td>
+    <td class="win-cm">One-click</td>
+    <td class="muted">Not provided</td>
+  </tr>
+</table>
+
+<h3>Surface / World Cheats</h3>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Freeze daytime</td>
+    <td class="win-cm">Per-surface toggle</td>
+    <td class="muted">Not provided (editor has render_as_day)</td>
+  </tr>
+  <tr>
+    <td>Set daytime</td>
+    <td class="win-cm">Per-surface slider</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Peaceful mode</td>
+    <td class="win-cm">Per-surface toggle</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Destroy/remove all enemies</td>
+    <td class="win-cm">Per-surface</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Prevent enemy spawning</td>
+    <td class="win-cm">Per-surface, removes on chunk gen</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Surface properties (pressure, gravity, mag field)</td>
+    <td class="win-cm">Per-surface controls</td>
+    <td class="muted">Not provided</td>
+  </tr>
+</table>
+
+<h3>Global / Map Settings Cheats</h3>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Pollution toggle</td>
+    <td class="win-cm">Yes</td>
+    <td class="muted">No</td>
+  </tr>
+  <tr>
+    <td>Enemy evolution control</td>
+    <td class="win-cm">Full control (time/destroy/pollution factors)</td>
+    <td class="muted">No</td>
+  </tr>
+  <tr>
+    <td>Enemy expansion control</td>
+    <td class="win-cm">Min/max cooldown</td>
+    <td class="muted">No</td>
+  </tr>
+  <tr>
+    <td>Game speed</td>
+    <td class="win-cm">0.1x &ndash; 100x slider</td>
+    <td class="muted">No</td>
+  </tr>
+</table>
+
+<h3>Creative Entities</h3>
+<table>
+  <tr>
+    <th>Entity Type</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Item source chest (all items)</td>
+    <td class="good">Creative Chest + Creative Provider Chest</td>
+    <td class="good">Aggregate Chest + Aggregate Provider Chest (quality-aware)</td>
+  </tr>
+  <tr>
+    <td>Infinity chest</td>
+    <td class="good">Void chest, void requester, void storage</td>
+    <td class="win-ee">6 logistic variants (normal + all 5 logistics)</td>
+  </tr>
+  <tr>
+    <td>Duplicating chest</td>
+    <td class="win-cm">Duplicating + Duplicating Provider</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Item on belt source</td>
+    <td class="good">Matter Source (filter-based)</td>
+    <td class="win-ee">Infinity Loader (1x1, per-lane, auto-snap, combinator-pasteable)</td>
+  </tr>
+  <tr>
+    <td>Item on belt void</td>
+    <td class="good">Matter Void</td>
+    <td class="good">Infinity Loader (bidirectional)</td>
+  </tr>
+  <tr>
+    <td>Item duplicator</td>
+    <td class="win-cm">Duplicator entity</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Random item source</td>
+    <td class="win-cm">Random Item Source entity</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Infinity pipe</td>
+    <td class="good">Fluid Source + Fluid Void</td>
+    <td class="good">Infinity Pipe (combinator-pasteable)</td>
+  </tr>
+  <tr>
+    <td>Electric source/sink</td>
+    <td class="good">6 variants (active/passive + source/sink/interface)</td>
+    <td class="win-ee">Infinity Accumulator with mode/priority/power GUI</td>
+  </tr>
+  <tr>
+    <td>Heat source/sink</td>
+    <td class="good">Heat Source + Heat Void (fixed temps)</td>
+    <td class="good">Infinity Heat Pipe (configurable temp)</td>
+  </tr>
+  <tr>
+    <td>Super boiler</td>
+    <td class="win-cm">3 variants (super, super cooler, configurable)</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Cargo wagons</td>
+    <td class="win-cm">Creative + Duplicating + Void wagon</td>
+    <td class="good">Infinity Cargo + Infinity Fluid Wagon</td>
+  </tr>
+  <tr>
+    <td>Linked chest/belt</td>
+    <td class="good">Linked Chest + Linked Belt</td>
+    <td class="win-ee">Linked Chest + Linked Belt with visual connection UI</td>
+  </tr>
+  <tr>
+    <td>Super lab</td>
+    <td class="good">Creative Lab + Void Lab</td>
+    <td class="good">Super Lab (100x speed, void energy)</td>
+  </tr>
+  <tr>
+    <td>Super robots</td>
+    <td class="good">Invincible construction + logistic bots</td>
+    <td class="good">Speed 1M, no energy, 1000 payload</td>
+  </tr>
+  <tr>
+    <td>Super roboport</td>
+    <td class="good">Huge radius</td>
+    <td class="win-ee">200-tile logistics, 400-tile construction, 1000YW charging</td>
+  </tr>
+  <tr>
+    <td>Super radar</td>
+    <td class="good">Full map reveal</td>
+    <td class="good">20-chunk reveal (more realistic)</td>
+  </tr>
+  <tr>
+    <td>Super beacon</td>
+    <td class="good">Huge range</td>
+    <td class="good">64-tile range, 10 slots, allows productivity</td>
+  </tr>
+  <tr>
+    <td>Super inserter</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Void energy, fast rotation</td>
+  </tr>
+  <tr>
+    <td>Super locomotive</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">10MW void energy, max speed 10</td>
+  </tr>
+  <tr>
+    <td>Super pump</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">0-600k fluid/s, custom GUI slider</td>
+  </tr>
+  <tr>
+    <td>Super electric pole</td>
+    <td class="good">Super pole + super substation</td>
+    <td class="good">Super pole + super substation (64-tile)</td>
+  </tr>
+  <tr>
+    <td>Enemy spawner items</td>
+    <td class="win-cm">Alien attractor proxies (small/medium/large)</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Cloned enemy entities</td>
+    <td class="win-cm">Auto-generated for ALL enemies in game</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Infinite resources</td>
+    <td class="win-cm">Auto-generated infinite versions of all resources</td>
+    <td class="muted">Not provided</td>
+  </tr>
+</table>
+
+<h3>Equipment</h3>
+<table>
+  <tr>
+    <th>Equipment</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Fusion reactor</td>
+    <td class="good">5.4PW, 1x1</td>
+    <td class="good">1000YW, 1x1, all categories</td>
+  </tr>
+  <tr>
+    <td>Roboport</td>
+    <td class="good">1000 bots, 200 range (needs on_tick energy refill!)</td>
+    <td class="win-ee">1000 bots, 100 range, 1000GJ native charging</td>
+  </tr>
+  <tr>
+    <td>Exoskeleton</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">+2 movement, 1kW, 1x1</td>
+  </tr>
+  <tr>
+    <td>Energy shield</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">1M shield, 1x1</td>
+  </tr>
+  <tr>
+    <td>Night vision</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Perfect daylight, 1x1</td>
+  </tr>
+  <tr>
+    <td>Battery</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">1000YJ capacity, 1x1</td>
+  </tr>
+</table>
+
+<h3>Modules</h3>
+<table>
+  <tr>
+    <th>Module</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Super speed / efficiency / productivity</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">+250% each, plus inverse variants</td>
+  </tr>
+  <tr>
+    <td>Super clean / dirty modules</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">+-250% pollution</td>
+  </tr>
+</table>
+
+<h3>Tools &amp; Utilities</h3>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CreativeMod</th>
+    <th>EditorExtensions</th>
+  </tr>
+  <tr>
+    <td>Magic wands (terrain editing)</td>
+    <td class="win-cm">3 wands: Creator, Healer, Modifier with pattern support</td>
+    <td class="muted">Not provided (editor has native tile/entity editing)</td>
+  </tr>
+  <tr>
+    <td>Build options (destructible, minable, etc.)</td>
+    <td class="win-cm">6 toggles applied at build time</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Free fluid recipes</td>
+    <td class="win-cm">Auto-generated for all fluids</td>
+    <td class="muted">Not provided (infinity pipe suffices)</td>
+  </tr>
+  <tr>
+    <td>Void technology (infinite research sink)</td>
+    <td class="win-cm">Consumes 4B science packs</td>
+    <td class="muted">Not provided</td>
+  </tr>
+  <tr>
+    <td>Testing lab (isolated surface)</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Personal or shared, with force/research isolation</td>
+  </tr>
+  <tr>
+    <td>Editor toggle</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Shortcut + keybind, with inventory sync</td>
+  </tr>
+  <tr>
+    <td>Inventory sync (editor &harr; character)</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Full sync of cursor, main, guns, armor, ammo</td>
+  </tr>
+  <tr>
+    <td>Inventory filter import/export</td>
+    <td class="muted">Not provided</td>
+    <td class="win-ee">Serializable filter presets</td>
+  </tr>
+  <tr>
+    <td>Access rights system</td>
+    <td class="win-cm">5-category tiered permissions</td>
+    <td class="muted">Admin-only editor toggle</td>
+  </tr>
+  <tr>
+    <td>Remote API for other mods</td>
+    <td class="win-cm">16 remote functions</td>
+    <td class="good">3 remote functions</td>
+  </tr>
+  <tr>
+    <td>In-game GUI menu</td>
+    <td class="win-cm">Full tabbed menu (cheats, admin, wands, modding)</td>
+    <td class="good">Per-entity GUIs only</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="architecture">3. Architecture &amp; Code Quality</h2>
+
+<div class="comparison-grid">
+  <div class="card">
+    <div class="card-header"><span class="badge badge-cm">CreativeMod</span></div>
+    <h4>Strengths</h4>
+    <ul>
+      <li>Comprehensive feature coverage</li>
+      <li>Dedicated <code>defines.lua</code> for all constants</li>
+      <li>Remote interface for mod interop</li>
+      <li>Rich access rights system</li>
+    </ul>
+    <h4>Weaknesses</h4>
+    <ul>
+      <li>Monolithic event dispatcher &mdash; single <code>on_event</code> for ~25 events with string-based lookup</li>
+      <li>Every tick function called unconditionally (no <code>enabled</code> guard)</li>
+      <li>Legacy code remnants (old creative chest alongside new)</li>
+      <li>No use of <code>flib</code> or GUI library &mdash; manual GUI construction</li>
+      <li>Entity registration via function lookup table (complex, hard to follow)</li>
+      <li><code>table.remove()</code> during <code>ipairs</code> iteration (bug-prone)</li>
+      <li>No type annotations or LSP support</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="badge badge-ee">EditorExtensions</span></div>
+    <h4>Strengths</h4>
+    <ul>
+      <li>Clean module system &mdash; each script exports <code>.events</code>, <code>.on_init</code>, etc.</li>
+      <li>Uses <code>flib</code> for GUI, events, and utilities</li>
+      <li>LuaLS type annotations (<code>types.lua</code>)</li>
+      <li>Event-driven architecture (minimal polling)</li>
+      <li>Pre-cached API lookups for hot paths</li>
+      <li>Self-cleaning migration code</li>
+      <li>Clean data-phase prototype utilities (<code>copy_prototype</code>, <code>recursive_tint</code>)</li>
+    </ul>
+    <h4>Weaknesses</h4>
+    <ul>
+      <li>No event filters on build/destroy events (missed optimization)</li>
+      <li>Infinity fluid wagon on_tick could be expensive with many wagons</li>
+      <li>Depends on external library (flib)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="performance">4. Performance Deep Dive</h2>
+
+<h3>CreativeMod: on_tick Cost</h3>
+
+<p>The <code>on_tick</code> handler calls <strong>20 sub-tick functions every single tick</strong>, unconditionally, even when Creative Mode is disabled or no creative entities are placed:</p>
+
+<div class="card">
+<table>
+  <tr><th>Tick Function</th><th>Work Per Tick</th><th>Cost</th></tr>
+  <tr>
+    <td><code>gui.tick()</code></td>
+    <td>Iterates ALL players, compares <code>player.opened</code> to cached value</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-bad"></div><span class="bad">Every tick, all players</span></div></td>
+  </tr>
+  <tr>
+    <td><code>cheats.tick()</code></td>
+    <td>3 pending lists: instant blueprint, instant deconstruction, enemy removal</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-ok"></div><span>Proportional to activity</span></div></td>
+  </tr>
+  <tr>
+    <td><code>creative_chest_util.tick()</code></td>
+    <td>1 chest per tick (spread across groups)</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-good"></div><span class="good">Well-throttled</span></div></td>
+  </tr>
+  <tr>
+    <td><code>creative_lab.tick()</code></td>
+    <td>Up to 10 labs, inner loop over ALL tool items per lab</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-ok"></div><span>10/tick cap, but nested loop</span></div></td>
+  </tr>
+  <tr>
+    <td><code>duplicating_chest.tick()</code></td>
+    <td>Up to 10 chests per tick</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-good"></div><span class="good">Well-throttled</span></div></td>
+  </tr>
+  <tr>
+    <td><code>fluid_void.tick()</code></td>
+    <td>ALL fluid voids, every tick</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-bad"></div><span class="bad">Linear with entity count</span></div></td>
+  </tr>
+  <tr>
+    <td><code>super_boiler.tick()</code></td>
+    <td>ALL super boilers, set energy + heat fluid</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-bad"></div><span class="bad">Linear with entity count</span></div></td>
+  </tr>
+  <tr>
+    <td><code>item_source.tick()</code></td>
+    <td>ALL item sources, + potential <code>find_entities_filtered</code> per entity</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-terrible"></div><span class="bad">Worst case: N entities &times; entity search</span></div></td>
+  </tr>
+  <tr>
+    <td><code>duplicator.tick()</code></td>
+    <td>ALL duplicators, same as item_source</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-terrible"></div><span class="bad">Same as item_source</span></div></td>
+  </tr>
+  <tr>
+    <td><code>item_void.tick()</code></td>
+    <td>ALL item voids, + potential entity search</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-terrible"></div><span class="bad">Same as item_source</span></div></td>
+  </tr>
+  <tr>
+    <td><code>equipments.tick()</code></td>
+    <td>ALL registered equipments, set energy</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-ok"></div><span>Linear, but lightweight op</span></div></td>
+  </tr>
+  <tr>
+    <td><code>random_item_source.tick()</code></td>
+    <td>ALL random item sources</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-bad"></div><span class="bad">Linear with entity count</span></div></td>
+  </tr>
+</table>
+</div>
+
+<h4>Key Problems</h4>
+<ul>
+  <li><strong>No early-out when CM is disabled.</strong> All 20 functions run even if <code>storage.creative_mode.enabled == false</code>.</li>
+  <li><strong>gui.tick() polls player.opened every tick.</strong> Factorio has <code>on_gui_opened</code> / <code>on_gui_closed</code> events that could replace this entirely.</li>
+  <li><strong>item_source / duplicator / item_void have no rate limiting</strong> and call <code>find_entities_filtered</code> on cache misses, which can spike.</li>
+  <li><strong>fluid_void and super_boiler process ALL entities every tick</strong> with no batching.</li>
+  <li><strong><code>table.remove()</code> inside <code>ipairs</code></strong> in <code>equipments.tick()</code> causes index skipping bugs.</li>
+</ul>
+
+<h3>EditorExtensions: on_tick Cost</h3>
+
+<div class="card">
+<table>
+  <tr><th>Tick Function</th><th>Work Per Tick</th><th>Cost</th></tr>
+  <tr>
+    <td><code>infinity-wagon on_tick</code></td>
+    <td>ALL infinity fluid wagons: validate, sync fluid, check position</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-ok"></div><span>Linear with wagon count, but well-optimized (cached refs, flip-flop)</span></div></td>
+  </tr>
+  <tr>
+    <td><code>infinity-loader on_nth_tick[15]</code></td>
+    <td>Open loader GUIs only (typically 0-1)</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-great"></div><span class="good">Negligible</span></div></td>
+  </tr>
+  <tr>
+    <td><code>update-notification on_nth_tick[180]</code></td>
+    <td>Legacy loaders (self-cleaning, temporary)</td>
+    <td><div class="perf-meter"><div class="perf-bar perf-great"></div><span class="good">Negligible / temporary</span></div></td>
+  </tr>
+</table>
+</div>
+
+<div class="verdict">
+  <h3>Performance Verdict</h3>
+  <p><strong>EditorExtensions is dramatically more efficient.</strong> It has 1 on_tick handler (fluid wagons only) vs CreativeMod's 20 unconditional tick functions. EE achieves most of its functionality through Factorio's native infinity entities (which are C++-side, zero Lua cost) and event-driven handlers. CreativeMod's architecture dates from before infinity entities existed, which explains the scripted approach &mdash; but it's now a major performance liability.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="ee-wins">5. Where EditorExtensions Wins</h2>
+
+<div class="card">
+  <h3>Performance</h3>
+  <p>Nearly zero per-tick Lua cost. Most entities use Factorio's native <code>infinity-container</code>, <code>infinity-pipe</code>, and <code>electric-energy-interface</code> prototypes which run in C++ with zero scripting overhead. CreativeMod scripts what Factorio can do natively.</p>
+</div>
+
+<div class="card">
+  <h3>Infinity Loader</h3>
+  <p>The standout entity. A 1x1 loader that auto-snaps to adjacent belts, supports per-lane filters, and can be copy-pasted with constant combinators. CreativeMod's Matter Source is more complex but less ergonomic &mdash; it's a separate source entity that needs to face the right direction, has no auto-snapping, and requires per-tick scripting.</p>
+</div>
+
+<div class="card">
+  <h3>Infinity Accumulator GUI</h3>
+  <p>The custom GUI for the accumulator lets you set mode (input/output/buffer), priority (primary/secondary/tertiary), and exact power level from kW to YW. CreativeMod has 6 separate entity types for different EEI configurations. EE's approach is one entity with a rich GUI &mdash; much more user-friendly.</p>
+</div>
+
+<div class="card">
+  <h3>Testing Lab</h3>
+  <p>An isolated testing surface per player (or shared per force) with its own research tree. You can test blueprints in a clean environment without affecting your main game. CreativeMod has no equivalent.</p>
+</div>
+
+<div class="card">
+  <h3>Editor Toggle + Inventory Sync</h3>
+  <p>Seamless switching between character and editor mode with full inventory preservation. One keybind (Ctrl+Alt+E). CreativeMod doesn't use the editor at all, which means it has to script instant build/deconstruct manually (expensive).</p>
+</div>
+
+<div class="card">
+  <h3>Equipment Suite</h3>
+  <p>6 equipment types covering all needs (reactor, roboport, exoskeleton, shield, night vision, battery), all 1x1, fitting all grid categories. CreativeMod has only 2 (reactor + roboport), and the roboport needs an on_tick energy refill hack.</p>
+</div>
+
+<div class="card">
+  <h3>Super Modules</h3>
+  <p>7 module types (+250% and -250% variants for speed, efficiency, productivity, pollution). CreativeMod has none.</p>
+</div>
+
+<div class="card">
+  <h3>Quality Awareness</h3>
+  <p>Aggregate chests create separate filter entries per quality level. CreativeMod doesn't account for the quality system introduced in Space Age.</p>
+</div>
+
+<div class="card">
+  <h3>Code Quality</h3>
+  <p>Clean module architecture, flib usage, type annotations, no legacy code. Each script is self-contained with clear event exports. Much easier to maintain and extend.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="cm-wins">6. Where CreativeMod Wins</h2>
+
+<div class="card">
+  <h3>Normal Gameplay Experience</h3>
+  <p>This is CreativeMod's <strong>killer feature</strong>. You play the game normally &mdash; walk around as your character, ride in trains, get in vehicles, use the hotbar &mdash; but with god-like powers. EditorExtensions requires toggling to editor mode for instant build/deconstruct, which puts you in a different controller with a different feel. CreativeMod's instant blueprint and deconstruction work while you're in character mode.</p>
+</div>
+
+<div class="card">
+  <h3>Cheat Granularity</h3>
+  <p>70+ individually toggleable cheats across 5 categories (personal, team, surface, global, build options). Everything is a slider or toggle. EditorExtensions is more of an all-or-nothing approach &mdash; you're either in editor or you're not.</p>
+</div>
+
+<div class="card">
+  <h3>Multiplayer Access Control</h3>
+  <p>A full rights system with admin-only, own-team-only, current-surface-only, and free access levels. Each cheat category has its own permission tier. Perfect for multiplayer servers where you want some players to have creative powers but not all. EditorExtensions only has admin-gated editor toggle.</p>
+</div>
+
+<div class="card">
+  <h3>Enemy Interaction</h3>
+  <p>Alien attractors that spawn enemy bases on demand. Auto-generated placeable clones of every enemy in the game (spawners, worms, units). Enemy destruction/removal per surface. Evolution factor control. None of this exists in EditorExtensions.</p>
+</div>
+
+<div class="card">
+  <h3>Magic Wands</h3>
+  <p>Three selection tools for terrain editing (tile painting with patterns, resource creation, entity healing/killing, property modification). These work in normal gameplay without entering the editor. EditorExtensions relies on the native editor for these operations.</p>
+</div>
+
+<div class="card">
+  <h3>World Control</h3>
+  <p>Surface-level controls for daytime, peaceful mode, enemy spawning, surface properties (gravity, pressure, magnetic field for Space Age). Global controls for pollution, evolution, expansion, game speed. EditorExtensions has none of these.</p>
+</div>
+
+<div class="card">
+  <h3>Infinite Resources</h3>
+  <p>Auto-generates infinite versions of every resource in the game, placeable from inventory. Useful for testing mining setups without resource depletion.</p>
+</div>
+
+<div class="card">
+  <h3>Remote API</h3>
+  <p>16 remote interface functions for other mods to interact with CreativeMod (enable/disable events, blacklists for instant blueprint/deconstruction, modding UI hooks). EditorExtensions has 3.</p>
+</div>
+
+<div class="card">
+  <h3>In-Game GUI</h3>
+  <p>A full tabbed menu accessible from a toolbar button, with pages for cheats, admin rights, magic wand settings, and modding tools. Everything is discoverable and accessible without console commands. EditorExtensions requires <code>/cheat</code> console commands.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="gaps">7. Feature Gaps Analysis</h2>
+
+<h3>What CreativeMod is missing (that EE has)</h3>
+<table>
+  <tr><th>Gap</th><th>Impact</th><th>Difficulty to Add</th></tr>
+  <tr>
+    <td>Super modules (+250% speed/efficiency/productivity/pollution)</td>
+    <td>Medium &mdash; useful for testing factory designs</td>
+    <td class="good">Easy &mdash; data-only, no scripting needed</td>
+  </tr>
+  <tr>
+    <td>Super exoskeleton, energy shield, night vision, battery equipment</td>
+    <td>Medium &mdash; quality of life</td>
+    <td class="good">Easy &mdash; data-only</td>
+  </tr>
+  <tr>
+    <td>Super inserter</td>
+    <td>Low &mdash; niche</td>
+    <td class="good">Easy &mdash; data-only</td>
+  </tr>
+  <tr>
+    <td>Super locomotive</td>
+    <td>Low &mdash; niche</td>
+    <td class="good">Easy &mdash; data-only</td>
+  </tr>
+  <tr>
+    <td>Super pump with adjustable speed GUI</td>
+    <td>Medium &mdash; useful for fluid testing</td>
+    <td>Medium &mdash; needs GUI + hidden fluid trick</td>
+  </tr>
+  <tr>
+    <td>Infinity loader (1x1, auto-snap, per-lane)</td>
+    <td>High &mdash; much better UX than matter source</td>
+    <td>Medium &mdash; need hidden chest + snap logic</td>
+  </tr>
+  <tr>
+    <td>Testing lab (isolated surface)</td>
+    <td>High &mdash; great for blueprint testing</td>
+    <td>Medium &mdash; surface/force management</td>
+  </tr>
+  <tr>
+    <td>Quality-aware aggregate chest</td>
+    <td>High for Space Age &mdash; quality is core mechanic</td>
+    <td class="good">Easy &mdash; iterate quality prototypes in data-final-fixes</td>
+  </tr>
+  <tr>
+    <td>Super fuel item</td>
+    <td>Low</td>
+    <td class="good">Easy &mdash; data-only</td>
+  </tr>
+  <tr>
+    <td>Combinator-paste for infinity entities</td>
+    <td>Medium &mdash; UX improvement</td>
+    <td class="good">Easy &mdash; <code>on_entity_settings_pasted</code> handler</td>
+  </tr>
+</table>
+
+<h3>What EditorExtensions is missing (that CM has)</h3>
+<table>
+  <tr><th>Gap</th><th>Impact</th><th>Why EE doesn't have it</th></tr>
+  <tr>
+    <td>Per-player character cheats (invincible, speed, mining, etc.)</td>
+    <td>High &mdash; the core "play normally with cheats" experience</td>
+    <td>Different philosophy: EE uses editor mode instead</td>
+  </tr>
+  <tr>
+    <td>Instant blueprint/deconstruct in character mode</td>
+    <td>High &mdash; key UX difference</td>
+    <td>EE delegates this to native editor capabilities</td>
+  </tr>
+  <tr>
+    <td>Team/surface/global cheat controls</td>
+    <td>High for sandbox play</td>
+    <td>Out of scope for EE's "testing tools" focus</td>
+  </tr>
+  <tr>
+    <td>Magic wands (terrain, healer, modifier)</td>
+    <td>Medium &mdash; creative building tool</td>
+    <td>Editor has native tile/entity editing</td>
+  </tr>
+  <tr>
+    <td>Enemy interaction (attractors, placeable enemies)</td>
+    <td>Medium &mdash; useful for testing defenses</td>
+    <td>Not in scope</td>
+  </tr>
+  <tr>
+    <td>Access rights system</td>
+    <td>High for multiplayer servers</td>
+    <td>Not in scope</td>
+  </tr>
+  <tr>
+    <td>In-game GUI menu</td>
+    <td>Medium &mdash; discoverability</td>
+    <td>EE uses per-entity GUIs + console</td>
+  </tr>
+  <tr>
+    <td>Evolution/expansion/pollution controls</td>
+    <td>Medium</td>
+    <td>Not in scope</td>
+  </tr>
+  <tr>
+    <td>Game speed control</td>
+    <td>Medium</td>
+    <td>Not in scope</td>
+  </tr>
+  <tr>
+    <td>Infinite resource entities</td>
+    <td>Low-Medium</td>
+    <td>Not in scope</td>
+  </tr>
+  <tr>
+    <td>Keep-last-item / repair-mined-item</td>
+    <td>Medium QoL</td>
+    <td>Not in scope</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="roadmap">8. Roadmap: CreativeMod Next Gen</h2>
+
+<p>Here's a prioritized improvement plan for bringing CreativeMod to the next level, leveraging Factorio 2.0/Space Age capabilities while preserving its unique "play normally with cheats" identity.</p>
+
+<h3>Phase 1: Performance Overhaul (High Priority)</h3>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Add an <code>enabled</code> guard to on_tick</h4>
+  <p>Wrap the entire tick body in <code>if not storage.creative_mode.enabled then return end</code>. Currently all 20 tick functions run even when CM is disabled. This is the single biggest quick win.</p>
+</div>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Replace gui.tick() polling with events</h4>
+  <p>The GUI tick polls <code>player.opened</code> for all players every tick. Replace with <code>on_gui_opened</code> and <code>on_gui_closed</code> events. This eliminates a per-player-per-tick loop entirely.</p>
+</div>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Replace scripted fluid void with native infinity-pipe</h4>
+  <p>The fluid void currently iterates all entities every tick and clears fluidboxes in Lua. Factorio's native <code>infinity-pipe</code> with <code>remove_unfiltered_fluids = true</code> does this in C++ with zero Lua cost. The creative chest already uses <code>infinity-container</code> &mdash; apply the same pattern to fluid void.</p>
+</div>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Replace scripted super boiler with native heat-interface</h4>
+  <p>Super boilers set <code>energy = 1e15</code> and heat fluid every tick in Lua. A <code>heat-interface</code> prototype with <code>mode = "at-least"</code> achieves this natively with zero tick cost.</p>
+</div>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Add event filters to build/destroy events</h4>
+  <p>Register <code>on_built_entity</code>, <code>on_robot_built_entity</code>, <code>on_player_mined_entity</code>, etc. with name filters for only CreativeMod entities. This lets the engine skip the Lua call entirely for non-CM entities, which is the vast majority in a normal game.</p>
+<pre><code>script.on_event(defines.events.on_built_entity, handler, {
+  {filter = "name", name = "creative-mod_item-source"},
+  {filter = "name", name = "creative-mod_fluid-source"},
+  -- ... etc
+})</code></pre>
+</div>
+
+<div class="roadmap-item high">
+  <p class="priority priority-high">Critical</p>
+  <h4>Add rate limiting to item_source / duplicator / item_void</h4>
+  <p>These currently process ALL entities every tick with no cap. Apply the same "10 per tick" round-robin pattern used by duplicating chests. Also, use <code>register_on_object_destroyed</code> instead of checking <code>entity.valid</code> in the loop.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Replace equipment energy refill with prototype-level solution</h4>
+  <p>The <code>equipments.tick()</code> sets <code>equipment.energy = 1e25</code> for every registered equipment every tick. Instead, give the equipment prototype a sufficiently large <code>energy_source.buffer_capacity</code> and <code>energy_source.input_flow_limit</code> so it self-charges. Or use the super fusion reactor equipment (like EE does) with enough output to keep everything charged.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Use <code>on_nth_tick</code> for non-critical updates</h4>
+  <p>For entities that don't need per-tick updates (creative labs, void labs, duplicating chests), move to <code>on_nth_tick</code> with appropriate intervals (5-15 ticks). The visual difference is imperceptible but the CPU savings are proportional.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Fix <code>table.remove()</code> during <code>ipairs</code></h4>
+  <p>In <code>equipments.tick()</code> and other places, <code>table.remove()</code> is called during forward <code>ipairs</code> iteration, which skips elements. Iterate in reverse or use a separate removal pass.</p>
+</div>
+
+<h3>Phase 2: Feature Modernization (Medium Priority)</h3>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Add Space Age quality support</h4>
+  <p>Creative chests and aggregate chests should include items at all quality levels. Iterate <code>prototypes.quality</code> in <code>data-final-fixes.lua</code> and create filter entries for each quality tier. This is essential for Space Age compatibility.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Add super modules</h4>
+  <p>Data-only addition: 7 module prototypes (+250% speed/efficiency/productivity/clean and inverse variants). No scripting needed. Copy EE's approach.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Complete the equipment suite</h4>
+  <p>Add super exoskeleton, energy shield, night vision, and battery equipment. All data-only, no scripting. This also eliminates the need for the <code>equipments.tick()</code> energy refill hack if the fusion reactor provides enough power.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Add an infinity loader entity</h4>
+  <p>A 1x1 <code>loader-1x1</code> with <code>per_lane_filters = true</code> and a hidden infinity chest. Auto-snap to adjacent belts. This would replace or complement the existing Matter Source with a much more ergonomic UX and zero per-tick cost.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Add a testing lab feature</h4>
+  <p>Create an isolated surface per player for blueprint testing. Integrate with the existing GUI menu &mdash; a "Testing Lab" button that teleports you to a clean lab-tile surface with all research. Preserve the character (don't enter editor), so it fits CM's philosophy.</p>
+</div>
+
+<div class="roadmap-item medium">
+  <p class="priority priority-medium">Important</p>
+  <h4>Add Space Age surface controls</h4>
+  <p>The surface cheats already have pressure/gravity/magnetic-field controls. Extend with platform-related cheats: list and teleport to space platforms, set platform state, eject/clear items. Add planet navigation shortcuts.</p>
+</div>
+
+<h3>Phase 3: Architecture Refresh (Lower Priority)</h3>
+
+<div class="roadmap-item low">
+  <p class="priority priority-low">Nice to have</p>
+  <h4>Adopt flib for GUI construction</h4>
+  <p>The manual GUI code in <code>gui-menu-cheats.lua</code> (3000+ lines) would benefit enormously from flib's declarative GUI builder. This also brings free event routing, standard styling, and easier maintenance.</p>
+</div>
+
+<div class="roadmap-item low">
+  <p class="priority priority-low">Nice to have</p>
+  <h4>Modularize the event system</h4>
+  <p>Replace the monolithic event dispatcher with per-module event tables (like EE does). Each script exports its events, and <code>control.lua</code> merges them. This makes it easy to add/remove features and improves code readability.</p>
+</div>
+
+<div class="roadmap-item low">
+  <p class="priority priority-low">Nice to have</p>
+  <h4>Add LuaLS type annotations</h4>
+  <p>Add a <code>types.lua</code> with <code>---@class</code> and <code>---@field</code> annotations for all storage structures. This enables IDE support and catches bugs at development time.</p>
+</div>
+
+<div class="roadmap-item low">
+  <p class="priority priority-low">Nice to have</p>
+  <h4>Clean up legacy entity code</h4>
+  <p>Remove old creative chest code path (pre-infinity-container). Remove the unused autofill requester chest tick (already commented out). Consolidate the 6 EEI entity variants into a single entity with a mode-selection GUI (like EE's accumulator).</p>
+</div>
+
+<div class="roadmap-item low">
+  <p class="priority priority-low">Nice to have</p>
+  <h4>Use <code>register_on_object_destroyed</code></h4>
+  <p>Instead of checking <code>entity.valid</code> in every tick loop and calling <code>table.remove()</code>, register entities with <code>register_on_object_destroyed</code> and handle cleanup in the <code>on_object_destroyed</code> event. This is cleaner and removes validity checks from hot paths.</p>
+</div>
+
+<h3>The Dream: Best of Both Worlds</h3>
+
+<div class="verdict">
+  <h3>The Vision</h3>
+  <p>CreativeMod's unique value proposition is <strong>"play the game normally, but with superpowers"</strong>. No other mod does this as comprehensively. The path forward is clear:</p>
+  <ol>
+    <li><strong>Keep the soul:</strong> Normal character gameplay with toggle-able cheats and rich controls. This is what players love.</li>
+    <li><strong>Steal the engine:</strong> Replace scripted entity behavior with native Factorio prototypes wherever possible (infinity containers, infinity pipes, heat interfaces). This eliminates 80%+ of the on_tick cost.</li>
+    <li><strong>Borrow the polish:</strong> Add EE's best entities (infinity loader, infinity accumulator GUI, super modules, full equipment suite). These are additive &mdash; they don't replace CM's identity.</li>
+    <li><strong>Embrace Space Age:</strong> Quality support, platform controls, surface property management. CreativeMod already has surface cheats &mdash; extending to space platforms is natural.</li>
+  </ol>
+  <p>With Phase 1 performance fixes alone, CreativeMod could go from "noticeably impacts UPS" to "nearly zero overhead" while keeping all its unique features. Combined with Phase 2's feature additions, it would be the definitive creative mod for Factorio 2.0.</p>
+</div>
+
+</div>
+</body>
+</html>
