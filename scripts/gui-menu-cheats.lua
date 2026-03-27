@@ -2222,7 +2222,7 @@ local function get_all_selected_targets_in_cheats_menu_for_player(player, cheats
       -- Iterate!
       -- If the container is invisible, that means it only contains 1 valid target, e.g. the player himself if it is the personal cheats menu.
       -- In that case, it is impossible for the player to select the button. So, we don't check the style.
-      local check_style = not targets_scroll_pane.visible == false
+      local check_style = targets_scroll_pane.visible ~= false
       if special_target ~= nil then
         -- Special target is provided! We should check it.
         local button_name_prefix =
