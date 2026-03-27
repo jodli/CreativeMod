@@ -11,5 +11,5 @@ require("prototypes.style")
 require("prototypes.sprite")
 
 if not util.array_contains_key(mods, "space-exploration-postprocess") then
-    require("prototypes.technology")
+  require("prototypes.technology")
 end

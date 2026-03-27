@@ -56,12 +56,14 @@ script.on_event(defines.events.on_player_trash_inventory_changed, events.on_play
 -- Other events.
 local events_except_on_tick = {}
 for _, event in pairs(defines.events) do
-    if event ~= defines.events.on_tick
-        and event ~= defines.events.on_player_main_inventory_changed
-        and event ~= defines.events.on_entity_logistic_slot_changed
-        and event ~= defines.events.on_player_trash_inventory_changed then
-        table.insert(events_except_on_tick, event)
-    end
+  if
+    event ~= defines.events.on_tick
+    and event ~= defines.events.on_player_main_inventory_changed
+    and event ~= defines.events.on_entity_logistic_slot_changed
+    and event ~= defines.events.on_player_trash_inventory_changed
+  then
+    table.insert(events_except_on_tick, event)
+  end
 end
 script.on_event(events_except_on_tick, events.on_event)
 
