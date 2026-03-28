@@ -79,3 +79,25 @@ remote.add_interface(creative_mode_defines.names.interface, remote_interface.rem
         cheats.enable_or_disable_creative_mode(player, true, false, false, false)
     end
 end)]]
+
+-- Integration tests (only active when factorio-test mod is installed)
+if script.active_mods["factorio-test"] then
+  require("__factorio-test__/init")({
+    "tests.creative-mode-toggle-test",
+    "tests.entity-placement-test",
+    "tests.creative-chest-test",
+    "tests.void-chest-test",
+    "tests.duplicating-chest-test",
+    "tests.fluid-entities-test",
+    "tests.cheats-test",
+    "tests.energy-entities-test",
+    "tests.equipments-test",
+    "tests.lab-test",
+    "tests.on-tick-test",
+  }, {
+    load_luassert = true,
+    game_speed = 1000,
+    default_timeout = 120 * 60,
+    log_passed_tests = true,
+  })
+end

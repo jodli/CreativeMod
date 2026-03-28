@@ -198,3 +198,18 @@ files["prototypes/"].std = "lua52+factorio+factorio_data+factorio_base_data+crea
 files["defines.lua"] = {
   std = "lua52+factorio+creative_mod",
 }
+
+-- Test files (factorio-test globals)
+stds.factorio_test = {
+  read_globals = {
+    "test", "it", "describe", "before_each", "after_each",
+    "before_all", "after_all", "after_test", "after_ticks",
+    "async", "done", "on_tick", "ticks_between_tests", "tags",
+  },
+  globals = {
+    assert = { other_fields = true },
+  },
+}
+files["tests/"] = {
+  std = "lua52+factorio+factorio_control+creative_mod+factorio_test",
+}
