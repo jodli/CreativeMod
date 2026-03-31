@@ -45,11 +45,21 @@ local function pick_item_from_signals(signals)
   end
 end
 
--- Processes the random_item_source_data table in storage.
+-- Processes up to 10 random item sources per tick using round-robin scheduling.
 function random_item_source.tick()
-  -- Loop through the table of matter-source data to output items.
-  for index = #storage.creative_mode.random_item_source_data, 1, -1 do
-    local random_item_source_data = storage.creative_mode.random_item_source_data[index]
+  local data_list = storage.creative_mode.random_item_source_data
+  if #data_list <= 0 then
+    storage.creative_mode.random_item_source_next_update_index = 1
+    return
+  end
+
+  local data_index = storage.creative_mode.random_item_source_next_update_index
+  if data_index > #data_list then
+    data_index = 1
+  end
+
+  for _ = 1, 10 do
+    local random_item_source_data = data_list[data_index]
     -- Get the actual random-item-source entity.
     local random_item_source = random_item_source_data.entity
     -- Work only if the entity is valid.
@@ -118,11 +128,23 @@ function random_item_source.tick()
           end
         end
       end
+
+      -- Advance to next entity.
+      data_index = data_index + 1
+      if data_index > #data_list then
+        storage.creative_mode.random_item_source_next_update_index = 1
+        return
+      end
     else
       -- Remove invalid entity.
-      table.remove(storage.creative_mode.random_item_source_data, index)
+      table.remove(data_list, data_index)
+      if data_index > #data_list then
+        storage.creative_mode.random_item_source_next_update_index = 1
+        return
+      end
     end
   end
+  storage.creative_mode.random_item_source_next_update_index = data_index
 end
 
 -- Returns the entity data for the given random item source entity.
