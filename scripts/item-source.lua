@@ -15,7 +15,8 @@ local item_source_shift = {
 -- Processes the item_source_data table in storage.
 function item_source.tick()
   -- Loop through the table of matter-source data to output items.
-  for index, item_source_data in ipairs(storage.creative_mode.item_source_data) do
+  for index = #storage.creative_mode.item_source_data, 1, -1 do
+    local item_source_data = storage.creative_mode.item_source_data[index]
     -- Get the actual matter-source entity.
     local item_source = item_source_data.entity
     -- Work only if the entity is valid.
