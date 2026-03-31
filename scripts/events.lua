@@ -331,7 +331,6 @@ function events.on_tick()
   duplicator.tick()
   item_void.tick()
   random_item_source.tick()
-  equipments.tick()
 end
 
 --------------------------------------------------------------------
@@ -630,12 +629,9 @@ end
 
 -- Callback of the on_player_placed_equipment event, which is invoked after a player placed an equipment into equipment grid.
 local function on_player_placed_equipment(event)
-  local equipment = event.equipment
-
-  -- Register the equipments that need to be refilled with energy.
-  if equipment.name == creative_mode_defines.names.equipments.super_personal_roboport_equipment then
-    table.insert(storage.energy_refill_equipments, equipment)
-  end
+  -- Previously registered super personal roboport equipment for per-tick energy refill.
+  -- No longer needed: the equipment prototype now has sufficient input_flow_limit to
+  -- charge from the super fusion reactor without scripting.
 end
 
 -- Callback of the on_research_started event, which is invoked after a research is started.
