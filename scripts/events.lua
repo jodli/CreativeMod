@@ -306,6 +306,11 @@ function events.on_tick()
     end
   end
 
+  -- Skip all tick processing when Creative Mode is not enabled.
+  if not storage.creative_mode.enabled then
+    return
+  end
+
   -- Cheats should be executed first, so entities can be updated immediately after they are built by instant blueprint.
   gui.tick()
   cheats.tick()
