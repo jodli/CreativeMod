@@ -11,18 +11,28 @@ local item_void_shift = {
   [defines.direction.west] = { x = -0.9, y = 0 },
 }
 
--- Processes the item_void table in storage.
+-- Processes up to 10 item voids per tick using round-robin scheduling.
 function item_void.tick()
-  -- Loop through the table of matter-void to nullify items.
-  for index = #storage.creative_mode.item_void_data, 1, -1 do
-    local item_void_data = storage.creative_mode.item_void_data[index]
+  local data_list = storage.creative_mode.item_void_data
+  if #data_list <= 0 then
+    storage.creative_mode.item_void_next_update_index = 1
+    return
+  end
+
+  local data_index = storage.creative_mode.item_void_next_update_index
+  if data_index > #data_list then
+    data_index = 1
+  end
+
+  for _ = 1, 10 do
+    local item_void_data = data_list[data_index]
     -- Get the actual matter-void entity.
     local item_void = item_void_data.entity
     if item_void.valid then
       -- Check if it is active and also not marked for deconstruction.
       if item_void.active and not item_void.to_be_deconstructed(item_void.force) then
         -- Give the matter-void free energy.
-        item_void.energy = 100000 -- It seems not working?
+        item_void.energy = 100000
         -- Check if it is enabled according to its circuit network state and logistic network state.
         if util.is_inserter_enabled(item_void) then
           -- Get the matter-void's surface, position and shift for item removal.
@@ -51,10 +61,22 @@ function item_void.tick()
           )
         end
       end
+
+      -- Advance to next entity.
+      data_index = data_index + 1
+      if data_index > #data_list then
+        storage.creative_mode.item_void_next_update_index = 1
+        return
+      end
     else
-      table.remove(storage.creative_mode.item_void_data, index)
+      table.remove(data_list, data_index)
+      if data_index > #data_list then
+        storage.creative_mode.item_void_next_update_index = 1
+        return
+      end
     end
   end
+  storage.creative_mode.item_void_next_update_index = data_index
 end
 
 -- Returns the entity data for the given matter void entity.
