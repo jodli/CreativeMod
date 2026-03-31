@@ -6,7 +6,8 @@ end
 -- Processes the table of configurable_super_boiler_data in storage.
 function configurable_super_boiler.tick()
   -- Loop through the table of super-boiler to give free energy and heat up fluid inside.
-  for index, configurable_super_boiler_data in ipairs(storage.creative_mode.configurable_super_boiler_data) do
+  for index = #storage.creative_mode.configurable_super_boiler_data, 1, -1 do
+    local configurable_super_boiler_data = storage.creative_mode.configurable_super_boiler_data[index]
     local configurable_super_boiler = configurable_super_boiler_data.entity
     local temperature = configurable_super_boiler_data.temperature
     if configurable_super_boiler.valid then
