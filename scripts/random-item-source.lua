@@ -48,7 +48,8 @@ end
 -- Processes the random_item_source_data table in storage.
 function random_item_source.tick()
   -- Loop through the table of matter-source data to output items.
-  for index, random_item_source_data in ipairs(storage.creative_mode.random_item_source_data) do
+  for index = #storage.creative_mode.random_item_source_data, 1, -1 do
+    local random_item_source_data = storage.creative_mode.random_item_source_data[index]
     -- Get the actual random-item-source entity.
     local random_item_source = random_item_source_data.entity
     -- Work only if the entity is valid.
