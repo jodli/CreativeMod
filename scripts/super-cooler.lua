@@ -6,7 +6,8 @@ end
 -- Processes the table of super_cooler in storage.
 function super_cooler.tick()
   -- Loop through the table of super-cooler to give free energy.
-  for index, super_cooler in ipairs(storage.creative_mode.super_cooler) do
+  for index = #storage.creative_mode.super_cooler, 1, -1 do
+    local super_cooler = storage.creative_mode.super_cooler[index]
     if super_cooler.valid then
       if not super_cooler.to_be_deconstructed(super_cooler.force) then
         super_cooler.energy = 1000000000000000
