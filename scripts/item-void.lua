@@ -14,7 +14,8 @@ local item_void_shift = {
 -- Processes the item_void table in storage.
 function item_void.tick()
   -- Loop through the table of matter-void to nullify items.
-  for index, item_void_data in ipairs(storage.creative_mode.item_void_data) do
+  for index = #storage.creative_mode.item_void_data, 1, -1 do
+    local item_void_data = storage.creative_mode.item_void_data[index]
     -- Get the actual matter-void entity.
     local item_void = item_void_data.entity
     if item_void.valid then
