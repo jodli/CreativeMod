@@ -5,7 +5,8 @@ end
 
 -- Refills the energy of the registered equipments in the global table.
 function equipments.tick()
-  for index, equipment in ipairs(storage.energy_refill_equipments) do
+  for index = #storage.energy_refill_equipments, 1, -1 do
+    local equipment = storage.energy_refill_equipments[index]
     if equipment.valid then
       equipment.energy = 10000000000000000000000000
     else
