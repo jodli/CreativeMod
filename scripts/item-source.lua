@@ -12,11 +12,21 @@ local item_source_shift = {
   [defines.direction.west] = { x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0 },
 }
 
--- Processes the item_source_data table in storage.
+-- Processes up to 10 item sources per tick using round-robin scheduling.
 function item_source.tick()
-  -- Loop through the table of matter-source data to output items.
-  for index = #storage.creative_mode.item_source_data, 1, -1 do
-    local item_source_data = storage.creative_mode.item_source_data[index]
+  local data_list = storage.creative_mode.item_source_data
+  if #data_list <= 0 then
+    storage.creative_mode.item_source_next_update_index = 1
+    return
+  end
+
+  local data_index = storage.creative_mode.item_source_next_update_index
+  if data_index > #data_list then
+    data_index = 1
+  end
+
+  for _ = 1, 10 do
+    local item_source_data = data_list[data_index]
     -- Get the actual matter-source entity.
     local item_source = item_source_data.entity
     -- Work only if the entity is valid.
@@ -94,11 +104,24 @@ function item_source.tick()
           end
         end
       end
+
+      -- Advance to next entity.
+      data_index = data_index + 1
+      if data_index > #data_list then
+        storage.creative_mode.item_source_next_update_index = 1
+        return
+      end
     else
       -- Remove invalid entity.
-      table.remove(storage.creative_mode.item_source_data, index)
+      table.remove(data_list, data_index)
+      if data_index > #data_list then
+        storage.creative_mode.item_source_next_update_index = 1
+        return
+      end
     end
   end
+  -- Save index for next tick.
+  storage.creative_mode.item_source_next_update_index = data_index
 end
 
 -- Returns the entity data for the given matter source entity.
