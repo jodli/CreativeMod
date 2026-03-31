@@ -14,7 +14,8 @@ local duplicator_shift = {
 -- Processes the table of duplicator_data in storage.
 function duplicator.tick()
   -- Loop through the table of duplicator data to duplicate items.
-  for index, duplicator_data in ipairs(storage.creative_mode.duplicator_data) do
+  for index = #storage.creative_mode.duplicator_data, 1, -1 do
+    local duplicator_data = storage.creative_mode.duplicator_data[index]
     local duplicator = duplicator_data.entity
     -- Work only if the entity is valid.
     if duplicator.valid then
