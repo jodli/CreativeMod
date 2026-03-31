@@ -312,7 +312,6 @@ function events.on_tick()
   end
 
   -- Cheats should be executed first, so entities can be updated immediately after they are built by instant blueprint.
-  gui.tick()
   cheats.tick()
 
   creative_chest_util.tick()
@@ -649,9 +648,15 @@ local function on_chunk_generated(event)
   cheats.on_chunk_generated(event)
 end
 
+-- Callback of the on_gui_opened event. Forward to gui.lua for entity GUI overlay.
+local function on_gui_opened(event)
+  gui.on_gui_opened(event)
+end
+
 -- Callback of the on_gui_closed event. Forward to gui.lua
 local function on_gui_closed(event)
   gui.on_gui_closed(event)
+  gui.on_entity_gui_closed(event)
 end
 
 -- Callback of the on_gui_click event. Forward to gui.lua.
@@ -702,6 +707,7 @@ local event_handlers_look_up = {
   [defines.events.on_research_started] = on_research_started,
   [defines.events.on_robot_built_entity] = on_robot_built_entity,
   [defines.events.on_chunk_generated] = on_chunk_generated,
+  [defines.events.on_gui_opened] = on_gui_opened,
   [defines.events.on_gui_closed] = on_gui_closed,
   [defines.events.on_gui_click] = on_gui_click,
   [defines.events.on_gui_text_changed] = on_gui_text_changed,

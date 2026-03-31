@@ -226,6 +226,8 @@ end
 -- Updates GUI when a player left the game.
 function gui.on_player_left_game(event)
   gui_menu.on_player_left_game(event)
+  -- Clear cached opened entity for disconnected player.
+  storage.creative_mode.player_opened_entities[event.player_index] = nil
 end
 
 -- Updates GUI when a player went to another surface.
@@ -237,25 +239,29 @@ function gui.on_player_cursor_stack_changed(event)
   gui_menu.on_player_cursor_stack_changed(event)
 end
 
--- Records the entity each player is openeing in every tick.
--- Creates or destroys entity GUI accordingly.
-function gui.tick()
-  for _, player in pairs(game.players) do
-    if player.connected then
-      local current_opened_entity = player.opened
-      local last_opened_entity = storage.creative_mode.player_opened_entities[player.index]
-      -- Different entities.
-      if current_opened_entity ~= last_opened_entity then
-        -- Destroy the opened GUI for the last entity.
-        gui_entity.create_or_destroy_gui_of_entity(player, last_opened_entity, false)
-        -- Create GUI for the currently opened entity if there is any.
-        if current_opened_entity ~= nil then
-          gui_entity.create_or_destroy_gui_of_entity(player, current_opened_entity, true)
-        end
-      end
-    else
-      storage.creative_mode.player_opened_entities[player.index] = nil
+-- Called when a player opens a GUI (entity, technology, etc.)
+-- Creates entity GUI overlay if the opened target is a creative entity.
+function gui.on_gui_opened(event)
+  local player = game.players[event.player_index]
+  local entity = event.entity
+  if entity then
+    local last_opened_entity = storage.creative_mode.player_opened_entities[player.index]
+    -- Destroy old entity GUI if switching between entities.
+    if last_opened_entity and last_opened_entity ~= entity then
+      gui_entity.create_or_destroy_gui_of_entity(player, last_opened_entity, false)
     end
+    -- Create GUI for the newly opened entity.
+    gui_entity.create_or_destroy_gui_of_entity(player, entity, true)
+  end
+end
+
+-- Called when a player closes a GUI.
+-- Destroys entity GUI overlay for the previously opened entity.
+function gui.on_entity_gui_closed(event)
+  local player = game.players[event.player_index]
+  local last_opened_entity = storage.creative_mode.player_opened_entities[player.index]
+  if last_opened_entity then
+    gui_entity.create_or_destroy_gui_of_entity(player, last_opened_entity, false)
   end
 end
 
