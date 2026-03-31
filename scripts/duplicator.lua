@@ -11,18 +11,28 @@ local duplicator_shift = {
   [defines.direction.west] = { x = 1, y = 0 },
 }
 
--- Processes the table of duplicator_data in storage.
+-- Processes up to 10 duplicators per tick using round-robin scheduling.
 function duplicator.tick()
-  -- Loop through the table of duplicator data to duplicate items.
-  for index = #storage.creative_mode.duplicator_data, 1, -1 do
-    local duplicator_data = storage.creative_mode.duplicator_data[index]
+  local data_list = storage.creative_mode.duplicator_data
+  if #data_list <= 0 then
+    storage.creative_mode.duplicator_next_update_index = 1
+    return
+  end
+
+  local data_index = storage.creative_mode.duplicator_next_update_index
+  if data_index > #data_list then
+    data_index = 1
+  end
+
+  for _ = 1, 10 do
+    local duplicator_data = data_list[data_index]
     local duplicator = duplicator_data.entity
     -- Work only if the entity is valid.
     if duplicator.valid then
       -- Check if it is active and also not marked for deconstruction.
       if duplicator.active and not duplicator.to_be_deconstructed(duplicator.force) then
-        -- Give the item-source free energy.
-        duplicator.energy = 100000 -- It seems not working?
+        -- Give the duplicator free energy.
+        duplicator.energy = 100000
         -- Check if it is enabled according to its circuit network state and logistic network state.
         if util.is_inserter_enabled(duplicator) then
           -- Get the duplicator's surface, position and shift for item/fluid duplication.
@@ -51,11 +61,23 @@ function duplicator.tick()
           )
         end
       end
+
+      -- Advance to next entity.
+      data_index = data_index + 1
+      if data_index > #data_list then
+        storage.creative_mode.duplicator_next_update_index = 1
+        return
+      end
     else
       -- Remove invalid entity.
-      table.remove(storage.creative_mode.duplicator_data, index)
+      table.remove(data_list, data_index)
+      if data_index > #data_list then
+        storage.creative_mode.duplicator_next_update_index = 1
+        return
+      end
     end
   end
+  storage.creative_mode.duplicator_next_update_index = data_index
 end
 
 -- Returns the entity data for the given matter duplicator entity.
