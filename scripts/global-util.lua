@@ -87,14 +87,26 @@ function global_util.initialize_or_update_global()
   if not storage.creative_mode.item_source_data then
     storage.creative_mode.item_source_data = {}
   end
+  if not storage.creative_mode.item_source_next_update_index then
+    storage.creative_mode.item_source_next_update_index = 1
+  end
   if not storage.creative_mode.duplicator_data then
     storage.creative_mode.duplicator_data = {}
+  end
+  if not storage.creative_mode.duplicator_next_update_index then
+    storage.creative_mode.duplicator_next_update_index = 1
   end
   if not storage.creative_mode.item_void_data then
     storage.creative_mode.item_void_data = {}
   end
+  if not storage.creative_mode.item_void_next_update_index then
+    storage.creative_mode.item_void_next_update_index = 1
+  end
   if not storage.creative_mode.random_item_source_data then
     storage.creative_mode.random_item_source_data = {}
+  end
+  if not storage.creative_mode.random_item_source_next_update_index then
+    storage.creative_mode.random_item_source_next_update_index = 1
   end
   if not storage.creative_mode.creative_lab then
     storage.creative_mode.creative_lab = {}
