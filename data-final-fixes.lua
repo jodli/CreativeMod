@@ -13,7 +13,7 @@ for _, fluid in pairs(data.raw["fluid"]) do
         type = "recipe",
         name = creative_mode_defines.names.free_fluid_recipe_prefix .. fluid.name,
         localised_name = entity_localised_name,
-        category = creative_mode_defines.names.recipe_categories.free_fluids,
+        categories = { creative_mode_defines.names.recipe_categories.free_fluids },
         ingredients = {},
         results = {
           { type = "fluid", name = fluid.name, amount = 5000 },
@@ -149,7 +149,7 @@ local function clone_enemy_entities_in_data_raw_and_create_recipe(raw_name)
       table.insert(new_data, {
         type = "recipe",
         name = recipe_name,
-        category = creative_mode_defines.names.recipe_categories.enemies,
+        categories = { "crafting" },
         ingredients = {},
         results = { { type = "item", name = item_name, amount = 1 } },
         enabled = false,
@@ -190,8 +190,10 @@ data.raw["construction-robot"][creative_mode_defines.names.entities.super_constr
 
 -- Allow the creative lab to accept all research materials.
 local tools = {}
-for _, tool in pairs(data.raw["tool"]) do
-  table.insert(tools, tool.name)
+for _, item in pairs(data.raw["item"]) do
+  if item.subgroup == "science-pack" then
+    table.insert(tools, item.name)
+  end
 end
 data.raw["lab"][creative_mode_defines.names.entities.creative_lab].inputs = tools
 

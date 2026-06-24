@@ -376,7 +376,7 @@ data:extend({
     results = {},
     icon = creative_mode_defines.mod_directory .. "/graphics/icons/energy-void.png",
     icon_size = 32,
-    category = creative_mode_defines.names.recipe_categories.energy_absorption,
+    categories = { creative_mode_defines.names.recipe_categories.energy_absorption },
     subgroup = creative_mode_defines.names.item_subgroups.items,
     hidden = true,
     enabled = false,

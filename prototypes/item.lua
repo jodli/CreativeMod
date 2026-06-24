@@ -613,6 +613,7 @@ data:extend({
       border_color = { r = 1, g = 0, b = 0 },
       mode = { "any-entity", "deconstruct" },
       cursor_box_type = "not-allowed",
+      ignore_cannot_select_tiles = true,
     },
     always_include_tiles = true,
   },

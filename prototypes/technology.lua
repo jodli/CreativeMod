@@ -1,10 +1,12 @@
 local function create_void_technology_ingredients()
   local research_items = {}
-  for _, tool in pairs(data.raw.tool) do
-    table.insert(research_items, {
-      tool.name,
-      1,
-    })
+  for _, item in pairs(data.raw.item) do
+    if item.subgroup == "science-pack" then
+      table.insert(research_items, {
+        item.name,
+        1,
+      })
+    end
   end
 
   return research_items

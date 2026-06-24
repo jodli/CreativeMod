@@ -65,8 +65,7 @@ local static_fluidboxes = {
 
 -- List of module inventories that matter source, duplicator and void shouldn't work on.
 local module_inventories = {
-  [defines.inventory.furnace_modules] = true,
-  [defines.inventory.assembling_machine_modules] = true,
+  [defines.inventory.crafter_modules] = true, -- replaces furnace_modules + assembling_machine_modules (removed in 2.1)
   [defines.inventory.lab_modules] = true,
   [defines.inventory.mining_drill_modules] = true,
   [defines.inventory.beacon_modules] = true,
