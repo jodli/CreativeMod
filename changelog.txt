@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.6
+Date: 2026-06-25
+  Bugfixes:
+    - Update mod to be compatible with Factorio 2.1.7: bump factorio_version and base dependency to 2.1.
+    - Remove crash_trigger() call from entity prototypes (removed in 2.1).
+    - Fix next_upgrade set to empty string in entity prototypes (rejected in 2.1, now set to nil).
+    - Add ignore_cannot_select_tiles to magic wand creator alt-select (deconstruct no longer implies any-tile in 2.1).
+    - Rename recipe category field to categories table (RecipePrototype change in 2.1).
+    - Replace data.raw.tool iteration with data.raw.item filtered by subgroup for science packs (tool type removed in 2.1).
+    - Replace removed defines.inventory.furnace_modules and assembling_machine_modules with defines.inventory.crafter_modules (merged in 2.1).
+---------------------------------------------------------------------------------------------------
 Version: 2.1.5
 Date: 2025-09-21
   Bugfixes:
