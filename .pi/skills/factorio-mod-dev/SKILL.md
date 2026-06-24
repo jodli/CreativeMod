@@ -42,6 +42,7 @@ Output channels:
 
 → See `DEBUG.md` for full tool reference.
 → See `DEBUGGING.md` (this skill folder) for debugging methodology and porting guide.
+→ See `RELEASE.md` (this skill folder) for release checklist and GitHub Actions workflow reference.
 
 ## Key internals
 
