@@ -1063,6 +1063,114 @@ local surface_cheats_menu_gui_data = {
   end,
 }
 
+-- GUI data about the whole teleport menu. Cloned from the surface cheats menu: it reuses the
+-- surface target picker, but lists surfaces with friendly (planet/platform) labels and offers a
+-- single "Teleport here" apply action whose target is the selected destination surface.
+local teleport_menu_gui_data = {
+  parent = nil,
+  frame = {
+    name = creative_mode_defines.names.gui.teleport_menu_frame,
+    caption = { "gui.creative-mode_teleport" },
+    outer_container = {
+      name = creative_mode_defines.names.gui.teleport_outer_container,
+      targets_scroll_pane = {
+        name = creative_mode_defines.names.gui.teleport_targets_scroll_pane,
+        outer_container = {
+          name = creative_mode_defines.names.gui.teleport_targets_container,
+          inner_container = {
+            name = creative_mode_defines.names.gui.teleport_targets_inner_container,
+            target_button = {
+              name_prefix = creative_mode_defines.names.gui.teleport_target_name_button_prefix,
+            },
+            select_all_button = {
+              name = creative_mode_defines.names.gui.teleport_targets_select_all_button,
+            },
+          },
+        },
+      },
+      cheats_scroll_pane = {
+        name = creative_mode_defines.names.gui.teleport_cheats_scroll_pane,
+        cheats_container = {
+          name = creative_mode_defines.names.gui.teleport_cheats_container,
+          enable_disable_all_container = nil,
+          notes = nil,
+        },
+      },
+    },
+  },
+  cheats_gui_data = {
+    teleport_to_surface = {
+      type = gui_menu_cheats.cheat_gui_type.apply,
+      cheat_data = cheats.teleport_cheats_data.cheats.teleport_to_surface,
+      container_name = creative_mode_defines.names.gui.teleport_to_surface_container,
+      label_name = creative_mode_defines.names.gui.teleport_to_surface_label,
+      label_caption = { "gui.creative-mode_teleport-here" },
+      label_tooltip = { "gui.creative-mode_teleport-here-tooltip" },
+      apply_button_name = creative_mode_defines.names.gui.teleport_to_surface_apply_button,
+      apply_button_caption = creative_mode_defines.names.gui_captions.ok,
+    },
+  },
+  cheats_data = cheats.teleport_cheats_data,
+  get_unverified_targets_function = function(player)
+    if rights.can_player_teleport_to_other_surfaces(player) then
+      return game.surfaces, nil
+    else
+      return nil, player.surface
+    end
+  end,
+  verify_target_function = function(player, target)
+    return target.valid
+  end,
+  verify_target_for_insert_function = function(player, target)
+    if not target.valid then
+      return false
+    end
+    if target == player.surface then
+      return true
+    end
+    if rights.can_player_teleport_to_other_surfaces(player) then
+      return true
+    end
+    return false
+  end,
+  get_target_button_name_postfix_function = function(player, target)
+    return target.name
+  end,
+  get_target_button_caption_function = function(player, target)
+    -- Friendly label: planet name, then platform name, falling back to the raw surface name on vanilla.
+    if target.planet then
+      return target.planet.name
+    elseif target.platform then
+      return target.platform.name
+    end
+    return target.name
+  end,
+  get_target_button_tooltip_function = function(player, target)
+    return { "gui.creative-mode_surface-name-tooltip", target.name }
+  end,
+  check_is_target_self_function = function(player, target)
+    return player.surface == target
+  end,
+  post_create_target_button_function = function(player, target, button) end,
+  check_is_target_button_valid_function = function(player, target, button)
+    return button.visible ~= false
+  end,
+  check_is_target_button_valid_unknown_target_function = function(player, button)
+    return button.visible ~= false
+  end,
+  get_button_actual_target_function = function(player, button)
+    local surface_name = string.match(button.name, creative_mode_defines.match_patterns.gui.teleport_target_name_button)
+    if surface_name then
+      surface_name = tostring(surface_name)
+      return game.surfaces[surface_name]
+    end
+    return nil
+  end,
+  remove_target_button_function = function(player, target, button)
+    return true
+  end,
+}
+
 -- GUI data about the whole global cheats menu.
 local global_cheats_menu_gui_data = {
   parent = nil,
@@ -1232,6 +1340,13 @@ local cheats_menus_gui_data = {
       access_right_code = rights.access_surface_cheats_code,
       get_player_can_access_function = rights.can_player_access_surface_cheats_menu,
       cheats_menu_gui_data = surface_cheats_menu_gui_data,
+    },
+    teleport = {
+      button_name = creative_mode_defines.names.gui.teleport_menu_button,
+      button_caption = { "gui.creative-mode_teleport" },
+      access_right_code = rights.access_teleport_code,
+      get_player_can_access_function = rights.can_player_access_teleport_menu,
+      cheats_menu_gui_data = teleport_menu_gui_data,
     },
     global_cheats = {
       button_name = creative_mode_defines.names.gui.global_cheats_menu_button,
