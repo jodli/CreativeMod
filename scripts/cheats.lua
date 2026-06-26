@@ -37,6 +37,26 @@ local function large_range_limit_value_before_apply_function(value)
   return util.clamp(value, -1, 4294967296)
 end
 
+-- Computes a safe, non-colliding landing position for the given player on the given surface.
+-- Follows the base-game pattern (pvp.lua): start from the force's spawn position, generate the
+-- surrounding chunks so we don't land in ungenerated void, then search outward for a free spot.
+local function compute_safe_position(player, surface)
+  -- Search radius for the non-colliding spot, in TILES.
+  local search_radius = 64
+  local origin = player.force.get_spawn_position(surface)
+  -- Make sure the destination terrain exists before searching/teleporting.
+  -- NOTE: request_to_generate_chunks takes a radius in CHUNKS (1 chunk = 32 tiles), so we
+  -- derive a small chunk radius that covers the tile search radius (+1 for boundary slack).
+  -- Reusing the tile radius here would force-generate ~16k chunks synchronously and freeze the game.
+  local chunk_radius = math.ceil(search_radius / 32) + 1
+  surface.request_to_generate_chunks(origin, chunk_radius)
+  surface.force_generate_chunk_requests()
+  -- Find a non-colliding tile within a finite radius (radius = 0 would be unlimited and could hang).
+  local position = surface.find_non_colliding_position("character", origin, search_radius, 2)
+  -- Fall back to the spawn origin if no free spot was found within the radius.
+  return position or origin
+end
+
 -- Applies all character-related personal cheats to the given player. Also updates GUI status about the cheat for all players, in case the given player is selected.
 local function apply_character_cheats_to_player(player)
   -- Cheat mode.
@@ -1654,6 +1674,44 @@ cheats.surface_cheats_data = {
       end,
       print_applied_by_admin_message_function = function(source_player, surface, value)
         surface.print({ "message.creative-mode_surface-gravity-updated", source_player.name, value })
+      end,
+      get_player_can_access_function = nil,
+    },
+  },
+}
+
+-- Data about all teleport cheats. The target of each cheat is the destination surface.
+cheats.teleport_cheats_data = {
+  check_is_self_function = function(source_player, surface)
+    -- Selecting the player's own surface still performs a (reposition) teleport, so it is never "self".
+    return false
+  end,
+  print_admin_failed_to_apply_to_single_target_message_function = function(source_player, target, reason)
+    -- No reason to fail so far.
+  end,
+  print_admin_failed_to_apply_to_multi_targets_message_function = function(source_player, fail_count, reason)
+    -- No reason to fail so far.
+  end,
+  print_enabled_all_by_admin_message_function = function(source_player, surface, enable)
+    -- No enable all so far.
+  end,
+  cheats = {
+    teleport_to_surface = {
+      is_default = false,
+      get_value_function = nil,
+      limit_value_before_apply_function = nil,
+      apply_to_target_function = function(target_surface, value, source_player)
+        if not (target_surface and target_surface.valid and source_player) then
+          return nil
+        end
+        local dest = compute_safe_position(source_player, target_surface)
+        -- Phase 2: god/spectator path only. Character handling and same-surface
+        -- reposition are added in Phase 3.
+        source_player.teleport(dest, target_surface)
+        return nil
+      end,
+      print_applied_by_admin_message_function = function(source_player, surface, value)
+        -- Teleport is a personal action; no surface broadcast.
       end,
       get_player_can_access_function = nil,
     },
