@@ -37,10 +37,13 @@ Result contract:
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+import sandbox
 
 # ---------------------------------------------------------------------------
 # Self-locating paths (mirrors debug.sh's SCRIPT_DIR-derived layout)
@@ -170,7 +173,30 @@ def _not_implemented(name: str) -> int:
 
 
 def cmd_load(args: argparse.Namespace) -> int:
-    return _not_implemented("load")
+    """Cheap data + control load gate.
+
+    Bootstraps the .debug/ sandbox, runs the bounded --create data+control stage,
+    then evaluates the captured factorio-current.log:
+      - any ``^Error`` line  -> data/control error (real load failure)
+      - sentinel absent       -> control stage incomplete (silent mid-require crash)
+    Otherwise the mod loaded cleanly and the control stage ran to completion.
+    """
+    sb = sandbox.bootstrap_sandbox(clean=getattr(args, "clean", False))
+    log = sandbox.run_create(sb, timeout=args.timeout)
+
+    # Factorio can exit 0 even when a prototype/control error is logged, so scan
+    # the log text directly. Lines look like "  12.345 Error ...".
+    if re.search(r"^\s*[\d.:]+\s*Error", log, re.M):
+        match = re.search(r"^\s*[\d.:]+\s*Error.*$", log, re.M)
+        detail = "data/control error"
+        if match:
+            detail = f"data/control error: {match.group(0).strip()}"
+        return result("load", False, detail)
+
+    if "CREATIVE_MOD_CONTROL_OK" not in log:
+        return result("load", False, "control stage incomplete")
+
+    return result("load", True)
 
 
 def cmd_behavior(args: argparse.Namespace) -> int:
@@ -200,7 +226,21 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True, metavar="subcommand")
 
     sub.add_parser("static", help="luacheck . + stylua --check .").set_defaults(func=cmd_static)
-    sub.add_parser("load", help="(phase 2) data + control load gate").set_defaults(func=cmd_load)
+
+    load_parser = sub.add_parser("load", help="data + control load gate")
+    load_parser.add_argument(
+        "--clean",
+        action="store_true",
+        help="recreate the debug save from scratch (default reuses for a fast loop)",
+    )
+    load_parser.add_argument(
+        "--timeout",
+        type=float,
+        default=180.0,
+        help="hard timeout (seconds) for the --create stage (default: 180)",
+    )
+    load_parser.set_defaults(func=cmd_load)
+
     sub.add_parser("behavior", help="(phase 3) headless server + RCON assertions").set_defaults(func=cmd_behavior)
     sub.add_parser("all", help="(phase 3) static -> load -> behavior").set_defaults(func=cmd_all)
     sub.add_parser("debug", help="(phase 4) bounded scriptable debug session").set_defaults(func=cmd_debug)

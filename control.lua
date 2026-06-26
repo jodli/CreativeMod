@@ -79,3 +79,9 @@ remote.add_interface(creative_mode_defines.names.interface, remote_interface.rem
         cheats.enable_or_disable_creative_mode(player, true, false, false, false)
     end
 end)]]
+
+-- Verification sentinel: emitted only if the control stage parses to completion
+-- (after every require + all event registration). A mid-require crash leaves
+-- this line absent, which verify.py greps factorio-current.log for to detect the
+-- documented "starts but storage.creative_mode is nil" silent failure.
+log("CREATIVE_MOD_CONTROL_OK")
