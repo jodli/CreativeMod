@@ -17,7 +17,7 @@ Run it via uv:
     uv run verify.py --help
 
 This is local-only tooling (not CI). Paths are derived from this file's own
-location exactly like debug.sh derives them from SCRIPT_DIR; nothing is read
+location, like the old shell launcher derived them from SCRIPT_DIR; nothing is read
 from environment variables.
 
 Subcommands:
@@ -26,8 +26,8 @@ Subcommands:
     load      (Phase 2) data + control load gate.
     behavior  (Phase 3) headless server + RCON assertion batch.
     all       (Phase 3) static -> load -> behavior in sequence.
-    debug     (Phase 4) bounded scriptable successor to debug.sh.
-    shell     (Phase 4) bounded RCON pass-through (successor to rcon-shell.sh).
+    debug     Bounded scriptable debug session (--command one-shot, --gui escape hatch).
+    shell     Bounded RCON pass-through (one-shot arg, or stdin REPL with /c auto-prefix).
 
 Result contract:
     Every subcommand prints exactly one ``RESULT: <name>=PASS`` or
@@ -50,7 +50,7 @@ import rcon
 import sandbox
 
 # ---------------------------------------------------------------------------
-# Self-locating paths (mirrors debug.sh's SCRIPT_DIR-derived layout)
+# Self-locating paths (mirrors the old shell launcher's SCRIPT_DIR-derived layout)
 # ---------------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent
 FACTORIO_BIN = (ROOT / ".." / ".." / "bin" / "x64" / "factorio").resolve()
@@ -377,12 +377,146 @@ def cmd_all(args: argparse.Namespace) -> int:
     return result("all", ok, "" if ok else detail)
 
 
-def cmd_debug(args: argparse.Namespace) -> int:
-    return _not_implemented("debug")
+# ---------------------------------------------------------------------------
+# Shared helper: ensure a server is up (reuse a running one, else start+reap one)
+# ---------------------------------------------------------------------------
+def _server_is_up(sb: sandbox.Sandbox) -> bool:
+    """Return True if an RCON server already answers on the sandbox port.
+
+    Lets shell/debug attach to a server the maintainer already has running
+    (e.g. a long-lived ``verify.py debug`` session) instead of starting a
+    second one. Probe failures are the expected "nothing there" case.
+    """
+    with open(os.devnull, "w") as devnull:
+        saved_stderr = sys.stderr
+        sys.stderr = devnull
+        try:
+            rcon.rcon_exec("localhost", sb.rcon_port, sb.rcon_password, "/c rcon.print(1)")
+        except (ConnectionRefusedError, ConnectionError, OSError, TimeoutError, SystemExit):
+            return False
+        finally:
+            sys.stderr = saved_stderr
+    return True
 
 
+def _send_command(sb: sandbox.Sandbox, command: str) -> tuple[bool, str]:
+    """Send one RCON command, normalizing failures into (ok, text).
+
+    Never raises: a refused/closed connection or auth failure becomes
+    ``(False, "<reason>")`` so the caller can print a single RESULT line.
+    """
+    try:
+        out = rcon.rcon_exec("localhost", sb.rcon_port, sb.rcon_password, command)
+    except (ConnectionError, OSError, TimeoutError) as exc:
+        return False, f"rcon-error {exc!r}"
+    except SystemExit:
+        return False, "rcon-connection-failed"
+    return True, out
+
+
+# ---------------------------------------------------------------------------
+# shell — bounded RCON pass-through (one-shot send / stdin REPL)
+# ---------------------------------------------------------------------------
 def cmd_shell(args: argparse.Namespace) -> int:
-    return _not_implemented("shell")
+    """Bounded RCON pass-through.
+
+    One-shot: ``verify.py shell '/c rcon.print(game.tick)'`` sends a single
+    command and prints the response. With no command argument it reads commands
+    from stdin, one per line, auto-prefixing ``/c`` for raw Lua — non-blocking,
+    it stops at EOF.
+
+    Assumes a server is already running; if none answers it starts one
+    (bounded) for the duration of the call and reaps it on exit. Always
+    terminates with a single RESULT line.
+    """
+    sb = sandbox.bootstrap_sandbox(clean=getattr(args, "clean", False))
+
+    started: subprocess.Popen | None = None
+    try:
+        if not _server_is_up(sb):
+            if not sb.save_file.exists():
+                sandbox.run_create(sb, timeout=args.timeout)
+            started = sandbox.start_server(sb)
+            ready_deadline = time.monotonic() + args.ready_timeout
+            if not _poll_rcon_ready(sb, started, ready_deadline):
+                return result("shell", False, "server not ready")
+
+        if args.command is not None:
+            # One-shot mode.
+            ok, out = _send_command(sb, args.command)
+            if not ok:
+                return result("shell", False, out)
+            if out.strip():
+                print(out.rstrip("\n"))
+            return result("shell", True)
+
+        # Interactive / piped mode: read lines until EOF, auto-prefix /c.
+        any_failure = False
+        for raw in sys.stdin:
+            line = raw.strip()
+            if not line or line == "exit":
+                if line == "exit":
+                    break
+                continue
+            command = line if line.startswith("/") else f"/c {line}"
+            ok, out = _send_command(sb, command)
+            if not ok:
+                any_failure = True
+                print(f"(error) {out}")
+                continue
+            if out.strip():
+                print(out.rstrip("\n"))
+        return result("shell", not any_failure, "" if not any_failure else "one or more commands failed")
+    finally:
+        if started is not None:
+            _terminate_server(started)
+
+
+# ---------------------------------------------------------------------------
+# debug — bounded scriptable headless session; --gui manual escape hatch
+# ---------------------------------------------------------------------------
+def cmd_debug(args: argparse.Namespace) -> int:
+    """Bounded, scriptable headless debug session driven via RCON.
+
+    Default headless flow: bootstrap the sandbox, ensure a save exists, boot the
+    headless server, poll RCON until ready, optionally run a one-shot
+    ``--command`` and print its response, then terminate + reap under a hard
+    watchdog so the call always returns.
+
+    ``--gui`` is the manual-only escape hatch: it launches the full graphical
+    client with ``--load-game`` against the debug
+    save. It is explicitly NOT part of the automated loop — it blocks on the
+    interactive client and needs a graphical display.
+    """
+    sb = sandbox.bootstrap_sandbox(clean=getattr(args, "clean", False))
+
+    if args.gui:
+        # Manual escape hatch: full graphical client. This blocks for the
+        # maintainer's interactive session and is not bounded/automated.
+        if not sb.save_file.exists():
+            sandbox.run_create(sb, timeout=args.timeout)
+        proc = sandbox.start_gui(sb)
+        rc = proc.wait()
+        return result("debug", rc == 0, "" if rc == 0 else f"gui client exited {rc}")
+
+    if not sb.save_file.exists():
+        sandbox.run_create(sb, timeout=args.timeout)
+
+    server = sandbox.start_server(sb)
+    try:
+        ready_deadline = time.monotonic() + args.ready_timeout
+        if not _poll_rcon_ready(sb, server, ready_deadline):
+            return result("debug", False, "server not ready")
+
+        if args.command is not None:
+            ok, out = _send_command(sb, args.command)
+            if not ok:
+                return result("debug", False, out)
+            if out.strip():
+                print(out.rstrip("\n"))
+        return result("debug", True)
+    finally:
+        _terminate_server(server)
 
 
 # ---------------------------------------------------------------------------
@@ -437,8 +571,31 @@ def build_parser() -> argparse.ArgumentParser:
     all_parser = sub.add_parser("all", help="static -> load -> behavior in sequence")
     add_run_args(all_parser)
     all_parser.set_defaults(func=cmd_all)
-    sub.add_parser("debug", help="(phase 4) bounded scriptable debug session").set_defaults(func=cmd_debug)
-    sub.add_parser("shell", help="(phase 4) bounded RCON pass-through").set_defaults(func=cmd_shell)
+
+    debug_parser = sub.add_parser("debug", help="bounded scriptable headless debug session")
+    add_run_args(debug_parser)
+    debug_parser.add_argument(
+        "--command",
+        default=None,
+        help="one-shot RCON command to run once the server is ready (e.g. '/c rcon.print(game.tick)')",
+    )
+    debug_parser.add_argument(
+        "--gui",
+        action="store_true",
+        help="manual-only escape hatch: launch the full graphical client against the debug save (blocks; needs a display)",
+    )
+    debug_parser.set_defaults(func=cmd_debug)
+
+    shell_parser = sub.add_parser("shell", help="bounded RCON pass-through (one-shot or stdin REPL)")
+    add_run_args(shell_parser)
+    shell_parser.add_argument(
+        "command",
+        nargs="?",
+        default=None,
+        help="one-shot command to send; omit to read commands from stdin (auto-prefixing /c)",
+    )
+    shell_parser.set_defaults(func=cmd_shell)
+
     sub.add_parser("doctor", help="preflight: factorio binary/version, uv, jq").set_defaults(func=cmd_doctor)
 
     return parser

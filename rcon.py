@@ -8,7 +8,7 @@ Usage:
 
 Output channels — choose the right one for your use case:
     rcon.print(value)          → echoed back as RCON response (shown by this script)
-    log("msg")                 → .debug/factorio-current.log  (tail: ./debug.sh log)
+    log("msg")                 → .debug/factorio-current.log  (uv run verify.py load reads it)
     helpers.write_file("f", data) → .debug/script-output/f  (Factorio 2.0 API)
 
 Examples:
@@ -76,7 +76,7 @@ def rcon_exec(host: str, port: int, password: str, command: str) -> str:
         except ConnectionRefusedError:
             print(
                 f"ERROR: Cannot connect to {host}:{port} — is the server running?\n"
-                "Start it with:  ./debug.sh",
+                "Start it with:  uv run verify.py debug",
                 file=sys.stderr,
             )
             sys.exit(1)
