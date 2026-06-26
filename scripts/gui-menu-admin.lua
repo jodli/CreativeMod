@@ -120,6 +120,43 @@ local access_rights_gui_data = {
       storage.creative_mode.player_rights.access_surface_cheats = value
     end,
   },
+  teleport = {
+    is_overall = false,
+    container_name = creative_mode_defines.names.gui.access_teleport_container,
+    label_name = creative_mode_defines.names.gui.access_teleport_label,
+    label_caption = { "gui.creative-mode_teleport" },
+    inner_container_name = creative_mode_defines.names.gui.access_teleport_inner_container,
+    access_right_code = rights.access_teleport_code,
+    options = {
+      admin_only = {
+        button_name = creative_mode_defines.names.gui.access_teleport_admin_only_button,
+        button_caption = { "gui.creative-mode_access-right-admin-only" },
+        button_tooltip = { "gui.creative-mode_access-right-teleport-admin-only-tooltip" },
+        value = rights.access_teleport_level.admin_only,
+        message_key = "message.creative-mode_access-right-teleport-admin-only",
+      },
+      current_surface = {
+        button_name = creative_mode_defines.names.gui.access_teleport_current_surface_button,
+        button_caption = { "gui.creative-mode_access-right-teleport-current-surface" },
+        button_tooltip = { "gui.creative-mode_access-right-teleport-current-surface-tooltip" },
+        value = rights.access_teleport_level.current_surface_only,
+        message_key = "message.creative-mode_access-right-teleport-current-surface",
+      },
+      free = {
+        button_name = creative_mode_defines.names.gui.access_teleport_free_button,
+        button_caption = { "gui.creative-mode_access-right-teleport-free" },
+        button_tooltip = { "gui.creative-mode_access-right-teleport-free-tooltip" },
+        value = rights.access_teleport_level.free,
+        message_key = "message.creative-mode_access-right-teleport-free",
+      },
+    },
+    get_value_function = function()
+      return storage.creative_mode.player_rights.access_teleport
+    end,
+    set_value_function = function(value)
+      storage.creative_mode.player_rights.access_teleport = value
+    end,
+  },
   global_cheat = {
     is_overall = false,
     container_name = creative_mode_defines.names.gui.access_global_cheat_container,

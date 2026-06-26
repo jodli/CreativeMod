@@ -43,6 +43,20 @@ rights.default_access_surface_cheats_level = rights.access_surface_cheats_level.
 -- Code, used for determining which right is changed by the admin.
 rights.access_surface_cheats_code = "surface_cheats"
 
+-- All possible player right levels for accessing the teleport menu.
+rights.access_teleport_level = {
+  -- Only admins have the right to teleport.
+  admin_only = 0,
+  -- Each non-admin player can teleport only on the surface he is on.
+  current_surface_only = 10,
+  -- All players can teleport to any surface.
+  free = 20,
+}
+-- Default teleport access right level.
+rights.default_access_teleport_level = rights.access_teleport_level.current_surface_only
+-- Code, used for determining which right is changed by the admin.
+rights.access_teleport_code = "teleport"
+
 -- All possible player right levels for enabling/disabling global cheats.
 rights.access_global_cheats_level = {
   -- Only admin have the right to enable/disable the global cheats.
@@ -130,6 +144,34 @@ function rights.can_player_access_surface_cheats_menu(player)
   return true
 end
 
+-- Returns whether the given player can teleport to surfaces that he isn't on.
+function rights.can_player_teleport_to_other_surfaces(player)
+  -- Admins can do anything they want.
+  if player.admin then
+    return true
+  end
+
+  if storage.creative_mode.player_rights.access_teleport == rights.access_teleport_level.free then
+    return true
+  end
+
+  return false
+end
+
+-- Returns whether the given player can access the teleport menu.
+function rights.can_player_access_teleport_menu(player)
+  -- Admins can do anything they want.
+  if player.admin then
+    return true
+  end
+
+  if storage.creative_mode.player_rights.access_teleport == rights.access_teleport_level.admin_only then
+    return false
+  end
+
+  return true
+end
+
 -- Returns whether the given player can access the global cheats menu.
 function rights.can_player_access_global_cheats_menu(player)
   -- Admins can do anything they want.
@@ -149,6 +191,7 @@ function rights.can_player_access_cheats_menu(player)
   return rights.can_player_access_personal_cheats_menu(player)
     or rights.can_player_access_team_cheats_menu(player)
     or rights.can_player_access_surface_cheats_menu(player)
+    or rights.can_player_access_teleport_menu(player)
     or rights.can_player_access_global_cheats_menu(player)
 end
 
@@ -294,6 +337,8 @@ function rights.set_overall_admin_only()
   storage.creative_mode.player_rights.access_team_cheats = rights.access_team_cheats_level.admin_only
   -- Surface cheats.
   storage.creative_mode.player_rights.access_surface_cheats = rights.access_surface_cheats_level.admin_only
+  -- Teleport.
+  storage.creative_mode.player_rights.access_teleport = rights.access_teleport_level.admin_only
   -- Global cheats.
   storage.creative_mode.player_rights.access_global_cheats = rights.access_global_cheats_level.admin_only
   -- Build options.
@@ -316,6 +361,8 @@ function rights.set_overall_default()
   storage.creative_mode.player_rights.access_team_cheats = rights.default_access_team_cheats_level
   -- Surface cheats.
   storage.creative_mode.player_rights.access_surface_cheats = rights.default_access_surface_cheats_level
+  -- Teleport.
+  storage.creative_mode.player_rights.access_teleport = rights.default_access_teleport_level
   -- Global cheats.
   storage.creative_mode.player_rights.access_global_cheats = rights.default_access_global_cheats_level
   -- Build options.
