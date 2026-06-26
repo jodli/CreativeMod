@@ -2,37 +2,34 @@
 
 Headless debug setup for **creative-mod**. No GUI, no Steam, isolated from `~/.factorio`.
 
+All debugging now goes through `verify.py` (run via `uv`). It replaces the old
+standalone shell wrappers with one bounded tool.
+→ See `.pi/skills/factorio-mod-dev/VERIFY.md` for the full reference.
+
 ## Quick Start
 
 ```bash
-# Terminal 1 — start the server (keeps running)
-./debug.sh
+# Verify the mod loads and behaves (bounded — always returns)
+uv run verify.py load
+uv run verify.py behavior
+uv run verify.py all
 
-# Terminal 2 — inspect values
-./rcon.sh '/c rcon.print(game.tick)'
-./rcon.sh '/c rcon.print(serpent.block(storage))'
+# Inspect values via a one-shot RCON command
+uv run verify.py shell '/c rcon.print(game.tick)'
+uv run verify.py shell '/c rcon.print(serpent.block(storage))'
 
-# Terminal 3 — watch the game log
-./debug.sh log
+# Watch the game log
+tail -f .debug/factorio-current.log
 ```
 
-## Scripts
+## Tools
 
-| Script | Purpose |
+| Tool | Purpose |
 |---|---|
-| `debug.sh` | Start headless Factorio server with RCON |
-| `rcon.sh '<cmd>'` | Send one RCON command, print response |
-| `rcon-shell.sh` | Interactive REPL (`factorio>` prompt) |
-| `rcon.py` | Python RCON client (used by the above) |
-
-### `debug.sh` subcommands
-
-```bash
-./debug.sh          # start server (blocks until Ctrl-C)
-./debug.sh log      # tail .debug/factorio-current.log
-./debug.sh console  # tail .debug/console.log
-./debug.sh reset    # delete the save and recreate it (wipes state)
-```
+| `uv run verify.py shell '<cmd>'` | Send one RCON command, print response (omit arg for a stdin REPL) |
+| `uv run verify.py debug` | Bounded headless session; `--command` one-shot, `--gui` graphical escape hatch |
+| `uv run verify.py load --clean` | Recreate the debug save from scratch (wipes state) |
+| `rcon.py` | Python RCON client (imported as a module by `verify.py`; also a standalone CLI) |
 
 ## Output Channels
 
@@ -61,8 +58,6 @@ Best for tracing code paths inside the mod. Same file Factorio writes Lua errors
 
 Tail it live:
 ```bash
-./debug.sh log
-# or
 tail -f .debug/factorio-current.log
 ```
 
@@ -82,15 +77,20 @@ cat .debug/script-output/storage.txt
 
 ## Common Debug Patterns
 
+> Note: a bare `/c` runs in the **scenario** script context, where `storage` is
+> the scenario's storage — not creative-mod's per-mod storage. To read the mod's
+> own state, drive its remote interface, e.g.
+> `remote.call("creative-mode", "is_enabled")`.
+
 ### Inspect the global storage table
 ```bash
-./rcon.sh '/c rcon.print(serpent.block(storage))'
-./rcon.sh '/c rcon.print(serpent.block(storage.creative_mode))'
+uv run verify.py shell '/c rcon.print(serpent.block(storage))'
+uv run verify.py shell '/c rcon.print(serpent.block(storage.creative_mode))'
 ```
 
 ### Check if an entity exists in a surface
 ```bash
-./rcon.sh '/c
+uv run verify.py shell '/c
   local e = game.surfaces[1].find_entities_filtered{name="creative-chest"}
   rcon.print("#entities: " .. #e)
 '
@@ -98,23 +98,23 @@ cat .debug/script-output/storage.txt
 
 ### Trigger a mod event manually
 ```bash
-./rcon.sh '/c script.raise_event(defines.events.on_player_created, {player_index=1})'
+uv run verify.py shell '/c script.raise_event(defines.events.on_player_created, {player_index=1})'
 ```
 
 ### Check a player's state (after joining via multiplayer)
 ```bash
-./rcon.sh '/c rcon.print(serpent.block(game.players[1]))'
+uv run verify.py shell '/c rcon.print(serpent.block(game.players[1]))'
 ```
 
 ### Dump all mod settings
 ```bash
-./rcon.sh '/c rcon.print(serpent.block(settings.startup))'
-./rcon.sh '/c rcon.print(serpent.block(settings.global))'
+uv run verify.py shell '/c rcon.print(serpent.block(settings.startup))'
+uv run verify.py shell '/c rcon.print(serpent.block(settings.global))'
 ```
 
 ### Watch for Lua errors
 ```bash
-./debug.sh log   # errors appear as: "Error while running event ..."
+tail -f .debug/factorio-current.log   # errors appear as: "Error while running event ..."
 ```
 
 ## How the Setup Works
@@ -134,7 +134,7 @@ cat .debug/script-output/storage.txt
 
 - The symlink means **live edits are instant** — no packaging step needed.
 - The save persists across server restarts (Factorio saves on SIGTERM).
-- Use `./debug.sh reset` to recreate the save from scratch (clears all `storage`).
+- Use `uv run verify.py load --clean` to recreate the save from scratch (clears all `storage`).
 
 ## First-Run Achievement Warning
 
@@ -145,6 +145,15 @@ The first `/c` command in a fresh game triggers:
 
 ## Requirements
 
-- `jq` — reads `info.json` for mod name/version
-- `python3` — runs the RCON client (`rcon.py`)
-- Factorio binary at `../../bin/x64/factorio` relative to repo root
+`uv run verify.py doctor` checks these. See
+`.pi/skills/factorio-mod-dev/VERIFY.md` for the full replicable install setup.
+
+- **Factorio 2.1.7** binary at `../../bin/x64/factorio` relative to the mod (full
+  install — base mods ship with it).
+- **`uv`** — runs `verify.py`.
+- **`jq`** — reads `info.json` for mod name/version.
+- **`stylua`** — Lua formatter (`verify.py static`).
+- **`luacheck`** — Lua linter (`verify.py static`); **must be built against Lua
+  5.3** (it crashes under Lua 5.5). Install via
+  `luarocks --lua-version=5.3 install luacheck --local` and add `~/.luarocks/bin`
+  to `PATH`.

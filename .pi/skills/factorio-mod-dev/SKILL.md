@@ -1,6 +1,6 @@
 ---
 name: factorio-mod-dev
-description: Develop and debug the creative-mod Factorio mod. Use when working on mod scripts, prototypes, GUI, events, or porting to a new Factorio version. Covers repo layout, mod structure, key internals, and the debug toolchain.
+description: Develop and debug the creative-mod Factorio mod. Use when working on mod scripts, prototypes, GUI, events, or porting to a new Factorio version. Covers repo layout, mod structure, key internals, and the verify.py verification pipeline.
 ---
 
 # Factorio Mod Dev
@@ -21,18 +21,42 @@ creative-mod/
 └── locale/                # translations
 ```
 
-## Debug toolchain
+## Verification loop
+
+`verify.py` is the canonical way to check the mod. It loads creative-mod in the
+local Factorio install, runs assertions, and exits `0`/non-zero with a stable,
+greppable `RESULT:` line, so you can edit → verify → read result → iterate.
+Run it via `uv`:
 
 ```bash
-./debug.sh                           # start headless server
-./debug.sh gui --window-size 1920x1080  # start with full GUI (windowed)
-./debug.sh log                       # tail factorio-current.log
-./debug.sh reset                     # wipe save → re-triggers on_init
-./rcon.sh '/c rcon.print(...)'       # one-shot RCON command
-./rcon-shell.sh                      # interactive REPL
+uv run verify.py doctor    # preflight: factorio binary + version, uv, jq
+uv run verify.py static    # luacheck . + stylua --check .
+uv run verify.py load      # data + control load gate (incl. silent-crash guard)
+uv run verify.py behavior  # headless server + RCON assertion batch
+uv run verify.py all       # static → load → behavior, aggregated
+uv run verify.py --help
 ```
 
-Output channels:
+The layered model is **static → load → behavior** (cheapest to deepest); `all`
+runs the three in sequence. Read the result by grepping `^RESULT:` and/or
+checking `$?`:
+
+```
+RESULT: load=PASS                              # exit 0
+RESULT: load=FAIL (control stage incomplete)   # exit non-zero, reason names the failure
+```
+
+For investigation, use the bounded tooling modes (successors to the removed
+standalone shell wrappers):
+
+```bash
+uv run verify.py shell '/c rcon.print(game.tick)'   # one-shot RCON; omit arg for a stdin REPL
+uv run verify.py debug --command '/c ...'           # bounded headless session
+uv run verify.py debug --gui                        # manual-only graphical escape hatch
+uv run verify.py load --clean                       # recreate the debug save from scratch
+```
+
+Output channels for the values you inspect:
 
 | Goal | Use | Where |
 |---|---|---|
@@ -40,7 +64,9 @@ Output channels:
 | Trace code | `log("msg")` | `factorio-current.log` |
 | Dump large table | `helpers.write_file("f", d)` | `.debug/script-output/f` |
 
-→ See `DEBUG.md` for full tool reference.
+→ See `VERIFY.md` (this skill folder) for the full subcommand reference, the
+`RESULT:`/exit-code contract, and the replicable local install setup.
+→ See `DEBUG.md` for the output-channel reference.
 → See `DEBUGGING.md` (this skill folder) for debugging methodology and porting guide.
 → See `RELEASE.md` (this skill folder) for release checklist and GitHub Actions workflow reference.
 
