@@ -44,6 +44,24 @@ Output channels:
 → See `DEBUGGING.md` (this skill folder) for debugging methodology and porting guide.
 → See `RELEASE.md` (this skill folder) for release checklist and GitHub Actions workflow reference.
 
+## Base game as a reference
+
+The full Factorio base mod ships with the install and is readable on disk:
+
+```
+/mnt/quickstuff/git/factorio_linux/data/base/
+├── prototypes/        # all vanilla entity, item, recipe, technology definitions
+├── changelog.txt      # machine-readable API change log (every version)
+└── ...
+```
+
+When something breaks or behaves unexpectedly, **read the base game source first**:
+- Want to know the correct fields for a prototype type? Find a vanilla example in `data/base/prototypes/`.
+- Want to know what changed between versions? `grep` `data/base/../changelog.txt` for the symbol.
+- Want to know what a `defines.*` value actually is? It's defined in the engine, but usages are visible throughout the base mod.
+
+This is the ground truth for the running version — always prefer it over external docs.
+
 ## Key internals
 
 - `creative_mode_defines` — single source of truth for all names/prefixes (`defines.lua`)
