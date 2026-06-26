@@ -1,14 +1,13 @@
 """
 sandbox.py — the single source of sandbox truth for verify.py.
 
-Ports the ``.debug/`` sandbox bootstrap from debug.sh (the mkdir tree, the live
-working-tree symlink, the copied mod-list.json / mod-settings.dat, and the
-generated config.ini) into a Python module so every verify.py layer (load,
-behavior, debug) stands up exactly the same isolated Factorio environment
-without re-implementing it or drifting from debug.sh.
+Owns the ``.debug/`` sandbox bootstrap (the mkdir tree, the live working-tree
+symlink, the copied mod-list.json / mod-settings.dat, and the generated
+config.ini) so every verify.py layer (load, behavior, debug) stands up exactly
+the same isolated Factorio environment without re-implementing it or drifting.
 
-Paths are derived from this file's own location exactly like debug.sh derives
-them from SCRIPT_DIR; nothing is read from environment variables.
+Paths are derived from this file's own location (its parent is the mod root);
+nothing is read from environment variables.
 """
 
 import json
@@ -17,7 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# Self-locating paths (mirrors debug.sh's SCRIPT_DIR-derived layout)
+# Self-locating paths (derived from this file's own location)
 # ---------------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent
 FACTORIO_BIN = (ROOT / ".." / ".." / "bin" / "x64" / "factorio").resolve()
@@ -67,7 +66,7 @@ class Sandbox:
 
 
 def bootstrap_sandbox(clean: bool = False) -> Sandbox:
-    """Stand up the ``.debug/`` sandbox, mirroring debug.sh's setup.
+    """Stand up the ``.debug/`` sandbox.
 
     - Creates the mods/saves/config/script-output tree.
     - Refreshes the live working tree symlink at ``.debug/mods/<VERSIONED_NAME>``
@@ -84,13 +83,13 @@ def bootstrap_sandbox(clean: bool = False) -> Sandbox:
         directory.mkdir(parents=True, exist_ok=True)
 
     # Remove stale, differently-versioned creative-mod symlinks so the sandbox
-    # only ever exposes the current version (debug.sh left old ones behind).
+    # only ever exposes the current version.
     prefix = f"{INFO['name']}_"
     for entry in MODS_DIR.iterdir():
         if entry.name.startswith(prefix) and entry.name != VERSIONED_NAME and entry.is_symlink():
             entry.unlink()
 
-    # Always (re)point the live-tree symlink, like debug.sh's `ln -sfn`.
+    # Always (re)point the live-tree symlink (an idempotent `ln -sfn`).
     mod_symlink = MODS_DIR / VERSIONED_NAME
     if mod_symlink.is_symlink() or mod_symlink.exists():
         mod_symlink.unlink()
@@ -131,9 +130,9 @@ def bootstrap_sandbox(clean: bool = False) -> Sandbox:
 def run_create(sandbox: Sandbox, timeout: float) -> str:
     """Run the bounded ``--create`` data+control stage and return the log text.
 
-    Mirrors debug.sh's create step (``--create <save> --disable-audio``) but
-    always under a hard timeout so the call returns. The captured combined
-    stdout/stderr is the same stream debug.sh tee'd into factorio-current.log.
+    Runs the ``--create <save> --disable-audio`` step always under a hard timeout
+    so the call returns. The captured combined stdout/stderr is the same stream
+    that otherwise lands in factorio-current.log.
 
     ``--create`` always runs (it overwrites an existing save in place): the
     data+control stage *is* the load test, and re-running it is what produces a
@@ -153,6 +152,7 @@ def run_create(sandbox: Sandbox, timeout: float) -> str:
                 str(sandbox.save_file),
                 "--disable-audio",
             ],
+            stdin=subprocess.DEVNULL,
             capture_output=True,
             text=True,
             timeout=timeout,
@@ -164,7 +164,7 @@ def run_create(sandbox: Sandbox, timeout: float) -> str:
         return captured + f"\nError verify.py: --create timed out after {timeout}s\n"
 
     # The subprocess stdout/stderr is the authoritative single-run stream (the
-    # same text debug.sh tee'd into the log) — use it directly so a stale
+    # same text that lands in the log) — use it directly so a stale
     # factorio-current.log from an unrelated prior run can never leak in.
     return (proc.stdout or "") + "\n" + (proc.stderr or "")
 
@@ -172,14 +172,14 @@ def run_create(sandbox: Sandbox, timeout: float) -> str:
 def start_server(sandbox: Sandbox) -> subprocess.Popen:
     """Launch the headless server non-interactively and return the Popen handle.
 
-    Mirrors debug.sh's final ``--start-server`` invocation (config + mod dir +
-    RCON port/password + console log + disabled audio), but as a background
-    process the caller owns: verify.py polls RCON until the server answers, runs
-    its assertion batch, then terminates and reaps this handle under a watchdog.
+    Uses the standard ``--start-server`` invocation (config + mod dir + RCON
+    port/password + console log + disabled audio), but as a background process
+    the caller owns: verify.py polls RCON until the server answers, runs its
+    assertion batch, then terminates and reaps this handle under a watchdog.
 
-    Unlike debug.sh this never ``exec``s/blocks — the process is detached into a
-    new session so the whole tree (and any children) can be signalled and reaped
-    cleanly even if the call is interrupted.
+    This never ``exec``s/blocks — the process is detached into a new session so
+    the whole tree (and any children) can be signalled and reaped cleanly even
+    if the call is interrupted.
     """
     return subprocess.Popen(  # noqa: S603 — fixed, self-located argv; no shell
         [
@@ -198,8 +198,32 @@ def start_server(sandbox: Sandbox) -> subprocess.Popen:
             str(sandbox.console_log),
             "--disable-audio",
         ],
+        # Detach from our stdin: the headless server reads its console from
+        # stdin and would otherwise steal the REPL's piped input (shell mode).
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
         start_new_session=True,
+    )
+
+
+def start_gui(sandbox: Sandbox) -> subprocess.Popen:
+    """Launch the full graphical client against the debug save (manual escape hatch).
+
+    Launches the interactive client with ``--load-game`` against the sandbox
+    save and the same config/mod directory. This is a manual-only
+    tool — it blocks on the GUI and needs a graphical display — so it is
+    deliberately NOT bounded or reaped here; the caller waits on it.
+    """
+    return subprocess.Popen(  # noqa: S603 — fixed, self-located argv; no shell
+        [
+            str(FACTORIO_BIN),
+            "--config",
+            str(sandbox.config_file),
+            "--mod-directory",
+            str(sandbox.mods_dir),
+            "--load-game",
+            str(sandbox.save_file),
+        ],
     )
