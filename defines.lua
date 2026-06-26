@@ -1144,6 +1144,13 @@ creative_mode_defines.names.gui = {
   access_surface_cheat_current_surface_button = creative_mode_defines.name_prefix
     .. "access-surface-cheat-current-surface-button",
   access_surface_cheat_free_button = creative_mode_defines.name_prefix .. "access-surface-cheat-free-button",
+  access_teleport_container = creative_mode_defines.name_prefix .. "access-teleport-container",
+  access_teleport_label = creative_mode_defines.name_prefix .. "access-teleport-label",
+  access_teleport_inner_container = creative_mode_defines.name_prefix .. "access-teleport-inner-container",
+  access_teleport_admin_only_button = creative_mode_defines.name_prefix .. "access-teleport-admin-only-button",
+  access_teleport_current_surface_button = creative_mode_defines.name_prefix
+    .. "access-teleport-current-surface-button",
+  access_teleport_free_button = creative_mode_defines.name_prefix .. "access-teleport-free-button",
   access_global_cheat_container = creative_mode_defines.name_prefix .. "access-global-cheat-container",
   access_global_cheat_label = creative_mode_defines.name_prefix .. "access-global-cheat-label",
   access_global_cheat_inner_container = creative_mode_defines.name_prefix .. "access-global-cheat-inner-container",

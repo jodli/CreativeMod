@@ -164,6 +164,10 @@ function global_util.initialize_or_update_global()
   if storage.creative_mode.player_rights.access_surface_cheats == nil then
     storage.creative_mode.player_rights.access_surface_cheats = rights.default_access_surface_cheats_level
   end
+  -- Right for accessing the teleport menu.
+  if storage.creative_mode.player_rights.access_teleport == nil then
+    storage.creative_mode.player_rights.access_teleport = rights.default_access_teleport_level
+  end
   -- Right for enabling/disabling global cheats.
   if storage.creative_mode.player_rights.access_global_cheats == nil then
     storage.creative_mode.player_rights.access_global_cheats = rights.default_access_global_cheats_level
