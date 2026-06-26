@@ -10,26 +10,37 @@ Errors appear in `factorio-current.log` just after the script checksum lines.
 
 ## Protocol
 
-1. `./debug.sh reset` + run `--create` → fix data-stage errors to zero
-2. `./debug.sh` → fix control-stage errors (check log after checksum lines)
-3. `./debug.sh reset` again → verify `on_init` ran (`storage.creative_mode ~= nil`)
-4. Use RCON to inspect live state
+1. `uv run verify.py load` → data + control load gate. It runs `--create`, scans
+   the log for `^Error`, and asserts the control-stage sentinel
+   `CREATIVE_MOD_CONTROL_OK` is present. `load=FAIL (data/control error)` →
+   data/control-stage error to fix; `load=FAIL (control stage incomplete)` → the
+   silent mid-`require` crash (see below).
+2. `uv run verify.py behavior` → boots the headless server and asserts `on_init`
+   ran (`storage_initialized`) and the default state (`default_disabled`).
+3. Use `uv run verify.py shell '<cmd>'` to inspect live state interactively.
 
 ## Silent control-stage failure
 
 If `control.lua` crashes mid-`require`, the game still starts and RCON responds —
-but all mod globals are `nil` and `on_init` never fires. Diagnose:
+but all mod globals are `nil` and `on_init` never fires. `verify.py load` catches
+this via the missing sentinel (`load=FAIL (control stage incomplete)`). To
+diagnose at runtime, drive the mod's own remote interface (a bare `/c` runs in
+the scenario context, not the mod's):
 
 ```bash
-./rcon.sh '/c rcon.print(tostring(storage.creative_mode ~= nil))'
+uv run verify.py shell '/c rcon.print(tostring(pcall(function() return remote.call("creative-mode", "is_enabled") end)))'
 ```
 
-`false`/`nil` → look in `factorio-current.log` right after the mod's checksum line.
+`false` → the call errored / `on_init` never ran; look in `factorio-current.log`
+right after the mod's checksum line.
 
 ## Save lifecycle gotcha
 
 `--create` with a broken `control.lua` creates the save but skips `on_init`.
-After fixing control-stage errors, always `./debug.sh reset` — a server restart alone is not enough.
+After fixing control-stage errors, re-run `uv run verify.py load` (it re-runs
+`--create` every time, emitting a fresh sentinel) and `uv run verify.py behavior`
+to confirm `on_init` ran; use `--clean` to recreate the save from scratch when a
+restart alone is not enough.
 
 ## RCON caveats
 
@@ -42,9 +53,9 @@ After fixing control-stage errors, always `./debug.sh reset` — a server restar
 ## Porting to a new Factorio version
 
 1. Bump `factorio_version` and `base >=` in `info.json`
-2. Fix data-stage errors (`--create`)
-3. Fix control-stage errors (`--start-server`)
-4. `./debug.sh reset` — confirm `on_init` ran
+2. Fix data-stage errors (`uv run verify.py load`)
+3. Fix control-stage errors (`uv run verify.py load` → sentinel present)
+4. `uv run verify.py behavior` — confirm `on_init` ran
 
 **Reference:** `data/changelog.txt` in the Factorio install lists every API change by version.
 
