@@ -1068,6 +1068,8 @@ local surface_cheats_menu_gui_data = {
 -- single "Teleport here" apply action whose target is the selected destination surface.
 local teleport_menu_gui_data = {
   parent = nil,
+  -- Teleport is a single-destination picker: ctrl/shift multi-select are no-ops here (see the shared target-button click handler).
+  single_select_only = true,
   frame = {
     name = creative_mode_defines.names.gui.teleport_menu_frame,
     caption = { "gui.creative-mode_teleport" },
@@ -2671,15 +2673,18 @@ local function create_or_destroy_cheats_menu_for_player(player, cheats_menu_gui_
             end
           end
 
-          -- Select all button.
-          current_structure_data = inner_container_data.select_all_button
-          targets_scroll_pane.add({
-            type = "button",
-            name = current_structure_data.name,
-            style = creative_mode_defines.names.gui_styles.cheat_select_all_targets_button,
-            caption = { "gui.creative-mode_list-select-all" },
-            tooltip = { "gui.creative-mode_list-select-all-tooltip" },
-          })
+          -- Select all button. Skipped for single-select pickers (e.g. teleport), where selecting
+          -- multiple targets makes no sense and would bypass the single_select_only restriction.
+          if not cheats_menu_gui_data.single_select_only then
+            current_structure_data = inner_container_data.select_all_button
+            targets_scroll_pane.add({
+              type = "button",
+              name = current_structure_data.name,
+              style = creative_mode_defines.names.gui_styles.cheat_select_all_targets_button,
+              caption = { "gui.creative-mode_list-select-all" },
+              tooltip = { "gui.creative-mode_list-select-all-tooltip" },
+            })
+          end
 
           -- Show or hide the target selection scroll pane according to the number of valid options.
           show_or_hide_targets_selection(outer_container, targets_scroll_pane, valid_target_count > 1)
@@ -3551,6 +3556,13 @@ local function on_gui_click_in_cheats_menu_target_buttons(
   shift,
   cheats_menu_gui_data
 )
+  -- Single-select pickers (e.g. teleport) behave as a radio: ignore ctrl/shift so a plain click always selects exactly one target.
+  -- This is additive and only affects pickers that opt in via single_select_only; every other picker keeps its multi-select behavior.
+  if cheats_menu_gui_data.single_select_only then
+    control = false
+    shift = false
+  end
+
   local inner_container = get_targets_inner_container_in_cheats_menu_for_player(player, cheats_menu_gui_data)
   if element.parent and element.parent == inner_container then
     if cheats_menu_gui_data.get_button_actual_target_function then
