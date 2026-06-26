@@ -167,6 +167,30 @@ local function apply_character_cheats_to_player(player)
   gui_menu_cheats.update_character_cheats_status_for_all_players_as_player_updated_his_status(player)
 end
 
+-- Moves a player who is controlling a character to another surface.
+-- The engine cannot teleport a character across surfaces, so we clone the body onto the
+-- destination (a single clone call carries the full main inventory and equipment grid -
+-- spike-confirmed), teleport the player, bind it to the clone, destroy the original body,
+-- then restore cheat_mode (the engine resets it on controller change) and reapply the
+-- character-dependent cheats.
+local function move_player_with_character(player, target_surface, dest)
+  local old_char = player.character
+  -- Capture cheat_mode now; binding to a new character resets it.
+  local was_cheat = player.cheat_mode
+  -- Clone the body onto the destination surface (carries inventory + equipment grid).
+  local clone = old_char.clone({ position = dest, surface = target_surface })
+  -- Teleport the player to the destination so the new character is on the same surface.
+  player.teleport(dest, target_surface)
+  if clone and clone.valid then
+    -- Bind the player to the clone and remove the original body.
+    player.character = clone
+    old_char.destroy()
+  end
+  -- Restore cheat_mode and character-dependent cheats after the controller change.
+  player.cheat_mode = was_cheat
+  apply_character_cheats_to_player(player)
+end
+
 -- Data about all personal cheats.
 cheats.personal_cheats_data = {
   -- Function for checking whether the target is self of the source player.
@@ -1705,9 +1729,16 @@ cheats.teleport_cheats_data = {
           return nil
         end
         local dest = compute_safe_position(source_player, target_surface)
-        -- Phase 2: god/spectator path only. Character handling and same-surface
-        -- reposition are added in Phase 3.
-        source_player.teleport(dest, target_surface)
+        if source_player.surface == target_surface then
+          -- Same-surface selection: reposition to a fresh safe spot on the current surface.
+          source_player.teleport(dest)
+        elseif source_player.character then
+          -- Player is controlling a character: bring the body along (clone protocol).
+          move_player_with_character(source_player, target_surface, dest)
+        else
+          -- God/spectator: clean single cross-surface teleport.
+          source_player.teleport(dest, target_surface)
+        end
         return nil
       end,
       print_applied_by_admin_message_function = function(source_player, surface, value)
