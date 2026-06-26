@@ -37,12 +37,16 @@ Result contract:
 
 import argparse
 import json
+import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
+import time
 from pathlib import Path
 
+import rcon
 import sandbox
 
 # ---------------------------------------------------------------------------
@@ -199,12 +203,178 @@ def cmd_load(args: argparse.Namespace) -> int:
     return result("load", True)
 
 
+# ---------------------------------------------------------------------------
+# behavior — boot a real headless server, poll RCON, run read-only assertions,
+# then terminate + reap under a hard watchdog so the call always returns.
+# ---------------------------------------------------------------------------
+def _poll_rcon_ready(sb: sandbox.Sandbox, server: subprocess.Popen, deadline: float) -> bool:
+    """Poll RCON (connect + auth handshake) until the server answers or we time out.
+
+    Decision (outline): use RCON polling for the ready signal — no log scraping.
+    A trivial command that round-trips proves the server is up, RCON is bound,
+    and the auth password is accepted. Returns False if the deadline passes or
+    the server process dies before it ever answers.
+    """
+    while time.monotonic() < deadline:
+        if server.poll() is not None:
+            # Server exited before becoming ready — never going to answer.
+            return False
+        # rcon.rcon_exec prints to stderr and raises SystemExit on a refused
+        # connection (its standalone-CLI behavior). During polling that is the
+        # expected "not up yet" case, so silence stderr for these probe attempts
+        # to avoid spamming the agent's output on every retry.
+        with open(os.devnull, "w") as devnull:
+            saved_stderr = sys.stderr
+            sys.stderr = devnull
+            try:
+                rcon.rcon_exec("localhost", sb.rcon_port, sb.rcon_password, "/c rcon.print(1)")
+            except (ConnectionRefusedError, ConnectionError, OSError, TimeoutError, SystemExit):
+                time.sleep(0.25)
+                continue
+            finally:
+                sys.stderr = saved_stderr
+        return True
+    return False
+
+
+def _terminate_server(server: subprocess.Popen) -> None:
+    """Terminate and reap the server's whole process group (SIGTERM -> SIGKILL).
+
+    The server was started in its own session (start_new_session=True), so signal
+    the process group to take down any children; escalate to SIGKILL if it does
+    not exit promptly. Always reaps so no orphaned factorio process is left.
+    """
+    if server.poll() is not None:
+        server.wait()
+        return
+    try:
+        pgid = os.getpgid(server.pid)
+    except ProcessLookupError:
+        return
+    try:
+        os.killpg(pgid, signal.SIGTERM)
+    except ProcessLookupError:
+        return
+    try:
+        server.wait(timeout=10)
+        return
+    except subprocess.TimeoutExpired:
+        pass
+    try:
+        os.killpg(pgid, signal.SIGKILL)
+    except ProcessLookupError:
+        return
+    try:
+        server.wait(timeout=10)
+    except subprocess.TimeoutExpired:
+        pass
+
+
+def _assert_rcon(sb: sandbox.Sandbox, cmd: str, expected: str, name: str) -> bool:
+    """Run one read-only RCON assertion and print its per-assertion line.
+
+    Any RCON-layer failure (a Lua error that makes the server drop the response,
+    a closed connection, a refused socket) is treated as an assertion FAIL with
+    the error surfaced as the observed value — never an unhandled traceback — so
+    the command still terminates with a single RESULT line.
+    """
+    try:
+        out = rcon.rcon_exec("localhost", sb.rcon_port, sb.rcon_password, cmd).strip()
+    except (ConnectionError, OSError, TimeoutError) as exc:
+        print(f"assert {name}=FAIL (expected {expected!r} got rcon-error {exc!r})")
+        return False
+    except SystemExit:
+        # rcon.py's standalone helper exits on connection refusal/auth failure.
+        print(f"assert {name}=FAIL (expected {expected!r} got rcon-connection-failed)")
+        return False
+    ok = out == expected
+    print(f"assert {name}={'PASS' if ok else 'FAIL'} (expected {expected!r} got {out!r})")
+    return ok
+
+
 def cmd_behavior(args: argparse.Namespace) -> int:
-    return _not_implemented("behavior")
+    """Boot the headless server, poll RCON, run the read-only assertion batch.
+
+    The batch is fully read-only this phase (decision: no GUI-driven enable on a
+    headless server with no connected player):
+      - storage_initialized: storage.creative_mode ~= nil  (on_init ran -> this
+        is also the runtime confirmation of the silent-crash guard)
+      - default_disabled:     storage.creative_mode.enabled == false
+
+    The server is always terminated and reaped under a hard watchdog so the call
+    returns even if it hangs or never becomes ready.
+    """
+    sb = sandbox.bootstrap_sandbox(clean=getattr(args, "clean", False))
+    # The save must exist before --start-server; run the cheap load gate's
+    # --create if it is missing (or was just cleaned).
+    if not sb.save_file.exists():
+        sandbox.run_create(sb, timeout=args.timeout)
+
+    server = sandbox.start_server(sb)
+    try:
+        ready_deadline = time.monotonic() + args.ready_timeout
+        if not _poll_rcon_ready(sb, server, ready_deadline):
+            return result("behavior", False, "server not ready")
+
+        # NOTE: a bare RCON "/c" command runs in the *level/scenario* script
+        # context, where the global ``storage`` is the scenario's storage — NOT
+        # creative-mod's per-mod storage. Reading ``storage.creative_mode``
+        # directly therefore always sees nil even when the mod initialized fine.
+        # Drive the mod's own remote interface instead so the read executes in
+        # the mod's context (where ``storage`` is creative-mod's storage).
+        #
+        # storage_initialized: remote.call into the mod succeeds (storage.creative_mode
+        #   and its .enabled field are reachable) — this is also the runtime
+        #   confirmation of the silent-crash guard (on_init ran to completion).
+        # default_disabled:    that same call returns false (creative mode off by default).
+        results = [
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(pcall(function() '
+                'return remote.call("creative-mode", "is_enabled") end)))',
+                "true",
+                "storage_initialized",
+            ),
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "is_enabled")))',
+                "false",
+                "default_disabled",
+            ),
+        ]
+    finally:
+        _terminate_server(server)
+
+    if all(results):
+        return result("behavior", True)
+    failed = [name for name, ok in zip(("storage_initialized", "default_disabled"), results) if not ok]
+    return result("behavior", False, "assert " + ", ".join(failed))
 
 
+# ---------------------------------------------------------------------------
+# all — run static -> load -> behavior, aggregate into one RESULT line.
+# ---------------------------------------------------------------------------
 def cmd_all(args: argparse.Namespace) -> int:
-    return _not_implemented("all")
+    """Run the three layers in order and aggregate into a single RESULT line.
+
+    Each layer prints its own RESULT line as it runs (so partial progress is
+    visible / greppable), then ``all`` emits a combined
+    ``RESULT: all=... (static=... load=... behavior=...)`` and exits non-zero if
+    any layer failed. Layers are not short-circuited — a full run reports every
+    layer's verdict so the agent sees the whole picture in one shot.
+    """
+    static_rc = cmd_static(args)
+    load_rc = cmd_load(args)
+    behavior_rc = cmd_behavior(args)
+
+    def label(name: str, rc: int) -> str:
+        return f"{name}={'PASS' if rc == 0 else 'FAIL'}"
+
+    detail = " ".join(
+        (label("static", static_rc), label("load", load_rc), label("behavior", behavior_rc))
+    )
+    ok = static_rc == 0 and load_rc == 0 and behavior_rc == 0
+    return result("all", ok, "" if ok else detail)
 
 
 def cmd_debug(args: argparse.Namespace) -> int:
@@ -241,8 +411,32 @@ def build_parser() -> argparse.ArgumentParser:
     )
     load_parser.set_defaults(func=cmd_load)
 
-    sub.add_parser("behavior", help="(phase 3) headless server + RCON assertions").set_defaults(func=cmd_behavior)
-    sub.add_parser("all", help="(phase 3) static -> load -> behavior").set_defaults(func=cmd_all)
+    def add_run_args(p: argparse.ArgumentParser) -> None:
+        p.add_argument(
+            "--clean",
+            action="store_true",
+            help="recreate the debug save from scratch (default reuses for a fast loop)",
+        )
+        p.add_argument(
+            "--timeout",
+            type=float,
+            default=180.0,
+            help="hard timeout (seconds) for the --create stage (default: 180)",
+        )
+        p.add_argument(
+            "--ready-timeout",
+            type=float,
+            default=120.0,
+            help="hard timeout (seconds) to wait for the server to answer RCON (default: 120)",
+        )
+
+    behavior_parser = sub.add_parser("behavior", help="headless server + RCON assertion batch")
+    add_run_args(behavior_parser)
+    behavior_parser.set_defaults(func=cmd_behavior)
+
+    all_parser = sub.add_parser("all", help="static -> load -> behavior in sequence")
+    add_run_args(all_parser)
+    all_parser.set_defaults(func=cmd_all)
     sub.add_parser("debug", help="(phase 4) bounded scriptable debug session").set_defaults(func=cmd_debug)
     sub.add_parser("shell", help="(phase 4) bounded RCON pass-through").set_defaults(func=cmd_shell)
     sub.add_parser("doctor", help="preflight: factorio binary/version, uv, jq").set_defaults(func=cmd_doctor)

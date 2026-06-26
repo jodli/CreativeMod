@@ -167,3 +167,39 @@ def run_create(sandbox: Sandbox, timeout: float) -> str:
     # same text debug.sh tee'd into the log) — use it directly so a stale
     # factorio-current.log from an unrelated prior run can never leak in.
     return (proc.stdout or "") + "\n" + (proc.stderr or "")
+
+
+def start_server(sandbox: Sandbox) -> subprocess.Popen:
+    """Launch the headless server non-interactively and return the Popen handle.
+
+    Mirrors debug.sh's final ``--start-server`` invocation (config + mod dir +
+    RCON port/password + console log + disabled audio), but as a background
+    process the caller owns: verify.py polls RCON until the server answers, runs
+    its assertion batch, then terminates and reaps this handle under a watchdog.
+
+    Unlike debug.sh this never ``exec``s/blocks — the process is detached into a
+    new session so the whole tree (and any children) can be signalled and reaped
+    cleanly even if the call is interrupted.
+    """
+    return subprocess.Popen(  # noqa: S603 — fixed, self-located argv; no shell
+        [
+            str(FACTORIO_BIN),
+            "--config",
+            str(sandbox.config_file),
+            "--mod-directory",
+            str(sandbox.mods_dir),
+            "--start-server",
+            str(sandbox.save_file),
+            "--rcon-port",
+            str(sandbox.rcon_port),
+            "--rcon-password",
+            sandbox.rcon_password,
+            "--console-log",
+            str(sandbox.console_log),
+            "--disable-audio",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        start_new_session=True,
+    )
