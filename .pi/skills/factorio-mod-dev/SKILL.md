@@ -70,6 +70,20 @@ Output channels for the values you inspect:
 → See `DEBUGGING.md` (this skill folder) for debugging methodology and porting guide.
 → See `RELEASE.md` (this skill folder) for release checklist and GitHub Actions workflow reference.
 
+## Changelog & versioning
+
+Every PR that changes user-facing behavior (a feature, bugfix, or change) **must
+include a `changelog.txt` entry in the same PR** — it is part of the feature, not
+a separate step.
+
+- Prepend the entry at the **top** of `changelog.txt` using the documented format,
+  under the right section (`Features:` / `Bugfixes:` / `Changes:`). Set the
+  `Version:` header to the next release version (pick the bump from the version
+  table in `RELEASE.md`: new user-facing feature → minor; bugfix → patch).
+- **Do not bump `info.json` in the feature PR.** The `info.json` version bump and
+  the git tag happen together as a dedicated release step on `master` — see
+  `RELEASE.md`. This keeps feature branches free of version churn/conflicts.
+
 ## Base game as a reference
 
 The full Factorio base mod ships with the install and is readable on disk:
