@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.2.0
+Date: 2026-06-27
+  Features:
+    - Add cross-surface teleport. A new Teleport tab lets you teleport yourself to a safe position on any existing surface (Nauvis, other planets, or space platforms), both in god mode and with a character. Access is gated by a new "teleport" right (admin only / current surface only / free).
+---------------------------------------------------------------------------------------------------
 Version: 2.1.6
 Date: 2026-06-25
   Bugfixes:
