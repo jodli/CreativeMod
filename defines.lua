@@ -686,6 +686,11 @@ creative_mode_defines.names.gui = {
   enemy_expansion_label = creative_mode_defines.name_prefix .. "enemy-expansion-label",
   enemy_expansion_on_button = creative_mode_defines.name_prefix .. "enemy-expansion-on-button",
   enemy_expansion_off_button = creative_mode_defines.name_prefix .. "enemy-expansion-off-button",
+  asteroid_spawning_rate_container = creative_mode_defines.name_prefix .. "asteroid-spawning-rate-container",
+  asteroid_spawning_rate_label = creative_mode_defines.name_prefix .. "asteroid-spawning-rate-label",
+  asteroid_spawning_rate_textfield = creative_mode_defines.name_prefix .. "asteroid-spawning-rate-textfield",
+  asteroid_spawning_rate_separator = creative_mode_defines.name_prefix .. "asteroid-spawning-rate-separator",
+  asteroid_spawning_rate_apply_button = creative_mode_defines.name_prefix .. "asteroid-spawning-rate-apply-button",
   enemy_expansion_min_cooldown_container = creative_mode_defines.name_prefix
     .. "enemy-expansion-min-cooldown-container",
   enemy_expansion_min_cooldown_label = creative_mode_defines.name_prefix .. "enemy-expansion-min-cooldown-label",

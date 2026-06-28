@@ -7,6 +7,7 @@ Date: ????
     - Add planet-surface creation to the Surface tab (Space Age only). Admins can pick a planet and create its surface; if the surface already exists the action is a harmless no-op, and any newly created surface immediately appears in the Surface Cheats target list.
     - Add a creative wall: an indestructible red wall. Enemies still target and attack it, but it instantly heals back to full and can never be destroyed. It works on any surface, including space platforms, and is enabled by the normal Creative tools' recipe sweep.
     - Add a creative thruster (Space Age only): a thruster that refuels itself every tick, keeping a space platform travelling at vanilla speed with no fuel or oxidizer chain to supply. Place it on a platform, set a route, and it travels with no fuel management.
+    - Add an "Asteroid spawning rate" input to the Game Settings cheats (Space Age only): a global multiplier for how often asteroids spawn around space platforms. Default is 1 (vanilla); set it to 0 to stop asteroids spawning entirely. Applies game-wide, not per surface.
   Changes:
     - Move the Surface Cheats menu from the Cheats tab into the Surface tab, grouping it with the surface-creation tools.
   Bugfixes:

@@ -1919,6 +1919,28 @@ cheats.global_cheats_data = {
       end,
       get_player_can_access_function = nil,
     },
+    asteroid_spawning_rate = {
+      is_default = false,
+      default_enable_value = 1,
+      default_disable_value = 1,
+      get_value_function = function(target)
+        return game.map_settings.asteroids.spawning_rate
+      end,
+      limit_value_before_apply_function = function(value)
+        -- Rate is a multiplier; clamp to a non-negative, safe range. 0 = no asteroids, 1 = vanilla.
+        return util.clamp(value, 0, 4294967296)
+      end,
+      apply_to_target_function = function(target, value, source_player)
+        game.map_settings.asteroids.spawning_rate = value
+        return nil
+      end,
+      print_applied_by_admin_message_function = function(source_player, target, value)
+        game.print({ "message.creative-mode_asteroid-spawning-rate-updated", source_player.name, value })
+      end,
+      get_player_can_access_function = function(player)
+        return script.feature_flags["space_travel"] == true
+      end,
+    },
     game_speed = {
       is_default = false,
       default_enable_value = 1,
