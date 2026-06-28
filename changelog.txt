@@ -9,6 +9,7 @@ Date: ????
     - Move the Surface Cheats menu from the Cheats tab into the Surface tab, grouping it with the surface-creation tools.
   Bugfixes:
     - Fix Teleport doing nothing useful while in remote view (map view): it now exits remote view first and teleports your actual character/player instead of just moving the remote-view camera.
+    - Fix magic wands (creator, healer, modifier) being unusable on space platforms and in remote view: add the "spawnable" item flag so the remote controller can hold them.
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.0
 Date: 2026-06-27

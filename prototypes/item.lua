@@ -604,6 +604,8 @@ data:extend({
     subgroup = creative_mode_defines.names.item_subgroups.magic_wands,
     order = "a",
     stack_size = 1,
+    -- "spawnable" lets the remote controller hold the wand, so it can be used in remote view (e.g. on space platforms).
+    flags = { "spawnable" },
     select = {
       border_color = { r = 0, g = 1, b = 0 },
       mode = { "any-tile" },
@@ -627,6 +629,8 @@ data:extend({
     subgroup = creative_mode_defines.names.item_subgroups.magic_wands,
     order = "b",
     stack_size = 1,
+    -- "spawnable" lets the remote controller hold the wand, so it can be used in remote view (e.g. on space platforms).
+    flags = { "spawnable" },
     select = {
       border_color = { r = 0, g = 1, b = 0 },
       mode = { "any-entity" },
@@ -648,6 +652,8 @@ data:extend({
     subgroup = creative_mode_defines.names.item_subgroups.magic_wands,
     order = "c",
     stack_size = 1,
+    -- "spawnable" lets the remote controller hold the wand, so it can be used in remote view (e.g. on space platforms).
+    flags = { "spawnable" },
     select = {
       border_color = { r = 0.5, g = 0, b = 1 },
       mode = { "any-entity" },
