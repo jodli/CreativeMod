@@ -1728,6 +1728,13 @@ cheats.teleport_cheats_data = {
         if not (target_surface and target_surface.valid and source_player) then
           return nil
         end
+        -- In remote view (map view) the active controller is the remote camera, so
+        -- source_player.surface/position and source_player.teleport() act on the camera, not the
+        -- physical body (since 2.1.7 teleport no longer implicitly exits remote view). Exit remote
+        -- view first so the rest of this function operates on, and moves, the real player.
+        if source_player.controller_type == defines.controllers.remote then
+          source_player.exit_remote_view()
+        end
         local dest = compute_safe_position(source_player, target_surface)
         if source_player.surface == target_surface then
           -- Same-surface selection: reposition to a fresh safe spot on the current surface.
