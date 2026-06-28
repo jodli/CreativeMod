@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.3.0
+Date: ????
+  Features:
+    - Add an admin-only Surface tab. Admins can create a new blank surface by typing a name; the surface immediately appears in the Surface Cheats target list for every connected player allowed to see other surfaces.
+---------------------------------------------------------------------------------------------------
 Version: 2.2.0
 Date: 2026-06-27
   Features:

@@ -24,6 +24,8 @@ require("scripts.gui-menu-admin")
 require("scripts.gui-menu-cheats")
 require("scripts.gui-menu-magicwand")
 require("scripts.gui-menu-modding")
+require("scripts.surface-creation")
+require("scripts.gui-menu-surface")
 require("scripts.gui-menu") -- It has to be loaded after the submenus.
 require("scripts.item-providers-util")
 require("scripts.item-source")
