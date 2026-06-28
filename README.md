@@ -17,6 +17,11 @@ This mod provides a suite of tools and entities that allow for creative building
 
 To use Creative Mode, simply enable the mod in the Factorio mod manager. Once enabled, you'll have access to the creative tools and entities in the game.
 
+## Development
+
+*   **GUI conventions:** see [`GUI-DESIGN-SYSTEM.md`](GUI-DESIGN-SYSTEM.md) for the menu hierarchy, styling vocabulary, event wiring, and backend/remote patterns to follow when adding menus.
+*   **Debugging & verification:** see [`DEBUG.md`](DEBUG.md).
+
 ## Credits
 
 This mod is based on the original Creative Mode mod by Y.Petremann, with patches by Pac0master, and also incorporates elements from the Test Mode mod by rk84. It is a fork of the Creative Mode (Fix for 0.16) by [Chrisgbk](https://mods.factorio.com/user/chrisgbk).
