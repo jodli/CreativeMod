@@ -142,6 +142,7 @@ creative_mode_defines.names.entities = {
   alien_attractor_proxy_medium = creative_mode_defines.name_prefix .. "alien-attractor-proxy-medium",
   alien_attractor_proxy_large = creative_mode_defines.name_prefix .. "alien-attractor-proxy-large",
   super_beacon = creative_mode_defines.name_prefix .. "super-beacon",
+  creative_wall = creative_mode_defines.name_prefix .. "creative-wall",
 }
 -- Technology names
 creative_mode_defines.names.technology = {
@@ -209,6 +210,7 @@ creative_mode_defines.names.items = {
   alien_attractor_medium = creative_mode_defines.name_prefix .. "alien-attractor-medium",
   alien_attractor_large = creative_mode_defines.name_prefix .. "alien-attractor-large",
   super_beacon = creative_mode_defines.name_prefix .. "super-beacon",
+  creative_wall = creative_mode_defines.name_prefix .. "creative-wall",
   super_speed_module = creative_mode_defines.name_prefix .. "super-speed-module",
   super_effectivity_module = creative_mode_defines.name_prefix .. "super-effectivity-module",
   super_productivity_module = creative_mode_defines.name_prefix .. "super-productivity-module",
@@ -294,6 +296,7 @@ creative_mode_defines.names.recipes = {
   alien_attractor_medium = creative_mode_defines.name_prefix .. "alien-attractor-medium",
   alien_attractor_large = creative_mode_defines.name_prefix .. "alien-attractor-large",
   super_beacon = creative_mode_defines.name_prefix .. "super-beacon",
+  creative_wall = creative_mode_defines.name_prefix .. "creative-wall",
   super_speed_module = creative_mode_defines.name_prefix .. "super-speed-module",
   super_effectivity_module = creative_mode_defines.name_prefix .. "super-effectivity-module",
   super_productivity_module = creative_mode_defines.name_prefix .. "super-productivity-module",

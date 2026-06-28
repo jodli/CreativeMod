@@ -402,6 +402,19 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "1",
                 "create_planet_surface_no_duplicate",
             ),
+            # creative_wall_indestructible: place the creative wall, then deal a large damage hit.
+            # The wall stays a normal *destructible* target, but the mod's on_entity_damaged handler
+            # heals it back to full, so it survives and ends at max_health. (Damage is well below
+            # max_health, matching how the wall actually survives in play: it heals every hit.)
+            _assert_rcon(
+                sb,
+                '/c local surf = game.surfaces["nauvis"] '
+                'local e = surf.create_entity{name="creative-mod_creative-wall", position={200, 200}, force="player", raise_built=true} '
+                'e.damage(5000, game.forces.player, "impact") '
+                "rcon.print(tostring(e.valid and e.destructible == true and e.health == e.max_health))",
+                "true",
+                "creative_wall_indestructible",
+            ),
         ]
     finally:
         _terminate_server(server)
@@ -422,6 +435,7 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "create_planet_surface_exists",
                 "create_planet_surface_noop",
                 "create_planet_surface_no_duplicate",
+                "creative_wall_indestructible",
             ),
             results,
         )

@@ -742,6 +742,30 @@ data:extend({
     stack_size = 50,
   },
   {
+    -- Creative wall
+    type = "item",
+    name = creative_mode_defines.names.items.creative_wall,
+    icon_size = 64,
+    -- Tinted red to match the mod's other creative entities.
+    icons = {
+      {
+        icon = "__base__/graphics/icons/wall.png",
+        tint = {
+          r = 1,
+          g = 0.3,
+          b = 0.3,
+        },
+      },
+    },
+    hidden = hidden,
+    subgroup = creative_mode_defines.names.item_subgroups.advanced,
+    order = "g",
+    place_result = creative_mode_defines.names.entities.creative_wall,
+    stack_size = 50,
+    -- "spawnable" lets the remote controller hold the item, so it can be placed in remote view (e.g. on space platforms).
+    flags = { "spawnable" },
+  },
+  {
     -- Super speed module.
     type = "module",
     name = creative_mode_defines.names.recipes.super_speed_module,

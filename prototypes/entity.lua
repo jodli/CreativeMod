@@ -2898,6 +2898,52 @@ data:extend({
   },
 })
 
+-- Creative wall: a clone of the base stone-wall. It stays a normal *destructible* target so
+-- biters path to it and asteroids hit it, but it is healed back to full on every hit by the
+-- on_entity_damaged handler in scripts/events.lua, so it can never be destroyed. (Setting
+-- destructible = false was rejected: it removes the entity from the targeting system entirely,
+-- so nothing ever attacks it.) The very high max_health is defense-in-depth so no single hit
+-- one-shots it before the heal fires. It is a general creative building block, usable on any
+-- surface (including space platforms via the item's "spawnable" flag). Not Space-Age gated -
+-- it has no Space Age data dependency, so it loads and is craftable everywhere.
+local creative_wall = table.deepcopy(data.raw["wall"]["stone-wall"])
+creative_wall.name = creative_mode_defines.names.entities.creative_wall
+creative_wall.flags = { "placeable-player", "player-creation" }
+creative_wall.minable = {
+  mining_time = 0.2,
+  result = creative_mode_defines.names.items.creative_wall,
+}
+creative_wall.fast_replaceable_group = nil
+creative_wall.se_allow_in_space = true
+creative_wall.max_health = 1000000
+-- Tint the wall red to match the mod's other creative entities. Walls use a deeply nested
+-- WallPictures structure, so recursively tint every non-shadow sprite layer.
+local creative_entity_tint = { r = 1, g = 0.3, b = 0.3 }
+local function apply_creative_tint(sprite)
+  if type(sprite) ~= "table" then
+    return
+  end
+  if sprite.layers then
+    for _, layer in pairs(sprite.layers) do
+      apply_creative_tint(layer)
+    end
+    return
+  end
+  if sprite.filename then
+    -- Leave shadows untinted; only tint the visible sprite layers.
+    if not sprite.draw_as_shadow then
+      sprite.tint = table.deepcopy(creative_entity_tint)
+      sprite.apply_runtime_tint = false
+    end
+    return
+  end
+  for _, value in pairs(sprite) do
+    apply_creative_tint(value)
+  end
+end
+apply_creative_tint(creative_wall.pictures)
+data:extend({ creative_wall })
+
 -- Vanilla infinity chest already exists but has no description, so we add one.
 data.raw["infinity-container"]["infinity-chest"].localised_description = { "entity-description.infinity-chest" }
 -- It also needs it's gui mode set to match our setting.

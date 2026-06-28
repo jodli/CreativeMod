@@ -1426,3 +1426,18 @@ end
 function events.on_player_trash_inventory_changed(data)
   handle_player_trash_inventory_changed(data)
 end
+
+-- The mod's single on_entity_damaged handler. It is registered in control.lua with combined
+-- event filters (the creative wall's name, plus - once Phase 3 lands - impact damage) so it only
+-- fires for the cases we care about. Branches:
+--  * Creative wall: healed back to full on every hit so it can never be destroyed while still
+--    being a normal attack target. Ungated - works on vanilla.
+function events.on_entity_damaged(event)
+  local entity = event.entity
+  if not entity.valid then
+    return
+  end
+  if entity.name == creative_mode_defines.names.entities.creative_wall then
+    entity.health = entity.max_health
+  end
+end

@@ -55,6 +55,13 @@ script.on_event(defines.events.on_player_main_inventory_changed, events.on_playe
 script.on_event(defines.events.on_entity_logistic_slot_changed, events.on_entity_logistic_slot_changed)
 script.on_event(defines.events.on_player_trash_inventory_changed, events.on_player_trash_inventory_changed)
 
+-- on_entity_damaged is registered separately with event filters (the creative wall's name), so it
+-- must be excluded from the generic filterless loop below - otherwise this loop would re-register
+-- it without filters. Phase 3 will OR an impact damage-type filter into this same registration.
+script.on_event(defines.events.on_entity_damaged, events.on_entity_damaged, {
+  { filter = "name", name = creative_mode_defines.names.entities.creative_wall },
+})
+
 -- Other events.
 local events_except_on_tick = {}
 for _, event in pairs(defines.events) do
@@ -63,6 +70,7 @@ for _, event in pairs(defines.events) do
     and event ~= defines.events.on_player_main_inventory_changed
     and event ~= defines.events.on_entity_logistic_slot_changed
     and event ~= defines.events.on_player_trash_inventory_changed
+    and event ~= defines.events.on_entity_damaged
   then
     table.insert(events_except_on_tick, event)
   end
