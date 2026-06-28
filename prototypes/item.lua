@@ -890,3 +890,34 @@ data:extend({
     stack_size = 50,
   },
 })
+
+-- Creative thruster item. Defined only when Space Age is present, since its place_result entity
+-- (the creative thruster) only exists with Space Age.
+if mods["space-age"] then
+  data:extend({
+    {
+      -- Creative thruster
+      type = "item",
+      name = creative_mode_defines.names.items.creative_thruster,
+      icon_size = 64,
+      -- Tinted red to match the mod's other creative entities.
+      icons = {
+        {
+          icon = "__space-age__/graphics/icons/thruster.png",
+          tint = {
+            r = 1,
+            g = 0.3,
+            b = 0.3,
+          },
+        },
+      },
+      hidden = hidden,
+      subgroup = creative_mode_defines.names.item_subgroups.advanced,
+      order = "h",
+      place_result = creative_mode_defines.names.entities.creative_thruster,
+      stack_size = 50,
+      -- "spawnable" lets the remote controller hold the item, so it can be placed in remote view on space platforms.
+      flags = { "spawnable" },
+    },
+  })
+end

@@ -105,6 +105,7 @@ stds.creative_mod = {
     "creative_lab",
     "creative_mode_defines",
     "creative_provider_chest",
+    "creative_thruster",
     "duplicating_cargo_wagon",
     "duplicating_chest",
     "duplicating_chest_util",
