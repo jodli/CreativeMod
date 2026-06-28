@@ -147,8 +147,20 @@ local section_data = {
     space_age_only = true,
     build_content = build_platform_section_content,
   },
+  -- The surface-cheats section reuses the existing Cheats machinery (its content frame is built by
+  -- gui_menu_cheats), so instead of a generic build_content it delegates open/close to that module.
+  -- Its column button is gated on the surface-cheats access right (see the menu builder below).
+  surface_cheats = {
+    button_name = creative_mode_defines.names.gui.surface_cheats_menu_button,
+    button_caption = { "gui.creative-mode_surface-cheats" },
+    space_age_only = false,
+    get_player_can_access_function = rights.can_player_access_surface_cheats_menu,
+    create_or_destroy = function(player, destroy_only)
+      gui_menu_cheats.create_or_destroy_surface_cheats_menu_for_player(player, destroy_only)
+    end,
+  },
 }
-local section_order = { "blank", "platform" }
+local section_order = { "blank", "platform", "surface_cheats" }
 
 -- Returns whether the given section is currently available (built) for this configuration.
 local function is_section_available(data)
@@ -161,6 +173,12 @@ end
 -- mirroring the Cheats submenu's create_or_destroy_cheats_menu_for_player toggle. If destroy_only is
 -- true, an open frame is only closed (never opened).
 local function create_or_destroy_section_for_player(player, data, destroy_only)
+  -- Sections may delegate their open/close to a custom function (e.g. the surface-cheats section,
+  -- whose content is built by the generic Cheats machinery) instead of the generic frame path.
+  if data.create_or_destroy then
+    data.create_or_destroy(player, destroy_only)
+    return
+  end
   local left = mod_gui.get_frame_flow(player)
   local container = left[creative_mode_defines.names.gui.main_menu_container]
   if not container then
@@ -218,12 +236,17 @@ function gui_menu_surface.create_or_destroy_menu_for_player(player)
       for _, key in ipairs(section_order) do
         local data = section_data[key]
         if is_section_available(data) then
-          surface_menu_frame.add({
+          local button = surface_menu_frame.add({
             type = "button",
             name = data.button_name,
             style = creative_mode_defines.names.gui_styles.main_menu_button,
             caption = data.button_caption,
           })
+          -- Gate visibility by the section's access right when it defines one, mirroring the Cheats
+          -- column (button.visible = data.get_player_can_access_function(player)).
+          if data.get_player_can_access_function then
+            button.visible = data.get_player_can_access_function(player)
+          end
         end
       end
     end

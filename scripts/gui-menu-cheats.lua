@@ -1336,13 +1336,6 @@ local cheats_menus_gui_data = {
       get_player_can_access_function = rights.can_player_access_team_cheats_menu,
       cheats_menu_gui_data = team_cheats_menu_gui_data,
     },
-    surface_cheats = {
-      button_name = creative_mode_defines.names.gui.surface_cheats_menu_button,
-      button_caption = { "gui.creative-mode_surface-cheats" },
-      access_right_code = rights.access_surface_cheats_code,
-      get_player_can_access_function = rights.can_player_access_surface_cheats_menu,
-      cheats_menu_gui_data = surface_cheats_menu_gui_data,
-    },
     teleport = {
       button_name = creative_mode_defines.names.gui.teleport_menu_button,
       button_caption = { "gui.creative-mode_teleport" },
@@ -1362,6 +1355,30 @@ local cheats_menus_gui_data = {
 -- Set parent.
 for _, data in pairs(cheats_menus_gui_data.contents) do
   data.cheats_menu_gui_data.parent = cheats_menus_gui_data
+end
+
+-- GUI data about the surface cheats menu, which now lives in the Surface submenu instead of the
+-- Cheats submenu. It mirrors the cheats_menus_gui_data shape so the generic cheats machinery
+-- (create/destroy, target buttons, select-all, cheat toggles, live refresh) keeps working, but its
+-- content frame is opened inside the Surface container instead. Note that gui_menu_surface is
+-- required after this file, so get_container_name is resolved lazily at runtime via a wrapper.
+local surface_cheats_menus_gui_data = {
+  get_container_name_function = function()
+    return gui_menu_surface.get_container_name()
+  end,
+  contents = {
+    surface_cheats = {
+      button_name = creative_mode_defines.names.gui.surface_cheats_menu_button,
+      button_caption = { "gui.creative-mode_surface-cheats" },
+      access_right_code = rights.access_surface_cheats_code,
+      get_player_can_access_function = rights.can_player_access_surface_cheats_menu,
+      cheats_menu_gui_data = surface_cheats_menu_gui_data,
+    },
+  },
+}
+-- Set parent.
+for _, data in pairs(surface_cheats_menus_gui_data.contents) do
+  data.cheats_menu_gui_data.parent = surface_cheats_menus_gui_data
 end
 
 -----
@@ -2746,6 +2763,13 @@ local function create_or_destroy_cheats_menu_for_player(player, cheats_menu_gui_
   end
 end
 
+-- Creates or destroys the surface cheats menu for the given player. The surface cheats menu now
+-- lives in the Surface submenu, so its content frame is opened inside the Surface container. This
+-- wrapper exposes the otherwise-local generic toggle so gui_menu_surface can delegate to it.
+function gui_menu_cheats.create_or_destroy_surface_cheats_menu_for_player(player, destroy_only)
+  create_or_destroy_cheats_menu_for_player(player, surface_cheats_menu_gui_data, destroy_only)
+end
+
 --------------------------------------------------------------------
 
 -- Updates the target list of the cheats menu of given cheats menu GUI data in the given outer table with its data for the given player.
@@ -3801,6 +3825,23 @@ function gui_menu_cheats.on_gui_click(element, element_name, player, button, alt
       control,
       shift,
       build_options_menus_gui_data
+    )
+  then
+    return true
+  end
+
+  -- Detect for the surface cheats menu (its content now lives in the Surface submenu, but its
+  -- target buttons / select-all / cheat toggles are still handled by the cheats click fan-out).
+  if
+    on_gui_click_in_cheats_menus_gui_data_contents(
+      element,
+      element_name,
+      player,
+      button,
+      alt,
+      control,
+      shift,
+      surface_cheats_menus_gui_data
     )
   then
     return true
