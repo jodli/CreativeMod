@@ -78,14 +78,16 @@ so new menus match the rest of the UI:
 | Form label | `cheat_name_label` |
 | Text input | `cheat_numeric_textfield` |
 | Spacer between input and button | `cheat_textfield_and_button_separate_flow` |
-| Apply / action button | `cheat_apply_button` |
+| Apply / action button (short caption) | `cheat_apply_button` |
+| Action button (longer caption, auto-sized) | `small_default_bold_button` |
 
 A captioned `frame` renders its `caption` as a title bar — that is how submenus/sub-sub-menus get
 their heading; no separate title-bar helper exists.
 
-**Gotcha:** `cheat_apply_button` has a fixed width sized for short captions (e.g. "Apply") and
-clips longer ones like "Create" → "Cre...". When the caption is longer, set
-`button.style.minimal_width = 80` after creating it.
+**Gotcha:** `cheat_apply_button` has a *fixed* width sized for short captions (e.g. "Apply") and
+clips longer ones like "Create" → "Cre...". A runtime `minimal_width` cannot grow past a fixed
+width, so for a longer caption use its parent style `small_default_bold_button` instead — same bold
+apply-button look, but auto-sizes to the caption.
 
 ## Event wiring
 

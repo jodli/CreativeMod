@@ -372,6 +372,36 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "create_space_platform_hub_valid",
             ),
+            # create_planet_surface: the sandbox has Space Age, so the happy-path is testable.
+            # A fresh call creates the planet's surface (true).
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "create_planet_surface", "nauvis")))',
+                "true",
+                "create_planet_surface_new",
+            ),
+            # The planet's surface now exists.
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(game.planets["nauvis"].surface ~= nil))',
+                "true",
+                "create_planet_surface_exists",
+            ),
+            # A second identical call is a no-op and still returns true.
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "create_planet_surface", "nauvis")))',
+                "true",
+                "create_planet_surface_noop",
+            ),
+            # No second surface was created: the planet still has exactly one surface, and the
+            # nauvis-named surface count is unchanged (1).
+            _assert_rcon(
+                sb,
+                '/c local n = 0 for _, surf in pairs(game.surfaces) do if surf.name == "nauvis" then n = n + 1 end end rcon.print(tostring(n))',
+                "1",
+                "create_planet_surface_no_duplicate",
+            ),
         ]
     finally:
         _terminate_server(server)
@@ -386,6 +416,12 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "default_disabled",
                 "create_blank_surface_new",
                 "create_blank_surface_duplicate",
+                "create_space_platform_new",
+                "create_space_platform_hub_valid",
+                "create_planet_surface_new",
+                "create_planet_surface_exists",
+                "create_planet_surface_noop",
+                "create_planet_surface_no_duplicate",
             ),
             results,
         )

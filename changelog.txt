@@ -4,6 +4,7 @@ Date: ????
   Features:
     - Add an admin-only Surface tab. Admins can create a new blank surface by typing a name; the surface immediately appears in the Surface Cheats target list for every connected player allowed to see other surfaces.
     - Add space-platform creation to the Surface tab (Space Age only). Admins can type a name and pick the planet to orbit; the platform comes up with a hub already placed and its surface immediately appears in the Surface Cheats target list.
+    - Add planet-surface creation to the Surface tab (Space Age only). Admins can pick a planet and create its surface; if the surface already exists the action is a harmless no-op, and any newly created surface immediately appears in the Surface Cheats target list.
   Changes:
     - Move the Surface Cheats menu from the Cheats tab into the Surface tab, grouping it with the surface-creation tools.
 ---------------------------------------------------------------------------------------------------

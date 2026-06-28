@@ -76,3 +76,37 @@ function surface_creation.create_space_platform(force, name, planet_id)
 
   return true, platform.surface
 end
+
+-- Creates the surface for the given planet.
+-- Space-Age-only: refuses on configurations without the "space_travel" feature flag.
+-- LuaPlanet::create_surface() takes no arguments and is a no-op if the surface already exists, so
+-- a re-creation is reported as a success with an informational "already existed" result rather than
+-- an error.
+-- Returns:
+--   on success: true, { surface = surface, already_existed = boolean }
+--   on failure: false, localised-string error message
+function surface_creation.create_planet_surface(planet_id)
+  -- Feature-gate: planet surfaces only exist with Space Age.
+  if not script.feature_flags["space_travel"] then
+    return false, { "message.creative-mode_surface-creation-not-available-without-space-age" }
+  end
+
+  local planet = planet_id and game.planets[planet_id]
+  if not planet then
+    return false, { "message.creative-mode_surface-creation-planet-invalid-planet" }
+  end
+
+  -- A planet has at most one surface; if it already exists, create_surface() is a no-op.
+  local already_existed = planet.surface ~= nil
+
+  local surface = planet.create_surface()
+  -- create_surface() returns the surface; fall back to planet.surface for robustness.
+  surface = surface or planet.surface
+  if not surface then
+    return false, { "message.creative-mode_surface-creation-planet-failed" }
+  end
+
+  -- Always return the same structured shape so callers can read result.already_existed safely
+  -- (indexing a raw LuaSurface for a missing key errors).
+  return true, { surface = surface, already_existed = already_existed }
+end
