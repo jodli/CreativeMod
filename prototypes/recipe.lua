@@ -460,6 +460,14 @@ data:extend({
     enabled = false,
   },
   {
+    -- Creative wall
+    type = "recipe",
+    name = creative_mode_defines.names.recipes.creative_wall,
+    ingredients = {},
+    results = { { type = "item", name = creative_mode_defines.names.items.creative_wall, amount = 1 } },
+    enabled = false,
+  },
+  {
     -- Super speed module
     type = "recipe",
     name = creative_mode_defines.names.recipes.super_speed_module,
