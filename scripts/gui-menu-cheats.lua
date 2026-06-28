@@ -3169,6 +3169,15 @@ function gui_menu_cheats.on_player_changed_surface(event)
   )
 end
 
+-- Updates GUI when a new surface is created.
+function gui_menu_cheats.on_surface_created(event)
+  local surface = game.surfaces[event.surface_index]
+  if surface and surface.valid then
+    -- Add the new surface as an option in the surface cheats menu for all players who can see other surfaces.
+    add_or_remove_target_in_cheats_menu_for_all_players(surface, surface_cheats_menu_gui_data, true)
+  end
+end
+
 -- Detects on_gui_click event on the toggles of the cheats menu of given cheats menu GUI data for the given player.
 -- This is the first pass, meaning the element name detection should be straight forward, i.e. simple comparison.
 -- Returns whether the on_gui_click event is consumed.

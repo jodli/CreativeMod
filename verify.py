@@ -341,13 +341,39 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "false",
                 "default_disabled",
             ),
+            # create_blank_surface: a fresh name creates the surface (true), and a
+            # second call with the same name is rejected as a duplicate (false).
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "create_blank_surface", "cm_verify")))',
+                "true",
+                "create_blank_surface_new",
+            ),
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "create_blank_surface", "cm_verify")))',
+                "false",
+                "create_blank_surface_duplicate",
+            ),
         ]
     finally:
         _terminate_server(server)
 
     if all(results):
         return result("behavior", True)
-    failed = [name for name, ok in zip(("storage_initialized", "default_disabled"), results) if not ok]
+    failed = [
+        name
+        for name, ok in zip(
+            (
+                "storage_initialized",
+                "default_disabled",
+                "create_blank_surface_new",
+                "create_blank_surface_duplicate",
+            ),
+            results,
+        )
+        if not ok
+    ]
     return result("behavior", False, "assert " + ", ".join(failed))
 
 

@@ -1280,6 +1280,14 @@ creative_mode_defines.names.gui = {
     .. "item-void-can-remove-from-player-checkbox",
   item_void_can_remove_from_ground_checkbox = creative_mode_defines.name_prefix
     .. "item-void-can-remove-from-ground-checkbox",
+  -- Surface creation submenu.
+  main_menu_open_surface_button = creative_mode_defines.name_prefix .. "main-menu-open-surface-button",
+  surface_menus_container = creative_mode_defines.name_prefix .. "surface-menus-container",
+  surface_blank_frame = creative_mode_defines.name_prefix .. "surface-blank-frame",
+  surface_blank_container = creative_mode_defines.name_prefix .. "surface-blank-container",
+  surface_blank_name_label = creative_mode_defines.name_prefix .. "surface-blank-name-label",
+  surface_blank_name_textfield = creative_mode_defines.name_prefix .. "surface-blank-name-textfield",
+  surface_blank_create_button = creative_mode_defines.name_prefix .. "surface-blank-create-button",
   -- Legacy GUI. Used for finding and destroying the legacy "more cheats" popup.
   cheats_table = creative_mode_defines.name_prefix .. "cheats-table",
 }

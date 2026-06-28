@@ -575,6 +575,11 @@ local function on_player_changed_surface(event)
   gui.on_player_changed_surface(event)
 end
 
+-- Callback of the on_surface_created event, which is invoked after a new surface is created.
+local function on_surface_created(event)
+  gui.on_surface_created(event)
+end
+
 -- Callback of the on_player_cursor_stack_changed event, which is invoked after a player picks up or puts down an item stack.
 local function on_player_cursor_stack_changed(event)
   gui.on_player_cursor_stack_changed(event)
@@ -690,6 +695,7 @@ local event_handlers_look_up = {
   [defines.events.on_player_joined_game] = on_player_joined_game,
   [defines.events.on_player_left_game] = on_player_left_game,
   [defines.events.on_player_changed_surface] = on_player_changed_surface,
+  [defines.events.on_surface_created] = on_surface_created,
   [defines.events.on_player_selected_area] = on_player_selected_area,
   [defines.events.on_player_alt_selected_area] = on_player_alt_selected_area,
   [defines.events.on_player_cursor_stack_changed] = on_player_cursor_stack_changed,

@@ -79,6 +79,17 @@ remote_interface.remote_functions = {
   end,
   ------
 
+  -- Creates a new blank surface with the given name.
+  --	Parameters:
+  --		name :: string: name of the surface to create. For example, "my-surface".
+  --	Returns:
+  --		True if the surface was created. False if the name was empty, a duplicate, or creation failed.
+  create_blank_surface = function(name)
+    local success = surface_creation.create_blank_surface(name)
+    return success
+  end,
+  ------
+
   -- Registers the function in your remote interface to make it callable via the modding UI as the form of a button.
   -- You can provide additional data with the third optional table parameter. So far, only caption and tooltip are supported.
   -- This function can be used for updating the additional data as well.

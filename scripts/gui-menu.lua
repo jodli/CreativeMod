@@ -87,6 +87,16 @@ local submenus_gui_data = {
     open_submenu_for_player_function = gui_menu_admin.create_or_destroy_menu_for_player,
     update_accessibility_for_player_function = nil,
   },
+  surface = {
+    button_name = creative_mode_defines.names.gui.main_menu_open_surface_button,
+    button_caption = { "gui.creative-mode_surface" },
+    get_player_can_access_function = function(player)
+      return player.admin
+    end,
+    get_submenu_container_name_function = gui_menu_surface.get_container_name,
+    open_submenu_for_player_function = gui_menu_surface.create_or_destroy_menu_for_player,
+    update_accessibility_for_player_function = nil,
+  },
 }
 
 -- Destroys the Creative Mode main menu for the given player if it is already opened.
@@ -286,6 +296,11 @@ function gui_menu.on_player_changed_surface(event)
   gui_menu_cheats.on_player_changed_surface(event)
 end
 
+-- Updates GUI when a new surface is created.
+function gui_menu.on_surface_created(event)
+  gui_menu_cheats.on_surface_created(event)
+end
+
 -- Callback of the on_gui_click event, extended from gui.lua.
 -- Returns whether the event is consumed.
 function gui_menu.on_gui_click(element, element_name, player, button, alt, control, shift)
@@ -326,6 +341,9 @@ function gui_menu.on_gui_click(element, element_name, player, button, alt, contr
     return true
   end
   if gui_menu_admin.on_gui_click(element, element_name, player, button, alt, control, shift) then
+    return true
+  end
+  if gui_menu_surface.on_gui_click(element, element_name, player, button, alt, control, shift) then
     return true
   end
   return false

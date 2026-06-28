@@ -233,6 +233,11 @@ function gui.on_player_changed_surface(event)
   gui_menu.on_player_changed_surface(event)
 end
 
+-- Updates GUI when a new surface is created.
+function gui.on_surface_created(event)
+  gui_menu.on_surface_created(event)
+end
+
 function gui.on_player_cursor_stack_changed(event)
   gui_menu.on_player_cursor_stack_changed(event)
 end
