@@ -78,6 +78,9 @@ function global_util.initialize_or_update_global()
   if not storage.creative_mode.super_boiler then
     storage.creative_mode.super_boiler = {}
   end
+  if not storage.creative_mode.creative_thruster then
+    storage.creative_mode.creative_thruster = {}
+  end
   if not storage.creative_mode.super_cooler then
     storage.creative_mode.super_cooler = {}
   end
@@ -711,6 +714,9 @@ local register_entity_look_up_functions = {
   end,
   [creative_mode_defines.names.entities.super_boiler] = function(entity)
     table.insert(storage.creative_mode.super_boiler, entity)
+  end,
+  [creative_mode_defines.names.entities.creative_thruster] = function(entity)
+    table.insert(storage.creative_mode.creative_thruster, entity)
   end,
   [creative_mode_defines.names.entities.super_cooler] = function(entity)
     table.insert(storage.creative_mode.super_cooler, entity)

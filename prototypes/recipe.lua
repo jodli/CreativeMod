@@ -552,3 +552,18 @@ data:extend({
     enabled = false,
   },
 })
+
+-- Creative thruster recipe. Defined only when Space Age is present, since its result item only
+-- exists with Space Age. It is auto-enabled at runtime by the creative_tools_recipes sweep.
+if mods["space-age"] then
+  data:extend({
+    {
+      -- Creative thruster
+      type = "recipe",
+      name = creative_mode_defines.names.recipes.creative_thruster,
+      ingredients = {},
+      results = { { type = "item", name = creative_mode_defines.names.items.creative_thruster, amount = 1 } },
+      enabled = false,
+    },
+  })
+end

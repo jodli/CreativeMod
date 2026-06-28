@@ -415,7 +415,35 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "creative_wall_indestructible",
             ),
+            # creative_thruster_placed: place the creative thruster on the platform surface, with
+            # raise_built=true so the mod registers it into the tick loop. Stash the entity globally
+            # so a later command (after the server has ticked) can read its fluidboxes.
+            _assert_rcon(
+                sb,
+                '/c local s = nil for _, surf in pairs(game.surfaces) do if surf.platform and surf.platform.name == "cm_platform" then s = surf end end '
+                'local e = s.create_entity{name="creative-mod_creative-thruster", position=s.platform.hub.position, force="player", raise_built=true} '
+                "storage = storage or {} storage.cm_verify_thruster = e "
+                "rcon.print(tostring(e ~= nil and e.valid))",
+                "true",
+                "creative_thruster_placed",
+            ),
         ]
+        # Let the server tick so the per-tick refill runs on the just-placed thruster.
+        time.sleep(1.0)
+        results.append(
+            # creative_thruster_refuels: the thruster's fuel + oxidizer start empty; the per-tick
+            # refill tops both up to capacity (1000 each), proving the platform can travel with no
+            # player-supplied fuel chain.
+            _assert_rcon(
+                sb,
+                "/c local e = storage.cm_verify_thruster "
+                "if not (e and e.valid) then rcon.print('no-entity') return end "
+                "rcon.print(tostring(e.get_fluid_count('thruster-fuel') >= 1000 "
+                "and e.get_fluid_count('thruster-oxidizer') >= 1000))",
+                "true",
+                "creative_thruster_refuels",
+            )
+        )
     finally:
         _terminate_server(server)
 
@@ -436,6 +464,8 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "create_planet_surface_noop",
                 "create_planet_surface_no_duplicate",
                 "creative_wall_indestructible",
+                "creative_thruster_placed",
+                "creative_thruster_refuels",
             ),
             results,
         )

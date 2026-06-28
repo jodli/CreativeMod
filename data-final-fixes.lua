@@ -321,3 +321,66 @@ for _, name in pairs(finite_resource_names) do
 
   data:extend({ resource })
 end
+
+--------------------------------------------------------------
+
+-- Creative thruster: a clone of the vanilla Space Age thruster that keeps the normal performance
+-- curve (so it produces real thrust at vanilla speed). Its fuel + oxidizer fluidboxes are topped
+-- off every tick by scripts/creative-thruster.lua, so the platform travels with no fuel chain to
+-- manage. Defined only when Space Age is present (its filtered fluidboxes reference the
+-- thruster-fuel / thruster-oxidizer fluids, which only exist in the space-age mod). Done in
+-- data-final-fixes so the vanilla "thruster" prototype is guaranteed to exist before we clone it.
+if mods["space-age"] and data.raw["thruster"] and data.raw["thruster"]["thruster"] then
+  local creative_thruster = util.table.deepcopy(data.raw["thruster"]["thruster"])
+  creative_thruster.name = creative_mode_defines.names.entities.creative_thruster
+  -- Keep the vanilla thruster's entity flags. ("spawnable" is an *item* flag and lives on the
+  -- creative thruster item, letting the remote controller hold it for placement in remote view.)
+  creative_thruster.flags = {
+    "placeable-neutral",
+    "placeable-player",
+    "player-creation",
+    "not-rotatable",
+  }
+  creative_thruster.minable = {
+    mining_time = 0.1,
+    result = creative_mode_defines.names.items.creative_thruster,
+  }
+  creative_thruster.fast_replaceable_group = nil
+
+  -- Tint the thruster body red to match the mod's other creative (spawn/source) entities, the same
+  -- convention used by the creative wall. Only the static body plates (animation + integration
+  -- patch) are tinted; shadow, glow and additive-blend layers (the exhaust flames) are left natural
+  -- so the effect still reads correctly.
+  local creative_entity_tint = { r = 1, g = 0.3, b = 0.3 }
+  local function apply_creative_tint(sprite)
+    if type(sprite) ~= "table" then
+      return
+    end
+    if sprite.layers then
+      for _, layer in pairs(sprite.layers) do
+        apply_creative_tint(layer)
+      end
+      return
+    end
+    if sprite.filename then
+      local is_effect = sprite.draw_as_shadow
+        or sprite.draw_as_glow
+        or sprite.draw_as_light
+        or (sprite.blend_mode ~= nil and sprite.blend_mode ~= "normal")
+      if not is_effect then
+        sprite.tint = util.table.deepcopy(creative_entity_tint)
+        sprite.apply_runtime_tint = false
+      end
+      return
+    end
+    for _, value in pairs(sprite) do
+      apply_creative_tint(value)
+    end
+  end
+  if creative_thruster.graphics_set then
+    apply_creative_tint(creative_thruster.graphics_set.animation)
+    apply_creative_tint(creative_thruster.graphics_set.integration_patch)
+  end
+
+  data:extend({ creative_thruster })
+end
