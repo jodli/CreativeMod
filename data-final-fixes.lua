@@ -346,41 +346,9 @@ if mods["space-age"] and data.raw["thruster"] and data.raw["thruster"]["thruster
     result = creative_mode_defines.names.items.creative_thruster,
   }
   creative_thruster.fast_replaceable_group = nil
-
-  -- Tint the thruster body red to match the mod's other creative (spawn/source) entities, the same
-  -- convention used by the creative wall. Only the static body plates (animation + integration
-  -- patch) are tinted; shadow, glow and additive-blend layers (the exhaust flames) are left natural
-  -- so the effect still reads correctly.
-  local creative_entity_tint = { r = 1, g = 0.3, b = 0.3 }
-  local function apply_creative_tint(sprite)
-    if type(sprite) ~= "table" then
-      return
-    end
-    if sprite.layers then
-      for _, layer in pairs(sprite.layers) do
-        apply_creative_tint(layer)
-      end
-      return
-    end
-    if sprite.filename then
-      local is_effect = sprite.draw_as_shadow
-        or sprite.draw_as_glow
-        or sprite.draw_as_light
-        or (sprite.blend_mode ~= nil and sprite.blend_mode ~= "normal")
-      if not is_effect then
-        sprite.tint = util.table.deepcopy(creative_entity_tint)
-        sprite.apply_runtime_tint = false
-      end
-      return
-    end
-    for _, value in pairs(sprite) do
-      apply_creative_tint(value)
-    end
-  end
-  if creative_thruster.graphics_set then
-    apply_creative_tint(creative_thruster.graphics_set.animation)
-    apply_creative_tint(creative_thruster.graphics_set.integration_patch)
-  end
-
+  -- The placed thruster keeps its vanilla graphics: its detailed animated body doesn't take a flat
+  -- tint cleanly (only the integration patch picked it up, leaving a patchy half-red look). The
+  -- creative variant is instead marked by its red item icon (see prototypes/item.lua), matching the
+  -- convention used for the mod's other creative entities.
   data:extend({ creative_thruster })
 end
