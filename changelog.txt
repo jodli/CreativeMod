@@ -7,6 +7,8 @@ Date: ????
     - Add planet-surface creation to the Surface tab (Space Age only). Admins can pick a planet and create its surface; if the surface already exists the action is a harmless no-op, and any newly created surface immediately appears in the Surface Cheats target list.
   Changes:
     - Move the Surface Cheats menu from the Cheats tab into the Surface tab, grouping it with the surface-creation tools.
+  Bugfixes:
+    - Fix Teleport doing nothing useful while in remote view (map view): it now exits remote view first and teleports your actual character/player instead of just moving the remote-view camera.
 ---------------------------------------------------------------------------------------------------
 Version: 2.2.0
 Date: 2026-06-27
