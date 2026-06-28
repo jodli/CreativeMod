@@ -394,5 +394,8 @@ function gui_menu.on_gui_selection_state_changed(element, element_name, player)
   if gui_menu_magicwand.on_gui_selection_state_changed(element, element_name, player) then
     return true
   end
+  if gui_menu_surface.on_gui_selection_state_changed(element, element_name, player) then
+    return true
+  end
   return false
 end

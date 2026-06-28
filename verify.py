@@ -355,6 +355,23 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "false",
                 "create_blank_surface_duplicate",
             ),
+            # create_space_platform: the sandbox has Space Age, so the happy-path is testable.
+            # Headless has no connected player, so pass nil and let the wrapper resolve the
+            # default "player" force.
+            _assert_rcon(
+                sb,
+                '/c rcon.print(tostring(remote.call("creative-mode", "create_space_platform", nil, "cm_platform", "nauvis")))',
+                "true",
+                "create_space_platform_new",
+            ),
+            # The created platform's surface exists and its hub is valid.
+            _assert_rcon(
+                sb,
+                '/c local s = nil for _, surf in pairs(game.surfaces) do if surf.platform and surf.platform.name == "cm_platform" then s = surf end end '
+                "rcon.print(tostring(s ~= nil and s.platform.hub ~= nil and s.platform.hub.valid))",
+                "true",
+                "create_space_platform_hub_valid",
+            ),
         ]
     finally:
         _terminate_server(server)

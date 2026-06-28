@@ -1283,11 +1283,26 @@ creative_mode_defines.names.gui = {
   -- Surface creation submenu.
   main_menu_open_surface_button = creative_mode_defines.name_prefix .. "main-menu-open-surface-button",
   surface_menus_container = creative_mode_defines.name_prefix .. "surface-menus-container",
+  -- The button-column frame, exactly like the Cheats submenu's button frame: a captioned ("Surface")
+  -- vertical frame holding one button per section. Clicking a button opens that section's content
+  -- frame beside the column (the surface_*_frame content frames below).
+  surface_menu_frame = creative_mode_defines.name_prefix .. "surface-menu-frame",
+  -- Section column buttons (styled like the Cheats column buttons).
+  surface_nav_blank_button = creative_mode_defines.name_prefix .. "surface-nav-blank-button",
+  surface_nav_platform_button = creative_mode_defines.name_prefix .. "surface-nav-platform-button",
+  -- Blank-surface section content frame (the sub-sub-menu opened by the Blank surface button).
   surface_blank_frame = creative_mode_defines.name_prefix .. "surface-blank-frame",
   surface_blank_container = creative_mode_defines.name_prefix .. "surface-blank-container",
   surface_blank_name_label = creative_mode_defines.name_prefix .. "surface-blank-name-label",
   surface_blank_name_textfield = creative_mode_defines.name_prefix .. "surface-blank-name-textfield",
   surface_blank_create_button = creative_mode_defines.name_prefix .. "surface-blank-create-button",
+  surface_platform_frame = creative_mode_defines.name_prefix .. "surface-platform-frame",
+  surface_platform_container = creative_mode_defines.name_prefix .. "surface-platform-container",
+  surface_platform_name_label = creative_mode_defines.name_prefix .. "surface-platform-name-label",
+  surface_platform_name_textfield = creative_mode_defines.name_prefix .. "surface-platform-name-textfield",
+  surface_platform_planet_label = creative_mode_defines.name_prefix .. "surface-platform-planet-label",
+  surface_platform_planet_drop_down = creative_mode_defines.name_prefix .. "surface-platform-planet-drop-down",
+  surface_platform_create_button = creative_mode_defines.name_prefix .. "surface-platform-create-button",
   -- Legacy GUI. Used for finding and destroying the legacy "more cheats" popup.
   cheats_table = creative_mode_defines.name_prefix .. "cheats-table",
 }

@@ -22,6 +22,20 @@ remote_interface.deregister_remote_function_name = 'remote.call("'
   .. creative_mode_defines.names.interface
   .. '", "deregister_remote_function_from_modding_ui", "<interface-name>", "<function_name>")'
 
+-- Resolves a LuaForce from an optional player_index.
+-- If the player_index refers to a valid player, that player's force is used.
+-- Otherwise (omitted or invalid, e.g. when running headless where game.player is nil),
+-- the default "player" force is used as the fallback: it always exists, even on a
+-- headless server with no connected players, which is precisely what lets the behavior
+-- tests (verify.py) drive force-owning creation without a connected player.
+local function resolve_force(player_index)
+  local player = player_index and game.players[player_index]
+  if player and player.valid then
+    return player.force
+  end
+  return game.forces["player"]
+end
+
 -- The event IDs for the creative mode on-enabled event and on-disabled event respectively.
 local on_enabled_event_id
 local on_disabled_event_id
@@ -86,6 +100,19 @@ remote_interface.remote_functions = {
   --		True if the surface was created. False if the name was empty, a duplicate, or creation failed.
   create_blank_surface = function(name)
     local success = surface_creation.create_blank_surface(name)
+    return success
+  end,
+  -- Creates a new space platform orbiting the given planet, initialized with a hub. (Space Age only.)
+  --	Parameters:
+  --		player_index :: uint (optional): index of the player whose force owns the platform.
+  --			If omitted or invalid (e.g. headless), the default "player" force is used.
+  --		name :: string (optional): name of the platform. If empty, the engine assigns a default.
+  --		planet_id :: string: id of the planet the platform orbits. For example, "nauvis".
+  --	Returns:
+  --		True if the platform was created. False on vanilla (no Space Age), an invalid planet, or creation failure.
+  create_space_platform = function(player_index, name, planet_id)
+    local force = resolve_force(player_index)
+    local success = surface_creation.create_space_platform(force, name, planet_id)
     return success
   end,
   ------
