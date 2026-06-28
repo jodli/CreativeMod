@@ -1290,6 +1290,7 @@ creative_mode_defines.names.gui = {
   -- Section column buttons (styled like the Cheats column buttons).
   surface_nav_blank_button = creative_mode_defines.name_prefix .. "surface-nav-blank-button",
   surface_nav_platform_button = creative_mode_defines.name_prefix .. "surface-nav-platform-button",
+  surface_nav_planet_button = creative_mode_defines.name_prefix .. "surface-nav-planet-button",
   -- Blank-surface section content frame (the sub-sub-menu opened by the Blank surface button).
   surface_blank_frame = creative_mode_defines.name_prefix .. "surface-blank-frame",
   surface_blank_container = creative_mode_defines.name_prefix .. "surface-blank-container",
@@ -1303,6 +1304,13 @@ creative_mode_defines.names.gui = {
   surface_platform_planet_label = creative_mode_defines.name_prefix .. "surface-platform-planet-label",
   surface_platform_planet_drop_down = creative_mode_defines.name_prefix .. "surface-platform-planet-drop-down",
   surface_platform_create_button = creative_mode_defines.name_prefix .. "surface-platform-create-button",
+  -- Planet-surface section content frame (the sub-sub-menu opened by the Planet surface button).
+  -- Its planet drop-down is independent from the platform-orbit picker above.
+  surface_planet_frame = creative_mode_defines.name_prefix .. "surface-planet-frame",
+  surface_planet_container = creative_mode_defines.name_prefix .. "surface-planet-container",
+  surface_planet_planet_label = creative_mode_defines.name_prefix .. "surface-planet-planet-label",
+  surface_planet_planet_drop_down = creative_mode_defines.name_prefix .. "surface-planet-planet-drop-down",
+  surface_planet_create_button = creative_mode_defines.name_prefix .. "surface-planet-create-button",
   -- Legacy GUI. Used for finding and destroying the legacy "more cheats" popup.
   cheats_table = creative_mode_defines.name_prefix .. "cheats-table",
 }

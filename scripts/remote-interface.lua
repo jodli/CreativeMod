@@ -115,6 +115,16 @@ remote_interface.remote_functions = {
     local success = surface_creation.create_space_platform(force, name, planet_id)
     return success
   end,
+  -- Creates the surface for the given planet, if not already created. (Space Age only.)
+  --	Parameters:
+  --		planet_id :: string: id of the planet whose surface to create. For example, "nauvis".
+  --	Returns:
+  --		True if the planet surface exists after the call (whether newly created or it already existed).
+  --		False on vanilla (no Space Age), an invalid planet, or creation failure.
+  create_planet_surface = function(planet_id)
+    local success = surface_creation.create_planet_surface(planet_id)
+    return success
+  end,
   ------
 
   -- Registers the function in your remote interface to make it callable via the modding UI as the form of a button.

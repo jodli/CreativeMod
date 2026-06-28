@@ -41,12 +41,13 @@ end
 
 -- Builds the Blank-surface section content inside its (already created, captioned) frame.
 local function build_blank_section_content(frame)
-  -- Row: label | textfield | separator | create-button, mirroring the Cheats string-apply rows.
+  -- Label|input row in a cheat_table, then the create button below — consistent with the platform
+  -- and planet sections (the button sits under the inputs, not inline to the right).
   local blank_container = frame.add({
     type = "table",
     name = creative_mode_defines.names.gui.surface_blank_container,
     style = creative_mode_defines.names.gui_styles.cheat_table,
-    column_count = 4,
+    column_count = 2,
   })
   blank_container.add({
     type = "label",
@@ -59,20 +60,13 @@ local function build_blank_section_content(frame)
     name = creative_mode_defines.names.gui.surface_blank_name_textfield,
     style = creative_mode_defines.names.gui_styles.cheat_numeric_textfield,
   })
-  blank_container.add({
-    type = "flow",
-    style = creative_mode_defines.names.gui_styles.cheat_textfield_and_button_separate_flow,
-    direction = "horizontal",
-  })
-  local blank_create_button = blank_container.add({
+  frame.add({
     type = "button",
     name = creative_mode_defines.names.gui.surface_blank_create_button,
-    style = creative_mode_defines.names.gui_styles.cheat_apply_button,
+    -- small_default_bold_button auto-sizes to the caption (see the platform/planet sections).
+    style = creative_mode_defines.names.gui_styles.small_default_bold_button,
     caption = { "gui.creative-mode_surface-creation-blank-create-button" },
   })
-  -- The cheat_apply_button width is sized for short captions (e.g. "Apply") and clips "Create"
-  -- ("Cre..."), so widen it just enough to fit the caption while keeping the apply-button look.
-  blank_create_button.style.minimal_width = 80
 end
 
 -- Builds the Space-platform section content inside its (already created, captioned) frame.
@@ -117,13 +111,55 @@ local function build_platform_section_content(frame)
     items = planet_items,
     selected_index = default_index,
   })
-  local platform_create_button = frame.add({
+  frame.add({
     type = "button",
     name = creative_mode_defines.names.gui.surface_platform_create_button,
-    style = creative_mode_defines.names.gui_styles.cheat_apply_button,
+    -- small_default_bold_button auto-sizes to the caption (see the blank-section note above).
+    style = creative_mode_defines.names.gui_styles.small_default_bold_button,
     caption = { "gui.creative-mode_surface-creation-platform-create-button" },
   })
-  platform_create_button.style.minimal_width = 80
+end
+
+-- Builds the Planet-surface section content inside its (already created, captioned) frame.
+local function build_planet_section_content(frame)
+  -- Row: label | drop-down, then the create button below. This planet drop-down is independent
+  -- from the platform-orbit picker (its own element name + its own index->planet-id resolution).
+  local planet_container = frame.add({
+    type = "table",
+    name = creative_mode_defines.names.gui.surface_planet_container,
+    style = creative_mode_defines.names.gui_styles.cheat_table,
+    column_count = 2,
+  })
+  planet_container.add({
+    type = "label",
+    name = creative_mode_defines.names.gui.surface_planet_planet_label,
+    style = creative_mode_defines.names.gui_styles.cheat_name_label,
+    caption = { "gui.creative-mode_surface-creation-planet-planet-label" },
+  })
+  -- Planet drop-down enumerated from game.planets (so modded planets appear).
+  local planet_items, planet_ids = get_planet_drop_down_data()
+  -- Default the selection to nauvis when present; otherwise the first planet (or none),
+  -- mirroring the platform section.
+  local default_index = #planet_items > 0 and 1 or 0
+  for i, planet_id in ipairs(planet_ids) do
+    if planet_id == "nauvis" then
+      default_index = i
+      break
+    end
+  end
+  planet_container.add({
+    type = "drop-down",
+    name = creative_mode_defines.names.gui.surface_planet_planet_drop_down,
+    items = planet_items,
+    selected_index = default_index,
+  })
+  frame.add({
+    type = "button",
+    name = creative_mode_defines.names.gui.surface_planet_create_button,
+    -- small_default_bold_button auto-sizes to the caption (see the blank-section note above).
+    style = creative_mode_defines.names.gui_styles.small_default_bold_button,
+    caption = { "gui.creative-mode_surface-creation-planet-create-button" },
+  })
 end
 
 -- The sections inside the Surface submenu. Each entry pairs a column button with the content frame
@@ -147,6 +183,14 @@ local section_data = {
     space_age_only = true,
     build_content = build_platform_section_content,
   },
+  planet = {
+    button_name = creative_mode_defines.names.gui.surface_nav_planet_button,
+    button_caption = { "gui.creative-mode_surface-creation-nav-planet" },
+    frame_name = creative_mode_defines.names.gui.surface_planet_frame,
+    frame_caption = { "gui.creative-mode_surface-creation-planet-title" },
+    space_age_only = true,
+    build_content = build_planet_section_content,
+  },
   -- The surface-cheats section reuses the existing Cheats machinery (its content frame is built by
   -- gui_menu_cheats), so instead of a generic build_content it delegates open/close to that module.
   -- Its column button is gated on the surface-cheats access right (see the menu builder below).
@@ -160,7 +204,7 @@ local section_data = {
     end,
   },
 }
-local section_order = { "blank", "platform", "surface_cheats" }
+local section_order = { "blank", "platform", "planet", "surface_cheats" }
 
 -- Returns whether the given section is currently available (built) for this configuration.
 local function is_section_available(data)
@@ -329,6 +373,31 @@ function gui_menu_surface.on_gui_click(element, element_name, player, button, al
       end
     end
     return true
+  elseif element_name == creative_mode_defines.names.gui.surface_planet_create_button then
+    -- Create planet surface button.
+    local planet_frame = get_section_frame(player, creative_mode_defines.names.gui.surface_planet_frame)
+    if planet_frame then
+      local planet_container = planet_frame[creative_mode_defines.names.gui.surface_planet_container]
+      local drop_down = planet_container[creative_mode_defines.names.gui.surface_planet_planet_drop_down]
+
+      -- Resolve the selected drop-down index back to a planet id using the same ordering
+      -- that built the drop-down. This is the planet section's own independent picker.
+      local _, planet_ids = get_planet_drop_down_data()
+      local planet_id = planet_ids[drop_down.selected_index]
+
+      local success, result = surface_creation.create_planet_surface(planet_id)
+      if success then
+        if result.already_existed then
+          player.print({ "message.creative-mode_surface-creation-planet-already-existed", result.surface.name })
+        else
+          player.print({ "message.creative-mode_surface-creation-planet-success", result.surface.name })
+        end
+      else
+        -- result is a localised error message.
+        player.print(result)
+      end
+    end
+    return true
   end
   return false
 end
@@ -338,7 +407,10 @@ end
 -- Callback of the on_gui_selection_state_changed event, extended from gui-menu.lua.
 -- Returns whether the event is consumed.
 function gui_menu_surface.on_gui_selection_state_changed(element, element_name, player)
-  if element_name == creative_mode_defines.names.gui.surface_platform_planet_drop_down then
+  if
+    element_name == creative_mode_defines.names.gui.surface_platform_planet_drop_down
+    or element_name == creative_mode_defines.names.gui.surface_planet_planet_drop_down
+  then
     -- The selected planet is read directly from the drop-down at create time, so nothing to
     -- record here. Consume the event so the chain stops.
     return true
