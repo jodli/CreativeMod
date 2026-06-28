@@ -1265,6 +1265,18 @@ local global_cheats_menu_gui_data = {
       off_button_name = creative_mode_defines.names.gui.enemy_expansion_off_button,
       off_button_caption = creative_mode_defines.names.gui_captions.off,
     },
+    asteroid_spawning_rate = {
+      type = gui_menu_cheats.cheat_gui_type.numeric_apply,
+      cheat_data = cheats.global_cheats_data.cheats.asteroid_spawning_rate,
+      container_name = creative_mode_defines.names.gui.asteroid_spawning_rate_container,
+      label_name = creative_mode_defines.names.gui.asteroid_spawning_rate_label,
+      label_caption = { "gui.creative-mode_asteroid-spawning-rate" },
+      label_tooltip = { "gui.creative-mode_asteroid-spawning-rate-tooltip", 1 },
+      textfield_name = creative_mode_defines.names.gui.asteroid_spawning_rate_textfield,
+      separator_name = creative_mode_defines.names.gui.asteroid_spawning_rate_separator,
+      apply_button_name = creative_mode_defines.names.gui.asteroid_spawning_rate_apply_button,
+      apply_button_caption = creative_mode_defines.names.gui_captions.ok,
+    },
     enemy_expansion_min_cooldown = {
       type = gui_menu_cheats.cheat_gui_type.numeric_apply,
       cheat_data = cheats.global_cheats_data.cheats.enemy_expansion_min_cooldown,

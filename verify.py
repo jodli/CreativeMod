@@ -427,6 +427,23 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "creative_thruster_placed",
             ),
+            # asteroid_spawning_rate_set_zero: setting the rate to 0 stops new asteroids spawning
+            # anywhere. Mirrors the numeric cheat's apply_to_target_function(value=0).
+            _assert_rcon(
+                sb,
+                "/c game.map_settings.asteroids.spawning_rate = 0 "
+                "rcon.print(tostring(game.map_settings.asteroids.spawning_rate == 0))",
+                "true",
+                "asteroid_spawning_rate_set_zero",
+            ),
+            # asteroid_spawning_rate_restore: setting it back to the vanilla rate of 1 sticks.
+            _assert_rcon(
+                sb,
+                "/c game.map_settings.asteroids.spawning_rate = 1 "
+                "rcon.print(tostring(game.map_settings.asteroids.spawning_rate == 1))",
+                "true",
+                "asteroid_spawning_rate_restore",
+            ),
         ]
         # Let the server tick so the per-tick refill runs on the just-placed thruster.
         time.sleep(1.0)
@@ -465,6 +482,8 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "create_planet_surface_no_duplicate",
                 "creative_wall_indestructible",
                 "creative_thruster_placed",
+                "asteroid_spawning_rate_set_zero",
+                "asteroid_spawning_rate_restore",
                 "creative_thruster_refuels",
             ),
             results,
