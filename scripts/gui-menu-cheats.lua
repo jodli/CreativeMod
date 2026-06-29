@@ -938,6 +938,18 @@ local surface_cheats_menu_gui_data = {
       off_button_name = creative_mode_defines.names.gui.peaceful_mode_off_button,
       off_button_caption = creative_mode_defines.names.gui_captions.off,
     },
+    ignore_surface_conditions = {
+      type = gui_menu_cheats.cheat_gui_type.on_off,
+      cheat_data = cheats.surface_cheats_data.cheats.ignore_surface_conditions,
+      container_name = creative_mode_defines.names.gui.ignore_surface_conditions_container,
+      label_name = creative_mode_defines.names.gui.ignore_surface_conditions_label,
+      label_caption = { "gui.creative-mode_ignore-surface-conditions" },
+      label_tooltip = { "gui.creative-mode_ignore-surface-conditions-tooltip" },
+      on_button_name = creative_mode_defines.names.gui.ignore_surface_conditions_on_button,
+      on_button_caption = creative_mode_defines.names.gui_captions.on,
+      off_button_name = creative_mode_defines.names.gui.ignore_surface_conditions_off_button,
+      off_button_caption = creative_mode_defines.names.gui_captions.off,
+    },
     destroy_all_enemies = {
       type = gui_menu_cheats.cheat_gui_type.apply,
       cheat_data = cheats.surface_cheats_data.cheats.destroy_all_enemies,
