@@ -3078,6 +3078,20 @@ end
 function cheats.on_chunk_generated(event)
   local area = event.area
   local surface = event.surface
+  -- Flat test surface with a concrete / refined-concrete floor: lay the tile over the whole
+  -- chunk and clear any stray decoratives. (Lab-tile surfaces use the engine flag instead.)
+  local floor_tile = storage.creative_mode.surface_cheats.flat_test_floor[surface.index]
+  if floor_tile then
+    local tiles = {}
+    local x1, y1 = area.left_top.x, area.left_top.y
+    for x = x1, area.right_bottom.x - 1 do
+      for y = y1, area.right_bottom.y - 1 do
+        tiles[#tiles + 1] = { name = floor_tile, position = { x, y } }
+      end
+    end
+    surface.set_tiles(tiles)
+    surface.destroy_decoratives({ area = area })
+  end
   -- Surface cheat - don't generate enemy.
   if storage.creative_mode.surface_cheats.dont_generate_enemy[surface.index] then
     -- Remove the enemies in the on_tick event.

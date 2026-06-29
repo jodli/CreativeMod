@@ -316,6 +316,12 @@ function global_util.initialize_or_update_global()
   if not storage.creative_mode.surface_cheats.dont_generate_enemy then
     storage.creative_mode.surface_cheats.dont_generate_enemy = {}
   end
+  -- Per-surface floor tile for flat test surfaces that need a chunk-generated floor
+  -- (concrete / refined-concrete). Keyed by surface.index → tile prototype name.
+  -- Lab-tile surfaces are handled by the engine flag and are not tracked here.
+  if not storage.creative_mode.surface_cheats.flat_test_floor then
+    storage.creative_mode.surface_cheats.flat_test_floor = {}
+  end
 
   -- Table of build options for each player.
   if not storage.creative_mode.build_options then
