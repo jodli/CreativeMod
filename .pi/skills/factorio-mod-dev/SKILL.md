@@ -56,6 +56,14 @@ uv run verify.py debug --gui                        # manual-only graphical esca
 uv run verify.py load --clean                       # recreate the debug save from scratch
 ```
 
+**RCON gotcha:** the `/c` console runs in its own environment — the mod's
+runtime globals (`super_boiler`, `global_util`, `storage.creative_mode`, etc.)
+are **not** reachable from it, so you can't call mod functions directly. (`util`
+appears to work but resolves to core lualib's `util`, not the mod's.) To test mod
+logic via RCON, inline a replica of the code against a live entity, or add a
+behavior assertion that places an entity with `raise_built=true` (which registers
+it into the real per-tick loops) and checks the effect after the server ticks.
+
 Output channels for the values you inspect:
 
 | Goal | Use | Where |
@@ -89,16 +97,23 @@ a separate step.
 The full Factorio base mod ships with the install and is readable on disk:
 
 ```
-/mnt/quickstuff/git/factorio_linux/data/base/
-├── prototypes/        # all vanilla entity, item, recipe, technology definitions
-├── changelog.txt      # machine-readable API change log (every version)
-└── ...
+/mnt/quickstuff/git/factorio_linux/data/
+├── changelog.txt      # the full engine + API change log (every version) — VERY complete
+└── base/
+    └── prototypes/    # all vanilla entity, item, recipe, technology definitions
 ```
 
 When something breaks or behaves unexpectedly, **read the base game source first**:
-- Want to know the correct fields for a prototype type? Find a vanilla example in `data/base/prototypes/`.
-- Want to know what changed between versions? `grep` `data/base/../changelog.txt` for the symbol.
-- Want to know what a `defines.*` value actually is? It's defined in the engine, but usages are visible throughout the base mod.
+- **API errors (`doesn't contain key X`, `nil value`, renamed/removed methods)?**
+  `grep` `data/changelog.txt` for the symbol — the API change log is extremely
+  thorough and almost always names the exact rename/removal and its replacement
+  (this is how the `LuaEntity::fluidbox` → `get_fluid`/`set_fluid`/`fluids_count`
+  removal was diagnosed). Confirm the new signature by probing a live entity via
+  RCON before rewriting.
+- **Correct fields for a prototype type?** Find a vanilla example in `data/base/prototypes/`.
+- **How the Factorio devs actually use an API?** `grep` the base mod's scripts and
+  prototypes — prefer their real usage patterns over guessing or external docs.
+- **What a `defines.*` value is?** Defined in the engine, but usages are visible throughout the base mod.
 
 This is the ground truth for the running version — always prefer it over external docs.
 
