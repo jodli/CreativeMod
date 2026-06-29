@@ -1576,6 +1576,30 @@ cheats.surface_cheats_data = {
       end,
       get_player_can_access_function = nil,
     },
+    ignore_surface_conditions = {
+      is_default = false,
+      default_enable_value = true,
+      default_disable_value = false,
+      get_value_function = function(surface)
+        if surface then
+          return surface.ignore_surface_conditions
+        end
+        return nil
+      end,
+      limit_value_before_apply_function = nil,
+      apply_to_target_function = function(surface, enable, source_player)
+        surface.ignore_surface_conditions = enable
+        return nil
+      end,
+      print_applied_by_admin_message_function = function(source_player, surface, enable)
+        if enable then
+          surface.print({ "message.creative-mode_ignore-surface-conditions-enabled", source_player.name })
+        else
+          surface.print({ "message.creative-mode_ignore-surface-conditions-disabled", source_player.name })
+        end
+      end,
+      get_player_can_access_function = nil,
+    },
     destroy_all_enemies = {
       is_default = false,
       default_enable_value = true,
