@@ -283,6 +283,12 @@ end
 -- Returns whether the entity is destroyed.
 -- @param destroyer_player	Optional.
 function util.destroy_entity_and_raise_event(entity, destroyer_player, is_instant_deconstruction)
+  -- The entity may already be invalid: destroying one entity can cascade and
+  -- destroy others (e.g. killing a segmented-unit head also destroys all of its
+  -- segments), so an entity collected earlier in a batch can be gone by now.
+  if not entity.valid then
+    return false
+  end
   -- No default event for LuaEntity::destroy(). Just a workaround.
   -- Here we assume the entity will 100% be removed.
   -- See this discussion: https://forums.factorio.com/viewtopic.php?f=34&t=34952
@@ -299,6 +305,12 @@ end
 -- Kills the given entity and raises the script_raised_destroy event for it. Note that not all entities can be killed.
 -- Returns whether the entity is killed.
 function util.kill_entity_and_raise_event(entity, killer_player)
+  -- The entity may already be invalid: killing one entity can cascade and
+  -- destroy others (e.g. killing a segmented-unit head also destroys all of its
+  -- segments), so an entity collected earlier in a batch can be gone by now.
+  if not entity.valid then
+    return false
+  end
   if entity.health ~= nil then
     if killer_player then
       -- Record to kill count statistics.
