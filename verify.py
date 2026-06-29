@@ -463,6 +463,23 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "item_source_to_crafter_placed",
             ),
+            # super_boiler_placed: regression guard for the on_tick crash
+            # "LuaEntity doesn't contain key fluidbox" (Factorio 2.1 removed
+            # LuaEntity::fluidbox and LuaFluidBox; fluids are now read/written via
+            # get_fluid/set_fluid/fluids_count/clear_fluids directly on LuaEntity).
+            # Place a Super Boiler holding cold water; raise_built registers it into
+            # the per-tick loop so the real super_boiler.tick() ->
+            # heat_all_fluids_up_to_max_temperature() path runs against it.
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local boiler = s.create_entity{name="creative-mod_super-boiler", position={10, 14}, force="player", raise_built=true} '
+                'boiler.insert_fluid{name="water", amount=100} '
+                "storage = storage or {} storage.cm_verify_super_boiler = boiler "
+                "rcon.print(tostring(boiler.valid and boiler.get_fluid(1) ~= nil))",
+                "true",
+                "super_boiler_placed",
+            ),
         ]
         # Let the server tick so the per-tick refill runs on the just-placed thruster.
         time.sleep(1.0)
@@ -495,6 +512,22 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "item_source_feeds_crafter",
             )
         )
+        results.append(
+            # super_boiler_heats_fluid: after ticking, the Super Boiler must have
+            # heated its water up to the fluid's max temperature, proving
+            # heat_all_fluids_up_to_max_temperature() survived the removed-fluidbox
+            # API migration. With the bug present, on_tick raises a non-recoverable
+            # "doesn't contain key fluidbox" error and the temperature never changes.
+            _assert_rcon(
+                sb,
+                "/c local e = storage.cm_verify_super_boiler "
+                "if not (e and e.valid) then rcon.print('no-entity') return end "
+                "local f = e.get_fluid(1) "
+                "rcon.print(tostring(f ~= nil and f.temperature == prototypes.fluid['water'].max_temperature))",
+                "true",
+                "super_boiler_heats_fluid",
+            )
+        )
     finally:
         _terminate_server(server)
 
@@ -519,8 +552,10 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "asteroid_spawning_rate_set_zero",
                 "asteroid_spawning_rate_restore",
                 "item_source_to_crafter_placed",
+                "super_boiler_placed",
                 "creative_thruster_refuels",
                 "item_source_feeds_crafter",
+                "super_boiler_heats_fluid",
             ),
             results,
         )

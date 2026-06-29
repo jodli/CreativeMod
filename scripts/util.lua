@@ -140,10 +140,7 @@ end
 
 -- Returns whether the given entity has at least one fluidbox.
 function util.has_fluidbox(entity)
-  if not entity.fluidbox then
-    return false
-  end
-  return #entity.fluidbox > 0
+  return entity.fluids_count > 0
 end
 
 -- Returns whether the given inserter entity is enabled according to its circuit network state as well as its logistic network state.

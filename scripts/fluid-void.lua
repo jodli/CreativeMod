@@ -9,9 +9,7 @@ function fluid_void.tick()
   for index, fluid_void in ipairs(storage.creative_mode.fluid_void) do
     if fluid_void.valid then
       if not fluid_void.to_be_deconstructed(fluid_void.force) then
-        for i = 1, #fluid_void.fluidbox do
-          fluid_void.fluidbox[i] = nil
-        end
+        fluid_void.clear_fluids()
       end
     else
       table.remove(storage.creative_mode.fluid_void, index)

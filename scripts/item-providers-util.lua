@@ -1058,8 +1058,8 @@ function item_providers_util.output_or_remove_item(
                   })
                 end
               else
-                if next_fluid_index <= #other_inventory_entity.fluidbox then
-                  local fluid = other_inventory_entity.fluidbox[next_fluid_index]
+                if next_fluid_index <= other_inventory_entity.fluids_count then
+                  local fluid = other_inventory_entity.get_fluid(next_fluid_index)
                   if fluid then
                     fluid.amount = fluid.amount + 1
                   else
@@ -1068,7 +1068,7 @@ function item_providers_util.output_or_remove_item(
                       amount = 1,
                     }
                   end
-                  other_inventory_entity.fluidbox[next_fluid_index] = fluid
+                  other_inventory_entity.set_fluid(next_fluid_index, fluid)
                   next_fluid_index = next_fluid_index + 1
                 end
               end

@@ -5,55 +5,52 @@ end
 
 -- Removes all fluids inside the given entity.
 function fluid_providers_util.remove_all_fluids(entity)
-  for i = 1, #entity.fluidbox, 1 do
-    entity.fluidbox[i] = nil
-  end
+  entity.clear_fluids()
 end
 
 -- Duplicates the fluid in each fluid box of the given entity.
 function fluid_providers_util.duplicate_fluid_in_each_fluidbox(entity)
-  local fluidbox = entity.fluidbox
-  for i = 1, #fluidbox, 1 do
-    local fluid = fluidbox[i]
-    local capacity = fluidbox.get_capacity(i)
+  for i = 1, entity.fluids_count, 1 do
+    local fluid = entity.get_fluid(i)
     if fluid ~= nil then
+      local capacity = entity.get_fluid_capacity(i)
       fluid.amount = math.min(capacity, fluid.amount + 50)
-      entity.fluidbox[i] = fluid
+      entity.set_fluid(i, fluid)
     end
   end
 end
 
 -- Heats all fluids inside the given entity up to their corresponding maximum temperature.
 function fluid_providers_util.heat_all_fluids_up_to_max_temperature(entity)
-  for i = 1, #entity.fluidbox, 1 do
-    local fluid = entity.fluidbox[i]
+  for i = 1, entity.fluids_count, 1 do
+    local fluid = entity.get_fluid(i)
     if fluid then
       local fluid_prototype = prototypes.fluid[fluid.name]
       fluid.temperature = fluid_prototype.max_temperature
-      entity.fluidbox[i] = fluid
+      entity.set_fluid(i, fluid)
     end
   end
 end
 
 -- Cools all fluids inside the given entity down to their corresponding default temperature.
 function fluid_providers_util.cool_all_fluids_down_to_default_temperature(entity)
-  for i = 1, #entity.fluidbox, 1 do
-    local fluid = entity.fluidbox[i]
+  for i = 1, entity.fluids_count, 1 do
+    local fluid = entity.get_fluid(i)
     if fluid then
       local fluid_prototype = prototypes.fluid[fluid.name]
       fluid.temperature = fluid_prototype.default_temperature
-      entity.fluidbox[i] = fluid
+      entity.set_fluid(i, fluid)
     end
   end
 end
 
 -- Sets all fluids inside the given entity to the given temperature.
 function fluid_providers_util.set_all_fluids_to_temperature(entity, temperature)
-  for i = 1, #entity.fluidbox, 1 do
-    local fluid = entity.fluidbox[i]
+  for i = 1, entity.fluids_count, 1 do
+    local fluid = entity.get_fluid(i)
     if fluid then
       fluid.temperature = temperature
-      entity.fluidbox[i] = fluid
+      entity.set_fluid(i, fluid)
     end
   end
 end
