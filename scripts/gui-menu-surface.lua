@@ -60,6 +60,23 @@ local function build_blank_section_content(frame)
     name = creative_mode_defines.names.gui.surface_blank_name_textfield,
     style = creative_mode_defines.names.gui_styles.cheat_numeric_textfield,
   })
+  blank_container.add({
+    type = "label",
+    name = creative_mode_defines.names.gui.surface_blank_floor_label,
+    style = creative_mode_defines.names.gui_styles.cheat_name_label,
+    caption = { "gui.creative-mode_surface-creation-blank-floor-label" },
+  })
+  -- Floor options, captions ordered to match surface_creation.floor_options.
+  local floor_items = {}
+  for i, option in ipairs(surface_creation.floor_options) do
+    floor_items[i] = { "gui.creative-mode_surface-creation-blank-floor-" .. option.key }
+  end
+  blank_container.add({
+    type = "drop-down",
+    name = creative_mode_defines.names.gui.surface_blank_floor_drop_down,
+    items = floor_items,
+    selected_index = 1,
+  })
   frame.add({
     type = "button",
     name = creative_mode_defines.names.gui.surface_blank_create_button,
@@ -336,8 +353,11 @@ function gui_menu_surface.on_gui_click(element, element_name, player, button, al
       local blank_container = blank_frame[creative_mode_defines.names.gui.surface_blank_container]
       local textfield = blank_container[creative_mode_defines.names.gui.surface_blank_name_textfield]
       local name = textfield.text
+      local floor_drop_down = blank_container[creative_mode_defines.names.gui.surface_blank_floor_drop_down]
+      local floor_option = surface_creation.floor_options[floor_drop_down.selected_index]
+      local floor = floor_option and floor_option.key
 
-      local success, result = surface_creation.create_blank_surface(name)
+      local success, result = surface_creation.create_blank_surface(name, floor)
       if success then
         player.print({ "message.creative-mode_surface-creation-blank-success", result.name })
         -- Clear the field for convenience.
@@ -410,6 +430,7 @@ function gui_menu_surface.on_gui_selection_state_changed(element, element_name, 
   if
     element_name == creative_mode_defines.names.gui.surface_platform_planet_drop_down
     or element_name == creative_mode_defines.names.gui.surface_planet_planet_drop_down
+    or element_name == creative_mode_defines.names.gui.surface_blank_floor_drop_down
   then
     -- The selected planet is read directly from the drop-down at create time, so nothing to
     -- record here. Consume the event so the chain stops.
