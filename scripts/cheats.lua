@@ -3104,7 +3104,10 @@ function cheats.on_chunk_generated(event)
   local surface = event.surface
   -- Flat test surface with a concrete / refined-concrete floor: lay the tile over the whole
   -- chunk and clear any stray decoratives. (Lab-tile surfaces use the engine flag instead.)
-  local floor_tile = storage.creative_mode.surface_cheats.flat_test_floor[surface.index]
+  -- Guard against the per-surface table being absent on saves where it was never initialized
+  -- (chunks can generate before initialize_or_update_global has populated this subtable).
+  local flat_test_floor = storage.creative_mode.surface_cheats.flat_test_floor
+  local floor_tile = flat_test_floor and flat_test_floor[surface.index]
   if floor_tile then
     local tiles = {}
     local x1, y1 = area.left_top.x, area.left_top.y
