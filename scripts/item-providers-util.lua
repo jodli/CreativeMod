@@ -44,8 +44,8 @@ local static_item_containers = {
 }
 -- Non-movable entity types with output slots that matter void should only work on their output slots when it has no filter.
 local static_item_containers_with_output_slots = {
-  ["assembling-machine"] = defines.inventory.assembling_machine_output,
-  ["furnace"] = defines.inventory.furnace_result,
+  ["assembling-machine"] = defines.inventory.crafter_output,
+  ["furnace"] = defines.inventory.crafter_output,
   ["reactor"] = defines.inventory.burnt_result,
 }
 
@@ -1040,7 +1040,7 @@ function item_providers_util.output_or_remove_item(
             local inventories = entity_data.last_working_static_container_inventories
             if inventories == nil then
               inventories = {
-                other_inventory_entity.get_inventory(defines.inventory.assembling_machine_input),
+                other_inventory_entity.get_inventory(defines.inventory.crafter_input),
               }
               entity_data.last_working_static_container_inventories = inventories
             end

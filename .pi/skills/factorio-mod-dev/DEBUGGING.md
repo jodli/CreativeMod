@@ -42,6 +42,34 @@ After fixing control-stage errors, re-run `uv run verify.py load` (it re-runs
 to confirm `on_init` ran; use `--clean` to recreate the save from scratch when a
 restart alone is not enough.
 
+## Capturing a bug as a regression test
+
+When you reproduce a bug, **capture the reproduction in the `behavior` pipeline before
+fixing it** so the crash can never silently come back. `shell` and `behavior` are the
+same transport — both send `/c ...` over the same RCON channel against the same headless
+server. `shell` is the throwaway, eyeball-it form; `behavior` is the codified form: a
+`_assert_rcon(cmd, expected, name)` that boots a fresh server and emits the
+`assert name=PASS/FAIL` + `RESULT:` contract with an exit code. So the workflow is:
+
+1. **Prototype the reproduction in `shell`** until you have a `/c …` string that ends in
+   `rcon.print(<x>)` printing a stable value (`"true"`, a count, …).
+2. **Promote that exact string into a `_assert_rcon` entry** in `cmd_behavior` (and add its
+   `name` to the failure-name tuple, in result-append order).
+3. **Prove it catches the bug**: reintroduce the bug, run `uv run verify.py behavior`, and
+   confirm the new assertion FAILs. Then restore the fix and confirm it PASSes.
+
+Go through the real runtime path, not the crashing function directly — **mod globals are
+not reachable from RCON** (the `/c` scope is the scenario's, not the mod's). Reproduce the
+way it happened in play: build the entities with `create_entity{… raise_built=true}` so the
+mod registers them into its own handlers/tick loop, drive the mod via `remote.call`, then
+observe the *effect* through engine globals (`game`, the entity's inventories, …).
+
+For per-tick bugs, use the two-phase pattern (see `item_source_to_crafter_placed` /
+`item_source_feeds_crafter` in `verify.py`): one assertion places the entities, then a
+`time.sleep(...)` lets the server tick, then a second assertion reads the effect. If the
+tick path crashes, on_tick takes the headless server down and the second assertion fails
+with `rcon-connection-failed` — which is exactly the regression signal you want.
+
 ## RCON caveats
 
 - `require()` is blocked from RCON (only valid during `control.lua` parsing)
@@ -63,6 +91,9 @@ Common breaking change patterns:
 - Fields renamed or restructured (`category` → `categories = { ... }`)
 - Prototype types merged into another (`tool` → `item` with subgroup filter)
 - Global functions removed (`crash_trigger`, `game.write_file`)
-- `defines.*` entries moved or merged (`furnace_modules` → `crafter_modules`)
+- `defines.*` entries moved or merged (`furnace_modules` → `crafter_modules`;
+  `assembling_machine_input`/`_output` and `furnace_result` → `crafter_input`/`crafter_output`).
+  A removed `defines.*` silently reads as `nil`, so the break only surfaces at the call site
+  (e.g. `get_inventory(nil)` → "'inventory index': real number expected got nil").
 - Empty string rejected where `nil` is required (`next_upgrade = ""` → `nil`)
 - Flags that previously implied others no longer do (`deconstruct` + tile selection)

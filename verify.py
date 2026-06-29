@@ -444,6 +444,25 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "asteroid_spawning_rate_restore",
             ),
+            # item_source_to_crafter_placed: regression guard for the on_tick crash
+            # "'inventory index': real number expected got nil" (renamed inventory
+            # defines in 2.0: assembling_machine_input/_output and furnace_result were
+            # folded into crafter_input/crafter_output). Place an assembling machine with
+            # a recipe and, one tile into its output target, a Matter Source with NO filter
+            # set (the slot1==nil && slot2==nil branch that outputs ingredients into a
+            # crafting machine's input inventory). raise_built registers the source into the
+            # mod's per-tick loop, so the real item_source.tick() path runs against it.
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local am = s.create_entity{name="assembling-machine-2", position={10, 12}, force="player"} '
+                'am.set_recipe("iron-gear-wheel") '
+                'local src = s.create_entity{name="creative-mod_item-source", position={10, 10}, direction=defines.direction.north, force="player", raise_built=true} '
+                "storage = storage or {} storage.cm_verify_item_source_target = am "
+                "rcon.print(tostring(am.valid and src.valid))",
+                "true",
+                "item_source_to_crafter_placed",
+            ),
         ]
         # Let the server tick so the per-tick refill runs on the just-placed thruster.
         time.sleep(1.0)
@@ -459,6 +478,21 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "and e.get_fluid_count('thruster-oxidizer') >= 1000))",
                 "true",
                 "creative_thruster_refuels",
+            )
+        )
+        results.append(
+            # item_source_feeds_crafter: after ticking, the Matter Source must have fed its
+            # adjacent crafting machine — proving item_source.tick() reached and survived the
+            # crafter-input path that used to crash on the nil inventory define. With the bug
+            # present, on_tick raises a non-recoverable error and nothing is ever inserted.
+            _assert_rcon(
+                sb,
+                "/c local am = storage.cm_verify_item_source_target "
+                "if not (am and am.valid) then rcon.print('no-entity') return end "
+                "local inp = am.get_inventory(defines.inventory.crafter_input) "
+                "rcon.print(tostring((inp ~= nil and inp.get_item_count('iron-plate') > 0) or am.products_finished > 0))",
+                "true",
+                "item_source_feeds_crafter",
             )
         )
     finally:
@@ -484,7 +518,9 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "creative_thruster_placed",
                 "asteroid_spawning_rate_set_zero",
                 "asteroid_spawning_rate_restore",
+                "item_source_to_crafter_placed",
                 "creative_thruster_refuels",
+                "item_source_feeds_crafter",
             ),
             results,
         )

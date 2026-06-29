@@ -13,6 +13,7 @@ Date: 2026-06-29
   Changes:
     - Move the Surface Cheats menu from the Cheats tab into the Surface tab, grouping it with the surface-creation tools.
   Bugfixes:
+    - Fix a non-recoverable crash ("'inventory index': real number expected got nil") in on_tick when a Matter Source with no filter set faces an assembling machine, rocket silo, or furnace: Factorio 2.0 folded the assembling-machine and furnace input/output inventories into crafter_input/crafter_output, so the mod's references to the removed assembling_machine_input/_output and furnace_result defines resolved to nil. The Matter Void's output-slot path was hit by the same removed defines.
     - Fix a non-recoverable crash ("LuaEntity API call when LuaEntity was invalid") when using the "Destroy all enemies" or "Remove all enemies" surface cheats on surfaces with segmented enemies such as Vulcanus demolishers: killing a demolisher's head also destroys all its segments, so segments collected earlier in the same sweep had already become invalid.
     - Fix a non-recoverable crash in the chunk-generation handler ("attempt to index field 'flat_test_floor' (a nil value)") on saves where the flat-test-floor surface table had not been initialized.
     - Fix Teleport doing nothing useful while in remote view (map view): it now exits remote view first and teleports your actual character/player instead of just moving the remote-view camera.
