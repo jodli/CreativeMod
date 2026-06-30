@@ -63,6 +63,18 @@ local static_fluidboxes = {
   ["mining-drill"] = true,
 }
 
+-- Builds an item identification descriptor (for get_item_count / remove) from a quality-bearing filter.
+-- Void/duplicate semantics: a filter with its quality set targets that single quality, so we pass
+-- {name, quality}; a filter with no quality set targets all qualities of the name, so we pass the bare
+-- name string (in 2.x a string identifier matches every quality, whereas {name=...} alone matches only
+-- normal quality). The caller must have already checked that the filter is non-nil.
+local function build_item_identification(filter)
+  if filter.quality then
+    return { name = filter.name, quality = filter.quality }
+  end
+  return filter.name
+end
+
 -- List of module inventories that matter source, duplicator and void shouldn't work on.
 local module_inventories = {
   [defines.inventory.crafter_modules] = true, -- replaces furnace_modules + assembling_machine_modules (removed in 2.1)
@@ -72,30 +84,33 @@ local module_inventories = {
 }
 
 -- Duplicates the first itme in the given inventory.
-local function duplicate_first_item_in_inventory(inventory, filter_item_name)
+local function duplicate_first_item_in_inventory(inventory, filter)
   if inventory.is_empty() then
     return
   end
 
   local item_name = nil
+  local item_quality = nil
   -- If filter is set, there must be at least one of that item in the inventory.
-  if filter_item_name then
-    if inventory.get_item_count(filter_item_name) > 0 then
-      item_name = filter_item_name
+  if filter then
+    local item_identification = build_item_identification(filter)
+    if inventory.get_item_count(item_identification) > 0 then
+      item_name = filter.name
+      item_quality = filter.quality
     end
   else
-    local k
-    k, item_name = next(inventory.get_contents())
+    local k, item = next(inventory.get_contents())
     if k ~= nil then
-      if item_name then
-        item_name = item_name.name
+      if item then
+        item_name = item.name
+        item_quality = item.quality
       end
     end
   end
   if item_name then
-    print(item_name)
     local stack = {
       name = item_name,
+      quality = item_quality,
       count = 1,
     }
     inventory.insert(stack)
@@ -106,7 +121,7 @@ end
 -- Returns the table of inventories that the given entity has if required, also returns the container type of the entity.
 local function duplicate_first_item_in_each_inventory(
   entity,
-  filter_item_name,
+  filter,
   entity_inventories,
   should_return_entity_inventories
 )
@@ -120,7 +135,7 @@ local function duplicate_first_item_in_each_inventory(
     for _, inv in ipairs(entity_inventories) do
       local inventory = entity.get_inventory(inv)
       if inventory then
-        duplicate_first_item_in_inventory(inventory, filter_item_name)
+        duplicate_first_item_in_inventory(inventory, filter)
       end
     end
     return entity_inventories
@@ -136,40 +151,44 @@ local function duplicate_first_item_in_each_inventory(
       if should_return_entity_inventories then
         table.insert(entity_inventories, inv)
       end
-      duplicate_first_item_in_inventory(inventory, filter_item_name)
+      duplicate_first_item_in_inventory(inventory, filter)
     end
   end
   return entity_inventories
 end
 
 -- Removes one item from the given inventory.
-local function remove_one_item_from_inventory(inventory, filter_item_name)
+local function remove_one_item_from_inventory(inventory, filter)
   if inventory.is_empty() then
     return
   end
 
-  local item_name = nil
   -- If filter is set, there must be at least one of that item in the inventory.
-  if filter_item_name then
-    if inventory.get_item_count(filter_item_name) > 0 then
-      item_name = filter_item_name
+  if filter then
+    if filter.quality then
+      -- Quality set -> target that single quality.
+      if inventory.get_item_count({ name = filter.name, quality = filter.quality }) > 0 then
+        inventory.remove({ name = filter.name, quality = filter.quality, count = 1 })
+      end
+    else
+      -- Quality unset -> remove one of that name across all qualities (today's behavior). Find the
+      -- quality of an actual stack so each tick removes a real item even once normal is exhausted.
+      for _, item in pairs(inventory.get_contents()) do
+        if item.name == filter.name then
+          inventory.remove({ name = item.name, quality = item.quality, count = 1 })
+          break
+        end
+      end
     end
   else
     local _, item = next(inventory.get_contents())
-    item_name = item.name
-  end
-  if item_name then
-    local stack = {
-      name = item_name,
-      count = 1,
-    }
-    inventory.remove(stack)
+    inventory.remove({ name = item.name, quality = item.quality, count = 1 })
   end
 end
 
 -- Removes one item from an inventory of the given entity.
 -- Returns the table of inventories that the given entity has if required.
-local function remove_one_item_in_entity(entity, filter_item_name, entity_inventories, should_return_entity_inventories)
+local function remove_one_item_in_entity(entity, filter, entity_inventories, should_return_entity_inventories)
   -- If the entity has nothing inside, do nothing.
   if not entity.has_items_inside() then
     return entity_inventories
@@ -180,7 +199,7 @@ local function remove_one_item_in_entity(entity, filter_item_name, entity_invent
     for _, inv in ipairs(entity_inventories) do
       local inventory = entity.get_inventory(inv)
       if inventory then
-        remove_one_item_from_inventory(inventory, filter_item_name)
+        remove_one_item_from_inventory(inventory, filter)
       end
     end
     return entity_inventories
@@ -196,7 +215,7 @@ local function remove_one_item_in_entity(entity, filter_item_name, entity_invent
       if should_return_entity_inventories then
         table.insert(entity_inventories, inv)
       end
-      remove_one_item_from_inventory(inventory, filter_item_name)
+      remove_one_item_from_inventory(inventory, filter)
     end
   end
   return entity_inventories
@@ -210,8 +229,9 @@ local function output_item_stack_according_to_inventory_slot_filters(inventory)
       local filter = inventory.get_filter(i)
       if filter then
         inventory[i].set_stack({
-          name = filter,
-          count = prototypes.item[filter].stack_size,
+          name = filter.name,
+          quality = filter.quality,
+          count = prototypes.item[filter.name].stack_size,
         })
       end
     end
@@ -292,7 +312,7 @@ local function insert_itemstack_on_transport_line_compressed(transport_line, ite
 end
 
 -- Removes the first item on the given transport line.
-local function remove_first_item_on_transport_line(line, filter_item_name)
+local function remove_first_item_on_transport_line(line, filter)
   -- Only do action if the line is full at the end (position = 0).
   if line.can_insert_at(0) and line.can_insert_at(0.1) then
     return
@@ -302,14 +322,24 @@ local function remove_first_item_on_transport_line(line, filter_item_name)
     return
   end
   -- Check the first item.
-  local item_name = line[1].name
+  local item = line[1]
+  local item_name = item.name
+  local item_quality = item.quality and item.quality.name or nil
   -- If filter is set, but the item mismatch, stop working.
-  if filter_item_name and filter_item_name ~= item_name then
-    return
+  if filter then
+    -- Name must match; if the filter pins a quality, the item's quality must match too. A filter with
+    -- no quality set matches the name across all qualities (today's behavior).
+    if filter.name ~= item_name then
+      return
+    end
+    if filter.quality and filter.quality ~= item_quality then
+      return
+    end
   end
-  -- Remove the item.
+  -- Remove the item, preserving its quality.
   local stack = {
     name = item_name,
+    quality = item_quality,
     count = 1,
   }
   line.remove_item(stack)
@@ -322,7 +352,7 @@ local function output_or_remove_item_on_transport_line(
   belt_speed,
   operation_mode,
   output_stack,
-  filter_item_name,
+  filter,
   should_use_insert_at_back,
   output_last_item_position_on_belt
 )
@@ -350,21 +380,24 @@ local function output_or_remove_item_on_transport_line(
     end
   elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
     -- matter-void
-    remove_first_item_on_transport_line(transport_line, filter_item_name)
+    remove_first_item_on_transport_line(transport_line, filter)
     return nil
   else
     -- matter-duplicator
     local item_name = nil
-    if filter_item_name then
-      if transport_line.get_item_count(filter_item_name) > 0 then
-        item_name = filter_item_name
+    local item_quality = nil
+    if filter then
+      local item_identification = build_item_identification(filter)
+      if transport_line.get_item_count(item_identification) > 0 then
+        item_name = filter.name
+        item_quality = filter.quality
       end
     else
-      local k
-      k, item_name = next(transport_line.get_contents())
+      local k, item = next(transport_line.get_contents())
       if k ~= nil then
-        if item_name then
-          item_name = item_name.name
+        if item then
+          item_name = item.name
+          item_quality = item.quality
         end
       end
     end
@@ -373,6 +406,7 @@ local function output_or_remove_item_on_transport_line(
     if item_name then
       stack = {
         name = item_name,
+        quality = item_quality,
         count = 1,
       }
     else
@@ -467,17 +501,18 @@ function item_providers_util.output_or_remove_item(
   shift_x,
   shift_y,
   direction,
-  filter_item_name,
+  filter,
   operation_mode,
   output_item_slot,
   entity_data
 )
-  -- Create a simple item stack according to the given item name of we are going to output it.
+  -- Create a simple item stack according to the given quality-bearing filter if we are going to output it.
   local output_stack = nil
 
-  if operation_mode == output_or_remove_item_operation_mode.output_mode and filter_item_name then
+  if operation_mode == output_or_remove_item_operation_mode.output_mode and filter then
     output_stack = {
-      name = filter_item_name,
+      name = filter.name,
+      quality = filter.quality,
       count = 1,
     }
   end
@@ -904,7 +939,7 @@ function item_providers_util.output_or_remove_item(
               belt_speed,
               operation_mode,
               output_stack,
-              filter_item_name,
+              filter,
               should_use_insert_at_back,
               entity_data.slot1_last_item_position_on_belt
             )
@@ -914,7 +949,7 @@ function item_providers_util.output_or_remove_item(
               belt_speed,
               operation_mode,
               output_stack,
-              filter_item_name,
+              filter,
               should_use_insert_at_back,
               entity_data.slot2_last_item_position_on_belt
             )
@@ -925,7 +960,7 @@ function item_providers_util.output_or_remove_item(
             belt_speed,
             operation_mode,
             output_stack,
-            filter_item_name,
+            filter,
             should_use_insert_at_back,
             entity_data.line1_last_item_position_on_belt
           )
@@ -935,7 +970,7 @@ function item_providers_util.output_or_remove_item(
             belt_speed,
             operation_mode,
             output_stack,
-            filter_item_name,
+            filter,
             should_use_insert_at_back,
             nil
           )
@@ -949,7 +984,7 @@ function item_providers_util.output_or_remove_item(
               belt_speed,
               operation_mode,
               output_stack,
-              filter_item_name,
+              filter,
               should_use_insert_at_back,
               entity_data.slot1_last_item_position_on_belt
             )
@@ -959,7 +994,7 @@ function item_providers_util.output_or_remove_item(
               belt_speed,
               operation_mode,
               output_stack,
-              filter_item_name,
+              filter,
               should_use_insert_at_back,
               entity_data.slot2_last_item_position_on_belt
             )
@@ -970,7 +1005,7 @@ function item_providers_util.output_or_remove_item(
             belt_speed,
             operation_mode,
             output_stack,
-            filter_item_name,
+            filter,
             should_use_insert_at_back,
             entity_data.line2_last_item_position_on_belt
           )
@@ -980,7 +1015,7 @@ function item_providers_util.output_or_remove_item(
             belt_speed,
             operation_mode,
             output_stack,
-            filter_item_name,
+            filter,
             should_use_insert_at_back,
             nil
           )
@@ -1104,7 +1139,7 @@ function item_providers_util.output_or_remove_item(
       end
     elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
       local output_inventory_name = static_item_containers_with_output_slots[other_inventory_entity.type]
-      if not filter_item_name and output_inventory_name then
+      if not filter and output_inventory_name then
         -- No filter, and the target entity has output slots.
         -- Clear the output slots.
         local inventory = other_inventory_entity.get_inventory(output_inventory_name)
@@ -1114,7 +1149,7 @@ function item_providers_util.output_or_remove_item(
       else
         entity_data.last_working_static_container_inventories = remove_one_item_in_entity(
           other_inventory_entity,
-          filter_item_name,
+          filter,
           entity_data.last_working_static_container_inventories,
           true
         )
@@ -1122,7 +1157,7 @@ function item_providers_util.output_or_remove_item(
     else
       entity_data.last_working_static_container_inventories = duplicate_first_item_in_each_inventory(
         other_inventory_entity,
-        filter_item_name,
+        filter,
         entity_data.last_working_static_container_inventories,
         true
       )
@@ -1141,7 +1176,7 @@ function item_providers_util.output_or_remove_item(
     end
 
     -- Doesn't work on fluid if filter is set.
-    if filter_item_name == nil then
+    if filter == nil then
       if operation_mode == output_or_remove_item_operation_mode.remove_mode then
         fluid_providers_util.remove_all_fluids(other_fluidbox_entity)
       elseif operation_mode == output_or_remove_item_operation_mode.duplicate_mode then
@@ -1168,9 +1203,9 @@ function item_providers_util.output_or_remove_item(
             output_item_stack_according_to_inventories_slot_filters(train_entity, nil, false)
           end
         elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
-          remove_one_item_in_entity(train_entity, filter_item_name, nil, false)
+          remove_one_item_in_entity(train_entity, filter, nil, false)
         else
-          duplicate_first_item_in_each_inventory(train_entity, filter_item_name, nil, false)
+          duplicate_first_item_in_each_inventory(train_entity, filter, nil, false)
         end
       end
     end
@@ -1214,9 +1249,9 @@ function item_providers_util.output_or_remove_item(
               output_item_stack_according_to_inventories_slot_filters(car, nil, false)
             end
           elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
-            remove_one_item_in_entity(car, filter_item_name, nil, false)
+            remove_one_item_in_entity(car, filter, nil, false)
           else
-            duplicate_first_item_in_each_inventory(car, filter_item_name, nil, false)
+            duplicate_first_item_in_each_inventory(car, filter, nil, false)
           end
         end
       end
@@ -1260,11 +1295,11 @@ function item_providers_util.output_or_remove_item(
         end
       elseif operation_mode == output_or_remove_item_operation_mode.remove_mode then
         for _, player in ipairs(player_entities) do
-          remove_one_item_in_entity(player, filter_item_name, nil, false)
+          remove_one_item_in_entity(player, filter, nil, false)
         end
       else
         for _, player in ipairs(player_entities) do
-          duplicate_first_item_in_each_inventory(player, filter_item_name, nil, false)
+          duplicate_first_item_in_each_inventory(player, filter, nil, false)
         end
       end
     end
@@ -1289,7 +1324,11 @@ function item_providers_util.output_or_remove_item(
         name = "item-on-ground",
       }))
     do
-      if filter_item_name == nil or item.stack.name == filter_item_name then
+      -- No filter -> remove everything. Filter with name only -> match the name across all qualities.
+      -- Filter with a quality -> match that name and quality only.
+      local matches = filter == nil
+        or (item.stack.name == filter.name and (filter.quality == nil or item.stack.quality.name == filter.quality))
+      if matches then
         item.destroy()
       end
     end

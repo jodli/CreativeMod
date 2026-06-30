@@ -29,12 +29,11 @@ function duplicator.tick()
           local pos = duplicator.position
           local dir = duplicator.direction
           local shift = duplicator_shift[dir]
+          -- Pass the whole {name, quality} filter object through so duplication targets the configured
+          -- quality (quality set) or any quality of the name (quality unset).
           local filter = nil
           if duplicator.use_filters then
             filter = duplicator.get_filter(1)
-          end
-          if filter then
-            filter = filter.name
           end
           -- Duplicate the items in front of it.
           item_providers_util.output_or_remove_item(
