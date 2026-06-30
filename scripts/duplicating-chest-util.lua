@@ -12,11 +12,11 @@ function duplicating_chest_util.get_inventory(chest)
   return inventory
 end
 
--- Fills the inventory of the given chest with the given item prototype.
-local function fill_chest_with_item(chest, item_prototype)
+-- Fills the inventory of the given chest with the given item prototype at the given quality.
+local function fill_chest_with_item(chest, item_prototype, quality)
   local inventory = duplicating_chest_util.get_inventory(chest)
   for i = 1, #inventory, 1 do
-    inventory[i].set_stack(item_prototype.name)
+    inventory[i].set_stack({ name = item_prototype.name, quality = quality })
   end
 end
 
@@ -33,6 +33,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
     local chest = chest_data.entity
     local lock_item = chest_data.lock_item
     local locked_item_name = chest_data.locked_item_name
+    local locked_item_quality = chest_data.locked_item_quality
 
     if chest.valid then
       if not chest.to_be_deconstructed(chest.force) then
@@ -43,8 +44,8 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
           item_to_be_duplicated = prototypes.item[locked_item_name]
         end
         if item_to_be_duplicated then
-          -- The locked item is valid. Fill the chest with such item.
-          fill_chest_with_item(chest, item_to_be_duplicated)
+          -- The locked item is valid. Fill the chest with such item, preserving its quality.
+          fill_chest_with_item(chest, item_to_be_duplicated, locked_item_quality)
         else
           local inventory = duplicating_chest_util.get_inventory(chest)
           local item = inventory[1]
@@ -59,6 +60,7 @@ function duplicating_chest_util.duplicate_contents(chest_datas, next_chest_to_up
             -- Lock the item if it should be locked.
             if lock_item then
               chest_data.locked_item_name = item.name
+              chest_data.locked_item_quality = item.quality.name
             end
           end
         end
@@ -128,6 +130,7 @@ function duplicating_chest_util.on_entity_copied_pasted(source_chest, destinatio
   if source_item ~= nil and source_item.valid_for_read then
     destination_inventory.insert({
       name = source_item.name,
+      quality = source_item.quality.name,
       count = source_item.prototype.stack_size * #destination_inventory,
     })
   end
@@ -135,5 +138,6 @@ function duplicating_chest_util.on_entity_copied_pasted(source_chest, destinatio
   if source_data and destination_data then
     destination_data.lock_item = source_data.lock_item
     destination_data.locked_item_name = source_data.locked_item_name
+    destination_data.locked_item_quality = source_data.locked_item_quality
   end
 end

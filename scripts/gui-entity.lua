@@ -1159,11 +1159,13 @@ function gui_entity.on_gui_checked_state_changed(element, element_name, player)
           local item = inventory[1]
           if item ~= nil and item.valid_for_read then
             data.locked_item_name = item.name
+            data.locked_item_quality = item.quality.name
           end
         end
       else
         -- Reset the locked item.
         data.locked_item_name = nil
+        data.locked_item_quality = nil
       end
 
       -- Update the GUI for all players who are checking the entity.

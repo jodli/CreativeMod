@@ -21,8 +21,9 @@ local function refill_chest(chest)
         local requested_item_stack = point.filters[slot_index]
         -- local request = chest.get_request_slot(request_slot)
         if requested_item_stack then
-          -- Get the requested item name and count.
+          -- Get the requested item name, quality and count.
           local item_name = requested_item_stack.name
+          local item_quality = requested_item_stack.quality
           local item_count = requested_item_stack.count
           -- How many slots are required?
           if item_count > 0 then
@@ -37,7 +38,7 @@ local function refill_chest(chest)
               else
                 set_count = stack_size
               end
-              inventory[slot].set_stack({ name = item_name, count = set_count })
+              inventory[slot].set_stack({ name = item_name, quality = item_quality, count = set_count })
               item_count = item_count - set_count
               slot = slot + 1
               if slot > inventory_size then
