@@ -523,6 +523,18 @@ data:extend({
     results = { { type = "item", name = creative_mode_defines.names.items.super_pollution_module, amount = 1 } },
     enabled = false,
   },
+  {
+    -- Super quality module
+    -- Deliberate no-op: like every recipe here, ingredients = {} so the engine
+    -- resolves can_set_quality to false (this module item is craftable at normal
+    -- quality only). Intentional — cheat items are already maxed, so quality
+    -- variants of the module itself would have no functional payoff.
+    type = "recipe",
+    name = creative_mode_defines.names.recipes.super_quality_module,
+    ingredients = {},
+    results = { { type = "item", name = creative_mode_defines.names.items.super_quality_module, amount = 1 } },
+    enabled = false,
+  },
   -----------------------------------------------------------------------------
 
   {

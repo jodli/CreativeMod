@@ -60,6 +60,10 @@ data:extend({
     stationing_offset = { 0, -0.6 },
     charging_station_shift = { 0, 0.5 },
     charging_station_count = 1000,
+    -- Deliberate no-op: charging_station_count_affected_by_quality is omitted
+    -- (defaults to false), so the station count stays a flat 1000. Intentional —
+    -- this equipment is only ever obtainable at normal quality, so a quality
+    -- scalar would never apply.
     charging_distance = 1.6,
     charging_threshold_distance = 5,
     categories = { "armor" },

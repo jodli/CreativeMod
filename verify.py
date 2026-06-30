@@ -480,6 +480,39 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "super_boiler_placed",
             ),
+            # super_quality_module_effect_applied: place a quality-capable crafting machine
+            # (assembling-machine-2 allows the "quality" effect by vanilla default), read its
+            # baseline resolved quality effect, insert the creative super-quality-module into its
+            # module inventory, and read the effect again. LuaEntity.effects is a flat table keyed
+            # by effect type (e.g. { quality = 0.5 } before, { quality = 1.5 } after for AM-2). The
+            # module's effect = { quality = 1.0 } must raise the resolved quality by >= 1.0
+            # (guaranteed at-least-+1 upgrade). Proves the module's effect is legal in a module slot
+            # AND carries the intended magnitude: the engine accepted both the category and the
+            # effect key, and the delta is the module's full contribution.
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local m = s.create_entity{name="assembling-machine-2", position={14, 12}, force="player"} '
+                "local before = (m.effects and m.effects.quality) or 0 "
+                'm.get_module_inventory().insert{name="creative-mod_super-quality-module", count=1} '
+                "local after = (m.effects and m.effects.quality) or 0 "
+                "rcon.print(tostring(after - before >= 1.0))",
+                "true",
+                "super_quality_module_effect_applied",
+            ),
+            # super_quality_module_beacon_insertable: validates the Phase-2 super_beacon
+            # allowed_effects edit end-to-end. Place a super-beacon and insert the
+            # super-quality-module into its module inventory; a successful insert (count == 1)
+            # proves the "quality" allowed-effects gate now admits the module for distribution.
+            # Before the edit the engine would reject the insert (insert returns 0).
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local b = s.create_entity{name="creative-mod_super-beacon", position={18, 12}, force="player"} '
+                'rcon.print(tostring(b.get_module_inventory().insert{name="creative-mod_super-quality-module", count=1} == 1))',
+                "true",
+                "super_quality_module_beacon_insertable",
+            ),
         ]
         # Let the server tick so the per-tick refill runs on the just-placed thruster.
         time.sleep(1.0)
@@ -553,6 +586,8 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "asteroid_spawning_rate_restore",
                 "item_source_to_crafter_placed",
                 "super_boiler_placed",
+                "super_quality_module_effect_applied",
+                "super_quality_module_beacon_insertable",
                 "creative_thruster_refuels",
                 "item_source_feeds_crafter",
                 "super_boiler_heats_fluid",
