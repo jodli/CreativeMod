@@ -46,14 +46,6 @@ data:extend({
     enabled = false,
   },
   {
-    -- Autofill requester chest
-    type = "recipe",
-    name = creative_mode_defines.names.recipes.autofill_requester_chest,
-    ingredients = {},
-    results = { { type = "item", name = creative_mode_defines.names.items.autofill_requester_chest, amount = 1 } },
-    enabled = false,
-  },
-  {
     -- Duplicating chest
     type = "recipe",
     name = creative_mode_defines.names.recipes.duplicating_chest,

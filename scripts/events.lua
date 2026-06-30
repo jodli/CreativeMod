@@ -109,127 +109,6 @@ function events.on_configuration_changed(data)
         -- Create main menu button if Creative Mode is enabled.
         gui_menu.create_or_destroy_main_menu_open_button_for_all_players()
       end
-      if our_mod_old_version <= "1.8.0" and our_mod_new_version >= "1.8.1" then
-        -- We can clear out some of these tables. It MAY be a lot of info if someone's built a lot.
-        storage.creative_mode.heat_source = nil
-        storage.creative_mode.heat_void = nil
-        storage.creative_mode.void_requester_chest = nil
-        storage.creative_mode.void_chest = nil
-        storage.creative_mode.void_storage_chest = nil
-        storage.creative_mode.super_roboport = nil
-        storage.creative_mode.fluid_source = nil
-        storage.creative_mode.super_radar = nil
-        storage.creative_mode.super_beacon = nil
-        storage.creative_mode.energy_void = nil
-        storage.creative_mode.passive_energy_void = nil
-        storage.creative_mode.passive_energy_source = nil
-        storage.creative_mode.energy_source = nil
-        -- Ensure the tables for the new creative/providers chests exist.
-        if not storage.creative_mode.new_creative_chest then
-          storage.creative_mode.new_creative_chests = {}
-        end
-        if not storage.creative_mode.new_creative_provider_chest then
-          storage.creative_mode.new_creative_provider_chest = {}
-        end
-        for _, surface in pairs(game.surfaces) do
-          -- Find all our entities so we can get them updated to the new methods.
-          -- We could just iterate our tables before clearing them, but this guarantees we get everything, and some data won't be good due to the prototype changes making the old entity references invalid.
-          for _, entity in
-            ipairs(surface.find_entities_filtered({
-              name = {
-                creative_mode_defines.names.entities.void_chest,
-                creative_mode_defines.names.entities.void_storage_chest,
-                creative_mode_defines.names.entities.void_requester_chest,
-                creative_mode_defines.names.entities.heat_source,
-                creative_mode_defines.names.entities.heat_void,
-                creative_mode_defines.names.entities.creative_chest,
-                creative_mode_defines.names.entities.creative_provider_chest,
-              },
-            }))
-          do
-            if entity.name == creative_mode_defines.names.entities.creative_chest then
-              -- We need to replace all the old creative chests with the new one
-              if entity.valid then
-                -- First we need to find the data for this chest
-                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(
-                  entity,
-                  storage.creative_mode.creative_chest_data_groups
-                )
-                -- Make the new chest over the old one
-                local new_entity = entity.surface.create_entity({
-                  name = creative_mode_defines.names.entities.new_creative_chest,
-                  position = entity.position,
-                  force = entity.force,
-                  fast_replace = true,
-                  spill = false,
-                  raise_built = false,
-                  create_build_effect_smoke = false,
-                })
-                if old_data == nil or group_number == 0 then --No data found, or an invalid group number.
-                  --Make a new chest and register it as if it were just built.
-                  global_util.register_entity(new_entity)
-                else -- We have good data, so copy it to our new chest
-                  new_entity.remove_unfiltered_items = true -- We don't want anything except our filters in these
-                  local chest_data = {
-                    entity = new_entity, -- The new-creative-chest entity.
-                    group = group_number, -- Same group as the old chest.
-                    filtered_slots = old_data.filtered_slots, -- The slot indexes that are filtered out in this chest.
-                    inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
-                    is_cargo_wagon = false, -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
-                  }
-                  table.insert(storage.creative_mode.new_creative_chests, chest_data)
-                  -- Now that all our data is set, set the filters.
-                  creative_chest_util.set_chest_filter(chest_data)
-                end
-                entity.destroy() -- Destroy the old chest - it's useless.
-              end
-            elseif entity.name == creative_mode_defines.names.entities.creative_provider_chest then
-              -- We need to replace all the old creative provider chests with the new one
-              if entity.valid then
-                -- First we need to find the data for this chest
-                local old_data, group_number = creative_chest_util.get_creative_chest_data_group_number(
-                  entity,
-                  storage.creative_mode.creative_provider_chest_data_groups
-                )
-                -- Make the new chest over the old one
-                local new_entity = entity.surface.create_entity({
-                  name = creative_mode_defines.names.entities.new_creative_provider_chest,
-                  position = entity.position,
-                  force = entity.force,
-                  fast_replace = true,
-                  spill = false,
-                  raise_built = false,
-                  create_build_effect_smoke = false,
-                })
-                if old_data == nil or group_number == 0 then --No data found, or an invalid group number.
-                  --Make a new chest and register it as if it were just built.
-                  global_util.register_entity(new_entity)
-                else -- We have good data, so copy it to our new chest
-                  new_entity.remove_unfiltered_items = true -- We don't want anything except our filters in these
-                  local chest_data = {
-                    entity = new_entity, -- The new-creative-chest entity.
-                    group = group_number, -- Same group as the old chest.
-                    filtered_slots = old_data.filtered_slots, -- The slot indexes that are filtered out in this chest.
-                    inventory_display_mode = old_data.inventory_display_mode, -- The inventory display mode. Not very useful in the new chests.
-                    is_cargo_wagon = false, -- Whether the entity is cargo wagon, such that when its speed is not 0, we should find the cargo-wagon inventory if output inventory is nil (when it is moving).
-                  }
-                  table.insert(storage.creative_mode.new_creative_provider_chests, chest_data)
-                  -- Now that all our data is set, set the filters.
-                  creative_chest_util.set_chest_filter(chest_data)
-                end
-                entity.destroy() -- Destroy the old chest - it's useless.
-              end
-            else -- For the rest of the types we can just run their placement function again to set what we need
-              --void_chest, void_storage_chest, void_requester_chest, heat_source, heat_void.
-              --log("Fixing entity: " .. entity.name)
-              global_util.register_entity(entity)
-            end
-          end
-        end
-        -- Remove the tables for creative chests/providers, as we don't need them anymore.
-        storage.creative_mode.creative_chest_data_groups = nil
-        storage.creative_mode.creative_provider_chest_data_groups = nil
-      end
     end
 
     -- Make sure the main menu and modifer popup is closed whenever our mod version has changed.
@@ -313,7 +192,6 @@ function events.on_tick()
   creative_chest_util.tick()
   creative_lab.tick()
   void_lab.tick()
-  -- autofill_requester_chest.tick()
   duplicating_chest.tick()
   duplicating_provider_chest.tick()
   creative_cargo_wagon.tick()
@@ -425,12 +303,6 @@ local function clear_inventory_before_mined_if_needed(entity)
   if is_entity_creative_chest_family(entity) then
     local inventory = creative_chest_util.get_inventory(entity)
     inventory.clear()
-    return true
-  end
-
-  -- Autofill requester chest.
-  if entity.name == creative_mode_defines.names.entities.autofill_requester_chest then
-    entity.get_output_inventory().clear()
     return true
   end
 

@@ -37,16 +37,6 @@ data:extend({
     order = "b-b",
   },
   {
-    -- Autofill requester chest size.
-    type = "int-setting",
-    name = creative_mode_defines.names.settings.autofill_requester_chest_size,
-    setting_type = "startup",
-    default_value = 48,
-    minimum_value = 1,
-    maximum_value = 255,
-    order = "c",
-  },
-  {
     -- Duplicating chest size.
     type = "int-setting",
     name = creative_mode_defines.names.settings.duplicating_chest_size,

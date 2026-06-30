@@ -31,18 +31,6 @@ data:extend({
     stack_size = 50,
   },
   {
-    -- Autofill requester chest
-    type = "item",
-    name = creative_mode_defines.names.items.autofill_requester_chest,
-    icon_size = 32,
-    icon = creative_mode_defines.mod_directory .. "/graphics/icons/autofill-requester-chest.png",
-    hidden = hidden,
-    subgroup = creative_mode_defines.names.item_subgroups.items,
-    order = "c",
-    place_result = creative_mode_defines.names.entities.new_autofill_requester_chest,
-    stack_size = 50,
-  },
-  {
     -- Infinity Requester Chest
     type = "item",
     name = creative_mode_defines.names.items.inf_requester_chest,
