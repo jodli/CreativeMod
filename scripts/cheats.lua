@@ -2285,7 +2285,7 @@ cheats.magic_wand_modifications = {
       get_value_function = function(entity)
         if entity and entity.valid then
           if entity.health then
-            return entity.health >= entity.prototype.get_max_health()
+            return entity.health >= entity.max_health
           end
         end
         return nil
@@ -2294,7 +2294,7 @@ cheats.magic_wand_modifications = {
       apply_to_target_function = function(entity, enable, source_player)
         if entity.health then
           if enable then
-            entity.health = entity.prototype.get_max_health()
+            util.restore_entity_to_full_health(entity)
           else
             entity.health = 1
           end
@@ -3064,9 +3064,7 @@ end
 function cheats.on_preplayer_mined_item(player_index, entity)
   -- Repair mined item.
   if storage.creative_mode.personal_cheats.repair_mined_item[player_index] then
-    if entity.health ~= nil then
-      entity.health = entity.prototype.get_max_health()
-    end
+    util.restore_entity_to_full_health(entity)
   end
 end
 
