@@ -188,14 +188,25 @@ data.raw["construction-robot"][creative_mode_defines.names.entities.super_constr
 
 --------------------------------------------------------------
 
--- Allow the creative lab to accept all research materials.
+-- Allow the creative lab to accept every science pack that any real lab can use.
+-- Deriving the list from other labs' inputs (rather than matching the "science-pack"
+-- subgroup) keeps non-pack items that merely share that subgroup -- such as "coin" and
+-- the "science" pictogram -- out of the creative lab.
+local creative_lab_name = creative_mode_defines.names.entities.creative_lab
+local void_lab_name = creative_mode_defines.names.entities.void_lab
+local seen_science_packs = {}
 local tools = {}
-for _, item in pairs(data.raw["item"]) do
-  if item.subgroup == "science-pack" then
-    table.insert(tools, item.name)
+for lab_name, lab in pairs(data.raw["lab"]) do
+  if lab_name ~= creative_lab_name and lab_name ~= void_lab_name and lab.inputs then
+    for _, input_name in pairs(lab.inputs) do
+      if not seen_science_packs[input_name] then
+        seen_science_packs[input_name] = true
+        table.insert(tools, input_name)
+      end
+    end
   end
 end
-data.raw["lab"][creative_mode_defines.names.entities.creative_lab].inputs = tools
+data.raw["lab"][creative_lab_name].inputs = tools
 
 --------------------------------------------------------------
 

@@ -44,7 +44,6 @@ creative_mode_defines.names.settings = {
   unhide_items = creative_mode_defines.name_prefix .. "unhide-items",
   creative_chest_size = creative_mode_defines.name_prefix .. "creative-chest-size",
   creative_chest_contains_hidden_items = creative_mode_defines.name_prefix .. "creative-chest-contains-hidden-items",
-  autofill_requester_chest_size = creative_mode_defines.name_prefix .. "autofill-requester-chest-size",
   duplicating_chest_size = creative_mode_defines.name_prefix .. "duplicating-chest-size",
   void_requester_chest_size = creative_mode_defines.name_prefix .. "void-requester-chest-size",
   void_chest_size = creative_mode_defines.name_prefix .. "void-chest-size",
@@ -91,8 +90,6 @@ creative_mode_defines.names.entities = {
   inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
   inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
   new_creative_provider_chest = creative_mode_defines.name_prefix .. "new-creative-provider-chest",
-  autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
-  new_autofill_requester_chest = creative_mode_defines.name_prefix .. "new-autofill-requester-chest",
   duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
   duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
   void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
@@ -160,7 +157,6 @@ creative_mode_defines.names.items = {
   creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
   inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
   inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
-  autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
   duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
   duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
   void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
@@ -249,7 +245,6 @@ creative_mode_defines.names.recipes = {
   creative_provider_chest = creative_mode_defines.name_prefix .. "creative-provider-chest",
   inf_requester_chest = creative_mode_defines.name_prefix .. "inf-requester-chest",
   inf_provider_chest = creative_mode_defines.name_prefix .. "inf-provider-chest",
-  autofill_requester_chest = creative_mode_defines.name_prefix .. "autofill-requester-chest",
   duplicating_chest = creative_mode_defines.name_prefix .. "duplicating-chest",
   duplicating_provider_chest = creative_mode_defines.name_prefix .. "duplicating-provider-chest",
   void_requester_chest = creative_mode_defines.name_prefix .. "void-requester-chest",
@@ -1529,10 +1524,6 @@ table.insert(
 table.insert(
   creative_mode_defines.values.creative_provider_chest_additional_content_names,
   creative_mode_defines.names.items.creative_provider_chest
-)
-table.insert(
-  creative_mode_defines.values.creative_provider_chest_additional_content_names,
-  creative_mode_defines.names.items.autofill_requester_chest
 )
 table.insert(
   creative_mode_defines.values.creative_provider_chest_additional_content_names,

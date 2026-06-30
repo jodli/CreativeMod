@@ -30,12 +30,6 @@ function global_util.initialize_or_update_global()
   if not storage.creative_mode.creative_provider_chest_next_group then
     storage.creative_mode.creative_provider_chest_next_group = 1
   end
-  if not storage.creative_mode.autofill_requester_chest then
-    storage.creative_mode.autofill_requester_chest = {}
-  end
-  if not storage.creative_mode.autofill_requester_chest_next_update_index then
-    storage.creative_mode.autofill_requester_chest_next_update_index = 1
-  end
   if not storage.creative_mode.duplicating_chest_data then
     storage.creative_mode.duplicating_chest_data = {}
   end
@@ -540,8 +534,19 @@ function global_util.renew_item_lists()
   -- All enemy items created by us. They are hidden as well but should be included in the creative chests even if they do not contain hidden items.
   storage.hidden_creative_enemy_item_list = {}
 
-  -- List of items with type equals to "tool"
+  -- Science packs the Creative Lab refills with. Built from the lab's own inputs
+  -- (normalized at the data stage to exactly the items real labs consume) rather
+  -- than the "tool" prototype type, which was removed in Factorio 2.1.
   storage.tool_item_list = {}
+  local lab_inputs = prototypes.entity[creative_mode_defines.names.entities.creative_lab].lab_inputs
+  if lab_inputs then
+    for _, item_name in pairs(lab_inputs) do
+      local item_prototype = prototypes.item[item_name]
+      if item_prototype then
+        table.insert(storage.tool_item_list, item_prototype)
+      end
+    end
+  end
 
   for _, item in pairs(prototypes.item) do
     if item.hidden then
@@ -562,17 +567,11 @@ function global_util.renew_item_lists()
       -- Non-hidden item.
       table.insert(storage.non_hidden_item_list, item)
     end
-
-    if item.type == "tool" then
-      -- Tool item.
-      table.insert(storage.tool_item_list, item)
-    end
   end
 
   global_util.remove_obsolete_items(storage.non_hidden_item_list)
   global_util.remove_obsolete_items(storage.non_creative_hidden_item_list)
   global_util.remove_obsolete_items(storage.hidden_creative_enemy_item_list)
-  global_util.remove_obsolete_items(storage.tool_item_list)
 
   -- Update data for the Creative Chest family.
   creative_chest_util.update_item_lists_data()
@@ -608,9 +607,6 @@ end
 
 -- Look up table for matching entity-register functions according to the entity name.
 local register_entity_look_up_functions = {
-  [creative_mode_defines.names.entities.autofill_requester_chest] = function(entity)
-    table.insert(storage.creative_mode.autofill_requester_chest, entity)
-  end,
   [creative_mode_defines.names.entities.new_creative_chest] = function(entity)
     entity.remove_unfiltered_items = true -- We don't want anything except our set items in these
     chest_data = {
@@ -653,9 +649,6 @@ local register_entity_look_up_functions = {
     else
       storage.creative_mode.creative_provider_chest_next_place_group = 1
     end
-  end,
-  [creative_mode_defines.names.entities.new_autofill_requester_chest] = function(entity)
-    table.insert(storage.creative_mode.autofill_requester_chest, entity)
   end,
   [creative_mode_defines.names.entities.duplicating_chest] = function(entity)
     table.insert(storage.creative_mode.duplicating_chest_data, {

@@ -1,7 +1,6 @@
 require("defines")
 require("util")
 
-require("scripts.autofill-requester-chest")
 require("scripts.cheats")
 require("scripts.configurable-super-boiler")
 require("scripts.creative-cargo-wagon")

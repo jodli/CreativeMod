@@ -1215,16 +1215,6 @@ data:extend({
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1,
     "passive-provider"
   ),
-  -- Autofill requester chest
-  logistic_container(
-    creative_mode_defines.names.entities.autofill_requester_chest,
-    creative_mode_defines.names.items.autofill_requester_chest,
-    "autofill-requester-chest.png",
-    "autofill-requester-chest.png",
-    nil,
-    settings.startup[creative_mode_defines.names.settings.autofill_requester_chest_size].value,
-    "requester"
-  ),
   -- New Creative Chest
   infcontainer(
     creative_mode_defines.names.entities.new_creative_chest,
@@ -1243,16 +1233,6 @@ data:extend({
     { creative_mode_defines.names.entities.creative_chest },
     settings.startup[creative_mode_defines.names.settings.creative_chest_size].value + 1,
     "passive-provider"
-  ),
-  -- New Autofill requester chest
-  infcontainer(
-    creative_mode_defines.names.entities.new_autofill_requester_chest,
-    creative_mode_defines.names.items.autofill_requester_chest,
-    "autofill-requester-chest.png",
-    "autofill-requester-chest.png",
-    nil,
-    settings.startup[creative_mode_defines.names.settings.autofill_requester_chest_size].value,
-    "requester"
   ),
   -- Duplicating chest
   container(
