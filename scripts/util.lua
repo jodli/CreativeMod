@@ -102,6 +102,16 @@ function util.get_tile_bb(position)
   return { { math_floor(position.x), math_floor(position.y) }, { math_ceil(position.x), math_ceil(position.y) } }
 end
 
+-- Restores the given entity to its true, quality-aware full health.
+-- Uses the instance read entity.max_health (which already accounts for the entity's
+-- quality tier) rather than the level-0 prototype.get_max_health(), so higher-tier
+-- entities are restored to their actual ceiling. No-ops on entities without health.
+function util.restore_entity_to_full_health(entity)
+  if entity.health ~= nil then
+    entity.health = entity.max_health
+  end
+end
+
 -- Returns whether the given entity has at least one inventory.
 function util.has_inventory(entity)
   for _, inv in pairs(defines.inventory) do

@@ -173,7 +173,7 @@ function magic_wand_healer.on_player_selected_area(player, area, item_name, enti
           if health ~= nil then
             -- The entity has health. It can be healed.
             if entity.force and magic_wand_healer.get_heal_entities_on_force(player, entity.force) then
-              local max_health = entity.prototype.get_max_health() -- For all entities in general
+              local max_health = entity.max_health -- For all entities in general (quality-aware ceiling)
               if entity.type == "character" then -- But players have individual and force bonuses to max health
                 local p = entity.player
                 max_health = max_health + p.force.character_health_bonus + p.character_health_bonus
