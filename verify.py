@@ -513,6 +513,59 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "true",
                 "super_quality_module_beacon_insertable",
             ),
+            # matter_source_outputs_quality_placed: place a Matter Source facing north with a wooden
+            # chest one tile in front of its output (south, +y). Set the source's slot-1 filter to a
+            # legendary item via the native inserter filter (use_filters + set_filter). raise_built
+            # registers it into item_source.tick(); after ticking the chest must hold a legendary stack,
+            # proving the filter's quality is threaded through to the output stack (was stripped to name).
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local chest = s.create_entity{name="wooden-chest", position={20, 11}, force="player"} '
+                'local src = s.create_entity{name="creative-mod_item-source", position={20, 10}, direction=defines.direction.north, force="player", raise_built=true} '
+                "src.use_filters = true "
+                'src.set_filter(1, {name="iron-plate", quality="legendary"}) '
+                "storage = storage or {} storage.cm_verify_matter_source_quality = chest "
+                "rcon.print(tostring(chest.valid and src.valid))",
+                "true",
+                "matter_source_outputs_quality_placed",
+            ),
+            # matter_void_targets_quality_placed: place a wooden chest pre-loaded with one normal and one
+            # rare iron-plate, with a Matter Void facing it (north of the chest, voiding southward). Set
+            # the void's slot-1 filter to rare iron-plate. After ticking, the rare must be gone and the
+            # normal untouched — proving the void targets the filter's quality instead of all qualities.
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local chest = s.create_entity{name="wooden-chest", position={22, 11}, force="player"} '
+                'chest.insert({name="iron-plate", quality="normal", count=1}) '
+                'chest.insert({name="iron-plate", quality="rare", count=1}) '
+                'local void = s.create_entity{name="creative-mod_item-void", position={22, 12}, direction=defines.direction.north, force="player", raise_built=true} '
+                "void.use_filters = true "
+                'void.set_filter(1, {name="iron-plate", quality="rare"}) '
+                "storage = storage or {} storage.cm_verify_matter_void_targeted = chest "
+                "rcon.print(tostring(chest.valid and void.valid))",
+                "true",
+                "matter_void_targets_quality_placed",
+            ),
+            # matter_void_unset_quality_removes_all_placed: same setup, but the void's filter is set to a
+            # name only (no quality). After ticking, BOTH the normal and rare must be gone — proving the
+            # unset-quality filter still spans all qualities (today's behavior) and pinning down that
+            # get_filter() returns a nil quality, not a concrete "normal", when none is picked.
+            _assert_rcon(
+                sb,
+                '/c local s = game.surfaces["cm_verify"] '
+                'local chest = s.create_entity{name="wooden-chest", position={24, 11}, force="player"} '
+                'chest.insert({name="iron-plate", quality="normal", count=1}) '
+                'chest.insert({name="iron-plate", quality="rare", count=1}) '
+                'local void = s.create_entity{name="creative-mod_item-void", position={24, 12}, direction=defines.direction.north, force="player", raise_built=true} '
+                "void.use_filters = true "
+                'void.set_filter(1, {name="iron-plate"}) '
+                "storage = storage or {} storage.cm_verify_matter_void_unset = chest "
+                "rcon.print(tostring(chest.valid and void.valid))",
+                "true",
+                "matter_void_unset_quality_removes_all_placed",
+            ),
         ]
         # Let the server tick so the per-tick refill runs on the just-placed thruster.
         time.sleep(1.0)
@@ -561,6 +614,47 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "super_boiler_heats_fluid",
             )
         )
+        results.append(
+            # matter_source_outputs_quality: after ticking, the chest fed by the legendary-filtered
+            # Matter Source must hold a legendary iron-plate. On pre-fix master the filter is stripped to
+            # its name, so the output stack defaults to normal quality and this read fails.
+            _assert_rcon(
+                sb,
+                "/c local chest = storage.cm_verify_matter_source_quality "
+                "if not (chest and chest.valid) then rcon.print('no-entity') return end "
+                "rcon.print(tostring(chest.get_item_count({name='iron-plate', quality='legendary'}) > 0))",
+                "true",
+                "matter_source_outputs_quality",
+            )
+        )
+        results.append(
+            # matter_void_targets_quality: after ticking, the rare iron-plate must be gone while the
+            # normal one remains. On pre-fix master the void matches by name across all qualities, so it
+            # would remove the normal too (and could never single out the rare), failing this read.
+            _assert_rcon(
+                sb,
+                "/c local chest = storage.cm_verify_matter_void_targeted "
+                "if not (chest and chest.valid) then rcon.print('no-entity') return end "
+                "local rare = chest.get_item_count({name='iron-plate', quality='rare'}) "
+                "local normal = chest.get_item_count({name='iron-plate', quality='normal'}) "
+                "rcon.print(tostring(rare == 0 and normal == 1))",
+                "true",
+                "matter_void_targets_quality",
+            )
+        )
+        results.append(
+            # matter_void_unset_quality_removes_all: after ticking, BOTH qualities must be gone when the
+            # filter has only a name. This both preserves today's "remove all qualities" behavior and
+            # confirms get_filter() hands back a nil quality (not "normal") when none is picked.
+            _assert_rcon(
+                sb,
+                "/c local chest = storage.cm_verify_matter_void_unset "
+                "if not (chest and chest.valid) then rcon.print('no-entity') return end "
+                "rcon.print(tostring(chest.get_item_count('iron-plate') == 0))",
+                "true",
+                "matter_void_unset_quality_removes_all",
+            )
+        )
     finally:
         _terminate_server(server)
 
@@ -588,9 +682,15 @@ def cmd_behavior(args: argparse.Namespace) -> int:
                 "super_boiler_placed",
                 "super_quality_module_effect_applied",
                 "super_quality_module_beacon_insertable",
+                "matter_source_outputs_quality_placed",
+                "matter_void_targets_quality_placed",
+                "matter_void_unset_quality_removes_all_placed",
                 "creative_thruster_refuels",
                 "item_source_feeds_crafter",
                 "super_boiler_heats_fluid",
+                "matter_source_outputs_quality",
+                "matter_void_targets_quality",
+                "matter_void_unset_quality_removes_all",
             ),
             results,
         )

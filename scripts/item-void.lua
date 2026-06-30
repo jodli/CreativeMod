@@ -29,12 +29,11 @@ function item_void.tick()
           local pos = item_void.position
           local dir = item_void.direction
           local shift = item_void_shift[dir]
+          -- Pass the whole {name, quality} filter object through so the engine can target a single
+          -- quality (quality set), all qualities of the name (quality unset), or everything (no filter).
           local filter = nil
           if item_void.use_filters then
             filter = item_void.get_filter(1)
-          end
-          if filter then
-            filter = filter.name
           end
           -- Remove the items in front of it.
           item_providers_util.output_or_remove_item(

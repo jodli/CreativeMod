@@ -12,7 +12,8 @@ local random_item_source_shift = {
   [defines.direction.west] = { x1 = 0.9, y1 = -0.3, x2 = 0.9, y2 = 0.3, x0 = 0.9, y0 = 0 },
 }
 
--- Picks the name of item to be generated according to the given array of circuit signals.
+-- Picks a quality-bearing {name, quality} filter for the item to be generated according to the given
+-- array of circuit signals. Returns nil if no item signal is picked.
 local function pick_item_from_signals(signals)
   if signals == nil then
     return nil
@@ -38,7 +39,7 @@ local function pick_item_from_signals(signals)
     if total_count <= 0 then
       local signal = signal_data.signal
       if signal.type == "item" then
-        return signal.name
+        return { name = signal.name, quality = signal.quality }
       end
       return nil
     end

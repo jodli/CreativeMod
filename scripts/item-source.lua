@@ -24,18 +24,13 @@ function item_source.tick()
       if item_source.active and not item_source.to_be_deconstructed(item_source.force) then
         -- Check if it is enabled according to its circuit network state and logistic network state.
         if util.is_inserter_enabled(item_source) then
-          -- Get the item names in the 2 filter slots of the matter-source.
+          -- Get the {name, quality} filter objects in the 2 filter slots of the matter-source, so the
+          -- output stacks carry the configured quality instead of defaulting to normal.
           local slot1 = nil
           local slot2 = nil
           if item_source.use_filters then
             slot1 = item_source.get_filter(1)
             slot2 = item_source.get_filter(2)
-          end
-          if slot1 then
-            slot1 = slot1.name
-          end
-          if slot2 then
-            slot2 = slot2.name
           end
           -- Get the matter-source's surface, position and shift for output, so we can drop items accordingly.
           local surf = item_source.surface
