@@ -662,6 +662,7 @@ local register_entity_look_up_functions = {
       entity = entity,
       lock_item = false, -- Whether the item to be duplicated is locked.
       locked_item_name = nil, -- Name of the item to be duplicated even if the first slot is empty.
+      locked_item_quality = nil, -- Quality of the locked item to be duplicated.
     })
   end,
   [creative_mode_defines.names.entities.duplicating_provider_chest] = function(entity)
@@ -669,6 +670,7 @@ local register_entity_look_up_functions = {
       entity = entity,
       lock_item = false, -- Whether the item to be duplicated is locked.
       locked_item_name = nil, -- Name of the item to be duplicated even if the first slot is empty.
+      locked_item_quality = nil, -- Quality of the locked item to be duplicated.
     })
   end,
   [creative_mode_defines.names.entities.void_requester_chest] = function(entity)
@@ -713,6 +715,7 @@ local register_entity_look_up_functions = {
       entity = entity,
       lock_item = false, -- Whether the item to be duplicated is locked.
       locked_item_name = nil, -- Name of the item to be duplicated even if the first slot is empty.
+      locked_item_quality = nil, -- Quality of the locked item to be duplicated.
     })
   end,
   [creative_mode_defines.names.entities.void_cargo_wagon] = function(entity)

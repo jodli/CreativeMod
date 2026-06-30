@@ -219,7 +219,11 @@ function creative_chest_util.refill_chests(
             -- Fill the slot only if it is not filtered out.
             if next_filtered_slot_to_check <= 0 or filtered_slots[next_filtered_slot_to_check] ~= slot then
               local item = creative_chest_util.get_item_at(i, contain_hidden_items)
-              inventory[displayed_slot].set_stack({ name = item.name, count = item.stack_size })
+              inventory[displayed_slot].set_stack({
+                name = item.name,
+                quality = chest.quality.name,
+                count = item.stack_size,
+              })
               displayed_slot = displayed_slot + 1
             else
               -- Clear the slot. Only Original Display Mode will create holes in between.

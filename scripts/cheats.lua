@@ -2844,9 +2844,10 @@ function cheats.on_pre_build(player)
     local cursor_stack = player.cursor_stack
     if cursor_stack.valid_for_read then -- Don't know why sometimes the stack becomes invalid and causes error.
       local cursor_stack_name = cursor_stack.name
+      local cursor_stack_quality = cursor_stack.quality.name
       -- Make sure the item is not blacklisted.
       if not keep_last_item_blacklist[cursor_stack_name] then
-        if player.get_item_count(cursor_stack_name) <= 1 then
+        if player.get_item_count({ name = cursor_stack_name, quality = cursor_stack_quality }) <= 1 then
           local cursor_stack_prototype = cursor_stack.prototype
           if cursor_stack_prototype.stackable and cursor_stack_prototype.stack_size > 1 then
             -- The item is stackable. Simply increase the stack size on the cursor.
@@ -2857,6 +2858,7 @@ function cheats.on_pre_build(player)
               if
                 player.insert({
                   name = cursor_stack_name,
+                  quality = cursor_stack_quality,
                   count = 1,
                 }) > 0
               then
@@ -2870,10 +2872,13 @@ function cheats.on_pre_build(player)
             end
           else
             -- The item is not stackable. Insert the item to the player's inventory.
-            if player.insert({
-              name = cursor_stack_name,
-              count = 1,
-            }) > 0 then
+            if
+              player.insert({
+                name = cursor_stack_name,
+                quality = cursor_stack_quality,
+                count = 1,
+              }) > 0
+            then
               storage.creative_mode.personal_cheats.has_restored_cursor_stack[player.index] = game.tick
             end
           end
@@ -2924,6 +2929,7 @@ function cheats.on_built_entity(player, entity, is_ghost, is_entity_ghost, is_it
         else
           player.remove_item({
             name = cursor_stack.name,
+            quality = cursor_stack.quality.name,
             count = 1,
           })
         end
