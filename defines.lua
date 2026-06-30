@@ -220,6 +220,7 @@ creative_mode_defines.names.items = {
   super_slow_module = creative_mode_defines.name_prefix .. "super-slow-module",
   super_consumption_module = creative_mode_defines.name_prefix .. "super-consumption-module",
   super_pollution_module = creative_mode_defines.name_prefix .. "super-pollution-module",
+  super_quality_module = creative_mode_defines.name_prefix .. "super-quality-module",
   belt_immunity_equipment = "belt-immunity-equipment",
   super_fusion_reactor_equipment = creative_mode_defines.name_prefix .. "super-fusion-reactor-equipment",
   super_personal_roboport_equipment = creative_mode_defines.name_prefix .. "super-personal-roboport-equipment",
@@ -307,6 +308,7 @@ creative_mode_defines.names.recipes = {
   super_slow_module = creative_mode_defines.name_prefix .. "super-slow-module",
   super_consumption_module = creative_mode_defines.name_prefix .. "super-consumption-module",
   super_pollution_module = creative_mode_defines.name_prefix .. "super-pollution-module",
+  super_quality_module = creative_mode_defines.name_prefix .. "super-quality-module",
   belt_immunity_equipment = creative_mode_defines.name_prefix .. "belt-immunity-equipment",
   super_fusion_reactor_equipment = creative_mode_defines.name_prefix .. "super-fusion-reactor-equipment",
   super_personal_roboport_equipment = creative_mode_defines.name_prefix .. "super-personal-roboport-equipment",
@@ -1725,6 +1727,10 @@ table.insert(
 table.insert(
   creative_mode_defines.values.creative_provider_chest_additional_content_names,
   creative_mode_defines.names.items.super_pollution_module
+)
+table.insert(
+  creative_mode_defines.values.creative_provider_chest_additional_content_names,
+  creative_mode_defines.names.items.super_quality_module
 )
 
 table.insert(

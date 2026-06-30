@@ -918,6 +918,10 @@ local function inserter(
 end
 
 -- Generates data for lab.
+-- Deliberate no-op: the vanilla lab declares no allowed_effects, and the
+-- LabPrototype engine default is "all effects except quality". We leave that
+-- default untouched on purpose, so the creative labs continue to reject quality
+-- modules — a quality effect on a lab is inert (labs roll no item quality).
 local function lab(entity_name, item_name, icon_name, on_animation_filename, off_animation_filename)
   local lab = table.deepcopy(data.raw["lab"]["lab"])
   lab.name = entity_name
@@ -2852,7 +2856,9 @@ data:extend({
     dying_explosion = "medium-explosion",
     collision_box = { { -1.2, -1.2 }, { 1.2, 1.2 } },
     selection_box = { { -1.5, -1.5 }, { 1.5, 1.5 } },
-    allowed_effects = { "consumption", "speed", "pollution", "productivity" },
+    -- "quality" added so the super-beacon can broadcast the super quality module across nearby
+    -- crafting machines (the "flood a base for quality testing" use case).
+    allowed_effects = { "consumption", "speed", "pollution", "productivity", "quality" },
     base_picture = {
       filename = creative_mode_defines.mod_directory .. "/graphics/entity/super-beacon-base.png",
       width = 116,
@@ -2890,7 +2896,10 @@ data:extend({
       filename = "__base__/sound/car-metal-impact.ogg",
       volume = 0.65,
     },
-    distribution_effectivity = 0.5,
+    -- Mirror the vanilla beacon's distribution-effectivity model: 1.5 baseline plus 0.2 per quality
+    -- level, so a legendary beacon reaches 2.5 just like vanilla.
+    distribution_effectivity = 1.5,
+    distribution_effectivity_bonus_per_quality_level = 0.2,
     module_slots = 7,
     module_info_icon_shift = { 0, 0.5 },
     module_info_multi_row_initial_height_modifier = -0.3,

@@ -863,6 +863,22 @@ data:extend({
     stack_size = 50,
     effect = { pollution = 2.5 },
   },
+  {
+    -- Super quality module
+    type = "module",
+    name = creative_mode_defines.names.recipes.super_quality_module,
+    icon_size = 32,
+    icon = creative_mode_defines.mod_directory .. "/graphics/icons/super-quality-module.png",
+    hidden = hidden,
+    subgroup = creative_mode_defines.names.item_subgroups.modules,
+    category = "quality",
+    tier = 50,
+    order = "i",
+    stack_size = 50,
+    -- 1.0 = 100%: guaranteed at-least-+1 level; the engine's fixed ~10% cascade
+    -- can still push to +2/+3. Values >1.0 are identical (cascade is fixed).
+    effect = { quality = 1.0 },
+  },
   -----------------------------------------------------------------------------
 
   {
