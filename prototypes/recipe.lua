@@ -515,18 +515,6 @@ data:extend({
     results = { { type = "item", name = creative_mode_defines.names.items.super_pollution_module, amount = 1 } },
     enabled = false,
   },
-  {
-    -- Super quality module
-    -- Deliberate no-op: like every recipe here, ingredients = {} so the engine
-    -- resolves can_set_quality to false (this module item is craftable at normal
-    -- quality only). Intentional — cheat items are already maxed, so quality
-    -- variants of the module itself would have no functional payoff.
-    type = "recipe",
-    name = creative_mode_defines.names.recipes.super_quality_module,
-    ingredients = {},
-    results = { { type = "item", name = creative_mode_defines.names.items.super_quality_module, amount = 1 } },
-    enabled = false,
-  },
   -----------------------------------------------------------------------------
 
   {
@@ -556,6 +544,25 @@ data:extend({
     enabled = false,
   },
 })
+
+-- Super quality module recipe (quality mod / Space Age expansion only): its result item is
+-- defined conditionally (see prototypes/item.lua), so the recipe must match.
+if mods["quality"] then
+  data:extend({
+    {
+      -- Super quality module
+      -- Deliberate no-op: like every recipe here, ingredients = {} so the engine
+      -- resolves can_set_quality to false (this module item is craftable at normal
+      -- quality only). Intentional — cheat items are already maxed, so quality
+      -- variants of the module itself would have no functional payoff.
+      type = "recipe",
+      name = creative_mode_defines.names.recipes.super_quality_module,
+      ingredients = {},
+      results = { { type = "item", name = creative_mode_defines.names.items.super_quality_module, amount = 1 } },
+      enabled = false,
+    },
+  })
+end
 
 -- Creative thruster recipe. Defined only when Space Age is present, since its result item only
 -- exists with Space Age. It is auto-enabled at runtime by the creative_tools_recipes sweep.

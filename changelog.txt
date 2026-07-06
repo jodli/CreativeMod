@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.2.1
+Date: 2026-07-06
+  Bugfixes:
+    - Fix the mod failing to load without the Space Age expansion: the Super Quality Module used the expansion-only "quality" module-category. It is now gated behind the quality mod.
+---------------------------------------------------------------------------------------------------
 Version: 2.2.0
 Date: 2026-06-26
   Features:
