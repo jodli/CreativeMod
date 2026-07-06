@@ -1,0 +1,19 @@
+# CI / lint config
+.luacheckrc
+stylua.toml
+.git-blame-ignore-revs
+
+# Python dev tooling (local-only)
+verify.py
+rcon.py
+sandbox.py
+
+# Internal docs — no value to players
+DEBUG.md
+GUI-DESIGN-SYSTEM.md
+
+# Internal agent skill docs
+.pi/
+
+# One-off analysis artifact (tracked, not for distribution)
+comparison-report.html
