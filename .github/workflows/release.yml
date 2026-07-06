@@ -38,6 +38,10 @@ jobs:
         uses: TheBrutalX/Factorio-mod-uploader-action@v2
         with:
           action: compress
+          # Workaround: compress's getInputBoolen defaults required=true, so an
+          # empty default trips "Input required: AUTO_UPDATE_VERSION". Pass it
+          # explicitly to disable the (info.json-irrelevant) auto-version bump.
+          auto-update-version: "false"
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v3
