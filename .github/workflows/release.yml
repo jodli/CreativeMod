@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Verify version
         run: |
@@ -18,38 +18,34 @@ jobs:
           if [[ "${{ github.ref_name }}" != "$VERSION" ]]; then
             echo "Tag name ${{ github.ref_name }} does not match version in info.json: $VERSION"
             exit 1
-            fi
+          fi
 
       - name: Verify changelog
         run: |
           echo "Checking changelog for version ${{ github.ref_name }}..."
           if ! grep -q "Version: ${{ github.ref_name }}" changelog.txt; then
-          echo "ERROR: Changelog does not contain an entry for version ${{ github.ref_name }}"
-          exit 1
+            echo "ERROR: Changelog does not contain an entry for version ${{ github.ref_name }}"
+            exit 1
           fi
           echo "Changelog verification successful!"
 
-      - name: Create Factorio mod package
-        id: package_mod
-        uses: Roang-zero1/factorio-mod-package@master
+      - name: Validate mod
+        uses: TheBrutalX/Factorio-mod-uploader-action@v2
+        with:
+          action: validate
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create zip
+        uses: TheBrutalX/Factorio-mod-uploader-action@v2
+        with:
+          action: compress
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ${{ env.ZIP_FILE }}
           draft: false
           prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.package_mod.outputs.asset_path }}
-          asset_name: creative-mod_${{ github.ref_name }}.zip
-          asset_content_type: application/zip
