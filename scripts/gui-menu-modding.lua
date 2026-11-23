@@ -1074,6 +1074,7 @@ function gui_menu_modding.on_gui_click(element, element_name, player, button, al
     else
       -- Show the search textfield.
       search_textfield.visible = true
+	  search_textfield.focus()
       search_textfield_placeholder.visible = false
     end
     return true
